@@ -3,10 +3,14 @@ using UnityEditor;
 
 public class EditorWindows : EditorWindow
 {
-    [MenuItem("Editor/EditorWindows")]
+    [MenuItem("SingForAI Tools/Norts/Create")]
     private static void Create()
     {
         // 生成
-        GetWindow<EditorWindows>("EditorWindows");
+        GetWindow<EditorWindows>("NortsCreator");
+    }
+    private void OnGUI()
+    {
+        
     }
 }
