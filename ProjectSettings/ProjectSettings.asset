@@ -165,9 +165,9 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
     Standalone: com.Company.ProductName
-    iPhone: 2DMZ57492V.jp.ac.tech.game-project.Song-For-AI
+    iPhone: jp.ac.tech.game-project.sfai
   buildNumber:
-    iPhone: 003
+    iPhone: 004
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 19
   AndroidTargetSdkVersion: 0
@@ -247,7 +247,7 @@ PlayerSettings:
   metalAPIValidation: 1
   iOSRenderExtraFrameOnPause: 0
   appleDeveloperTeamID: 
-  iOSManualSigningProvisioningProfileID: 264bb33f-21fb-454a-a9a1-3424b4efe2c6
+  iOSManualSigningProvisioningProfileID: 49b4d599-c0e6-462a-a345-e5d55ab9fc3b
   tvOSManualSigningProvisioningProfileID: 
   iOSManualSigningProvisioningProfileType: 2
   tvOSManualSigningProvisioningProfileType: 0
