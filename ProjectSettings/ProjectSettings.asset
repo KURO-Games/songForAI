@@ -167,7 +167,7 @@ PlayerSettings:
     Standalone: com.Company.ProductName
     iPhone: jp.ac.tech.game-project.Song-For-AI
   buildNumber:
-    iPhone: 001
+    iPhone: 002
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 19
   AndroidTargetSdkVersion: 0
