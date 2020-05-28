@@ -12,7 +12,7 @@ public class MusicData : EditorWindow
     string Composer;
     string NortsDesigner;
     string FilePath;
-    [MenuItem("SingForAI-Tools/Music/DataCreate")]
+    [MenuItem("SingForAI Tools/Music/DataCreate")]
     private static void Open()
     {
         // 生成
