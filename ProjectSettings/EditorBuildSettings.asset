@@ -20,4 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Mock/MockGame.unity
     guid: 87aef842c641e4b299169ff655fc421c
+  - enabled: 1
+    path: Assets/Users/maekawa/Scenes/TitleScene.unity
+    guid: 955d906a1bb48fb429aea3c6fdd75387
+  - enabled: 1
+    path: Assets/Users/maekawa/Scenes/SampleScene.unity
+    guid: 1ac1d087b1cdb6646a4188ef541b6289
   m_configObjects: {}
