@@ -1,0 +1,49 @@
+{
+  "libcri_ware_unity.so" : {
+    "FileSize"         : 1212096,
+    "DigestAlgorithm"  : "SHA-256",
+    "Digest"           : "8d4fc5423ba31ac5e38255d3c84610abafe8837a8b2f0e0ad07fe25056625b88",
+    "Name"             : "CRIWARE Monitor Unity(LE)",
+    "Version"          : "2.30.41",
+    "BuildEnvironment" : {
+      "Android NDK" : "Andorid NDK r13b"
+    },
+    "Modules"          : [
+      { "Name": "ACB High"                     ,  "Target": ""                ,  "Version": "1.31.00"     ,  "BuildDate": ""                      ,  "Appendix": ""                            },
+      { "Name": "ACB Low"                      ,  "Target": ""                ,  "Version": "0.06.00"     ,  "BuildDate": ""                      ,  "Appendix": ""                            },
+      { "Name": "ACF High"                     ,  "Target": ""                ,  "Version": "1.20.01"     ,  "BuildDate": ""                      ,  "Appendix": ""                            },
+      { "Name": "ACF Low"                      ,  "Target": ""                ,  "Version": "0.04.60"     ,  "BuildDate": ""                      ,  "Appendix": ""                            },
+      { "Name": "CRI ADX Decoder"              ,  "Target": "Android_ARMv7A"  ,  "Version": "1.00.08"     ,  "BuildDate": "Dec 28 2018 13:16:05"  ,  "Appendix": "Clang3.8.256229 API_LEVEL09" },
+      { "Name": "CRI ASR"                      ,  "Target": "Android_ARMv7A"  ,  "Version": "1.06.00"     ,  "BuildDate": "Dec 28 2018 13:10:03"  ,  "Appendix": "Clang3.8.256229 API_LEVEL09" },
+      { "Name": "CRI Ambisonics"               ,  "Target": "Android_ARMv7A"  ,  "Version": "1.00.00"     ,  "BuildDate": "Dec 28 2018 13:15:59"  ,  "Appendix": "Clang3.8.256229 API_LEVEL09" },
+      { "Name": "CRI Atom Sound"               ,  "Target": "Android_ARMv7A"  ,  "Version": "1.60.02"     ,  "BuildDate": "Dec 28 2018 13:10:05"  ,  "Appendix": "Clang3.8.256229 API_LEVEL09" },
+      { "Name": "CRI Atom Unity"               ,  "Target": "Android_ARMv7A"  ,  "Version": "1.04.03"     ,  "BuildDate": "Dec 28 2018 13:17:51"  ,  "Appendix": "Clang3.8.256229 API_LEVEL21" },
+      { "Name": "CRI Atom(LE)"                 ,  "Target": "Android_ARMv7A"  ,  "Version": "2.17.22"     ,  "BuildDate": "Dec 28 2018 13:10:12"  ,  "Appendix": "Clang3.8.256229 API_LEVEL09" },
+      { "Name": "CRI AtomEx Monitor"           ,  "Target": "Android_ARMv7A"  ,  "Version": "1.11.02.00"  ,  "BuildDate": "Dec 28 2018 13:10:49"  ,  "Appendix": "Clang3.8.256229 API_LEVEL09" },
+      { "Name": "CRI AtomEx Sequencer"         ,  "Target": "Android_ARMv7A"  ,  "Version": "1.05.07"     ,  "BuildDate": "Dec 28 2018 13:10:23"  ,  "Appendix": "Clang3.8.256229 API_LEVEL09" },
+      { "Name": "CRI AtomEx"                   ,  "Target": "Android_ARMv7A"  ,  "Version": "2.14.26"     ,  "BuildDate": "Dec 28 2018 13:10:27"  ,  "Appendix": "Clang3.8.256229 API_LEVEL09" },
+      { "Name": "CRI Audio Effect"             ,  "Target": "Android_ARMv7A"  ,  "Version": "1.01.05"     ,  "BuildDate": "Dec 28 2018 13:10:44"  ,  "Appendix": "Clang3.8.256229 API_LEVEL09" },
+      { "Name": "CRI Base(LE)"                 ,  "Target": "Android_ARMv7A"  ,  "Version": "2.44.05"     ,  "BuildDate": "Dec 28 2018 13:16:06"  ,  "Appendix": "Clang3.8.256229 API_LEVEL09" },
+      { "Name": "CRI C Runtime Wrapper"        ,  "Target": "Android_ARMv7A"  ,  "Version": "1.04.00"     ,  "BuildDate": "Dec 28 2018 13:16:06"  ,  "Appendix": "Clang3.8.256229 API_LEVEL09" },
+      { "Name": "CRI CPK Analyzer"             ,  "Target": "Android_ARMv7A"  ,  "Version": "0.99.54"     ,  "BuildDate": "Dec 28 2018 13:16:55"  ,  "Appendix": "Clang3.8.256229 API_LEVEL16" },
+      { "Name": "CRI Critical Section"         ,  "Target": "Android_ARMv7A"  ,  "Version": "1.00.13"     ,  "BuildDate": "Dec 28 2018 13:16:01"  ,  "Appendix": "Clang3.8.256229 API_LEVEL09" },
+      { "Name": "CRI Error"                    ,  "Target": "Android_ARMv7A"  ,  "Version": "1.04.04"     ,  "BuildDate": "Dec 28 2018 13:16:00"  ,  "Appendix": "Clang3.8.256229 API_LEVEL09" },
+      { "Name": "CRI File System Unity"        ,  "Target": "Android_ARMv7A"  ,  "Version": "0.95.02"     ,  "BuildDate": "Dec 28 2018 13:17:52"  ,  "Appendix": "Clang3.8.256229 API_LEVEL21" },
+      { "Name": "CRI File System(LE)"          ,  "Target": "Android_ARMv7A"  ,  "Version": "2.77.03"     ,  "BuildDate": "Dec 28 2018 13:16:55"  ,  "Appendix": "Clang3.8.256229 API_LEVEL16" },
+      { "Name": "CRI Handle Manager"           ,  "Target": "Android_ARMv7A"  ,  "Version": "1.00.07"     ,  "BuildDate": "Dec 28 2018 13:16:00"  ,  "Appendix": "Clang3.8.256229 API_LEVEL09" },
+      { "Name": "CRI LLDECOMP3"                ,  "Target": "Android_ARMv7A"  ,  "Version": "0.90.04"     ,  "BuildDate": "Dec 28 2018 13:16:01"  ,  "Appendix": "Clang3.8.256229 API_LEVEL09" },
+      { "Name": "CRI NcVoice Pseudo"           ,  "Target": "Android_ARMv7A"  ,  "Version": "1.02.00"     ,  "BuildDate": "Dec 28 2018 13:10:19"  ,  "Appendix": "Clang3.8.256229 API_LEVEL09" },
+      { "Name": "CRI Random Number Generator"  ,  "Target": "Android_ARMv7A"  ,  "Version": "1.00.00"     ,  "BuildDate": "Dec 28 2018 13:16:06"  ,  "Appendix": "Clang3.8.256229 API_LEVEL09" },
+      { "Name": "CRI Stream Joint"             ,  "Target": "Android_ARMv7A"  ,  "Version": "1.02.00"     ,  "BuildDate": "Dec 28 2018 13:16:04"  ,  "Appendix": "Clang3.8.256229 API_LEVEL09" },
+      { "Name": "CRI Thread"                   ,  "Target": "Android_ARMv7A"  ,  "Version": "1.04.08"     ,  "BuildDate": "Dec 28 2018 13:16:01"  ,  "Appendix": "Clang3.8.256229 API_LEVEL09" },
+      { "Name": "CRI TimeStretch"              ,  "Target": "Android_ARMv7A"  ,  "Version": "1.04.00"     ,  "BuildDate": "Dec 28 2018 13:10:41"  ,  "Appendix": "Clang3.8.256229 API_LEVEL09" },
+      { "Name": "CRI Timer"                    ,  "Target": "Android_ARMv7A"  ,  "Version": "0.50.05"     ,  "BuildDate": "Dec 28 2018 13:16:02"  ,  "Appendix": "Clang3.8.256229 API_LEVEL09" },
+      { "Name": "CRI UTF Retriever"            ,  "Target": "Android_ARMv7A"  ,  "Version": "1.00.02"     ,  "BuildDate": "Dec 28 2018 13:16:02"  ,  "Appendix": "Clang3.8.256229 API_LEVEL09" },
+      { "Name": "CRIWARE Monitor Unity(LE)"    ,  "Target": "Android_ARMv7A"  ,  "Version": "2.30.41"     ,  "BuildDate": "Dec 28 2018 13:17:51"  ,  "Appendix": "Clang3.8.256229 API_LEVEL21" },
+      { "Name": "CriFsBinder"                  ,  "Target": "Android_ARMv7A"  ,  "Version": "1.02.71"     ,  "BuildDate": "Dec 28 2018 13:16:55"  ,  "Appendix": "Clang3.8.256229 API_LEVEL16" },
+      { "Name": "CriFsGroupLoader"             ,  "Target": "Android_ARMv7A"  ,  "Version": "1.00.75"     ,  "BuildDate": "Dec 28 2018 13:17:01"  ,  "Appendix": "Clang3.8.256229 API_LEVEL16" },
+      { "Name": "HCA Decoder (Float)"          ,  "Target": ""                ,  "Version": "2.06.05"     ,  "BuildDate": "Dec 28 2018 13:16:03"  ,  "Appendix": ""                            },
+      { "Name": "HCA Mixer"                    ,  "Target": ""                ,  "Version": "2.00.02"     ,  "BuildDate": "Dec 28 2018 13:16:04"  ,  "Appendix": ""                            }
+    ]
+  }
+}
