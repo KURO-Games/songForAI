@@ -130,7 +130,6 @@ GameObject:
   m_Component:
   - component: {fileID: 310453539}
   - component: {fileID: 310453538}
-  - component: {fileID: 310453537}
   m_Layer: 0
   m_Name: sound
   m_TagString: Untagged
@@ -138,27 +137,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &310453537
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 310453536}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1e631c3b9947b54c823c6853a05529c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playOnStart: 1
-  _cueName: SE
-  _cueSheet: CueBGM
-  _use3dPositioning: 1
-  _loop: 0
-  _volume: 1
-  _pitch: 0
-  _androidUseLowLatencyVoicePool: 0
-  need_to_player_update_all: 1
 --- !u!114 &310453538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,10 +150,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   acfFile: sfai.acf
-  cueSheets: []
+  cueSheets:
+  - name: Bgm
+    acbFile: Bgm.acb
+    awbFile: Bgm.awb
+    loaderStatus: 0
+  - name: Se
+    acbFile: Se.acb
+    awbFile: 
+    loaderStatus: 0
   dspBusSetting: 
   dontDestroyOnLoad: 1
-  dontRemoveExistsCueSheet: 1
+  dontRemoveExistsCueSheet: 0
 --- !u!4 &310453539
 Transform:
   m_ObjectHideFlags: 0
@@ -398,7 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce7d42e042e4c9c4db4bde98b863e167, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activateListenerOnEnable: 0
+  activateListenerOnEnable: 1
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -568,6 +554,75 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &749161535
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3277945004013769665, guid: 9c8983233c9f0452bb8bb147b8279649,
+        type: 3}
+      propertyPath: m_Name
+      value: SE(CriAtomSource)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6870125938175885067, guid: 9c8983233c9f0452bb8bb147b8279649,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6870125938175885067, guid: 9c8983233c9f0452bb8bb147b8279649,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6870125938175885067, guid: 9c8983233c9f0452bb8bb147b8279649,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6870125938175885067, guid: 9c8983233c9f0452bb8bb147b8279649,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6870125938175885067, guid: 9c8983233c9f0452bb8bb147b8279649,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6870125938175885067, guid: 9c8983233c9f0452bb8bb147b8279649,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6870125938175885067, guid: 9c8983233c9f0452bb8bb147b8279649,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6870125938175885067, guid: 9c8983233c9f0452bb8bb147b8279649,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6870125938175885067, guid: 9c8983233c9f0452bb8bb147b8279649,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6870125938175885067, guid: 9c8983233c9f0452bb8bb147b8279649,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6870125938175885067, guid: 9c8983233c9f0452bb8bb147b8279649,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9c8983233c9f0452bb8bb147b8279649, type: 3}
 --- !u!1 &886417894
 GameObject:
   m_ObjectHideFlags: 0
@@ -649,7 +704,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 886417897}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1161591037}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &886417897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -785,6 +851,12 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1161591037 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3277945004013769665, guid: 9c8983233c9f0452bb8bb147b8279649,
+    type: 3}
+  m_PrefabInstance: {fileID: 749161535}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1339689432
 GameObject:
   m_ObjectHideFlags: 0
@@ -960,7 +1032,7 @@ MonoBehaviour:
     userAgentString: 
     minimizeFileDescriptorUsage: 0
     androidDeviceReadBitrate: 50000000
-  initializesAtom: 1
+  initializesAtom: 0
   atomConfig:
     acfFileName: 
     maxVirtualVoices: 32
@@ -977,7 +1049,7 @@ MonoBehaviour:
     outputSamplingRate: 0
     usesInGamePreview: 0
     serverFrequency: 60
-    asrOutputChannels: 0
+    asrOutputChannels: 2
     useRandomSeedWithTime: 0
     categoriesPerPlayback: 4
     maxBuses: 8
@@ -997,7 +1069,7 @@ MonoBehaviour:
     numberOfDecoders: 8
     numberOfMaxEntries: 4
   dontInitializeOnAwake: 0
-  dontDestroyOnLoad: 0
+  dontDestroyOnLoad: 1
 --- !u!4 &1939373075
 Transform:
   m_ObjectHideFlags: 0
