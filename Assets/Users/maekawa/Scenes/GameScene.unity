@@ -898,7 +898,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0.17789984, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -985,7 +985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66116b13ce8c6d149af7f7f7d8c33db4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PauseUI: {fileID: 0}
+  PauseUI: {fileID: 1089279476518136469}
 --- !u!114 &1624405948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1295,6 +1295,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1089279476900315433, guid: 05ea054826f7c4e4e987853dcc6beb29,
+        type: 3}
+      propertyPath: m_CullTransparentMesh
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1089279476900315438, guid: 05ea054826f7c4e4e987853dcc6beb29,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1089279477643009279, guid: 05ea054826f7c4e4e987853dcc6beb29,
         type: 3}
       propertyPath: m_Camera
@@ -1432,3 +1442,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05ea054826f7c4e4e987853dcc6beb29, type: 3}
+--- !u!1 &1089279476518136469 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1089279477924308714, guid: 05ea054826f7c4e4e987853dcc6beb29,
+    type: 3}
+  m_PrefabInstance: {fileID: 1089279476518136468}
+  m_PrefabAsset: {fileID: 0}
