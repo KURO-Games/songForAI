@@ -1,0 +1,36 @@
+{
+    "characterCode": "UTF-8",
+    "miType": 2,
+    "musicName": "hogehoge",
+    "BPM": 120,
+    "composer": "fuga",
+    "notesCreator": "foo",
+    "offset": 100.5,
+    "notes": [
+        {
+            "type": 0,
+            "lane": 7,
+            "num": 0,
+            "notes": []
+        },
+        {
+            "type": 1,
+            "lane": 4,
+            "num": 16,
+            "notes": [
+                {
+                    "type": 0,
+                    "lane": 7,
+                    "num": 31,
+                    "notes": []
+                }
+            ]
+        },
+        {
+            "type": 0,
+            "lane": 7,
+            "num": 128,
+            "notes": []
+        }
+    ]
+}
