@@ -913,7 +913,7 @@ PrefabInstance:
     - target: {fileID: 616505875578077256, guid: 7f71a8a9ebb5e435b937f9bf1868f8fa,
         type: 3}
       propertyPath: SceneName
-      value: Home
+      value: MockHome
       objectReference: {fileID: 0}
     - target: {fileID: 616505875578077257, guid: 7f71a8a9ebb5e435b937f9bf1868f8fa,
         type: 3}
