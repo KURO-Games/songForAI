@@ -7,6 +7,7 @@ public class SceneChange : MonoBehaviour
 {
     [SerializeField]
     string SceneName = null;
+    bool PushButton=false;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,9 +17,10 @@ public class SceneChange : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0)&&!PushButton)
         {
-            SceneManager.LoadScene(SceneName);
+            PushButton = true;
+            SceneLoadManager.LoadScene(SceneName);
         } 
     }
 }
