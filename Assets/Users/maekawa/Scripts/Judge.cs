@@ -9,14 +9,12 @@ public class Judge : MonoBehaviour
     [SerializeField] private float perfect = 15;
     [SerializeField] private float great = 30;
     [SerializeField] private float miss = 40;
+    [SerializeField] private GameObject[] Lanes = new GameObject[8];
 
     int score = 0;
     int combo = 0;
-    int[] laneArray = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 };
-    //float judgeLinePosY = -316;
-    //float notePosY = -300;
-    GameObject white;
-    white.transform.position.y;
+    int life = 1000;
+    float notePosY = -300; //仮
 
     void Start()
     {
@@ -27,22 +25,25 @@ public class Judge : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
-            var pos = Input.mousePosition;
-            if ()//レーンが一致していれば
+            var tapPos = Input.mousePosition;
+            if (tapPos = Lanes[1])//レーンが一致していれば
             {
-                float tapTiming = //judgeLinePosY - notePosY;
-                float absTiming = Mathf.Abs(tapTiming);
+                float tapTiming = JudgeLine.transform.y - notePosY; //ズレの値
+                float absTiming = Mathf.Abs(tapTiming); //絶対値に変換
 
                 if (absTiming <= perfect)
                 {
                     score =+ point;
                     combo ++;
                     Debug.Log(score);
+                    Debug.Log(combo);
                 }
                 else if(absTiming <= great)
                 {
                     score =+ point / 2;
                     combo ++;
+                    Debug.Log(score);
+                    Debug.Log(combo);
                 }
                 else if(absTiming <= miss)
                 {
@@ -51,4 +52,5 @@ public class Judge : MonoBehaviour
             }
         }
     }
+
 }
