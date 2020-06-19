@@ -15,6 +15,7 @@ public class Judge : MonoBehaviour
     int combo = 0;
     int life = 1000;
     float notePosY = -300; //仮
+    GameObject JudgeLine;
 
     void Start()
     {
