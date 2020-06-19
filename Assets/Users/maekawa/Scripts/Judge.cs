@@ -18,15 +18,15 @@ public class Judge : MonoBehaviour
 
     void Start()
     {
-
+        var io = JudgeLine.gameObject.transform.position.x;
     }
 
     void Update()
     {
         if(Input.GetMouseButtonDown(0))
         {
-            var tapPos = Input.mousePosition;
-            if (tapPos = Lanes[1])//レーンが一致していれば
+            Vector2 tapPos = Input.mousePosition;
+            if (tapPos = Lanes[])//レーンが一致していれば
             {
                 float tapTiming = JudgeLine.transform.y - notePosY; //ズレの値
                 float absTiming = Mathf.Abs(tapTiming); //絶対値に変換
@@ -52,5 +52,4 @@ public class Judge : MonoBehaviour
             }
         }
     }
-
 }
