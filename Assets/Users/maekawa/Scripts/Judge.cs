@@ -15,22 +15,25 @@ public class Judge : MonoBehaviour
     int combo = 0;
     int life = 1000;
     float notePosY = -300; //仮
-    GameObject JudgeLine;
+    Image JudgeLine;
 
-    void Start()
+    float GapDistance() //距離を算出
     {
-        var io = JudgeLine.gameObject.transform.position.x;
+        float tapTiming = JudgeLine.transform.position.y - notePosY; //ズレの値
+        float absTiming = Mathf.Abs(tapTiming); //絶対値に変換
+        return absTiming;
     }
 
-    void Update()
+    void Update() //判定
     {
-        if(Input.GetMouseButtonDown(0))
+        var io = JudgeLine.transform.position.y;//Image JudgeLineのy座標を取得
+
+        if (Input.GetMouseButtonDown(0))
         {
             Vector2 tapPos = Input.mousePosition;
-            if (tapPos = Lanes[])//レーンが一致していれば
+            if (tapPos = Lanes[i])//レーンが一致していれば
             {
-                float tapTiming = JudgeLine.transform.y - notePosY; //ズレの値
-                float absTiming = Mathf.Abs(tapTiming); //絶対値に変換
+                float absTiming = GapDistance();
 
                 if (absTiming <= perfect)
                 {

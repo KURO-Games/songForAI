@@ -1117,6 +1117,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   point: 1000
+  perfect: 15
+  great: 30
+  miss: 40
+  Lanes:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &1136533207
 GameObject:
   m_ObjectHideFlags: 0
@@ -1408,6 +1420,7 @@ GameObject:
   - component: {fileID: 1441067956}
   - component: {fileID: 1441067958}
   - component: {fileID: 1441067957}
+  - component: {fileID: 1441067959}
   m_Layer: 5
   m_Name: JudgeLine
   m_TagString: Untagged
@@ -1470,6 +1483,31 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1441067955}
   m_CullTransparentMesh: 0
+--- !u!114 &1441067959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441067955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c5639c5f49fb484c9f34ae3cc0da4bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  point: 1000
+  perfect: 15
+  great: 30
+  miss: 40
+  Lanes:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &1594923066
 GameObject:
   m_ObjectHideFlags: 0
@@ -2026,6 +2064,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   point: 1000
+  perfect: 15
+  great: 30
+  miss: 40
+  Lanes:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!4 &1922760700
 Transform:
   m_ObjectHideFlags: 0
