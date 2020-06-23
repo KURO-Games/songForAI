@@ -15,7 +15,7 @@ public struct NotesJson
         public string composer;
         public string notesCreator;
         public double offset;
-        public List<Notes> notes;
+        public Notes[] notes;
     }
     [Serializable]
     public struct Notes
@@ -23,7 +23,7 @@ public struct NotesJson
         public int type;
         public int lane;
         public int num;
-        public List<Notes> notes;
+        public Notes[] notes;
     }
 }
 
