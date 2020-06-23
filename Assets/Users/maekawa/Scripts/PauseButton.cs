@@ -3,13 +3,8 @@ using UnityEngine;
 
 public class PauseButton : MonoBehaviour
 {
-	//対象のオブジェクト（今回はPauseUI）をアタッチする必要あり
-	//手順：スクリプトをアタッチ→インスペクターで対象をアタッチ
-
-	[SerializeField] //エディタ拡張
+	[SerializeField] 
 	private GameObject PauseUI; //ポーズ時に表示されるUI
-
-	//ButtonインスペクターのOnClick()にButtonを追加→Buttonをアタッチ→実行させたい関数を指定
 
 	public void OnClick()
 	{

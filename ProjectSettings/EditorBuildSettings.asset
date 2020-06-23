@@ -6,27 +6,24 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Users/k.tamura/Scenes/Init/Init.unity
-    guid: f04f27c7c573547308fd70432fead764
-  - enabled: 1
-    path: Assets/Users/k.tamura/Scenes/Init/Loading.unity
-    guid: 4f685c9ff23b845698f5d2bee5ac85fa
-  - enabled: 1
     path: Assets/Scenes/Main/Title.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Mock/MockTitle.unity
+    guid: 3ae05aa9e84914ea3b087c82a61d4bfc
   - enabled: 1
     path: Assets/Scenes/Mock/MockHome.unity
     guid: b9271036b9a7c46c5a31a34655c53a04
   - enabled: 1
-    path: Assets/Users/k.tamura/Scenes/mock/SelectMusic.unity
-    guid: 840d5301c852f437893ef605485afabc
-  - enabled: 0
-    path: Assets/Scenes/Main/Home.unity
-    guid: f02fe3060ef91489bb58f5da8832548b
-  - enabled: 0
+    path: Assets/Scenes/Mock/MockScenario.unity
+    guid: 98b1cf95219d340a7be4c61f59fdae4e
+  - enabled: 1
+    path: Assets/Scenes/Mock/MockGame.unity
+    guid: 87aef842c641e4b299169ff655fc421c
+  - enabled: 1
     path: Assets/Users/maekawa/Scenes/TitleScene.unity
     guid: 955d906a1bb48fb429aea3c6fdd75387
-  - enabled: 0
+  - enabled: 1
     path: Assets/Users/maekawa/Scenes/SampleScene.unity
     guid: 1ac1d087b1cdb6646a4188ef541b6289
   - enabled: 1
