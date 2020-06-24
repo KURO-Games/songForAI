@@ -2,7 +2,7 @@
     "characterCode": "UTF-8",
     "miType": 2,
     "musicName": "hogehoge",
-    "BPM": 120,
+    "BPM": 110,
     "composer": "fuga",
     "notesCreator": "foo",
     "offset": 100.5,
@@ -10,13 +10,13 @@
         {
             "type": 0,
             "lane": 7,
-            "num": 0,
+            "num": 1,
             "notes": []
         },
         {
             "type": 1,
             "lane": 4,
-            "num": 16,
+            "num": 5,
             "notes": [
                 {
                     "type": 0,
@@ -29,7 +29,86 @@
         {
             "type": 0,
             "lane": 7,
-            "num": 128,
+            "num": 9,
+            "notes": []
+        },
+        {
+            "type": 0,
+            "lane": 3,
+            "num": 13,
+            "notes": []
+        },
+        {
+            "type": 0,
+            "lane": 4,
+            "num": 17,
+            "notes": []
+        },
+        {
+            "type": 0,
+            "lane": 7,
+            "num": 21,
+            "notes": []
+        },
+                {
+            "type": 0,
+            "lane": 7,
+            "num": 25,
+            "notes": []
+        },        {
+            "type": 0,
+            "lane": 7,
+            "num": 29,
+            "notes": []
+        },        {
+            "type": 0,
+            "lane": 7,
+            "num": 33,
+            "notes": []
+        },        {
+            "type": 0,
+            "lane": 7,
+            "num": 37,
+            "notes": []
+        },        {
+            "type": 0,
+            "lane": 7,
+            "num": 41,
+            "notes": []
+        },        {
+            "type": 0,
+            "lane": 7,
+            "num": 45,
+            "notes": []
+        },        {
+            "type": 0,
+            "lane": 7,
+            "num": 49,
+            "notes": []
+        },        {
+            "type": 0,
+            "lane": 7,
+            "num": 53,
+            "notes": []
+        },        {
+            "type": 0,
+            "lane": 7,
+            "num": 57,
+            "notes": []
+        },        {
+            "type": 0,
+            "lane": 7,
+            "num": 61,
+            "notes": []
+        },        {
+            "type": 0,
+            "lane": 7,
+            "num": 65,
+            "notes": []
+        },        {
+            "type": 0,
+            "lane": 7,
+            "num": 69,
             "notes": []
         }
     ]

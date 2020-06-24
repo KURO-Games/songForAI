@@ -11,7 +11,7 @@ public struct NotesJson
         public string characterCode;
         public int miType;
         public string musicName;
-        public int bpm;
+        public int BPM;
         public string composer;
         public string notesCreator;
         public double offset;
