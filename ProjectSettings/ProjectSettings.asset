@@ -167,7 +167,7 @@ PlayerSettings:
     Standalone: com.Company.ProductName
     iPhone: jp.ac.tech.game-project.sfai
   buildNumber:
-    iPhone: 008
+    iPhone: 009
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 19
   AndroidTargetSdkVersion: 0
