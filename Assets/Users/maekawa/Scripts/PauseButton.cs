@@ -11,12 +11,12 @@ public class PauseButton : MonoBehaviour
 		//ポーズUIのアクティブ、非アクティブを切り替え
 		PauseUI.SetActive(!PauseUI.activeSelf);
 
-		//　ポーズUIが表示されてる時は停止
+		//ポーズUIが表示されてる時は停止
 		if (PauseUI.activeSelf)
 		{
 			Time.timeScale = 0f;
 		}
-		//　ポーズUIが表示されてなければ通常通り進行
+		//ポーズUIが表示されてなければ通常通り進行
 		else
 		{
 			Time.timeScale = 1f;
