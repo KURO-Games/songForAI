@@ -26,7 +26,7 @@ public class SelectMusicScene : MonoBehaviour
         {
             _isTap = true;
             _name=_button.name;
-            SceneLoadManager.LoadScene("SelectMusic");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("SelectCaracter");
         }
     }
 
