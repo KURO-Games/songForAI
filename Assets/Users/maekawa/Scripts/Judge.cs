@@ -5,23 +5,22 @@ using UnityEngine.UIElements;
 
 public class Judge : MonoBehaviour
 {
+    [SerializeField] private int life = 1000;
+    [SerializeField] private int damage = 100;
     [SerializeField] private int point = 1000;
     [SerializeField] private float perfect = 15;
     [SerializeField] private float great = 30;
     [SerializeField] private float miss = 40;
     [SerializeField] private GameObject[] Lanes = new GameObject[8];
+    [SerializeField] GameObject JudgeLine = null;
+    [SerializeField] GameObject note = null;//仮ノーツ
 
-    GameObject JudgeLine;
     int score = 0;
     int combo = 0;
-    int life = 1000;
-    float notePosY = -300; //仮
 
     float GapDistance() //距離を算出
     {
-        // XXX エラーです
-        var io = JudgeLine.transform.position.y;//JudgeLineのy座標を取得
-        float tapTiming = io - notePosY; //ズレの値
+        float tapTiming = JudgeLine.transform.position.y - note.transform.position.y; //仮ノーツ
         float absTiming = Mathf.Abs(tapTiming); //絶対値に変換
         return absTiming;
     }
@@ -30,7 +29,7 @@ public class Judge : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Vector2 tapPos = Input.mousePosition;
+            //Vector2 tapPos = Input.mousePosition;
 
             int layerMask = 1;
             float maxDistance = 10;
@@ -38,58 +37,43 @@ public class Judge : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, maxDistance, layerMask);
+
+            //レーンをタップしたら
             if (hit.collider)
             {
+                //Debug.Log("ノーツy座標" + notes.transform.position.y);//
+                //Debug.Log("判定ラインy座標" + JudgeLine.transform.position.y);//
+                //Debug.Log("ノーツx座標" + note.transform.position.x);//
+                //Debug.Log("レーンx座標" + hit.collider.transform.position.x);//
+
+                JudgeLine = hit.collider.gameObject;
                 float absTiming = GapDistance();
 
-                if (absTiming <= perfect)
+                //判定分岐
+                if(hit.collider.transform.position.x == note.transform.position.x)//
                 {
-                    score = +point;
-                    combo++;
-                    Debug.Log(score);
-                    Debug.Log(combo);
-                }
-                else if (absTiming <= great)
-                {
-                    score = +point / 2;
-                    combo++;
-                    Debug.Log(score);
-                    Debug.Log(combo);
-                }
-                else if (absTiming <= miss)
-                {
-                    combo = 0;
+                    if (absTiming <= perfect)
+                    {
+                        combo++;
+                        score += point;
+                        Debug.Log("コンボ" + combo);
+                        Debug.Log("Perfect スコア" + score);
+                    }
+                    else if (absTiming <= great)
+                    {
+                        combo++;
+                        score += point / 2;
+                        Debug.Log("コンボ" + combo);
+                        Debug.Log("Great　スコア" + score);
+                    }
+                    else if (absTiming <= miss)
+                    {
+                        combo = 0;
+                        life -= damage;
+                        Debug.Log("Miss　LIfe" + life);
+                    }
                 }
             }
         }
     }
 }
-
-//    if (Input.GetMouseButtonDown(0))
-//    {
-//        Vector2 tapPos = Input.mousePosition;
-//        if (tapPos = Lanes[i])//レーンが一致していれば
-//        {
-//            float absTiming = GapDistance();
-
-//            if (absTiming <= perfect)
-//            {
-//                score =+ point;
-//                combo ++;
-//                Debug.Log(score);
-//                Debug.Log(combo);
-//            }
-//            else if(absTiming <= great)
-//            {
-//                score =+ point / 2;
-//                combo ++;
-//                Debug.Log(score);
-//                Debug.Log(combo);
-//            }
-//            else if(absTiming <= miss)
-//            {
-//                combo = 0;
-//            }
-//        }
-//    }
-//}
