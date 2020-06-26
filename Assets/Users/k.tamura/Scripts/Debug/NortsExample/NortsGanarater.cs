@@ -83,22 +83,12 @@ public class NortsGanarater : MonoBehaviour
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="info"></param>
+    /// <param name="info">FilePath</param>
     public void GenerateNotes(FileInfo info)
     {
         StreamReader reader = new StreamReader(info.OpenRead());
         string MusicDatas = reader.ReadToEnd();
-        musicData = LoadJson(MusicDatas);
+        musicData = JsonUtility.FromJson<NotesJson.MusicData>(MusicDatas);
     }
-    /// <summary>
-    /// Json読み込み
-    /// </summary>
-    /// <param name="MusicStrings"></param>
-    /// <returns></returns>
-    private NotesJson.MusicData LoadJson(string MusicStrings)
-    {
-        return JsonUtility.FromJson<NotesJson.MusicData>(MusicStrings);
-    }
-
 
 }
