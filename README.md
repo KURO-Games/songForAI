@@ -1,9 +1,13 @@
 # AIの歌
 
-## 各バージョン
+## 開発環境
+
 Unity 2019.2.21f1  
 Visual Studio 2019  
 Adobe Creative Cloud 2020  
+
+### 使用ミドルウェア
+ADX2LE  
 
 ## 開発構成
 ### 開発メンバー
