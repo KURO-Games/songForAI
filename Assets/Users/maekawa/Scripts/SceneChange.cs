@@ -11,7 +11,7 @@ public class SceneChange : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        SoundManager.BGMSoundCue(1);
     }
 
     // Update is called once per frame

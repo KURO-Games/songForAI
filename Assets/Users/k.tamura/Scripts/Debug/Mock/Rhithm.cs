@@ -14,6 +14,7 @@ public class Rhithm : MonoBehaviour
     {
         if (!_isTaped)
         {
+            SoundManager.BGMSoundStop();
             _isTaped = true;
             SceneLoadManager.LoadScene("MockHome");
         }
