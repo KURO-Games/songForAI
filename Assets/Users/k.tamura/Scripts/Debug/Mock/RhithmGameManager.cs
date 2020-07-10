@@ -20,4 +20,12 @@ public class RhithmGameManager : MonoBehaviour
             SceneLoadManager.LoadScene("MockHome");
         }
     }
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("出力テスト");
+            SoundManager.SESoundCue(0);
+        }
+    }
 }
