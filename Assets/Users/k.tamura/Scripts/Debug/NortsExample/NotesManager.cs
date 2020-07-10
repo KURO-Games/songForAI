@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class NotesManager : MonoBehaviour
 {
-    public static List<GameObject>[] Notes = new List<GameObject>[8];
-    // Start is called before the first frame update
-    void Start()
+    public static List<List<GameObject>> NotesPositions = new List<List<GameObject>>();
+    public static List<int> NextNotesLine = new List<int>();
+    private void Awake()
     {
-        
+        for (int i = 0; i < 8; i++)
+        {
+            NotesPositions.Add(new List<GameObject>());
+        }
+        Debug.Log(NotesPositions);
     }
-
-    // Update is called once per frame
     void Update()
     {
         
