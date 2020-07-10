@@ -11,6 +11,7 @@
 /[Mm]emoryCaptures/
 /[Aa]ssets/Editor/CriWare/
 /[Aa]ssets/Editor/CriWare.meta
+/[Aa]ssets/Plugins/CriWare/
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
 
