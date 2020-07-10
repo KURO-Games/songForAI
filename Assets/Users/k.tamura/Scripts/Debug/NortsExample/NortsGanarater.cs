@@ -74,6 +74,8 @@ public class NortsGanarater : MonoBehaviour
                 , Quaternion.identity) as GameObject;
             GenNotes.name = "notes"+NotesNum.ToString();
             GenNotes.transform.parent = NotesGen[LaneNum].transform;
+            NotesManager.NotesPositions[LaneNum].Add(GenNotes);
+            NotesManager.NextNotesLine.Add(LaneNum);
             Generated = true;
 
         }
