@@ -36,24 +36,17 @@ public class Score_Controller : MonoBehaviour
         //今は数値が決まってないので適当に
         add_Score = 1;
         perfect_Score = 5;
-        //テスト
-        //Combo_Display();
-        Score_Display();
     }
 
-    void Update()
-    {
-        //コンボ表示
-        //ポイント表示
-    }
-
-    #region ノーツ判定
+    #region ノーツ判定(これを呼んで使ってほしい)
 
     //完璧
     public void Perfect()
     {
         Add_Combo();
-        Add_Score();
+        Perfect_Add_Score();
+        Score_Display();
+        Combo_Display();
     }
 
     //成功
@@ -61,11 +54,14 @@ public class Score_Controller : MonoBehaviour
     {
         Add_Combo();
         Add_Score();
+        Score_Display();
+        Combo_Display();
     }
     //失敗
     public void Miss()
     {
         Reset_Combo();
+        Combo_Display();
     }
 
     #endregion
@@ -100,10 +96,9 @@ public class Score_Controller : MonoBehaviour
 
     private void Score_Display()
     {
-        //テスト
-        Score = 15684;
+        #region AddScore　その1
         //点数を確認
-        #region 100000の位
+        /*#region 100000の位
         Score_Num[5] = Score / 100000;
         #endregion
 
@@ -125,20 +120,7 @@ public class Score_Controller : MonoBehaviour
 
         #region 1の位
         Score_Num[0] = (Score - (Score_Num[5] * 100000 + Score_Num[4] * 10000 + Score_Num[3] * 1000 + Score_Num[2] * 100 + Score_Num[1] * 10));
-        #endregion
-        //テスト
-        for (var num = 5; num >= 0; num--)
-        {
-            var del = 0;        //引く
-            var div = 100000;   //割る
-            for (var rep = num - 1; rep >= 0; rep--)
-            {
-                del += Score_Num[rep + 1] * div;
-                div /= 10;
-            }
-            Score_Num[num] = (Score - del) / div;
-        }
-        Debug.Log(Score_Num[5], Score_Num[4], Score_Num[3], Score_Num[2],)
+        #endregion*/
         //適切なスプライトを選択してイメージに反映
         /*Score_Image[5].sprite = Score_sprite[Score_Num[5]];
         Score_Image[4].sprite = Score_sprite[Score_Num[4]];
@@ -146,12 +128,32 @@ public class Score_Controller : MonoBehaviour
         Score_Image[2].sprite = Score_sprite[Score_Num[2]];
         Score_Image[1].sprite = Score_sprite[Score_Num[1]];
         Score_Image[0].sprite = Score_sprite[Score_Num[0]];*/
+        #endregion
+
+        #region AddScore　その2
+        //それぞれの桁の数字を確認し適切なスプライトを選択
+        for (var score_num = 5; score_num >= 0; score_num--)
+        {
+            var score_del = 0;        //引く
+            var score_div = 100000;   //割る
+            var score_del_Num = 5;    //呼び出すスコアnum
+            //それぞれの桁の数字を確認
+            for (var score_rep = 4 - score_num; score_rep >= 0; score_rep--)
+            {
+                score_del += Score_Num[score_del_Num] * score_div;
+                score_div /= 10;
+                score_del_Num--;
+            }
+            Score_Num[score_num] = (Score - score_del) / score_div;
+            //適切なスプライトを選択してイメージに反映
+            Score_Image[score_num].sprite = Score_sprite[Score_Num[score_num]];
+        }
+
+        #endregion
     }
 
     private void Combo_Display()
     {
-        //テスト
-        combo = 15;
         //コンボを確認
         #region 100の位
         Combo_Num[2] = combo / 100;
