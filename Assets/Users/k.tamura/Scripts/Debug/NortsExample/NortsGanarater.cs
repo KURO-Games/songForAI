@@ -54,9 +54,7 @@ public class NortsGanarater : MonoBehaviour
         GenerateNotes(info);
         Debug.Log(musicData);
         Debug.Log(musicData.notes[0].lane);
-
-        int BPM = musicData.BPM;
-        Debug.LogError(BPM);
+        SpeedMgr.BPM = musicData.BPM;
         Debug.Log(musicData.BPM);
         bpm = 60 / musicData.BPM;
         Debug.Log(bpm);
