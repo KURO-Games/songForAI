@@ -14,9 +14,5 @@ public class MockHome : MonoBehaviour
             SceneLoadManager.LoadScene("SelectMusic");
         }
     }
-    private void Start()
-    {
-        SoundManager.BGMSoundCue(2);
-    }
 
 }
