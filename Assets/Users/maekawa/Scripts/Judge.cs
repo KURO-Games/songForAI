@@ -18,7 +18,7 @@ public class Judge : MonoBehaviour
     //[SerializeField] GameObject note = null;//仮ノーツ
     //[SerializeField] private GameObject[] Lanes = new GameObject[8];
 
-    [SerializeField] private GameObject[] noTap = new GameObject[8];
+    //[SerializeField] private GameObject[] noTap = new GameObject[8];
     private List<GameObject>[] GOListArray = new List<GameObject>[8];
     private int[] notesCount = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
@@ -50,8 +50,7 @@ public class Judge : MonoBehaviour
 
             RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, maxDistance, layerMask);
 
-            //レーンをタップしたら
-            if (hit.collider)
+            if (hit.collider)// レーンをタップしたら
             {
                 //Debug.Log("ノーツy座標" + notes.transform.position.y);//
                 //Debug.Log("判定ラインy座標" + JudgeLine.transform.position.y);//
