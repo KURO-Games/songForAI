@@ -5,7 +5,11 @@ using UnityEngine;
 public class MockHome : MonoBehaviour
 {
     bool pushButton=false;
-    // Start is called before the first frame updat
+
+    private void Start()
+    {
+        SoundManager.BGMSoundCue(2);
+    }
     public void OnButton()
     {
         if (!pushButton)
