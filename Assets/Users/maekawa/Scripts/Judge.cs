@@ -29,6 +29,7 @@ public class Judge : MonoBehaviour
     //    return absTiming;
     //}
 
+    //ノーツが通り過ぎたら
     void OnTriggerEnter2D(Collider2D collider2D)
     {
         string i = collider2D.gameObject.name;//ヒットしたオブジェクトの名前を取得
@@ -39,8 +40,6 @@ public class Judge : MonoBehaviour
 
     void Update()//判定
     {
-        //ノーツが通り過ぎたら
-        OnTriggerEnter2D();
 
         if (Input.GetMouseButtonDown(0))
         {
