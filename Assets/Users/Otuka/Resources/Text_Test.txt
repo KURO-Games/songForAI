@@ -1,4 +1,4 @@
-#ID Name	 Message
+#ID	Name	Message
 1	銃声	バンッ！バンッ！バンッ！
 2	オセロット	もう一度！
 3	兵士A	(コクリ)
