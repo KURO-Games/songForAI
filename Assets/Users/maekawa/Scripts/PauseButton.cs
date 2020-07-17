@@ -14,6 +14,11 @@ public class PauseButton : MonoBehaviour
 		//　ポーズUIが表示されてる時は停止
 		if (PauseUI.activeSelf)
 		{
+			//Cursor.lockState = CursorLockMode.Locked;
+			//{
+			//	OnClick();
+			//}
+
 			Time.timeScale = 0f;
 		}
 		//　ポーズUIが表示されてなければ通常通り進行
