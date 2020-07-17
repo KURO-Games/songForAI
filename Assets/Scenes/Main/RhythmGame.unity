@@ -1118,7 +1118,7 @@ GameObject:
   - component: {fileID: 1085383190}
   - component: {fileID: 1085383189}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Score_Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1136,9 +1136,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c190fbd1eb8e8b949ba685e9806de450, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: []
-  score_Image: []
-  conbo_Image: []
+  Score_sprite: []
+  Combo_sprite: []
+  Score_Image: []
+  Combo_Image: []
 --- !u!4 &1085383190
 Transform:
   m_ObjectHideFlags: 0
