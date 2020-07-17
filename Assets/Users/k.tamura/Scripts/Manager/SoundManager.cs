@@ -21,4 +21,8 @@ public class SoundManager:SingletonMonoBehaviour<SoundManager>
     {
         Instance.SESource.Play(cueID);
     }
+    public static void BGMSoundStop()
+    {
+        Instance.BGMSource.Stop();
+    }
 }

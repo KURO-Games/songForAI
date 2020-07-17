@@ -23,7 +23,7 @@ public class NortsGanarater : MonoBehaviour
 
         if (Generated)
         { 
-            NotesGen[0].transform.root.gameObject.transform.position -= new Vector3(0,bpm, 0)*Time.deltaTime;
+            NotesGen[0].transform.root.gameObject.transform.position -= new Vector3(0,1, 0)*Time.deltaTime;
             if (NotesGen[0].transform.root.gameObject.transform.position.y <= bar.transform.position.y && !PlayedBGM)
             {
                 SoundManager.BGMSoundCue(0);
@@ -74,6 +74,8 @@ public class NortsGanarater : MonoBehaviour
                 , Quaternion.identity) as GameObject;
             GenNotes.name = "notes"+NotesNum.ToString();
             GenNotes.transform.parent = NotesGen[LaneNum].transform;
+            NotesManager.NotesPositions[LaneNum].Add(GenNotes);
+            NotesManager.NextNotesLine.Add(LaneNum);
             Generated = true;
 
         }
