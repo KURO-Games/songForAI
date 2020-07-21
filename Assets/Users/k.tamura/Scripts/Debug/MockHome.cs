@@ -18,5 +18,4 @@ public class MockHome : MonoBehaviour
             SceneLoadManager.LoadScene("SelectMusic");
         }
     }
-
 }
