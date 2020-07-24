@@ -54,9 +54,7 @@ public class NortsGanarater : MonoBehaviour
         GenerateNotes(info);
         Debug.Log(musicData);
         Debug.Log(musicData.notes[0].lane);
-
-        int BPM = musicData.BPM;
-        Debug.LogError(BPM);
+        SpeedMgr.BPM = musicData.BPM;
         Debug.Log(musicData.BPM);
         bpm = 60 / musicData.BPM;
         Debug.Log(bpm);
@@ -72,7 +70,7 @@ public class NortsGanarater : MonoBehaviour
                 , (NotesGen[LaneNum].transform.parent.gameObject.transform.position.y  + NotesNum -1)*NotesSpeed
                 , 0)
                 , Quaternion.identity) as GameObject;
-            GenNotes.name = "notes"+NotesNum.ToString();
+            GenNotes.name = "notes_"+NotesNum.ToString();
             GenNotes.transform.parent = NotesGen[LaneNum].transform;
             NotesManager.NotesPositions[LaneNum].Add(GenNotes);
             NotesManager.NextNotesLine.Add(LaneNum);
