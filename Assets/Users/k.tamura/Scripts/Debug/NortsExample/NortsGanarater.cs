@@ -95,13 +95,15 @@ public class NortsGanarater : MonoBehaviour
     }
     private void notesPositionAdd(GameObject notes, int Lane, int num)
     {
-       
+        int i = 0;
         NotesManager.NotesPositions.Add(new List<GameObject>()); //next
-        for (int i = 0; i < Lane; i++)
+        for (; i < 8; i++)
         {
-            NotesManager.NotesPositions[num].Add(null);
+            if (i == Lane)　NotesManager.NotesPositions[num].Add(notes);
+            else　NotesManager.NotesPositions[num].Add(null);
         }
-        NotesManager.NotesPositions[num].Add(notes);
+       
+
 
     }
 
