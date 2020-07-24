@@ -20,14 +20,7 @@ public class Judge : MonoBehaviour
 
     //[SerializeField] private GameObject[] noTap = new GameObject[8];
     private List<GameObject>[] GOListArray = new List<GameObject>[8];
-    private int[] notesCount = { 0, 0, 0, 0, 0, 0, 0, 0 };
-
-    //float GapDistance()//距離を算出
-    //{
-    //    float tapTiming = JudgeLine.transform.position.y - note.transform.position.y; //仮ノーツ
-    //    float absTiming = Mathf.Abs(tapTiming);//絶対値に変換
-    //    return absTiming;
-    //}
+    private int[] _notesCount = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
     //ノーツが通り過ぎたら
     void OnTriggerEnter2D(Collider2D collider2D)
@@ -35,7 +28,7 @@ public class Judge : MonoBehaviour
         string i = collider2D.gameObject.name;//ヒットしたオブジェクトの名前を取得
         int laneNumber = int.Parse(i);//文字列を数字に変換
         combo = 0;
-        notesCount[laneNumber]++;
+        _notesCount[laneNumber]++;
     }
 
     void Update()//判定
@@ -60,9 +53,13 @@ public class Judge : MonoBehaviour
                 JudgeLine = hit.collider.gameObject;
 
                 string i = hit.collider.gameObject.name;//ヒットしたオブジェクトの名前を取得
-                int laneNumber = int.Parse(i);//文字列を数字に変換
+                string[] notesNum = i.Split('_');// 引数の文字で分割して配列化
+                int laneNumber = int.Parse(notesNum[1]);//文字列を数字に変換
 
-                float tapTiming = JudgeLine.transform.position.y - GOListArray[laneNumber][notesCount[laneNumber]].transform.position.y;
+                // ズレを算出
+                Debug.Log(GOListArray);
+                // ノーツのy座標を取得　                           GOListArray[何番目のレーンなのか][何個目のノーツなのか[何番目のレーンの]]
+                float tapTiming = JudgeLine.transform.position.y - GOListArray[laneNumber][_notesCount[laneNumber]].transform.position.y;
                 float absTiming = Mathf.Abs(tapTiming);//絶対値に変換
 
                 //判定分岐
@@ -72,7 +69,7 @@ public class Judge : MonoBehaviour
                     score += point;
                     Debug.Log("コンボ" + combo);
                     Debug.Log("Perfect スコア" + score);
-                    notesCount[laneNumber]++;
+                    _notesCount[laneNumber]++;
                 }
                 else if (absTiming <= great)
                 {
@@ -80,12 +77,12 @@ public class Judge : MonoBehaviour
                     score += point / 2;
                     Debug.Log("コンボ" + combo);
                     Debug.Log("Great　スコア" + score);
-                    notesCount[laneNumber]++;
+                    _notesCount[laneNumber]++;
                 }
                 else if (absTiming <= miss)
                 {
                     combo = 0;
-                    notesCount[laneNumber]++;
+                    _notesCount[laneNumber]++;
                 }
             }
         }
