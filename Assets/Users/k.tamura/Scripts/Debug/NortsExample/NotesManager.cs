@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class NotesManager : MonoBehaviour
 {
-    public static List<List<GameObject>> NotesPositions = new List<List<GameObject>>(8);
+    public static List<List<GameObject>>NotesPositions = new List<List<GameObject>>();
     public static List<int> NextNotesLine = new List<int>();
     void Update()
     {

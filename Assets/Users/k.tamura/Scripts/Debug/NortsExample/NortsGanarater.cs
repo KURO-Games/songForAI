@@ -18,6 +18,7 @@ public class NortsGanarater : MonoBehaviour
     NotesJson.MusicData musicData = new NotesJson.MusicData();
     bool Generated=false;
     bool PlayedBGM=false;
+    Judge _judge;
     private void Update()
     {
 
@@ -72,12 +73,14 @@ public class NortsGanarater : MonoBehaviour
                 , Quaternion.identity) as GameObject;
             GenNotes.name = "notes_"+NotesNum.ToString();
             GenNotes.transform.parent = NotesGen[LaneNum].transform;
-            NotesManager.NotesPositions[LaneNum].Add(GenNotes);
+
+            notesPositionAdd(GenNotes, LaneNum, i);
+
             NotesManager.NextNotesLine.Add(LaneNum);
             Generated = true;
 
         }
-
+        Judge.ListImport();
 
     }
     /// <summary>
@@ -89,6 +92,17 @@ public class NortsGanarater : MonoBehaviour
         StreamReader reader = new StreamReader(info.OpenRead());
         string MusicDatas = reader.ReadToEnd();
         musicData = JsonUtility.FromJson<NotesJson.MusicData>(MusicDatas);
+    }
+    private void notesPositionAdd(GameObject notes, int Lane, int num)
+    {
+       
+        NotesManager.NotesPositions.Add(new List<GameObject>()); //next
+        for (int i = 0; i < Lane; i++)
+        {
+            NotesManager.NotesPositions[num].Add(null);
+        }
+        NotesManager.NotesPositions[num].Add(notes);
+
     }
 
 }

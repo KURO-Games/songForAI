@@ -16,7 +16,7 @@ public class Judge : MonoBehaviour
     [SerializeField] private float miss = 40;
     [SerializeField] private GameObject JudgeLine = null;
 
-    private List<GameObject>[] GOListArray = new List<GameObject>[8];
+    private static List<List<GameObject>> GOListArray = new List<List<GameObject>>();
     private int[] _notesCount = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
     //ノーツが通り過ぎたら
@@ -82,5 +82,10 @@ public class Judge : MonoBehaviour
                 }
             }
         }
+    }
+    public static void ListImport()
+    {
+        GOListArray = NotesManager.NotesPositions;
+        Debug.Log(GOListArray[0][7]);
     }
 }
