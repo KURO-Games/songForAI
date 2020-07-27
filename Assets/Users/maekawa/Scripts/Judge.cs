@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 
 //ノーツスルー処理
 //タップ内訳？
+//該当レーン以外の例外処理
 
 public class Judge : MonoBehaviour
 {
@@ -19,8 +20,8 @@ public class Judge : MonoBehaviour
     private static List<List<GameObject>> GOListArray = new List<List<GameObject>>();
     private int[] _notesCount = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
-    //ノーツが通り過ぎたら
-    void OnTriggerEnter2D(Collider2D collider2D)
+    //ノーツ通過処理
+    void OnTriggerEnter2D(Collider2D collider2D)//mainで呼ばなくていい
     {
         string i = collider2D.gameObject.name;//ヒットしたオブジェクトの名前を取得
         int laneNumber = int.Parse(i);//文字列を数字に変換
@@ -28,9 +29,31 @@ public class Judge : MonoBehaviour
         _notesCount[laneNumber]++;
     }
 
-    void Update()//判定
+    int GetLaneNumber()
     {
+        int laneNumber = 0;
 
+        int layerMask = 1;
+        float maxDistance = 10;
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, maxDistance, layerMask);
+
+        if (hit.collider.gameObject.tag == "Lane")
+        {
+
+            string i = hit.collider.gameObject.tag;//ヒットしたオブジェクトの名前を取得
+            laneNumber = int.Parse(i);//文字列を数字に変換
+            Debug.Log(laneNumber);
+        }
+
+        return laneNumber;
+    }
+
+    //タップ判定処理
+    void Update()
+    {
         if (Input.GetMouseButtonDown(0))
         {
             int layerMask = 1;
@@ -42,18 +65,19 @@ public class Judge : MonoBehaviour
 
             if (hit.collider)// レーンをタップしたら
             {
-                //Debug.Log("ノーツy座標" + notes.transform.position.y);//
-                //Debug.Log("判定ラインy座標" + JudgeLine.transform.position.y);//
-                //Debug.Log("ノーツx座標" + note.transform.position.x);//
-                //Debug.Log("レーンx座標" + hit.collider.transform.position.x);//
-
                 JudgeLine = hit.collider.gameObject;
 
-                string i = hit.collider.gameObject.name;//ヒットしたオブジェクトの名前を取得
-                string[] notesNum = i.Split('_');// 引数の文字で分割して配列化
-                int laneNumber = int.Parse(notesNum[1]);//文字列を数字に変換
+                //if (RaycastHit2D.collider.gameObject.tag == "Lane")
+                //{
+                //    //string i = hit.collider.gameObject.tag;//ヒットしたオブジェクトの名前を取得
+                //    //string[] notesNum = i.Split('_');// 引数の文字で分割して配列化
+                //    //int laneNumber = int.Parse(notesNum[1]);//文字列を数字に変換
+                //}
 
                 // ズレを算出
+                ListImport();
+
+                int laneNumber = GetLaneNumber();
                 // ノーツのy座標を取得　                           GOListArray[何個目のノーツなのか[何番目のレーンの]][何番目のレーンなのか]
                 float tapTiming = JudgeLine.transform.position.y - GOListArray[_notesCount[laneNumber]][laneNumber].transform.position.y;
                 float absTiming = Mathf.Abs(tapTiming);//絶対値に変換
