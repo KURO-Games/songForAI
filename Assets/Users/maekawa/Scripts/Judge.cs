@@ -29,84 +29,69 @@ public class Judge : MonoBehaviour
         _notesCount[laneNumber]++;
     }
 
-    int GetLaneNumber()
-    {
-        int laneNumber = 0;
-
-        int layerMask = 1;
-        float maxDistance = 10;
-
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, maxDistance, layerMask);
-
-        if (hit.collider.gameObject.tag == "Lane")
-        {
-
-            string i = hit.collider.gameObject.tag;//ヒットしたオブジェクトの名前を取得
-            laneNumber = int.Parse(i);//文字列を数字に変換
-            Debug.Log(laneNumber);
-        }
-
-        return laneNumber;
-    }
-
     //タップ判定処理
     void Update()
     {
+        //Debug.Log(GOListArray[_notesCount[0]][0].transform.position.y);
+
         if (Input.GetMouseButtonDown(0))
         {
             int layerMask = 1;
-            float maxDistance = 10;
+            float maxDistance = 10f;
 
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Vector2 mousePosition = Input.mousePosition;
+
+            Ray ray = Camera.main.ScreenPointToRay(mousePosition);
 
             RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, maxDistance, layerMask);
 
             if (hit.collider)// レーンをタップしたら
             {
-                JudgeLine = hit.collider.gameObject;
+                //JudgeLine = hit.collider.gameObject;
 
-                //if (RaycastHit2D.collider.gameObject.tag == "Lane")
-                //{
-                //    //string i = hit.collider.gameObject.tag;//ヒットしたオブジェクトの名前を取得
-                //    //string[] notesNum = i.Split('_');// 引数の文字で分割して配列化
-                //    //int laneNumber = int.Parse(notesNum[1]);//文字列を数字に変換
-                //}
-
-                // ズレを算出
-                ListImport();
-
-                int laneNumber = GetLaneNumber();
-                // ノーツのy座標を取得　                           GOListArray[何個目のノーツなのか[何番目のレーンの]][何番目のレーンなのか]
-                float tapTiming = JudgeLine.transform.position.y - GOListArray[_notesCount[laneNumber]][laneNumber].transform.position.y;
-                float absTiming = Mathf.Abs(tapTiming);//絶対値に変換
-
-                //判定分岐
-                if (absTiming <= perfect)
+                if (hit.collider != null)
                 {
-                    combo++;
-                    score += point;
-                    Debug.Log("コンボ" + combo);
-                    Debug.Log("Perfect スコア" + score);
-                    _notesCount[laneNumber]++;
-                }
-                else if (absTiming <= great)
-                {
-                    combo++;
-                    score += point / 2;
-                    Debug.Log("コンボ" + combo);
-                    Debug.Log("Great　スコア" + score);
-                    _notesCount[laneNumber]++;
-                }
-                else if (absTiming <= miss)
-                {
-                    combo = 0;
-                    _notesCount[laneNumber]++;
+                    if (hit.collider.gameObject.tag == ("Lane"))//レーンをクリックしたらレーン番号を取得
+                    {
+                        Debug.Log(GOListArray[_notesCount[0]][7].transform.position.y);
+
+                        string i = hit.collider.gameObject.name;//ヒットしたオブジェクトの名前を取得
+                        int laneNumber = int.Parse(i);//文字列を数字に変換
+                        Debug.Log(laneNumber);
+
+                        // XXX ここで止まる
+                        // ノーツのy座標を取得　                           GOListArray[何個目のノーツなのか[何番目のレーンの]][何番目のレーンなのか]
+                        float tapTiming = JudgeLine.transform.position.y - GOListArray[_notesCount[laneNumber]][laneNumber].transform.position.y;
+                        float absTiming = Mathf.Abs(tapTiming);//絶対値に変換
+
+                        //判定分岐
+                        if (absTiming <= perfect)
+                        {
+                            combo++;
+                            score += point;
+                            Debug.Log("コンボ" + combo);
+                            Debug.Log("Perfect スコア" + score);
+                            _notesCount[laneNumber]++;
+                        }
+                        else if (absTiming <= great)
+                        {
+                            combo++;
+                            score += point / 2;
+                            Debug.Log("コンボ" + combo);
+                            Debug.Log("Great　スコア" + score);
+                            _notesCount[laneNumber]++;
+                        }
+                        else if (absTiming <= miss)
+                        {
+                            combo = 0;
+                            _notesCount[laneNumber]++;
+                        }
+                    }
                 }
             }
         }
     }
+
     public static void ListImport()
     {
         GOListArray = NotesManager.NotesPositions;
