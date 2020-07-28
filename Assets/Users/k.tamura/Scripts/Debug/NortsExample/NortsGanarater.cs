@@ -61,6 +61,11 @@ public class NortsGanarater : MonoBehaviour
         Debug.Log(bpm);
         for (int i = 0; musicData.notes.Length > i; i++)
         {
+            NotesManager.NotesPositions.Add(new List<GameObject>()); //nex
+            for (int e = 0; e < 8; e++)
+            {
+                NotesManager.NotesPositions[i].Add(null);
+            }
             int LaneNum = musicData.notes[i].lane;
             int NotesType = musicData.notes[i].type;
             int NotesNum = musicData.notes[i].num;
@@ -95,16 +100,14 @@ public class NortsGanarater : MonoBehaviour
     }
     private void notesPositionAdd(GameObject notes, int Lane, int num)
     {
-        int i = 0;
-        NotesManager.NotesPositions.Add(new List<GameObject>()); //next
-        for (; i < 8; i++)
+        for (int i = 0; i < NotesManager.NotesPositions.Count; i++)
         {
-            if (i == Lane)　NotesManager.NotesPositions[num].Add(notes);
-            else　NotesManager.NotesPositions[num].Add(null);
+            if (NotesManager.NotesPositions[i][Lane] == null)
+            {
+                NotesManager.NotesPositions[i][Lane] = notes;
+                break;
+            }
         }
-       
-
-
     }
 
 }
