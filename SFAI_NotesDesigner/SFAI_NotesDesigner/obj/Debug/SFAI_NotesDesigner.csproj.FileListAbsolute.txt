@@ -1,0 +1,10 @@
+D:\kuro\Documents\songForAI\SFAI_NotesDesigner\SFAI_NotesDesigner\bin\Debug\SFAI_NotesDesigner.exe.config
+D:\kuro\Documents\songForAI\SFAI_NotesDesigner\SFAI_NotesDesigner\bin\Debug\SFAI_NotesDesigner.exe
+D:\kuro\Documents\songForAI\SFAI_NotesDesigner\SFAI_NotesDesigner\bin\Debug\SFAI_NotesDesigner.pdb
+D:\kuro\Documents\songForAI\SFAI_NotesDesigner\SFAI_NotesDesigner\obj\Debug\SFAI_NotesDesigner.csprojAssemblyReference.cache
+D:\kuro\Documents\songForAI\SFAI_NotesDesigner\SFAI_NotesDesigner\obj\Debug\SFAI_NotesDesigner.Form1.resources
+D:\kuro\Documents\songForAI\SFAI_NotesDesigner\SFAI_NotesDesigner\obj\Debug\SFAI_NotesDesigner.Properties.Resources.resources
+D:\kuro\Documents\songForAI\SFAI_NotesDesigner\SFAI_NotesDesigner\obj\Debug\SFAI_NotesDesigner.csproj.GenerateResource.cache
+D:\kuro\Documents\songForAI\SFAI_NotesDesigner\SFAI_NotesDesigner\obj\Debug\SFAI_NotesDesigner.csproj.CoreCompileInputs.cache
+D:\kuro\Documents\songForAI\SFAI_NotesDesigner\SFAI_NotesDesigner\obj\Debug\SFAI_NotesDesigner.exe
+D:\kuro\Documents\songForAI\SFAI_NotesDesigner\SFAI_NotesDesigner\obj\Debug\SFAI_NotesDesigner.pdb
