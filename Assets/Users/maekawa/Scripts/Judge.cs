@@ -84,6 +84,7 @@ public class Judge : MonoBehaviour
                                 Debug.Log("miss");
                                 _notesCount[laneNumber]++;
                             }
+                            Destroy(GOListArray[_notesCount[laneNumber]][laneNumber]);
                         }
                     }
                     else// 右レーン
@@ -117,6 +118,7 @@ public class Judge : MonoBehaviour
                                 Debug.Log("miss");
                                 _notesCount[laneNumber]++;
                             }
+                            Destroy(GOListArray[_notesCount[laneNumber]][laneNumber]);
                         }
                     }
                 }

@@ -17,14 +17,7 @@
             "type": 1,
             "lane": 4,
             "num": 5,
-            "notes": [
-                {
-                    "type": 0,
-                    "lane": 7,
-                    "num": 31,
-                    "notes": []
-                }
-            ]
+            "notes": []
         },
         {
             "type": 0,
@@ -70,32 +63,38 @@
             "lane": 7,
             "num": 37,
             "notes": []
-        },        {
+        },
+        {
             "type": 0,
             "lane": 7,
             "num": 41,
             "notes": []
-        },        {
-            "type": 0,
-            "lane": 7,
+        },
+        {
+            "type": 1,
+            "lane": 4,
             "num": 45,
             "notes": []
-        },        {
+        },
+        {
             "type": 0,
             "lane": 7,
             "num": 49,
             "notes": []
-        },        {
+        },
+        {
             "type": 0,
-            "lane": 7,
+            "lane": 3,
             "num": 53,
             "notes": []
-        },        {
+        },
+        {
             "type": 0,
-            "lane": 7,
+            "lane": 4,
             "num": 57,
             "notes": []
-        },        {
+        },
+        {
             "type": 0,
             "lane": 7,
             "num": 61,
@@ -109,6 +108,72 @@
             "type": 0,
             "lane": 7,
             "num": 69,
+            "notes": []
+        },        {
+            "type": 0,
+            "lane": 7,
+            "num": 73,
+            "notes": []
+        },        {
+            "type": 0,
+            "lane": 7,
+            "num": 77,
+            "notes": []
+        },{
+            "type": 0,
+            "lane": 7,
+            "num": 81,
+            "notes": []
+        },
+        {
+            "type": 1,
+            "lane": 4,
+            "num": 85,
+            "notes": []
+        },
+        {
+            "type": 0,
+            "lane": 7,
+            "num": 89,
+            "notes": []
+        },
+        {
+            "type": 0,
+            "lane": 3,
+            "num": 93,
+            "notes": []
+        },
+        {
+            "type": 0,
+            "lane": 4,
+            "num": 97,
+            "notes": []
+        },
+        {
+            "type": 0,
+            "lane": 7,
+            "num": 101,
+            "notes": []
+        },
+                {
+            "type": 0,
+            "lane": 7,
+            "num": 105,
+            "notes": []
+        },        {
+            "type": 0,
+            "lane": 7,
+            "num": 109,
+            "notes": []
+        },        {
+            "type": 0,
+            "lane": 7,
+            "num": 113,
+            "notes": []
+        },        {
+            "type": 0,
+            "lane": 7,
+            "num": 117,
             "notes": []
         }
     ]
