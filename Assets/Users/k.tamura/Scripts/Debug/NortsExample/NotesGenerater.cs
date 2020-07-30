@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.IO;
-public class NortsGanarater : MonoBehaviour
+public class NotesGenerater : MonoBehaviour
 {
     [SerializeField, Header("ノーツを生成する元(Prefab)")]
     GameObject NotesPrefab = null,bar;
