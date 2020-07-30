@@ -8,6 +8,7 @@ public class MockHome : MonoBehaviour
 
     private void Start()
     {
+        pushButton = false;
         SoundManager.BGMSoundCue(2);
     }
     public void OnButton()
@@ -15,7 +16,15 @@ public class MockHome : MonoBehaviour
         if (!pushButton)
         {
             pushButton = true;
-            SceneLoadManager.LoadScene("SelectMusic");
+            SceneLoadManager.LoadScene("SelectMusicV2");
+        }
+    }
+    public void ScenarioScene()
+    {
+        if (!pushButton)
+        {
+            pushButton = true;
+            SceneLoadManager.LoadScene("Scenario");
         }
     }
 }

@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Main/RhythmGame.unity
     guid: af35ab5d3287249228400bacb65e47d6
+  - enabled: 1
+    path: Assets/Users/Otuka/Scenes/Scenario.unity
+    guid: b02c5dd984a6d634895dee4d92f384aa
   m_configObjects: {}
