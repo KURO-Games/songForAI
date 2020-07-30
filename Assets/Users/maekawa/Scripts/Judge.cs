@@ -8,8 +8,8 @@ using UnityEngine.UIElements;
 
 public class Judge : MonoBehaviour
 {
-    private int score = 0;
-    private int combo = 0;
+    private static int score = 0;
+    private static int combo = 0;
     [SerializeField] private int point;
     [SerializeField] private float perfect;
     [SerializeField] private float great;
@@ -18,20 +18,21 @@ public class Judge : MonoBehaviour
     [SerializeField] private GameObject RightJudgeLine;
     [SerializeField] private GameObject[] IgnoreDetection = new GameObject[8];
     private static List<List<GameObject>> GOListArray = new List<List<GameObject>>();
-    private int[] _notesCount = { 0, 0, 0, 0, 0, 0, 0, 0 };
+    private static int[] _notesCount = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
     //ノーツ通過処理
-    //void OnTriggerEnter2D(Collider2D col)//mainで呼ばなくていい
-    //{
-    //    string i = col.gameObject.name;//ヒットしたオブジェクトの名前を取得
-    //    Debug.Log(i);
-    //    int tempLaneNum = int.Parse(i);//文字列を数字に変換
-    //    combo = 0;
-    //    Debug.Log("miss");
-    //    _notesCount[tempLaneNum]++;
-    //}
+    public static void NotesCountUp(string i)//mainで呼ばなくていい
+    {
+        //string i = col.gameObject.name;//ヒットしたオブジェクトの名前を取得
+        Debug.Log(i);
+        int tempLaneNum = int.Parse(i);//文字列を数字に変換
+        combo = 0;
+        Debug.Log("miss");
+        _notesCount[tempLaneNum]++;
+    }
 
     //タップ判定処理
+
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
