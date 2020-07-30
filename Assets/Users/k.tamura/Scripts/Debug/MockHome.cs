@@ -5,18 +5,26 @@ using UnityEngine;
 public class MockHome : MonoBehaviour
 {
     bool pushButton=false;
-    // Start is called before the first frame updat
+
+    private void Start()
+    {
+        pushButton = false;
+        SoundManager.BGMSoundCue(2);
+    }
     public void OnButton()
     {
         if (!pushButton)
         {
             pushButton = true;
-            SceneLoadManager.LoadScene("SelectMusic");
+            SceneLoadManager.LoadScene("SelectMusicV2");
         }
     }
-    private void Start()
+    public void ScenarioScene()
     {
-        SoundManager.BGMSoundCue(2);
+        if (!pushButton)
+        {
+            pushButton = true;
+            SceneLoadManager.LoadScene("Scenario");
+        }
     }
-
 }
