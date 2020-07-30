@@ -40,6 +40,7 @@ public class Scenario_Controller : MonoBehaviour
 
     private void Start()
     {
+        //会話の一行目を読ませるための初期化
         Display_Num = 1;
         Text_Load();
         StartCoroutine(Message_Display());
@@ -47,7 +48,7 @@ public class Scenario_Controller : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && Message_Complete == true)
+        if (Input.GetMouseButtonDown(0) && Message_Complete == true)
         {
             StartCoroutine(Message_Display());
         }
@@ -58,6 +59,7 @@ public class Scenario_Controller : MonoBehaviour
     {
         //txtからロード
         TextAsset textAsset = new TextAsset();
+        //                              ↓読み込むテキスト名  後にswitch分で進行度（？）ごとに読み込むシナリオを変えれるようにするかも？
         textAsset = Resources.Load("Text_Test3", typeof(TextAsset)) as TextAsset;
 
         //ロードしたのを一度格納
@@ -92,6 +94,7 @@ public class Scenario_Controller : MonoBehaviour
     #region メッセージ、キャラクター、背景の表示
     private IEnumerator Message_Display()
     {
+        //表示行数がtxtの行数以下なら
         if (Vertical_Num > Display_Num)
         {
             Message_Complete = false;
