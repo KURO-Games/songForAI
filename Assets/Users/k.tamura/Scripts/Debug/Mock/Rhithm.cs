@@ -19,6 +19,7 @@ public class Rhithm : MonoBehaviour
     {
         _isTaped = false;
         _StartImageColor = StartImage.GetComponent<Image>().color;
+        SoundManager.BGMSoundStop();
     }
     public void ReturnHome()
     {
