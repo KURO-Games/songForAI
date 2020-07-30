@@ -13,6 +13,8 @@ public class NotesGenerater : MonoBehaviour
     float NotesDistance = 0.001f;
     [SerializeField]
     int NotesSpeed = 1;
+    [SerializeField]
+    float speed = 1;
     float bpm = 0;
     string[] filePaths = System.IO.Directory.GetFiles(Application.streamingAssetsPath, "*.nts");
     NotesJson.MusicData musicData = new NotesJson.MusicData();
@@ -24,7 +26,7 @@ public class NotesGenerater : MonoBehaviour
 
         if (Generated)
         { 
-            NotesGen[0].transform.root.gameObject.transform.position -= new Vector3(0,1, 0)*Time.deltaTime;
+            NotesGen[0].transform.root.gameObject.transform.position -= new Vector3(0,1, 0)*Time.deltaTime*NotesSpeed*speed;
             if (NotesGen[0].transform.root.gameObject.transform.position.y <= bar.transform.position.y && !PlayedBGM)
             {
                 SoundManager.BGMSoundCue(0);
