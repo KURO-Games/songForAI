@@ -3,36 +3,51 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-//ノーツスルー処理
 //タップ内訳？
+//判定ライン若干上かも　コライダー位置調整など
 
 public class Judge : MonoBehaviour
 {
-    private static int score = 0;
-    private static int combo = 0;
+    public static int score = 0;
+    public static int combo = 0;
     [SerializeField] private int point;
     [SerializeField] private float perfect;
     [SerializeField] private float great;
     [SerializeField] private float miss;
     [SerializeField] private GameObject LeftJudgeLine;
     [SerializeField] private GameObject RightJudgeLine;
-    [SerializeField] private GameObject[] IgnoreDetection = new GameObject[8];
     private static List<List<GameObject>> GOListArray = new List<List<GameObject>>();
     private static int[] _notesCount = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
-    //ノーツ通過処理
-    public static void NotesCountUp(string i)//mainで呼ばなくていい
+    public static void NotesCountUp(string i)// ノーツ通過処理
     {
-        //string i = col.gameObject.name;//ヒットしたオブジェクトの名前を取得
-        Debug.Log(i);
         int tempLaneNum = int.Parse(i);//文字列を数字に変換
         combo = 0;
-        Debug.Log("miss");
+        Debug.Log("NotesCountUp_miss");
         _notesCount[tempLaneNum]++;
     }
 
-    //タップ判定処理
+    float JudgeDistance_L(float i)// 左レーン距離算出
+    {
+        float tempTiming = LeftJudgeLine.transform.position.y - i;
+        float trueTiming = Mathf.Abs(tempTiming);//絶対値に変換
 
+        return trueTiming;
+    }
+
+    float JudgeDistance_R(float i)// 右レーン距離算出
+    {
+        float tempTiming = RightJudgeLine.transform.position.y - i;
+        float trueTiming = Mathf.Abs(tempTiming);//絶対値に変換
+
+        Debug.Log("JUDGEPOINT" + RightJudgeLine.transform.position.y);
+        Debug.Log("NOTES" + i);
+        Debug.Log("TRUETIMING" + trueTiming);
+
+        return trueTiming;
+    }
+
+    //タップ判定処理
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -53,13 +68,12 @@ public class Judge : MonoBehaviour
                     string i = hit.collider.gameObject.name;//ヒットしたオブジェクトの名前を取得
                     int laneNumber = int.Parse(i);//文字列を数字に変換
 
-                    if(laneNumber <= 3)// 左レーン
+                    if (laneNumber <= 3)// 左レーン
                     {
+                        //  GOListArray[何個目のノーツなのか[何番目のレーンの]][何番目のレーンなのか]
                         if (GOListArray[_notesCount[laneNumber]][laneNumber] != null)
                         {
-                            // ノーツのy座標を取得　                                GOListArray[何個目のノーツなのか[何番目のレーンの]][何番目のレーンなのか]
-                            float tapTiming = LeftJudgeLine.transform.position.y - GOListArray[_notesCount[laneNumber]][laneNumber].transform.position.y;
-                            float absTiming = Mathf.Abs(tapTiming);//絶対値に変換
+                            float absTiming = JudgeDistance_L(GOListArray[_notesCount[laneNumber]][laneNumber].transform.position.y);
 
                             //判定分岐
                             if (absTiming <= perfect)
@@ -68,7 +82,10 @@ public class Judge : MonoBehaviour
                                 score += point;
                                 Debug.Log("コンボ" + combo);
                                 Debug.Log("Perfect スコア" + score);
-                                _notesCount[laneNumber]++;
+
+                                Destroy(GOListArray[_notesCount[laneNumber]][laneNumber]);// ノーツ破棄
+                                GOListArray[_notesCount[laneNumber]][laneNumber] = null;// 多重タップを防ぐ
+                                _notesCount[laneNumber]++;//カウントアップ
                             }
                             else if (absTiming <= great)
                             {
@@ -76,24 +93,27 @@ public class Judge : MonoBehaviour
                                 score += point / 2;
                                 Debug.Log("コンボ" + combo);
                                 Debug.Log("Great　スコア" + score);
+
+                                Destroy(GOListArray[_notesCount[laneNumber]][laneNumber]);
+                                GOListArray[_notesCount[laneNumber]][laneNumber] = null;
                                 _notesCount[laneNumber]++;
                             }
                             else if (absTiming <= miss)
                             {
                                 combo = 0;
                                 Debug.Log("miss");
+
+                                Destroy(GOListArray[_notesCount[laneNumber]][laneNumber]);
+                                GOListArray[_notesCount[laneNumber]][laneNumber] = null;
                                 _notesCount[laneNumber]++;
                             }
-                            Destroy(GOListArray[_notesCount[laneNumber]][laneNumber]);
                         }
                     }
                     else// 右レーン
                     {
                         if (GOListArray[_notesCount[laneNumber]][laneNumber] != null)
                         {
-                            // ノーツのy座標を取得　                                GOListArray[何個目のノーツなのか[何番目のレーンの]][何番目のレーンなのか]
-                            float tapTiming = RightJudgeLine.transform.position.y - GOListArray[_notesCount[laneNumber]][laneNumber].transform.position.y;
-                            float absTiming = Mathf.Abs(tapTiming);//絶対値に変換
+                            float absTiming = JudgeDistance_R(GOListArray[_notesCount[laneNumber]][laneNumber].transform.position.y);
 
                             //判定分岐
                             if (absTiming <= perfect)
@@ -102,6 +122,9 @@ public class Judge : MonoBehaviour
                                 score += point;
                                 Debug.Log("コンボ" + combo);
                                 Debug.Log("Perfect スコア" + score);
+
+                                Destroy(GOListArray[_notesCount[laneNumber]][laneNumber]);
+                                GOListArray[_notesCount[laneNumber]][laneNumber] = null;
                                 _notesCount[laneNumber]++;
                             }
                             else if (absTiming <= great)
@@ -110,15 +133,20 @@ public class Judge : MonoBehaviour
                                 score += point / 2;
                                 Debug.Log("コンボ" + combo);
                                 Debug.Log("Great　スコア" + score);
+
+                                Destroy(GOListArray[_notesCount[laneNumber]][laneNumber]);
+                                GOListArray[_notesCount[laneNumber]][laneNumber] = null;
                                 _notesCount[laneNumber]++;
                             }
                             else if (absTiming <= miss)
                             {
                                 combo = 0;
                                 Debug.Log("miss");
+
+                                Destroy(GOListArray[_notesCount[laneNumber]][laneNumber]);
+                                GOListArray[_notesCount[laneNumber]][laneNumber] = null;
                                 _notesCount[laneNumber]++;
                             }
-                            Destroy(GOListArray[_notesCount[laneNumber]][laneNumber]);
                         }
                     }
                 }
