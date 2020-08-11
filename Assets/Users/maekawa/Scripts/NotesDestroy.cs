@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// 多分要らないです
 public class NotesDestroy : MonoBehaviour
 {
     void Update()
