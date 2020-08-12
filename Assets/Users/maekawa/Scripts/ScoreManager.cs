@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 public class ScoreManager : MonoBehaviour
 {
-    int score;
+    float score;
 
     void Update()
     {

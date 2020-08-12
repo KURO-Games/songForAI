@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-<<<<<<< HEAD
-=======
+
 // 多分要らないです
->>>>>>> origin/maekawa0811
 public class NotesDestroy : MonoBehaviour
 {
     void Update()
