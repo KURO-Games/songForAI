@@ -63,7 +63,7 @@ public class SceneLoadManager : MonoBehaviour
 
     public float fadeTime = 2f;
     public Color fadeColor = Color.white;
-
+    static int Tarminal;
     IEnumerator fadeOut;
     IEnumerator fadeIn;
     /// <summary>
