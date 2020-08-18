@@ -10,6 +10,6 @@ public class NotesCountUp : MonoBehaviour
     {
         Judge.NotesCountUp(this.gameObject.name);
 
-        Destroy(collision.gameObject);
+        //Destroy(collision.gameObject);
     }
 }

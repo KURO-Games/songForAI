@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// 多分要らないです
 public class TagTest : MonoBehaviour
 {
-    // Update is called once per frame
     void Update()
     {
         if(Input.GetMouseButtonDown(0))

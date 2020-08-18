@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// 多分要らないです
 public class TestOnTriggerEnter2D : MonoBehaviour
 {
     void OnTriggerEnter2D(Collider2D col)//mainで呼ばなくていい
