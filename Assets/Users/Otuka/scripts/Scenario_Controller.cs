@@ -121,7 +121,7 @@ public class Scenario_Controller : MonoBehaviour
         else
         {
             //シーン遷移
-            SceneLoadManager.LoadScene("MockHome");
+            SceneLoadManager.LoadScene("Home");
         }
     }
     #endregion

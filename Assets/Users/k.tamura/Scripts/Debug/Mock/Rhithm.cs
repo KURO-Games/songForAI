@@ -26,7 +26,7 @@ public class Rhithm : MonoBehaviour
         if (!_isTaped)
         {
             _isTaped = true;
-            SceneLoadManager.LoadScene("MockHome");
+            SceneLoadManager.LoadScene("Home");
         }
     }
     private void FixedUpdate()

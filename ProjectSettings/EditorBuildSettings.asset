@@ -13,8 +13,11 @@ EditorBuildSettings:
     guid: 4f685c9ff23b845698f5d2bee5ac85fa
   - enabled: 1
     path: Assets/Scenes/Main/Title.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    guid: 8f4a6224b5d6cf14998a12900376a1c1
   - enabled: 1
+    path: Assets/Scenes/Main/Home.unity
+    guid: f02fe3060ef91489bb58f5da8832548b
+  - enabled: 0
     path: Assets/Scenes/Mock/MockHome.unity
     guid: b9271036b9a7c46c5a31a34655c53a04
   - enabled: 1
