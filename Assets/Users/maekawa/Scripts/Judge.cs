@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-//判定ライン若干上かも　コライダー位置調整など
-
 public class Judge : MonoBehaviour
 {
     public static int[] totalGrades = { 0, 0, 0, 0, 0 };          // リザルト画面用の判定内訳
@@ -111,13 +109,13 @@ public class Judge : MonoBehaviour
     // ノーツ通過処理
     public static void NotesCountUp(string i)
     {
-        if (combo > bestcombo)//最大コンボ記憶
+        if (combo > bestcombo)// 最大コンボ記憶
             bestcombo = combo;
         combo = 0;
         totalGrades[4]++;
         Debug.Log("NotesCountUp_miss");
 
-        int tempLaneNum = int.Parse(i);//文字列を数字に変換
+        int tempLaneNum = int.Parse(i);// 文字列を数字に変換
         Destroy(GOListArray[_notesCount[tempLaneNum]][tempLaneNum]);   // ノーツ破棄
         GOListArray[_notesCount[tempLaneNum]][tempLaneNum] = null;     // 多重タップを防ぐ
         _notesCount[tempLaneNum]++;                                    // 該当レーンのノーツカウント++
@@ -142,7 +140,7 @@ public class Judge : MonoBehaviour
         if (combos > bestcombo)//最大コンボ記憶
             bestcombo = combos;
 
-        // 各コンボ倍率
+        // 各コンボ倍率 switch文にできるかも
         if (combos > 250)
         {
             comboMag = 1.5f;
@@ -158,10 +156,6 @@ public class Judge : MonoBehaviour
         else if (combos > 50)
         {
             comboMag = 1.2f;
-        }
-        else if (combos > 10)
-        {
-            comboMag = 1.1f;
         }
         else
         {
