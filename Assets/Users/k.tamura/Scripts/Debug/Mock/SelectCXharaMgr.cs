@@ -25,7 +25,7 @@ public class SelectCXharaMgr : MonoBehaviour
         if(!_isTaped)
         {
             _isTaped = true;
-            SceneLoadManager.LoadScene("MockHome");
+            SceneLoadManager.LoadScene("Home");
         }
     }
 }

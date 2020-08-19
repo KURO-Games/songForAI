@@ -17,7 +17,7 @@ public class SelectMusicScene : MonoBehaviour
         if (!_isTap)
         {
             _isTap = true;
-            SceneLoadManager.LoadScene("MockHome");
+            SceneLoadManager.LoadScene("Home");
         }
     }
     public void SelectMusic(Button _button)
