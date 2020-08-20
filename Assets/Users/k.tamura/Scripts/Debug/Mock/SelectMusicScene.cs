@@ -8,6 +8,16 @@ public class SelectMusicScene : MonoBehaviour
     string _name;
     Button PushButton;
     bool _isTap = false;
+    public static int DifficultsNum;
+    [SerializeField]
+    private Image[] ChooseHighlight;
+    private enum Difficults
+    {
+        EASY,
+        NORMAL,
+        HARD,
+        PRO
+    }
     private void Start()
     {
         _isTap = false;
@@ -29,5 +39,19 @@ public class SelectMusicScene : MonoBehaviour
             UnityEngine.SceneManagement.SceneManager.LoadScene("SelectCaracter");
         }
     }
+    public void PushDifficult(int i)
+    {
+        DifficultsNum = i;
+        Highlight();
+    }
+    private void Highlight()
+    {
+        for(int i=0;i<ChooseHighlight.Length;i++)
+        {
+            ChooseHighlight[i].gameObject.SetActive(false);
+        }
+        ChooseHighlight[DifficultsNum].gameObject.SetActive(true);
+    }
+
 
 }

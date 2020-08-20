@@ -17,7 +17,7 @@ public class SelectCXharaMgr : MonoBehaviour
         if (!_isTaped)
         {
             _isTaped = true;
-            UnityEngine.SceneManagement.SceneManager.LoadScene("SelectDifficulty");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Resize_RhythmGame");
         }
     }
     public void ReturnHome()
