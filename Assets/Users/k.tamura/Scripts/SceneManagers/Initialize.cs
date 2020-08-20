@@ -7,6 +7,6 @@ public class Initialize : MonoBehaviour
     void Start()
     {
         Application.targetFrameRate = 60;
-        SceneLoadManager.LoadScene("Title");   
+        SceneLoadManager.LoadScene("Splash");   
     }
 }

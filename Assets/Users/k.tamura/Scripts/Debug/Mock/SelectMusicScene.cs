@@ -20,6 +20,7 @@ public class SelectMusicScene : MonoBehaviour
     }
     private void Start()
     {
+        DifficultsNum = -1;
         _isTap = false;
     }
     public void BackHome()
@@ -32,7 +33,7 @@ public class SelectMusicScene : MonoBehaviour
     }
     public void SelectMusic(Button _button)
     {
-        if (!_isTap)
+        if (!_isTap&&DifficultsNum!=-1)
         {
             _isTap = true;
             _name=_button.name;
