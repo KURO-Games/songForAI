@@ -38,6 +38,8 @@ public class Scenario_Controller : MonoBehaviour
 
     private bool Message_Complete;  //メッセージが最期まで表示されたかどうか
 
+    private bool _isEnded;
+
     private void Start()
     {
         //会話の一行目を読ませるための初期化
@@ -45,6 +47,7 @@ public class Scenario_Controller : MonoBehaviour
         Text_Load();
         StartCoroutine(Message_Display());
         Message_Display();
+        _isEnded = false;
     }
     private void Update()
     {
@@ -118,9 +121,10 @@ public class Scenario_Controller : MonoBehaviour
             Display_Num++;
             Message_Complete = true;
         }
-        else
+        else　if(!_isEnded)
         {
             //シーン遷移
+            _isEnded = true;
             SceneLoadManager.LoadScene("Home");
         }
     }
