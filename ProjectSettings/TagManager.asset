@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Lane
+  - Notes
+  - ComboNum
+  - ScoreNum
   layers:
   - Default
   - TransparentFX

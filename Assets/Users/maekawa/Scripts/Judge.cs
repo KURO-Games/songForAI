@@ -6,25 +6,36 @@ using UnityEngine.UIElements;
 public class Judge : MonoBehaviour
 {
     public static int[] totalGrades = { 0, 0, 0, 0, 0 };          // リザルト画面用の判定内訳
-    public static float score = 0;
-    public static int point = 0;
-    public static int combo = 0;
+    public static int score = 0;                                  // スコア
+    public static int point = 0;                                  // グレード毎の得点
+    public static int combo = 0;                                  // コンボ
     public static float comboMag = 1.0f;                          // コンボに応じたスコア倍率
-    public static int bestcombo = 0;
+    public static int bestcombo = 0;                              // 最大コンボ
     private static int[] _notesCount = { 0, 0, 0, 0, 0, 0, 0, 0 };// レーンごとのノーツカウント
     private static List<List<GameObject>> GOListArray = new List<List<GameObject>>();// ノーツ座標格納用2次元配列
+
+    [SerializeField] private GameObject LeftJudgeLine;  // 右判定基準
+    [SerializeField] private GameObject RightJudgeLine; // 左判定基準
 
     // 判定許容値**************************************
     [SerializeField] private float perfect;
     [SerializeField] private float great;
     [SerializeField] private float good;
     [SerializeField] private float bad;
-    [SerializeField] private float miss;
     // **************************************判定許容値
 
-    [SerializeField] private GameObject LeftJudgeLine;  // 右判定基準
-    [SerializeField] private GameObject RightJudgeLine; // 左判定基準
+    GameObject uiObj;
+    ScoreManager mg1;
+    ComboManager mg2;
 
+    private void Start()
+    {
+        // 関数を呼ぶためにスクリプトをセット
+        uiObj = GameObject.Find("UICtrlCanvas");
+        mg1 = uiObj.GetComponent<ScoreManager>();
+        mg2 = uiObj.GetComponent<ComboManager>();
+        mg1.DrawScore(score);// デフォルトでスコアのみ表示
+    }
     //タップ判定処理
     void Update()
     {
@@ -88,13 +99,17 @@ public class Judge : MonoBehaviour
                     Debug.Log("bad");
                     JudgeGrade(combo, point, laneNumber);
                 }
-                else if (absTiming <= miss)
+                //else if (absTiming <= miss)
+                //{
+                //    point = 0;
+                //    combo = 0;
+                //    totalGrades[4]++;
+                //    Debug.Log("miss");
+                //    JudgeGrade(combo, point, laneNumber);
+                //}
+                else
                 {
-                    point = 0;
-                    combo = 0;
-                    totalGrades[4]++;
-                    Debug.Log("miss");
-                    JudgeGrade(combo, point, laneNumber);
+                    // 空タップ
                 }
             }
         }
@@ -119,6 +134,8 @@ public class Judge : MonoBehaviour
         Destroy(GOListArray[_notesCount[tempLaneNum]][tempLaneNum]);   // ノーツ破棄
         GOListArray[_notesCount[tempLaneNum]][tempLaneNum] = null;     // 多重タップを防ぐ
         _notesCount[tempLaneNum]++;                                    // 該当レーンのノーツカウント++
+
+        // コンボ描画処理はNotesCountUp(スクリプト)で行う
     }
 
     // タイミング誤差算出
@@ -161,8 +178,11 @@ public class Judge : MonoBehaviour
         {
             comboMag = 1.0f;
         }
-        score += points * comboMag;
-        //Mathf.Floor(score);
+        float a = points * comboMag;
+        score += (int)a;
+
+        mg1.DrawScore(score);  // スコア表示
+        mg2.DrawCombo(combos); // コンボ表示
 
         Destroy(GOListArray[_notesCount[laneNumber]][laneNumber]);   // ノーツ破棄
         GOListArray[_notesCount[laneNumber]][laneNumber] = null;     // 多重タップを防ぐ
