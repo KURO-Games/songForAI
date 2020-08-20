@@ -12,7 +12,7 @@ public class NotesGenerater : MonoBehaviour
     [SerializeField]
     float NotesDistance = 0.001f;
     [SerializeField]
-    int NotesSpeed = 1;
+    float NotesSpeed = 1.0f;
     [SerializeField]
     float speed = 1;
     float bpm = 0;
@@ -29,7 +29,9 @@ public class NotesGenerater : MonoBehaviour
             NotesGen[0].transform.root.gameObject.transform.position -= new Vector3(0,1, 0)*Time.deltaTime*NotesSpeed*speed;
             if (NotesGen[0].transform.root.gameObject.transform.position.y <= bar.transform.position.y && !PlayedBGM)
             {
-                SoundManager.BGMSoundCue(3);
+                //SoundManager.BGMSoundCue(MusicDatas.cueMusic);
+                SoundManager.BGMSoundCue(5);
+
                 PlayedBGM = true;
             }
         }
@@ -53,7 +55,9 @@ public class NotesGenerater : MonoBehaviour
         //        }
         
 
-        FileInfo info = new FileInfo(Application.streamingAssetsPath + "/musics.nts");
+        //FileInfo info = new FileInfo(Application.streamingAssetsPath + "/music"+MusicDatas.cueMusic+".nts");
+        FileInfo info = new FileInfo(Application.streamingAssetsPath + "/music5.nts");
+
         GenerateNotes(info);
         Debug.Log(musicData);
         Debug.Log(musicData.notes[0].lane);
