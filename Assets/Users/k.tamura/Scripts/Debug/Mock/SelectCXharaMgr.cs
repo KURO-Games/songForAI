@@ -17,7 +17,7 @@ public class SelectCXharaMgr : MonoBehaviour
         if (!_isTaped)
         {
             _isTaped = true;
-            SceneLoadManager.LoadScene("Resize_RhythmGame");
+            SceneLoadManager.LoadScene("Resize_RhythmGame2");
         }
     }
     public void ReturnHome()

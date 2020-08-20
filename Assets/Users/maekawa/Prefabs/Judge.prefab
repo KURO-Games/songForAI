@@ -43,18 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c5639c5f49fb484c9f34ae3cc0da4bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  point: 1000
-  perfect: 0.2
-  great: 0.3
-  miss: 0.5
   LeftJudgeLine: {fileID: 0}
   RightJudgeLine: {fileID: 0}
-  IgnoreDetection:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  perfect: 3
+  great: 4
+  good: 5
+  bad: 6

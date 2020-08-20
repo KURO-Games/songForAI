@@ -5,8 +5,8 @@ using UnityEngine;
 public class CamPosition : MonoBehaviour
 {
     [SerializeField]
-    private Camera camera;
-    [SerializeField]
+    //private Camera _camera;
+    //[SerializeField]
     private float baseWidth = 16.0f;
     [SerializeField]
     private float baseHeight = 9.0f;
@@ -15,6 +15,6 @@ public class CamPosition : MonoBehaviour
     {
         // 幅固定+高さ可変
         var scaleWidth = (Screen.height / this.baseHeight) * (this.baseWidth / Screen.width);
-        this.camera.orthographicSize *= scaleWidth;
+        this.gameObject.GetComponent<Camera>().orthographicSize *= scaleWidth;
     }
 }
