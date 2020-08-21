@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 2.3605163
+  m_AspectRatio: 2.3605187
 --- !u!114 &330817402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -573,7 +573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 2.3605163
+  m_AspectRatio: 2.3605187
 --- !u!1 &462683882
 GameObject:
   m_ObjectHideFlags: 0
@@ -642,7 +642,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u30D1\u30EC\u30B9\u30C8\u308A\u30FC\u30CA"
+  m_Text: "\u30D1\u30EC\u30B9\u30C8\u30EA\u30FC\u30CA"
 --- !u!222 &462683885
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1455,7 +1455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 2.3605163
+  m_AspectRatio: 2.3605187
 --- !u!114 &1292125475
 MonoBehaviour:
   m_ObjectHideFlags: 0
