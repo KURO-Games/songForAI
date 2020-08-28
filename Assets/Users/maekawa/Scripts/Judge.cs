@@ -39,6 +39,13 @@ public class Judge : MonoBehaviour
     //タップ判定処理
     void Update()
     {
+        //田村デバッグ
+        //if (GOListArray[0][0].transform.position.y<=LeftJudgeLine.transform.position.y)
+        //{
+        //    Debug.Log("notePos " + GOListArray[_notesCount[0]][0].transform.position.y);
+        //    Debug.Log("leftJudgeLinePos " + LeftJudgeLine.transform.position.y);
+        //    UnityEditor.EditorApplication.isPaused = true;
+        //}
         if (Input.GetMouseButtonDown(0))
         {
             int layerMask = 1;
@@ -49,24 +56,29 @@ public class Judge : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(mousePosition);
 
             RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, maxDistance, layerMask);
-
             if ((hit.collider != null) && (hit.collider.gameObject.tag == ("Lane")))// tagでレーンを識別
             {
                 string i = hit.collider.gameObject.name;  // レーン番号を取得
                 int laneNumber = int.Parse(i);            // 文字列を数字に変換
                 float absTiming = 9999;                   // nullにしたい
 
+                // 判定調節用
+                Debug.Log("notePos" + transform.TransformPoint(GOListArray[_notesCount[laneNumber]][laneNumber].transform.localPosition).y);
+                Debug.Log("leftJudgeLinePos" + transform.TransformPoint(LeftJudgeLine.transform.localPosition).y);
+                //
+
                 //   GOListArray[何個目のノーツなのか[何番目のレーンの]]    [何番目のレーンなのか]
                 if ((GOListArray[_notesCount[laneNumber]][laneNumber] != null) && (laneNumber <= 3))     // 左レーン
                 {
                     absTiming = JudgeDistance(LeftJudgeLine.transform.position.y, GOListArray[_notesCount[laneNumber]][laneNumber].transform.position.y);
+                    Debug.Log(absTiming);
                 }
-                else if((GOListArray[_notesCount[laneNumber]][laneNumber] != null) && (laneNumber >= 4)) // 右レーン
+                else if ((GOListArray[_notesCount[laneNumber]][laneNumber] != null) && (laneNumber >= 4)) // 右レーン
                 {
                     absTiming = JudgeDistance(RightJudgeLine.transform.position.y, GOListArray[_notesCount[laneNumber]][laneNumber].transform.position.y);
-                }
 
-                //判定分岐
+                }
+                // 判定分岐
                 if (absTiming <= perfect)
                 {
                     point = 300;
@@ -126,9 +138,10 @@ public class Judge : MonoBehaviour
     {
         if (combo > bestcombo)// 最大コンボ記憶
             bestcombo = combo;
+
         combo = 0;
         totalGrades[4]++;
-        Debug.Log("NotesCountUp_miss");
+        //Debug.Log("NotesCountUp_miss");
 
         int tempLaneNum = int.Parse(i);// 文字列を数字に変換
         Destroy(GOListArray[_notesCount[tempLaneNum]][tempLaneNum]);   // ノーツ破棄
@@ -143,10 +156,6 @@ public class Judge : MonoBehaviour
     {
         float tempTiming = i - j;
         float trueTiming = Mathf.Abs(tempTiming);// 絶対値に変換
-
-        //Debug.Log("JUDGELINE" + i);// 判定調節用
-        //Debug.Log("NOTE" + j);
-        //Debug.Log("ABSTIMING" + trueTiming);
 
         return trueTiming;
     }

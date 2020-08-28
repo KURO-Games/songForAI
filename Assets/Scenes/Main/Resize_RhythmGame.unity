@@ -3125,6 +3125,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2fd239a980b3c56489efb4df95c2b082, type: 3}
   - {fileID: 21300000, guid: 3ec621a5e54a15647a7b275fc227c7e9, type: 3}
   width: 35
+  _combo: []
 --- !u!114 &1591259730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3149,6 +3150,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 27734a5f4476ed34abc433940de85ed0, type: 3}
   - {fileID: 21300000, guid: 94889151136a570449f7594b8d6e64ca, type: 3}
   width: 35
+  _score: []
 --- !u!1 &1600280768
 GameObject:
   m_ObjectHideFlags: 0
@@ -3640,6 +3642,16 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6079652469697296401, guid: 5f93fd8ad4db4df4f9bc302183cb14e9,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6079652469697296401, guid: 5f93fd8ad4db4df4f9bc302183cb14e9,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6079652469697296402, guid: 5f93fd8ad4db4df4f9bc302183cb14e9,
         type: 3}
       propertyPath: m_IsActive
@@ -3763,17 +3775,17 @@ PrefabInstance:
     - target: {fileID: 6079652469736580221, guid: 5f93fd8ad4db4df4f9bc302183cb14e9,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.022230115
+      value: 0.02222998
       objectReference: {fileID: 0}
     - target: {fileID: 6079652469736580221, guid: 5f93fd8ad4db4df4f9bc302183cb14e9,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.022230115
+      value: 0.02222998
       objectReference: {fileID: 0}
     - target: {fileID: 6079652469736580221, guid: 5f93fd8ad4db4df4f9bc302183cb14e9,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.022230115
+      value: 0.02222998
       objectReference: {fileID: 0}
     - target: {fileID: 6079652469736580222, guid: 5f93fd8ad4db4df4f9bc302183cb14e9,
         type: 3}
