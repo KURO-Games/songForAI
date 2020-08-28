@@ -91,14 +91,9 @@ public class Judge : MonoBehaviour
             if (hit)
             {
                 clickObj = hit.transform.gameObject;
-                Debug.LogWarning(int.Parse(clickObj.name));
-                UnityEditor.EditorApplication.isPaused = true;
-
             }
             if ((clickObj != null) && (clickObj.tag == ("Lane")))// tagでレーンを識別
             {
-                
-
                 string i = clickObj.name;  // レーン番号を取得
                 int laneNumber = int.Parse(i);            // 文字列を数字に変換
                 float absTiming = 9999;                   // nullにしたい
@@ -108,15 +103,11 @@ public class Judge : MonoBehaviour
                 {
                     absTiming = JudgeDistance(LeftJudgeLine.transform.position.y,
                                               GOListArray[_notesCount[laneNumber]][laneNumber].transform.position.y);
-                    Debug.LogWarning("L "+absTiming+" notes " + GOListArray[_notesCount[laneNumber]][laneNumber]);
-                    UnityEditor.EditorApplication.isPaused = true;
                 }
                 else if ((GOListArray[_notesCount[laneNumber]][laneNumber] != null) && (laneNumber >= 4)) // 右レーン
                 {
                     absTiming = JudgeDistance(RightJudgeLine.transform.position.y,
                                               GOListArray[_notesCount[laneNumber]][laneNumber].transform.position.y);
-                    Debug.LogWarning("R " + absTiming+" notes " + GOListArray[_notesCount[laneNumber]][laneNumber]);
-                    UnityEditor.EditorApplication.isPaused = true;
                 }
 
                 // 判定分岐
