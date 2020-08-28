@@ -62,10 +62,11 @@ public class Judge : MonoBehaviour
                 int laneNumber = int.Parse(i);            // 文字列を数字に変換
                 float absTiming = 9999;                   // nullにしたい
 
-                // 判定調節用
-                Debug.Log("notePos" + transform.TransformPoint(GOListArray[_notesCount[laneNumber]][laneNumber].transform.localPosition).y);
-                Debug.Log("leftJudgeLinePos" + transform.TransformPoint(LeftJudgeLine.transform.localPosition).y);
-                //
+                //// 判定調節用
+                //Debug.Log("notePos" + transform.TransformPoint(GOListArray[_notesCount[laneNumber]][laneNumber].transform.localPosition).y);
+                //Debug.Log("leftJudgeLinePos" + transform.TransformPoint(LeftJudgeLine.transform.localPosition).y);
+                //Debug.Log(")
+                ////
 
                 //   GOListArray[何個目のノーツなのか[何番目のレーンの]]    [何番目のレーンなのか]
                 if ((GOListArray[_notesCount[laneNumber]][laneNumber] != null) && (laneNumber <= 3))     // 左レーン
@@ -86,6 +87,7 @@ public class Judge : MonoBehaviour
                     totalGrades[0]++;
                     Debug.Log("perfect");
                     JudgeGrade(combo, point, laneNumber);
+                    SoundManager.SESoundCue(2);
                 }
                 else if (absTiming <= great)
                 {
@@ -94,6 +96,7 @@ public class Judge : MonoBehaviour
                     totalGrades[1]++;
                     Debug.Log("great");  
                     JudgeGrade(combo, point, laneNumber);
+                    SoundManager.SESoundCue(2);
                 }
                 else if (absTiming <= good)
                 {
@@ -102,6 +105,7 @@ public class Judge : MonoBehaviour
                     totalGrades[2]++;
                     Debug.Log("good");
                     JudgeGrade(combo, point, laneNumber);
+                    SoundManager.SESoundCue(3);
                 }
                 else if (absTiming <= bad)
                 {
@@ -110,6 +114,7 @@ public class Judge : MonoBehaviour
                     totalGrades[3]++;
                     Debug.Log("bad");
                     JudgeGrade(combo, point, laneNumber);
+                    SoundManager.SESoundCue(4);
                 }
                 //else if (absTiming <= miss)
                 //{
@@ -122,6 +127,7 @@ public class Judge : MonoBehaviour
                 else
                 {
                     // 空タップ
+                    SoundManager.SESoundCue(5);
                 }
             }
         }
