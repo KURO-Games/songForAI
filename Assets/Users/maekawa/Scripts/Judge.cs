@@ -62,11 +62,11 @@ public class Judge : MonoBehaviour
                 int laneNumber = int.Parse(i);            // 文字列を数字に変換
                 float absTiming = 9999;                   // nullにしたい
 
-                // 判定調節用
-                Debug.Log("notePos" + transform.TransformPoint(GOListArray[_notesCount[laneNumber]][laneNumber].transform.localPosition).y);
-                Debug.Log("leftJudgeLinePos" + transform.TransformPoint(LeftJudgeLine.transform.localPosition).y);
-                Debug.Log(")
-                //
+                //// 判定調節用
+                //Debug.Log("notePos" + transform.TransformPoint(GOListArray[_notesCount[laneNumber]][laneNumber].transform.localPosition).y);
+                //Debug.Log("leftJudgeLinePos" + transform.TransformPoint(LeftJudgeLine.transform.localPosition).y);
+                //Debug.Log(")
+                ////
 
                 //   GOListArray[何個目のノーツなのか[何番目のレーンの]]    [何番目のレーンなのか]
                 if ((GOListArray[_notesCount[laneNumber]][laneNumber] != null) && (laneNumber <= 3))     // 左レーン
