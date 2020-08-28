@@ -16,6 +16,7 @@ public class Judge : MonoBehaviour
 
     [SerializeField] private GameObject LeftJudgeLine;  // 右判定基準
     [SerializeField] private GameObject RightJudgeLine; // 左判定基準
+    [SerializeField] private GameObject[] TapBG = new GameObject[8];//
 
     // 判定許容値**************************************
     [SerializeField] private float perfect;
@@ -27,6 +28,7 @@ public class Judge : MonoBehaviour
     GameObject uiObj;
     ScoreManager mg1;
     ComboManager mg2;
+    GameObject clickObj;
 
     private void Start()
     {
@@ -46,8 +48,38 @@ public class Judge : MonoBehaviour
         //    Debug.Log("leftJudgeLinePos " + LeftJudgeLine.transform.position.y);
         //    UnityEditor.EditorApplication.isPaused = true;
         //}
+        //int layerMask = 1;
+        //float maxDistance = 10f;
+
+        //Vector2 mousePosition = Input.mousePosition;
+
+        //Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+
+        //RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, maxDistance, layerMask);
+
+        //// 切り出し
+        //string i;
+        //int laneNumber;
+        //if ((hit.collider != null) && (hit.collider.gameObject.tag == ("Lane")))// tagでレーンを識別
+        //{
+        //    i = hit.collider.gameObject.name;  // レーン番号を取得
+        //    laneNumber = int.Parse(i);
+        //    // 文字列を数字に変換
+        //    if (Input.GetMouseButtonDown(0))
+        //    {
+        //        TapBG[laneNumber].SetActive(true);
+        //        int tempNumber = laneNumber;
+        //    }
+        //    if (Input.GetMouseButtonUp(0))
+        //    {
+        //        TapBG[templumber].SetActive(false);
+        //    }
+        //}
+
         if (Input.GetMouseButtonDown(0))
         {
+            clickObj = null;
+
             int layerMask = 1;
             float maxDistance = 10f;
 
@@ -56,29 +88,37 @@ public class Judge : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(mousePosition);
 
             RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, maxDistance, layerMask);
-            if ((hit.collider != null) && (hit.collider.gameObject.tag == ("Lane")))// tagでレーンを識別
+            if (hit)
             {
-                string i = hit.collider.gameObject.name;  // レーン番号を取得
+                clickObj = hit.transform.gameObject;
+                Debug.LogWarning(int.Parse(clickObj.name));
+                UnityEditor.EditorApplication.isPaused = true;
+
+            }
+            if ((clickObj != null) && (clickObj.tag == ("Lane")))// tagでレーンを識別
+            {
+                
+
+                string i = clickObj.name;  // レーン番号を取得
                 int laneNumber = int.Parse(i);            // 文字列を数字に変換
                 float absTiming = 9999;                   // nullにしたい
-
-                //// 判定調節用
-                //Debug.Log("notePos" + transform.TransformPoint(GOListArray[_notesCount[laneNumber]][laneNumber].transform.localPosition).y);
-                //Debug.Log("leftJudgeLinePos" + transform.TransformPoint(LeftJudgeLine.transform.localPosition).y);
-                //Debug.Log(")
-                ////
 
                 //   GOListArray[何個目のノーツなのか[何番目のレーンの]]    [何番目のレーンなのか]
                 if ((GOListArray[_notesCount[laneNumber]][laneNumber] != null) && (laneNumber <= 3))     // 左レーン
                 {
-                    absTiming = JudgeDistance(LeftJudgeLine.transform.position.y, GOListArray[_notesCount[laneNumber]][laneNumber].transform.position.y);
-                    Debug.Log(absTiming);
+                    absTiming = JudgeDistance(LeftJudgeLine.transform.position.y,
+                                              GOListArray[_notesCount[laneNumber]][laneNumber].transform.position.y);
+                    Debug.LogWarning("L "+absTiming+" notes " + GOListArray[_notesCount[laneNumber]][laneNumber]);
+                    UnityEditor.EditorApplication.isPaused = true;
                 }
                 else if ((GOListArray[_notesCount[laneNumber]][laneNumber] != null) && (laneNumber >= 4)) // 右レーン
                 {
-                    absTiming = JudgeDistance(RightJudgeLine.transform.position.y, GOListArray[_notesCount[laneNumber]][laneNumber].transform.position.y);
-
+                    absTiming = JudgeDistance(RightJudgeLine.transform.position.y,
+                                              GOListArray[_notesCount[laneNumber]][laneNumber].transform.position.y);
+                    Debug.LogWarning("R " + absTiming+" notes " + GOListArray[_notesCount[laneNumber]][laneNumber]);
+                    UnityEditor.EditorApplication.isPaused = true;
                 }
+
                 // 判定分岐
                 if (absTiming <= perfect)
                 {
@@ -124,9 +164,8 @@ public class Judge : MonoBehaviour
                 //    Debug.Log("miss");
                 //    JudgeGrade(combo, point, laneNumber);
                 //}
-                else
+                else// 空タップ
                 {
-                    // 空タップ
                     SoundManager.SESoundCue(5);
                 }
             }
@@ -147,14 +186,13 @@ public class Judge : MonoBehaviour
 
         combo = 0;
         totalGrades[4]++;
-        //Debug.Log("NotesCountUp_miss");
 
         int tempLaneNum = int.Parse(i);// 文字列を数字に変換
         Destroy(GOListArray[_notesCount[tempLaneNum]][tempLaneNum]);   // ノーツ破棄
         GOListArray[_notesCount[tempLaneNum]][tempLaneNum] = null;     // 多重タップを防ぐ
         _notesCount[tempLaneNum]++;                                    // 該当レーンのノーツカウント++
 
-        // コンボ描画処理はNotesCountUp(スクリプト)で行う
+        // コンボ描画処理はNotesCountUpスクリプトで行う
     }
 
     // タイミング誤差算出
