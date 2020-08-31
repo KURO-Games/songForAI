@@ -25,6 +25,7 @@ public class Judge : MonoBehaviour
     [SerializeField] private float bad;
     // **************************************判定許容値
 
+    int tempNumber;// タップ背景非アクティブ切り替え用
     GameObject uiObj;
     ScoreManager mg1;
     ComboManager mg2;
@@ -38,6 +39,7 @@ public class Judge : MonoBehaviour
         mg2 = uiObj.GetComponent<ComboManager>();
         mg1.DrawScore(score);// デフォルトでスコアのみ表示
     }
+
     //タップ判定処理
     void Update()
     {
@@ -48,33 +50,11 @@ public class Judge : MonoBehaviour
         //    Debug.Log("leftJudgeLinePos " + LeftJudgeLine.transform.position.y);
         //    UnityEditor.EditorApplication.isPaused = true;
         //}
-        //int layerMask = 1;
-        //float maxDistance = 10f;
 
-        //Vector2 mousePosition = Input.mousePosition;
-
-        //Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-
-        //RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, maxDistance, layerMask);
-
-        //// 切り出し
-        //string i;
-        //int laneNumber;
-        //if ((hit.collider != null) && (hit.collider.gameObject.tag == ("Lane")))// tagでレーンを識別
-        //{
-        //    i = hit.collider.gameObject.name;  // レーン番号を取得
-        //    laneNumber = int.Parse(i);
-        //    // 文字列を数字に変換
-        //    if (Input.GetMouseButtonDown(0))
-        //    {
-        //        TapBG[laneNumber].SetActive(true);
-        //        int tempNumber = laneNumber;
-        //    }
-        //    if (Input.GetMouseButtonUp(0))
-        //    {
-        //        TapBG[templumber].SetActive(false);
-        //    }
-        //}
+        if (Input.GetMouseButtonUp(0))
+        {
+            TapBG[tempNumber].SetActive(false);
+        }
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -89,14 +69,20 @@ public class Judge : MonoBehaviour
 
             RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, maxDistance, layerMask);
             if (hit)
-            {
                 clickObj = hit.transform.gameObject;
-            }
+
             if ((clickObj != null) && (clickObj.tag == ("Lane")))// tagでレーンを識別
             {
                 string i = clickObj.name;  // レーン番号を取得
                 int laneNumber = int.Parse(i);            // 文字列を数字に変換
                 float absTiming = 9999;                   // nullにしたい
+
+                // タップ背景
+                if (Input.GetMouseButtonDown(0))
+                {
+                    TapBG[laneNumber].SetActive(true);
+                    tempNumber = laneNumber;
+                }
 
                 //   GOListArray[何個目のノーツなのか[何番目のレーンの]]    [何番目のレーンなのか]
                 if ((GOListArray[_notesCount[laneNumber]][laneNumber] != null) && (laneNumber <= 3))     // 左レーン

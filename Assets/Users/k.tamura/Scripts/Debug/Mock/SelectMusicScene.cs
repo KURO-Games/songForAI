@@ -35,7 +35,7 @@ public class SelectMusicScene : MonoBehaviour
     }
     public void SelectMusic(Button _button)
     {
-        if (!_isTap&&DifficultsNum!=-1&&MusicDatas.cueMusic!=-1)
+        if (!_isTap&&DifficultsNum!=-1)
         {
             _isTap = true;
             _name=_button.name;
