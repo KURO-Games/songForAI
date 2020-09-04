@@ -47,12 +47,11 @@ public class Judge : MonoBehaviour
             lastTap[i] = false;
         }
     }
-
     //タップ判定処理
     void Update()
     {
         // tapFlag初期化
-        for(int i = 0; i < tapFlag.Length; i++)
+        for(int i = 0; i < 8; i++)
         {
             tapFlag[i] = false;
         }
@@ -67,17 +66,19 @@ public class Judge : MonoBehaviour
                 laneNumber = GetLaneNumber(i);
                 if (laneNumber == -1) continue; 
                 tapFlag[laneNumber] = true;
+                Debug.Log(tapFlag[0] +" "+ lastTap[0]);
             }
         }
 
-        for(int i = 0; i < tapFlag.Length; i++)
+        for(int i = 0; i < 8; i++)
         {
             if(lastTap[i] == true && tapFlag[i] == true)
             {
-
+                //Debug.LogWarning("hogehoge");
             }
             if (lastTap[i] == false && tapFlag[i] == true)
             {
+                Debug.LogError("hogehoge");
                 // 判定ライン - ノーツで距離を算出
                 absTiming = GetAbsTiming(i);
 
@@ -87,9 +88,14 @@ public class Judge : MonoBehaviour
             }
             if (lastTap[i] == true && tapFlag[i] == false)
             {
+                Debug.Log("hogehoge");
                 TapBG[i].SetActive(false);
             }
         }
+        
+    }
+    private void LateUpdate()
+    {
         lastTap = tapFlag;
     }
 
