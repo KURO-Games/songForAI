@@ -52,10 +52,10 @@ public class Judge : MonoBehaviour
         //}
 
         // レーン背景OFF
-        if (Input.GetMouseButtonUp(0))
-        {
-            TapBG[tempNumber].SetActive(false);
-        }
+        //if (Input.GetMouseButtonUp(0))
+        //{
+        //    TapBG[tempNumber].SetActive(false);
+        //}
 
         // マルチタップ対応
         if (0 <= Input.touchCount)
@@ -74,7 +74,7 @@ public class Judge : MonoBehaviour
                     int layerMask = 1;
                     float maxDistance = 10f;
 
-                    Vector2 mousePosition = Input.mousePosition;
+                    Vector2 mousePosition = t.position;
 
                     Ray ray = Camera.main.ScreenPointToRay(mousePosition);
 
@@ -89,11 +89,20 @@ public class Judge : MonoBehaviour
                         float absTiming = 9999;                   // nullにしたい
 
                         // レーン背景ON
-                        if (Input.GetMouseButtonDown(0))
-                        {
-                            TapBG[laneNumber].SetActive(true);
-                            tempNumber = laneNumber;
-                        }
+                        //if (Input.GetMouseButtonDown(0))
+                        //{
+                        //for(int e = 0; e < TapBG.Length; e++)
+                        //{
+                        //    if (laneNumber == e)
+                        //    {
+                        //        TapBG[laneNumber].SetActive(true);
+                        //    }
+                        //    else 
+                        //        TapBG[laneNumber].SetActive(false);
+                        //}
+                        //TapBG[laneNumber].SetActive(true);
+                        //tempNumber = laneNumber;
+                        //}
 
                         //   GOListArray[何個目のノーツなのか[何番目のレーンの]]    [何番目のレーンなのか]
                         if ((GOListArray[_notesCount[laneNumber]][laneNumber] != null) && (laneNumber <= 3))     // 左レーン
@@ -152,11 +161,6 @@ public class Judge : MonoBehaviour
                 }
             }
         }
-
-        //if (Input.GetMouseButtonDown(0))
-        //{
-
-        //}
     }
 
     public static void ListImport()
