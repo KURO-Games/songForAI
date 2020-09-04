@@ -27,8 +27,8 @@ public class Judge : MonoBehaviour
     [SerializeField] private float bad;
     // **************************************判定許容値
 
-    bool[] tapFlag = { false, false, false, false, false, false, false, false };// タップ背景非アクティブ切り替え用
-    bool[] lastTap = { false, false, false, false, false, false, false, false };// 前フレームのタップ
+    bool[] tapFlag =new bool[8];// タップ背景非アクティブ切り替え用
+    bool[] lastTap =new bool[8];// 前フレームのタップ
     GameObject uiObj;
     ScoreManager mg1;
     ComboManager mg2;
@@ -41,6 +41,11 @@ public class Judge : MonoBehaviour
         mg1 = uiObj.GetComponent<ScoreManager>();
         mg2 = uiObj.GetComponent<ComboManager>();
         mg1.DrawScore(score);// デフォルトでスコアのみ表示
+        for (int i = 0; i < 8; i++)
+        {
+            tapFlag[i] = false;
+            lastTap[i] = false;
+        }
     }
 
     //タップ判定処理
@@ -53,16 +58,15 @@ public class Judge : MonoBehaviour
         }
 
         // マルチタップ対応
-        if (0 <= Input.touchCount)
+        if (0 < Input.touchCount)
         {
             // タッチされている指の数だけ処理
             for (int i = 0; i < Input.touchCount; i++)
             {
                 // タップしたレーンを取得
                 laneNumber = GetLaneNumber(i);
-
+                if (laneNumber == -1) continue; 
                 tapFlag[laneNumber] = true;
-
             }
         }
 
@@ -72,8 +76,8 @@ public class Judge : MonoBehaviour
             {
 
             }
-            else if (lastTap[i] == false && tapFlag[i] == true)
-            { 
+            if (lastTap[i] == false && tapFlag[i] == true)
+            {
                 // 判定ライン - ノーツで距離を算出
                 absTiming = GetAbsTiming(i);
 
@@ -86,7 +90,7 @@ public class Judge : MonoBehaviour
                 TapBG[i].SetActive(false);
             }
         }
-        lastTap = tapFlag; 
+        lastTap = tapFlag;
     }
 
     public static void ListImport()
@@ -114,28 +118,27 @@ public class Judge : MonoBehaviour
 
     private int GetLaneNumber(int i)
     {
+        int LaneNum = -1;
         // タッチ情報をコピー
         UnityEngine.Touch t = Input.GetTouch(i);
-        // タッチしたときかどうか
-        if (t.phase == TouchPhase.Began)
+
+        // タップされた時の処理
+        clickObj = null;
+
+        Ray ray = Camera.main.ScreenPointToRay(t.position);
+
+        RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, 10f, 1);
+        if (hit)
+            clickObj = hit.transform.gameObject;
+
+        if ((clickObj != null) && (clickObj.tag == ("Lane")))// tagでレーンを識別
         {
-            // タップされた時の処理
-            clickObj = null;
-
-            Ray ray = Camera.main.ScreenPointToRay(t.position);
-
-            RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, 10f, 1);
-            if (hit)
-                clickObj = hit.transform.gameObject;
-
-            if ((clickObj != null) && (clickObj.tag == ("Lane")))// tagでレーンを識別
-            {
-                string s = clickObj.name;  // レーン番号を取得
-                laneNumber = int.Parse(s);            // 文字列を数字に変換
-            }
+            string s = clickObj.name;  // レーン番号を取得
+            LaneNum = int.Parse(s);            // 文字列を数字に変換
         }
 
-        return laneNumber;
+
+        return LaneNum;
     }
 
     // タイミング誤差算出
