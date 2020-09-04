@@ -51,102 +51,112 @@ public class Judge : MonoBehaviour
         //    UnityEditor.EditorApplication.isPaused = true;
         //}
 
+        // レーン背景OFF
         if (Input.GetMouseButtonUp(0))
         {
             TapBG[tempNumber].SetActive(false);
         }
 
-        if (Input.GetMouseButtonDown(0))
+        // マルチタップ対応
+        if (0 <= Input.touchCount)
         {
-            clickObj = null;
-
-            int layerMask = 1;
-            float maxDistance = 10f;
-
-            Vector2 mousePosition = Input.mousePosition;
-
-            Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-
-            RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, maxDistance, layerMask);
-            if (hit)
-                clickObj = hit.transform.gameObject;
-
-            if ((clickObj != null) && (clickObj.tag == ("Lane")))// tagでレーンを識別
+            // タッチされている指の数だけ処理
+            for (int i = 0; i < Input.touchCount; i++)
             {
-                string i = clickObj.name;  // レーン番号を取得
-                int laneNumber = int.Parse(i);            // 文字列を数字に変換
-                float absTiming = 9999;                   // nullにしたい
+                // タッチ情報をコピー
+                UnityEngine.Touch t = Input.GetTouch(i);
+                // タッチしたときかどうか
+                if (t.phase == TouchPhase.Began)
+                {
+                    // タップされた時の処理
+                    clickObj = null;
 
-                // タップ背景
-                if (Input.GetMouseButtonDown(0))
-                {
-                    TapBG[laneNumber].SetActive(true);
-                    tempNumber = laneNumber;
-                }
+                    int layerMask = 1;
+                    float maxDistance = 10f;
 
-                //   GOListArray[何個目のノーツなのか[何番目のレーンの]]    [何番目のレーンなのか]
-                if ((GOListArray[_notesCount[laneNumber]][laneNumber] != null) && (laneNumber <= 3))     // 左レーン
-                {
-                    absTiming = JudgeDistance(LeftJudgeLine.transform.position.y,
-                                              GOListArray[_notesCount[laneNumber]][laneNumber].transform.position.y);
-                }
-                else if ((GOListArray[_notesCount[laneNumber]][laneNumber] != null) && (laneNumber >= 4)) // 右レーン
-                {
-                    absTiming = JudgeDistance(RightJudgeLine.transform.position.y,
-                                              GOListArray[_notesCount[laneNumber]][laneNumber].transform.position.y);
-                }
+                    Vector2 mousePosition = Input.mousePosition;
 
-                // 判定分岐
-                if (absTiming <= perfect)
-                {
-                    point = 300;
-                    combo++;
-                    totalGrades[0]++;
-                    Debug.Log("perfect");
-                    JudgeGrade(combo, point, laneNumber);
-                    SoundManager.SESoundCue(2);
-                }
-                else if (absTiming <= great)
-                {
-                    point = 200;
-                    combo++;
-                    totalGrades[1]++;
-                    Debug.Log("great");  
-                    JudgeGrade(combo, point, laneNumber);
-                    SoundManager.SESoundCue(2);
-                }
-                else if (absTiming <= good)
-                {
-                    point = 100;
-                    combo = 0;
-                    totalGrades[2]++;
-                    Debug.Log("good");
-                    JudgeGrade(combo, point, laneNumber);
-                    SoundManager.SESoundCue(3);
-                }
-                else if (absTiming <= bad)
-                {
-                    point = 10;
-                    combo = 0;
-                    totalGrades[3]++;
-                    Debug.Log("bad");
-                    JudgeGrade(combo, point, laneNumber);
-                    SoundManager.SESoundCue(4);
-                }
-                //else if (absTiming <= miss)
-                //{
-                //    point = 0;
-                //    combo = 0;
-                //    totalGrades[4]++;
-                //    Debug.Log("miss");
-                //    JudgeGrade(combo, point, laneNumber);
-                //}
-                else// 空タップ
-                {
-                    SoundManager.SESoundCue(5);
+                    Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+
+                    RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, maxDistance, layerMask);
+                    if (hit)
+                        clickObj = hit.transform.gameObject;
+
+                    if ((clickObj != null) && (clickObj.tag == ("Lane")))// tagでレーンを識別
+                    {
+                        string s = clickObj.name;  // レーン番号を取得
+                        int laneNumber = int.Parse(s);            // 文字列を数字に変換
+                        float absTiming = 9999;                   // nullにしたい
+
+                        // レーン背景ON
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            TapBG[laneNumber].SetActive(true);
+                            tempNumber = laneNumber;
+                        }
+
+                        //   GOListArray[何個目のノーツなのか[何番目のレーンの]]    [何番目のレーンなのか]
+                        if ((GOListArray[_notesCount[laneNumber]][laneNumber] != null) && (laneNumber <= 3))     // 左レーン
+                        {
+                            absTiming = JudgeDistance(LeftJudgeLine.transform.position.y,
+                                                      GOListArray[_notesCount[laneNumber]][laneNumber].transform.position.y);
+                        }
+                        else if ((GOListArray[_notesCount[laneNumber]][laneNumber] != null) && (laneNumber >= 4)) // 右レーン
+                        {
+                            absTiming = JudgeDistance(RightJudgeLine.transform.position.y,
+                                                      GOListArray[_notesCount[laneNumber]][laneNumber].transform.position.y);
+                        }
+
+                        // 判定分岐
+                        if (absTiming <= perfect)
+                        {
+                            point = 300;
+                            combo++;
+                            totalGrades[0]++;
+                            Debug.Log("perfect");
+                            JudgeGrade(combo, point, laneNumber);
+                            SoundManager.SESoundCue(2);
+                        }
+                        else if (absTiming <= great)
+                        {
+                            point = 200;
+                            combo++;
+                            totalGrades[1]++;
+                            Debug.Log("great");
+                            JudgeGrade(combo, point, laneNumber);
+                            SoundManager.SESoundCue(2);
+                        }
+                        else if (absTiming <= good)
+                        {
+                            point = 100;
+                            combo = 0;
+                            totalGrades[2]++;
+                            Debug.Log("good");
+                            JudgeGrade(combo, point, laneNumber);
+                            SoundManager.SESoundCue(3);
+                        }
+                        else if (absTiming <= bad)
+                        {
+                            point = 10;
+                            combo = 0;
+                            totalGrades[3]++;
+                            Debug.Log("bad");
+                            JudgeGrade(combo, point, laneNumber);
+                            SoundManager.SESoundCue(4);
+                        }
+                        else// 空タップ
+                        {
+                            SoundManager.SESoundCue(5);
+                        }
+                    }
                 }
             }
         }
+
+        //if (Input.GetMouseButtonDown(0))
+        //{
+
+        //}
     }
 
     public static void ListImport()
