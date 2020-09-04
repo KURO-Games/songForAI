@@ -46,6 +46,7 @@ public class Judge : MonoBehaviour
     //タップ判定処理
     void Update()
     {
+        // tapFlag初期化
         for(int i = 0; i < tapFlag.Length; i++)
         {
             tapFlag[i] = false;
@@ -62,10 +63,9 @@ public class Judge : MonoBehaviour
 
                 tapFlag[laneNumber] = true;
 
-
             }
         }
-        //
+
         for(int i = 0; i < tapFlag.Length; i++)
         {
             if(lastTap[i] == true && tapFlag[i] == true)
@@ -86,21 +86,8 @@ public class Judge : MonoBehaviour
                 TapBG[i].SetActive(false);
             }
         }
-
+        lastTap = tapFlag; 
     }
-
-    //// レーン背景ON
-    //tapFlag[laneNumber] = true;
-    //TapBG[laneNumber].SetActive(true);
-
-    //for(int e = 0; e < tapFlag.Length; e++)
-    //{
-    //    // 
-    //    if (tapFlag[e] == true)
-    //    {
-    //        TapBG[e].SetActive(true);
-    //    }
-    //}
 
     public static void ListImport()
     {
