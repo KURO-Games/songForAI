@@ -12,6 +12,8 @@ public class Judge : MonoBehaviour
     public static float comboMag = 1.0f;                          // コンボに応じたスコア倍率
     public static int bestcombo = 0;                              // 最大コンボ
     private static int[] _notesCount = { 0, 0, 0, 0, 0, 0, 0, 0 };// レーンごとのノーツカウント
+    private int laneNumber = 0;
+    private float absTiming = 0;
     private static List<List<GameObject>> GOListArray = new List<List<GameObject>>();// ノーツ座標格納用2次元配列
 
     [SerializeField] private GameObject LeftJudgeLine;  // 右判定基準
@@ -25,7 +27,8 @@ public class Judge : MonoBehaviour
     [SerializeField] private float bad;
     // **************************************判定許容値
 
-    int tempNumber;// タップ背景非アクティブ切り替え用
+    bool[] tapFlag = { false, false, false, false, false, false, false, false };// タップ背景非アクティブ切り替え用
+    bool[] lastTap = { false, false, false, false, false, false, false, false };// 前フレームのタップ
     GameObject uiObj;
     ScoreManager mg1;
     ComboManager mg2;
@@ -43,19 +46,10 @@ public class Judge : MonoBehaviour
     //タップ判定処理
     void Update()
     {
-        //田村デバッグ
-        //if (GOListArray[0][0].transform.position.y<=LeftJudgeLine.transform.position.y)
-        //{
-        //    Debug.Log("notePos " + GOListArray[_notesCount[0]][0].transform.position.y);
-        //    Debug.Log("leftJudgeLinePos " + LeftJudgeLine.transform.position.y);
-        //    UnityEditor.EditorApplication.isPaused = true;
-        //}
-
-        // レーン背景OFF
-        //if (Input.GetMouseButtonUp(0))
-        //{
-        //    TapBG[tempNumber].SetActive(false);
-        //}
+        for(int i = 0; i < tapFlag.Length; i++)
+        {
+            tapFlag[i] = false;
+        }
 
         // マルチタップ対応
         if (0 <= Input.touchCount)
@@ -63,105 +57,50 @@ public class Judge : MonoBehaviour
             // タッチされている指の数だけ処理
             for (int i = 0; i < Input.touchCount; i++)
             {
-                // タッチ情報をコピー
-                UnityEngine.Touch t = Input.GetTouch(i);
-                // タッチしたときかどうか
-                if (t.phase == TouchPhase.Began)
-                {
-                    // タップされた時の処理
-                    clickObj = null;
+                // タップしたレーンを取得
+                laneNumber = GetLaneNumber(i);
 
-                    int layerMask = 1;
-                    float maxDistance = 10f;
+                tapFlag[laneNumber] = true;
 
-                    Vector2 mousePosition = t.position;
 
-                    Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-
-                    RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, maxDistance, layerMask);
-                    if (hit)
-                        clickObj = hit.transform.gameObject;
-
-                    if ((clickObj != null) && (clickObj.tag == ("Lane")))// tagでレーンを識別
-                    {
-                        string s = clickObj.name;  // レーン番号を取得
-                        int laneNumber = int.Parse(s);            // 文字列を数字に変換
-                        float absTiming = 9999;                   // nullにしたい
-
-                        // レーン背景ON
-                        //if (Input.GetMouseButtonDown(0))
-                        //{
-                        //for(int e = 0; e < TapBG.Length; e++)
-                        //{
-                        //    if (laneNumber == e)
-                        //    {
-                        //        TapBG[laneNumber].SetActive(true);
-                        //    }
-                        //    else 
-                        //        TapBG[laneNumber].SetActive(false);
-                        //}
-                        //TapBG[laneNumber].SetActive(true);
-                        //tempNumber = laneNumber;
-                        //}
-
-                        //   GOListArray[何個目のノーツなのか[何番目のレーンの]]    [何番目のレーンなのか]
-                        if ((GOListArray[_notesCount[laneNumber]][laneNumber] != null) && (laneNumber <= 3))     // 左レーン
-                        {
-                            absTiming = JudgeDistance(LeftJudgeLine.transform.position.y,
-                                                      GOListArray[_notesCount[laneNumber]][laneNumber].transform.position.y);
-                        }
-                        else if ((GOListArray[_notesCount[laneNumber]][laneNumber] != null) && (laneNumber >= 4)) // 右レーン
-                        {
-                            absTiming = JudgeDistance(RightJudgeLine.transform.position.y,
-                                                      GOListArray[_notesCount[laneNumber]][laneNumber].transform.position.y);
-                        }
-
-                        // 判定分岐
-                        if (absTiming <= perfect)
-                        {
-                            point = 300;
-                            combo++;
-                            totalGrades[0]++;
-                            Debug.Log("perfect");
-                            JudgeGrade(combo, point, laneNumber);
-                            SoundManager.SESoundCue(2);
-                        }
-                        else if (absTiming <= great)
-                        {
-                            point = 200;
-                            combo++;
-                            totalGrades[1]++;
-                            Debug.Log("great");
-                            JudgeGrade(combo, point, laneNumber);
-                            SoundManager.SESoundCue(2);
-                        }
-                        else if (absTiming <= good)
-                        {
-                            point = 100;
-                            combo = 0;
-                            totalGrades[2]++;
-                            Debug.Log("good");
-                            JudgeGrade(combo, point, laneNumber);
-                            SoundManager.SESoundCue(3);
-                        }
-                        else if (absTiming <= bad)
-                        {
-                            point = 10;
-                            combo = 0;
-                            totalGrades[3]++;
-                            Debug.Log("bad");
-                            JudgeGrade(combo, point, laneNumber);
-                            SoundManager.SESoundCue(4);
-                        }
-                        else// 空タップ
-                        {
-                            SoundManager.SESoundCue(5);
-                        }
-                    }
-                }
             }
         }
+        //
+        for(int i = 0; i < tapFlag.Length; i++)
+        {
+            if(lastTap[i] == true && tapFlag[i] == true)
+            {
+
+            }
+            else if (lastTap[i] == false && tapFlag[i] == true)
+            { 
+                // 判定ライン - ノーツで距離を算出
+                absTiming = GetAbsTiming(i);
+
+                // 距離に応じて判定処理
+                JudgeGrade(absTiming, i);
+                TapBG[i].SetActive(true);
+            }
+            if (lastTap[i] == true && tapFlag[i] == false)
+            {
+                TapBG[i].SetActive(false);
+            }
+        }
+
     }
+
+    //// レーン背景ON
+    //tapFlag[laneNumber] = true;
+    //TapBG[laneNumber].SetActive(true);
+
+    //for(int e = 0; e < tapFlag.Length; e++)
+    //{
+    //    // 
+    //    if (tapFlag[e] == true)
+    //    {
+    //        TapBG[e].SetActive(true);
+    //    }
+    //}
 
     public static void ListImport()
     {
@@ -186,35 +125,119 @@ public class Judge : MonoBehaviour
         // コンボ描画処理はNotesCountUpスクリプトで行う
     }
 
-    // タイミング誤差算出
-    private float JudgeDistance(float i, float j)// 判定ライン　－　ノーツ
+    private int GetLaneNumber(int i)
     {
-        float tempTiming = i - j;
+        // タッチ情報をコピー
+        UnityEngine.Touch t = Input.GetTouch(i);
+        // タッチしたときかどうか
+        if (t.phase == TouchPhase.Began)
+        {
+            // タップされた時の処理
+            clickObj = null;
+
+            Ray ray = Camera.main.ScreenPointToRay(t.position);
+
+            RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, 10f, 1);
+            if (hit)
+                clickObj = hit.transform.gameObject;
+
+            if ((clickObj != null) && (clickObj.tag == ("Lane")))// tagでレーンを識別
+            {
+                string s = clickObj.name;  // レーン番号を取得
+                laneNumber = int.Parse(s);            // 文字列を数字に変換
+            }
+        }
+
+        return laneNumber;
+    }
+
+    // タイミング誤差算出
+    private float GetAbsTiming(int i)// 判定ライン　－　ノーツ
+    {
+        float tempTiming = 9999;// nullにしたい
+
+        //   GOListArray[何個目のノーツなのか[何番目のレーンの]]    [何番目のレーンなのか]
+        if ((GOListArray[_notesCount[i]][i] != null) && (i <= 3))      // 左レーン
+        {
+            tempTiming = LeftJudgeLine.transform.position.y -
+                                        GOListArray[_notesCount[i]][i].transform.position.y;
+        }
+        else if ((GOListArray[_notesCount[i]][i] != null) && (i >= 4)) // 右レーン
+        {
+            tempTiming = RightJudgeLine.transform.position.y -
+                                        GOListArray[_notesCount[i]][i].transform.position.y;
+        }
+
         float trueTiming = Mathf.Abs(tempTiming);// 絶対値に変換
 
         return trueTiming;
     }
 
-    // 判定後処理
-    private void JudgeGrade(int combos, int points, int laneNumber)
+    /// <summary>
+    /// 判定後処理
+    /// </summary>
+    /// <param name="combos">コンボ</param>
+    /// <param name="points"></param>
+    /// <param name="laneNumber"></param>
+    private void JudgeGrade(float i, int j)
     {
-        if (combos > bestcombo)//最大コンボ記憶
-            bestcombo = combos;
+        // 判定分岐
+        if (i <= perfect)
+        {
+            point = 300;
+            combo++;
+            totalGrades[0]++;
+            Debug.Log("perfect");
+            SoundManager.SESoundCue(2);
+        }
+        else if (i <= great)
+        {
+            point = 200;
+            combo++;
+            totalGrades[1]++;
+            Debug.Log("great");
+            SoundManager.SESoundCue(2);
+        }
+        else if (i <= good)
+        {
+            point = 100;
+            combo = 0;
+            totalGrades[2]++;
+            Debug.Log("good");
+            SoundManager.SESoundCue(3);
+        }
+        else if (i <= bad)
+        {
+            point = 10;
+            combo = 0;
+            totalGrades[3]++;
+            Debug.Log("bad");
+            SoundManager.SESoundCue(4);
+        }
+        else// 空タップ
+        {
+            SoundManager.SESoundCue(5);
+        }
+
+        /////////////////////////////////////////////
+        
+        if (combo > bestcombo)//最大コンボ記憶
+            bestcombo = combo;
 
         // 各コンボ倍率 switch文にできるかも
-        if (combos > 250)
+        if (combo > 250)
         {
             comboMag = 1.5f;
         }
-        else if (combos > 150)
+        else if (combo > 150)
         {
             comboMag = 1.4f;
         }
-        else if (combos > 100)
+        else if (combo > 100)
         {
             comboMag = 1.3f;
         }
-        else if (combos > 50)
+        else if (combo > 50)
         {
             comboMag = 1.2f;
         }
@@ -222,14 +245,15 @@ public class Judge : MonoBehaviour
         {
             comboMag = 1.0f;
         }
-        float a = points * comboMag;
-        score += (int)a;
+
+        float scores = point * comboMag;
+        score += (int)scores;
 
         mg1.DrawScore(score);  // スコア表示
-        mg2.DrawCombo(combos); // コンボ表示
+        mg2.DrawCombo(combo); // コンボ表示
 
-        Destroy(GOListArray[_notesCount[laneNumber]][laneNumber]);   // ノーツ破棄
-        GOListArray[_notesCount[laneNumber]][laneNumber] = null;     // 多重タップを防ぐ
-        _notesCount[laneNumber]++;                                   // 該当レーンのノーツカウント++
+        Destroy(GOListArray[_notesCount[j]][j]);   // ノーツ破棄
+        GOListArray[_notesCount[j]][j] = null;     // 多重タップを防ぐ
+        _notesCount[j]++;                          // 該当レーンのノーツカウント++
     }
 }
