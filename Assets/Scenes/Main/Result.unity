@@ -1691,6 +1691,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4615063994001304831, guid: a544f049c59e842b7bb4f8d24be07b9e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 370
+      objectReference: {fileID: 0}
     - target: {fileID: 5443220113645036780, guid: a544f049c59e842b7bb4f8d24be07b9e,
         type: 3}
       propertyPath: m_Camera
