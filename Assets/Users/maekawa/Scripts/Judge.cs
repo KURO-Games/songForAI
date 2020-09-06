@@ -18,6 +18,7 @@ public class Judge : MonoBehaviour
 
     // ノーツ座標格納用2次元配列          
     private static List<List<GameObject>> GOListArray = new List<List<GameObject>>();
+    //
     // 使い方  GOListArray   [_notesCount[laneNumber]]                   [laneNumber]
     //         GOListArray   [何個目のノーツなのか[何番目のレーンの]]    [何番目のレーンなのか]
 
@@ -26,14 +27,6 @@ public class Judge : MonoBehaviour
     private bool[] tapFlag = new bool[8];// 現在タップしているレーンの識別
     private bool[] lastTap = new bool[8];// 前フレームのタップ
 
-
-    // 動的UI表示用
-    GameObject uiObj;
-    ScoreManager mg1;
-    ComboManager mg2;
-    GameObject clickObj;
-
-
     // 判定許容値
     [SerializeField] private float perfect;
     [SerializeField] private float great;
@@ -41,6 +34,12 @@ public class Judge : MonoBehaviour
     [SerializeField] private float bad;
 
     // その他
+    GameObject clickObj;// タップしたレーンの情報を取得
+
+    GameObject uiObj;   // 動的UI表示
+    ScoreManager mg1;
+    ComboManager mg2;
+
     [SerializeField] private GameObject LeftJudgeLine;  // 左判定ライン基準
     [SerializeField] private GameObject RightJudgeLine; // 右判定ライン基準
     [SerializeField] private GameObject[] TapBG = new GameObject[8]; // レーンタップ時の背景
@@ -78,9 +77,8 @@ public class Judge : MonoBehaviour
                 // タップしたレーンを取得
                 laneNumber = GetLaneNumber(i);
 
-                // ここなに
-                if (laneNumber == -1) 
-                    continue; 
+                if (laneNumber == -1)
+                    continue;// 処理を抜ける
 
                 tapFlag[laneNumber] = true;
             }
@@ -89,7 +87,7 @@ public class Judge : MonoBehaviour
         // 各レーンのタップ状況を確認
         for(int i = 0; i < 8; i++)
         {
-            // タップ続行
+            // タップ継続
             if ((lastTap[i] == true) && (tapFlag[i] == true))
             {
 
@@ -112,10 +110,13 @@ public class Judge : MonoBehaviour
             }
         }
     }
-    // いる？
+
     private void LateUpdate()
     {
-        lastTap = tapFlag;
+        for(int i = 0; i < lastTap.Length; i++)
+        {
+            lastTap[i] = tapFlag[i];// 次フレームで比較するためタップ状況を保存
+        }
     }
 
     public static void ListImport()
@@ -127,7 +128,7 @@ public class Judge : MonoBehaviour
     private int GetLaneNumber(int i)
     {
         int laneNum = -1;// 例外処理用
-        clickObj = null; // 例外処理用
+        clickObj = null; // 都度初期化
 
         // タッチ情報を取得
         UnityEngine.Touch t = Input.GetTouch(i);
@@ -240,9 +241,8 @@ public class Judge : MonoBehaviour
             comboMag = 1.0f;
         }
 
-        // 何が一番安全？　update処理を途中で抜ける？
         // 空タップでなければ
-        if(point > 0)
+        if (point > 0)
         {
             float scores = point * comboMag;
             score += (int)scores;
@@ -272,7 +272,7 @@ public class Judge : MonoBehaviour
         // コンボ描画処理はNotesCountUpスクリプトで行う
     }
 
-    private static void NotesDestroy(int i)
+    private void NotesDestroy(int i)
     {
         Destroy(GOListArray[_notesCount[i]][i]);   // 該当ノーツ破棄
         GOListArray[_notesCount[i]][i] = null;     // 多重タップを防ぐ
