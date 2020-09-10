@@ -8,7 +8,7 @@ public class Judge : MonoBehaviour
     public static int score = 0;                                         // スコア
     public static int combo = 0;                                         // 現在のコンボ
     public static int bestcombo = 0;                                     // リザルト用　最大コンボ
-    public static int[] totalGrades = { 100, 100, 100, 100, 100 };                 // リザルト用　判定内訳（perfect ～ miss）
+    public static int[] totalGrades = { 0, 0, 0, 0, 0 };                 // リザルト用　判定内訳（perfect ～ miss）
     public static int point = 0;                                         // 判定に応じた得点
     public static float comboMag = 1.0f;                                 // コンボに応じたスコア倍率
     private static int[] _notesCount = { 0, 0, 0, 0, 0, 0, 0, 0 };       // レーンごとのノーツカウント

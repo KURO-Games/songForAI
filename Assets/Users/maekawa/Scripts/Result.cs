@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -36,8 +35,8 @@ public class Result : MonoBehaviour
     int[] resultGrades = { 0, 0, 0, 0, 0 };// リザルト判定内訳格納
 
     private int count = 0;
-    private int counta = 0;
-    private bool flag = true;
+    private int arrayCount = 0;
+    public bool resultAnimFlag = false;
     void Start()
     {
         // 曲名、難易度、レベル表示
@@ -101,24 +100,45 @@ public class Result : MonoBehaviour
 
     void Update()
     {
-        // 判定内訳表示
-        if ((flag) && (count <= resultGrades[counta] / 10))
+        // リザルト表示アニメーション
+        if (resultAnimFlag != true)
         {
-            grades[counta].GetComponent<Text>().text = count.ToString() + Random.Range(0, 9);
-            count++;
-        }
-        else
-        {
-            grades[counta].GetComponent<Text>().text = resultGrades[counta].ToString();
-            count = 0;
-            counta++;
-
-            if (counta > resultGrades.Length)
+            if (arrayCount > 4)
             {
-                flag = false;
+                resultAnimFlag = true;// データを表示しきったら終了
+            }
+            // アニメーション①
+            else if ((count <= resultGrades[arrayCount] / 10) && (resultGrades[arrayCount] > 10))
+            {
+                if(count == 0)
+                {
+                    // 0 + 0～9　と表示させないための処理
+                    int tempNum = Random.Range(0, 9);
+                    grades[arrayCount].GetComponent<Text>().text = tempNum.ToString();
+                    count++;
+                }
+                else
+                {
+                    // 10単位でカウントアップ、1の位はランダムで表示
+                    grades[arrayCount].GetComponent<Text>().text = count.ToString() + Random.Range(0, 9);
+                    count++;
+                }
+            }
+            // アニメーション②
+            else if ((count <= resultGrades[arrayCount]) && (resultGrades[arrayCount] < 10))
+            {
+                // 表示する値が1桁の場合、普通にカウントアップ
+                grades[arrayCount].GetComponent<Text>().text = count.ToString();
+                count++;
+            }
+            // カウントが終了したなら
+            else
+            {
+                grades[arrayCount].GetComponent<Text>().text = resultGrades[arrayCount].ToString();// 実際の値を表示
+                count = 0;   // カウントリセット
+                arrayCount++;// 次の配列へ
             }
         }
     }
-
     // シーン遷移時データ破棄
 }
