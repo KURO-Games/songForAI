@@ -46,6 +46,21 @@ public class Judge : MonoBehaviour
 
     private void Start()
     {
+        //初期化
+        score = 0;
+        combo = 0;
+        bestcombo = 0;
+
+        for(int i = 0; i < totalGrades.Length; i ++)
+        {
+            totalGrades[i] = 0;
+        }
+
+        for(int i = 0; i < _notesCount.Length; i++)
+        {
+            _notesCount[i] = 0;
+        }
+
         // 関数を呼ぶためにスクリプトを取得
         uiObj = GameObject.Find("UICtrlCanvas");
         mg1 = uiObj.GetComponent<ScoreManager>();

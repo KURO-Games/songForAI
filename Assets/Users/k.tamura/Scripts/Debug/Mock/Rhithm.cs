@@ -45,6 +45,9 @@ public class Rhithm : MonoBehaviour
     }
     private void Update()
     {
-
+        if(SoundManager.BGMStatus() == CriAtomSource.Status.PlayEnd)
+        {
+            SceneLoadManager.LoadScene("iPhoneResultScene");
+        }
     }
 }

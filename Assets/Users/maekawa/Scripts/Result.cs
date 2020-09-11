@@ -12,7 +12,7 @@ public class Result : MonoBehaviour
     // gradesにはperfect～missの順番でアタッチ
     [SerializeField] GameObject[] grades = new GameObject[5];
     [SerializeField] GameObject score;
-    [SerializeField] GameObject combo;
+    [SerializeField] GameObject maxCombo;
     [SerializeField] GameObject songName;
     [SerializeField] GameObject Difficulty;
     [SerializeField] GameObject Level;
@@ -31,12 +31,10 @@ public class Result : MonoBehaviour
     public static string resultSongName;// 曲名表示
     public static int level;            // 楽曲レベル表示
     public static int difficulty;       // 難易度 0...easy～3...pro
-    //
-    int[] resultGrades = { 0, 0, 0, 0, 0 };// リザルト判定内訳格納
 
     private int count = 0;
     private int arrayCount = 0;
-    public bool resultAnimFlag = false;
+    private bool resultAnimFlag = false;
     void Start()
     {
         // 曲名、難易度、レベル表示
@@ -65,13 +63,8 @@ public class Result : MonoBehaviour
         int resultScore = Judge.score;
         int resultCombo = Judge.bestcombo;
 
-        for(int i = 0; i < resultGrades.Length; i++)
-        {
-            resultGrades[i] = Judge.totalGrades[i];
-        }
-
         score.GetComponent<Text>().text = resultScore.ToString();// スコア表示
-        combo.GetComponent<Text>().text = resultCombo.ToString();// コンボ表示
+        maxCombo.GetComponent<Text>().text = resultCombo.ToString();// コンボ表示
 
         // フルコンボ表示
         if (resultCombo == totalNotes)
@@ -108,7 +101,7 @@ public class Result : MonoBehaviour
                 resultAnimFlag = true;// データを表示しきったら終了
             }
             // アニメーション①
-            else if ((count <= resultGrades[arrayCount] / 10) && (resultGrades[arrayCount] > 10))
+            else if ((count <= Judge.totalGrades[arrayCount] / 10) && (Judge.totalGrades[arrayCount] > 10))
             {
                 if(count == 0)
                 {
@@ -125,7 +118,7 @@ public class Result : MonoBehaviour
                 }
             }
             // アニメーション②
-            else if ((count <= resultGrades[arrayCount]) && (resultGrades[arrayCount] < 10))
+            else if ((count <= Judge.totalGrades[arrayCount]) && (Judge.totalGrades[arrayCount] < 10))
             {
                 // 表示する値が1桁の場合、普通にカウントアップ
                 grades[arrayCount].GetComponent<Text>().text = count.ToString();
@@ -134,11 +127,15 @@ public class Result : MonoBehaviour
             // カウントが終了したなら
             else
             {
-                grades[arrayCount].GetComponent<Text>().text = resultGrades[arrayCount].ToString();// 実際の値を表示
+                grades[arrayCount].GetComponent<Text>().text = Judge.totalGrades[arrayCount].ToString();// 実際の値を表示
                 count = 0;   // カウントリセット
                 arrayCount++;// 次の配列へ
             }
         }
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            SceneLoadManager.LoadScene("Home");
+        }
     }
-    // シーン遷移時データ破棄
 }
