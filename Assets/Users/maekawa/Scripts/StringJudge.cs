@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class Judge : MonoBehaviour
+public class StringJudge : MonoBehaviour
 {
     public static int score = 0;                                         // スコア
     public static int combo = 0;                                         // 現在のコンボ
@@ -11,21 +10,21 @@ public class Judge : MonoBehaviour
     public static int[] totalGrades = { 0, 0, 0, 0, 0 };                 // リザルト用　判定内訳（perfect ～ miss）
     public static int point = 0;                                         // 判定に応じた得点
     public static float comboMag = 1.0f;                                 // コンボに応じたスコア倍率
-    private static int[] _notesCount = { 0, 0, 0, 0, 0, 0, 0, 0 };       // レーンごとのノーツカウント
+    private static int[] stNotesCount = { 0, 0, 0, 0, 0, 0 };            // レーンごとのノーツカウント
     private static int laneNumber = 0;                                   // タップしたレーン番号（0 ～ 7）
     private static float absTiming = 0;                                  // 判定ラインy - 該当ノーツy座標の絶対値
 
 
     // ノーツ座標格納用2次元配列          
-    private static List<List<GameObject>> GOListArray = new List<List<GameObject>>();
+    private static List<List<GameObject>> stGOListArray = new List<List<GameObject>>();
     //
     // 使い方  GOListArray   [_notesCount[laneNumber]]                   [laneNumber]
     //         GOListArray   [何個目のノーツなのか[何番目のレーンの]]    [何番目のレーンなのか]
 
 
     // タップ背景 ON/OFF 切り替え用
-    private bool[] tapFlag = new bool[8];// 現在タップしているレーンの識別
-    private bool[] lastTap = new bool[8];// 前フレームのタップ
+    private bool[] tapFlag = new bool[6];// 現在タップしているレーンの識別
+    private bool[] lastTap = new bool[6];// 前フレームのタップ
 
     // 判定許容値
     [SerializeField] private float perfect;
@@ -34,40 +33,41 @@ public class Judge : MonoBehaviour
     [SerializeField] private float bad;
 
     // その他
+    GameObject clickObj;// タップしたレーンの情報を取得
 
     GameObject uiObj;   // 動的UI表示
     ScoreManager mg1;
     ComboManager mg2;
 
-    [SerializeField] private GameObject leftJudgeLine;  // 左判定ライン
-    [SerializeField] private GameObject rightJudgeLine; // 右判定ライン
-    [SerializeField] private GameObject[] TapBG = new GameObject[8]; // レーンタップ時の背景
+    [SerializeField] private GameObject verticalJudgeLine;  // 横ノーツ用判定ライン
+    [SerializeField] private GameObject horizonJudgeLine;   // 縦ノーツ用判定ライン
+    [SerializeField] private GameObject[] stTapBG = new GameObject[6]; // レーンタップ時の背景
 
-    private void Start()
+    void Start()
     {
         //初期化
         score = 0;
         combo = 0;
         bestcombo = 0;
 
-        for(int i = 0; i < totalGrades.Length; i ++)
+        for (int i = 0; i < totalGrades.Length; i++)
         {
             totalGrades[i] = 0;
         }
 
-        for(int i = 0; i < _notesCount.Length; i++)
+        for (int i = 0; i < stNotesCount.Length; i++)
         {
-            _notesCount[i] = 0;
+            stNotesCount[i] = 0;
         }
 
-        // 関数を呼ぶためにスクリプトを取得
-        uiObj = GameObject.Find("UICtrlCanvas");
-        mg1 = uiObj.GetComponent<ScoreManager>();
-        mg2 = uiObj.GetComponent<ComboManager>();
-        mg1.DrawScore(score);// デフォルトでスコア表示
+        //// 関数を呼ぶためにスクリプトを取得
+        //uiObj = GameObject.Find("UICtrlCanvas");
+        //mg1 = uiObj.GetComponent<ScoreManager>();
+        //mg2 = uiObj.GetComponent<ComboManager>();
+        //mg1.DrawScore(score);// デフォルトでスコア表示
 
-        // タップ判定用 flag初期化
-        for (int i = 0; i < 8; i++)
+        // タップ背景用 flag初期化
+        for (int i = 0; i < tapFlag.Length; i++)
         {
             tapFlag[i] = false;
             lastTap[i] = false;
@@ -82,14 +82,16 @@ public class Judge : MonoBehaviour
             tapFlag[i] = false;
         }
 
-        // tapFlagON/OFF処理（マルチタップ対応）
+        // tapFlagON / OFF処理（マルチタップ対応）
         if (0 < Input.touchCount)
         {
             // タッチされている指の数だけ処理
             for (int i = 0; i < Input.touchCount; i++)
             {
                 // タップしたレーンを取得
-                laneNumber = GetLaneNumber(i);
+                laneNumber = Judge.GetLaneNumber(i);
+
+                Debug.Log(laneNumber);
 
                 if (laneNumber == -1)
                     continue;// 処理を抜ける
@@ -99,7 +101,7 @@ public class Judge : MonoBehaviour
         }
 
         // 各レーンのタップ状況を前フレームと比較
-        for(int i = 0; i < tapFlag.Length; i++)
+        for (int i = 0; i < 5; i++)
         {
             // タップ継続
             if ((lastTap[i] == true) && (tapFlag[i] == true))
@@ -110,76 +112,36 @@ public class Judge : MonoBehaviour
             else if ((lastTap[i] == false) && (tapFlag[i] == true))
             {
                 // 判定ライン - ノーツで距離（絶対値）を算出
-                absTiming = GetAbsTiming(i);
+                absTiming = StGetAbsTiming(i);
 
                 // 距離に応じて判定処理
-                JudgeGrade(absTiming, i);
+                StJudgeGrade(absTiming, i);
 
-                TapBG[i].SetActive(true);
+                stTapBG[i].SetActive(true);
             }
             // タップ終了
             else if ((lastTap[i] == true) && (tapFlag[i] == false))
             {
-                TapBG[i].SetActive(false);
+                stTapBG[i].SetActive(false);
             }
         }
     }
 
-    private void LateUpdate()
-    {
-        for(int i = 0; i < lastTap.Length; i++)
-        {
-            lastTap[i] = tapFlag[i];// 次フレームで比較するためタップ状況を保存
-        }
-    }
-
-    public static void ListImport()
-    {
-        GOListArray = NotesManager.NotesPositions;
-        Debug.Log(GOListArray[0][7]);
-    }
-
-    public static int GetLaneNumber(int i)// 切り出すかも？
-    {
-        int laneNum = -1;// 例外処理用
-        GameObject clickObj = null; // 都度初期化
-
-        // タッチ情報を取得
-        Touch t = Input.GetTouch(i);
-
-        // タップ時処理
-        Ray ray = Camera.main.ScreenPointToRay(t.position);
-        RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, 10f, 1);
-
-        if (hit)
-        {
-            clickObj = hit.transform.gameObject;
-
-            if ((clickObj != null) && (clickObj.tag == ("Lane")))// tagでレーンを識別
-            {
-                string s = clickObj.name;  // レーン番号を取得
-                laneNum = int.Parse(s);    // 文字列を数字に変換
-            }
-        }
-
-        return laneNum;
-    }
-
-    private float GetAbsTiming(int i)// 判定ライン　－　ノーツ
+    private float StGetAbsTiming(int i)// 判定ライン　－　ノーツ
     {
         float tempTiming = 9999;// 例外処理用
 
-        // 左レーン
-        if ((GOListArray[_notesCount[i]][i] != null) && (i <= 3))
+        // 縦レーン
+        if ((stGOListArray[stNotesCount[i]][i] != null) && (i <= 3))
         {
-            tempTiming = leftJudgeLine.transform.position.y -
-                         GOListArray[_notesCount[i]][i].transform.position.y;
+            tempTiming = horizonJudgeLine.transform.position.y -
+                         stGOListArray[stNotesCount[i]][i].transform.position.y;
         }
-        // 右レーン
-        else if ((GOListArray[_notesCount[i]][i] != null) && (i >= 4))
+        // 横レーン
+        else if ((stGOListArray[stNotesCount[i]][i] != null) && (i >= 4))
         {
-            tempTiming = rightJudgeLine.transform.position.y -
-                         GOListArray[_notesCount[i]][i].transform.position.y;
+            tempTiming = verticalJudgeLine.transform.position.x -
+                         stGOListArray[stNotesCount[i]][i].transform.position.x;
         }
 
         return Mathf.Abs(tempTiming);// 絶対値に変換
@@ -190,7 +152,7 @@ public class Judge : MonoBehaviour
     /// </summary>
     /// <param name="i">absTiming</param>
     /// <param name="j">laneNumber</param>
-    private void JudgeGrade(float i, int j)
+    private void StJudgeGrade(float i, int j)
     {
         // 判定分岐
         if (i <= perfect)
@@ -268,28 +230,10 @@ public class Judge : MonoBehaviour
         }
     }
 
-    // ノーツ通過処理
-    public static void NotesCountUp(string i)
-    {
-        if (combo > bestcombo)
-        {
-            bestcombo = combo;// 最大コンボ記憶
-        }
-
-        combo = 0;
-        totalGrades[4]++;
-
-        int tempLaneNum = int.Parse(i);// 文字列を数字に変換
-
-        NotesDestroy(tempLaneNum);
-
-        // コンボ描画処理はNotesCountUpスクリプトで行う
-    }
-
     private static void NotesDestroy(int i)
     {
-        Destroy(GOListArray[_notesCount[i]][i]);   // 該当ノーツ破棄
-        GOListArray[_notesCount[i]][i] = null;     // 多重タップを防ぐ
-        _notesCount[i]++;                          // 該当レーンのノーツカウント++
+        Destroy(stGOListArray[stNotesCount[i]][i]);   // 該当ノーツ破棄
+        stGOListArray[stNotesCount[i]][i] = null;     // 多重タップを防ぐ
+        stNotesCount[i]++;                          // 該当レーンのノーツカウント++
     }
 }

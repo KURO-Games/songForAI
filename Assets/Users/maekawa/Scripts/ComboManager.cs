@@ -8,20 +8,15 @@ using UnityEngine.UI;
 public class ComboManager : MonoBehaviour
 {
     [SerializeField] Sprite[] comboNum = new Sprite[10];// 0～9の数字画像
-    [SerializeField] float width; // 数字の表示間隔
+    //[SerializeField] float width; // 数字の表示間隔
     [SerializeField] GameObject[] _combo;
-    GameObject obj;
+
     int[] digit = new int[4];// 要素数 = 桁数
 
     /// <summary>
     /// 引数:コンボ
     /// </summary>
     /// <param name="a"></param>
-
-    private void Start()
-    {
-        obj = GameObject.Find("ComboAnchor");
-    }
     public void DrawCombo(int a)
     {
         //現在のスコアを破棄
