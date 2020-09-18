@@ -20,7 +20,7 @@ public class NotesGenerater : MonoBehaviour
     NotesJson.MusicData musicData = new NotesJson.MusicData();
     bool Generated=false;
     bool PlayedBGM=false;
-    Judge _judge;
+    KeyJudge _judge;
     private void Update()
     {
 
