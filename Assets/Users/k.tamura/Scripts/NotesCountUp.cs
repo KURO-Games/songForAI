@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class NotesCountUp : MonoBehaviour
 {
-    Judge _judge;
+    [SerializeField] int gameType; 
 
     GameObject obj;
     ComboManager cm;
@@ -17,8 +17,7 @@ public class NotesCountUp : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Judge.NotesCountUp(this.gameObject.name);
+        Judge.NotesCountUp(this.gameObject.name, gameType);
         cm.DrawCombo(0);
-        //Destroy(collision.gameObject);
     }
 }
