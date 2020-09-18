@@ -25,4 +25,8 @@ public class SoundManager:SingletonMonoBehaviour<SoundManager>
     {
         Instance.BGMSource.Stop();
     }
+    public static CriAtomSource.Status BGMStatus()
+    {
+        return Instance.BGMSource.status;
+    }
 }

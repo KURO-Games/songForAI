@@ -35,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Users/Otuka/Scenes/Scenario.unity
     guid: b02c5dd984a6d634895dee4d92f384aa
+  - enabled: 1
+    path: Assets/Scenes/Main/iPhoneResultScene.unity
+    guid: 4a592c22a0db885409ea001819e26467
   m_configObjects: {}
