@@ -18,6 +18,6 @@ public class NotesCountUp : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Judge.NotesCountUp(this.gameObject.name, gameType);
-        cm.DrawCombo(0);
+        //cm.DrawCombo(0);
     }
 }

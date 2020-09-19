@@ -5,9 +5,10 @@ using UnityEngine;
 public class Judge : MonoBehaviour
 {
     // 判定基準値 シリアライズできない
-    static float[] gradeCriterion = { 5, 10, 15, 20 };
+    public static float[] gradeCriterion = { 2, 3, 5, 8 };
+    public static int[] gradePoint = { 300, 200, 100, 10 };
 
-    public static int score = 0;                                         // スコア
+    public static int totalScore = 0;                                         // スコア
     public static int combo = 0;                                         // 現在のコンボ
     public static int bestcombo = 0;                                     // リザルト用　最大コンボ
     public static int[] totalGrades = { 0, 0, 0, 0, 0 };                 // リザルト用　判定内訳（perfect ～ miss）
@@ -27,7 +28,7 @@ public class Judge : MonoBehaviour
     void Start()
     {
         //初期化
-        score = 0;
+        totalScore = 0;
         combo = 0;
         bestcombo = 0;
 
@@ -45,7 +46,7 @@ public class Judge : MonoBehaviour
         GameObject uiObj = GameObject.Find("UICtrlCanvas");
         mg1 = uiObj.GetComponent<ScoreManager>();
         mg2 = uiObj.GetComponent<ComboManager>();
-        mg1.DrawScore(score);// デフォルトでスコア表示
+        //mg1.DrawScore(score, 0);// デフォルトでスコア表示
 
         for (int i = 0; i < totalGrades.Length; i++)
         {
@@ -133,28 +134,28 @@ public class Judge : MonoBehaviour
         // 判定分岐
         if (i <= gradeCriterion[0])
         {
-            point = 300;
+            point = gradePoint[0];
             combo++;
             totalGrades[0]++;
             SoundManager.SESoundCue(2);
         }
         else if (i <= gradeCriterion[1])
         {
-            point = 200;
+            point = gradePoint[1];
             combo++;
             totalGrades[1]++;
             SoundManager.SESoundCue(2);
         }
         else if (i <= gradeCriterion[2])
         {
-            point = 100;
+            point = gradePoint[2];
             combo = 0;
             totalGrades[2]++;
             SoundManager.SESoundCue(3);
         }
         else if (i <= gradeCriterion[3])
         {
-            point = 10;
+            point = gradePoint[3];
             combo = 0;
             totalGrades[3]++;
             SoundManager.SESoundCue(4);
@@ -197,9 +198,9 @@ public class Judge : MonoBehaviour
         if (point > 0)
         {
             float scores = point * comboMag;
-            score += (int)scores;
+            totalScore += (int)scores;
 
-            mg1.DrawScore(score);
+            mg1.DrawScore(totalScore, point);
             mg2.DrawCombo(combo);
 
             NotesDestroy(j, k);
@@ -247,10 +248,9 @@ public class Judge : MonoBehaviour
         combo = 0;
         totalGrades[4]++;
 
+        mg2.DrawCombo(combo);
         int tempLaneNum = int.Parse(i);// 文字列を数字に変換
 
         NotesDestroy(tempLaneNum, j);
-
-        // コンボ描画処理はNotesCountUpスクリプトで行う
     }
 }

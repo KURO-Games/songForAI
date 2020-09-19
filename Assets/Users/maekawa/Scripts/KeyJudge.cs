@@ -8,7 +8,7 @@ public class KeyJudge : MonoBehaviour
     private bool[] tapFlag = new bool[8];// 現在タップしているレーンの識別
     private bool[] lastTap = new bool[8];// 前フレームのタップ
 
-    private int gameType = 0;
+    private int gameType = 0;// どこかから参照する
     [SerializeField] private GameObject leftJudgeLine;  // 左判定ライン
     [SerializeField] private GameObject rightJudgeLine; // 右判定ライン
     [SerializeField] private GameObject[] TapBG = new GameObject[8]; // レーンタップ時の背景
