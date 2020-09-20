@@ -57,6 +57,11 @@ public class Scenario_Controller : MonoBehaviour
         }
     }
 
+
+
+    /// <summary>
+    /// 
+    /// </summary>
     #region テキストロード
     private void Text_Load()
     {
@@ -130,3 +135,8 @@ public class Scenario_Controller : MonoBehaviour
     }
     #endregion
 }
+
+// 今後の変更点
+// Resources からの動的読み込みに変更。
+//Toolを作成、CSVからバイナリに変更をするウインドウ作成予定。
+//
