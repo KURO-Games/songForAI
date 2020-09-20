@@ -63,16 +63,16 @@ public class StringJudge : MonoBehaviour
                 // 縦レーン
                 if ((Judge.GOListArray[Judge.stNotesCount[i]][i] != null) && (i <= 3))
                 {
-                    absTiming = Judge.GetAbsTiming(i, 1, horizonJudgeLine.transform.position.y);
+                    absTiming = Judge.GetAbsTiming(i, horizonJudgeLine.transform.position.y);
                 }
                 // 横レーン
                 else if ((Judge.GOListArray[Judge.stNotesCount[i]][i] != null) && (i >= 4))
                 {
-                    absTiming = Judge.GetAbsTiming(i, 2, verticalJudgeLine.transform.position.x);
+                    absTiming = Judge.GetAbsTiming(i, verticalJudgeLine.transform.position.x);
                 }
 
                 // 距離に応じて判定処理
-                Judge.JudgeGrade(absTiming, i, gameType);
+                Judge.JudgeGrade(absTiming, i);
 
                 stTapBG[i].SetActive(true);
             }

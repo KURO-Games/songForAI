@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
+    int lastScore = 0;
+    int maxScore;
     GameObject scoreText;
     GameObject scoreGauge;
     //[SerializeField] Sprite[] scoreNum = new Sprite[10];// 0～9の数字画像
@@ -19,26 +21,29 @@ public class ScoreManager : MonoBehaviour
     {
         scoreText = GameObject.Find("scoreText");
         scoreGauge = GameObject.Find("scoreGauge");
+
+        maxScore = Judge.gradePoint[0] * Judge.maxCombo;// perfect時の得点 * 最大コンボ　で天井点を取得
     }
 
     /// <summary>
     /// スコア、スコアゲージの描画を行います
     /// </summary>
     /// <param name="i">totalScore</param>
-    /// <param name="j">point</param>
-    /// <param name="k">maxCombo</param>
-    public void DrawScore(int i, int j)
+    public void DrawScore(int i)
     {
-        string s = i.ToString();
-        s = String.Format("{0:0000000}", i);// 7ケタ表示
-
+        // スコア表示
+        string s = String.Format("{0:0000000}", i);// 7ケタ表示
         scoreText.GetComponent<Text>().text = s;
 
-        // ここに最大コンボを入力
-        scoreGauge.GetComponent<Image>().fillAmount += (float)j / (Judge.gradePoint[0] * 300);
 
-        float a = j / (Judge.gradePoint[0] * 300);
-        Debug.Log(a);
+        // スコアゲージ増加
+        int points = i - lastScore;// 前回のスコアとの差で増えたポイントを算出
+        lastScore = i;// 今回のスコアを記憶
+
+        float increaseAmount = (float)points / maxScore;// ポイント / 天井点　でゲージ増加量を算出
+        Debug.Log(increaseAmount);
+        scoreGauge.GetComponent<Image>().fillAmount += increaseAmount;
+
         //現在のスコアを破棄
         //var nums = GameObject.FindGameObjectsWithTag("ScoreNum");
         //foreach (var num in nums)
