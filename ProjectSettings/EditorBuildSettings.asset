@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Users/k.tamura/Init/Init.unity
     guid: f04f27c7c573547308fd70432fead764
   - enabled: 1
+    path: Assets/Scenes/Tools/SoundManagerScene.unity
+    guid: 48c95370dd6e110459475cc7fc773a73
+  - enabled: 1
     path: Assets/Users/k.tamura/Init/Loading.unity
     guid: 4f685c9ff23b845698f5d2bee5ac85fa
   - enabled: 1
@@ -16,7 +19,7 @@ EditorBuildSettings:
     guid: 4c7f8a0a060f74922a4d0c1f56576e4d
   - enabled: 1
     path: Assets/Scenes/Main/Title.unity
-    guid: 8f4a6224b5d6cf14998a12900376a1c1
+    guid: d7d3b8e4a95a60140b493ac004b47fef
   - enabled: 1
     path: Assets/Scenes/Main/Home.unity
     guid: f02fe3060ef91489bb58f5da8832548b
