@@ -60,7 +60,7 @@ public class Result : MonoBehaviour
         }
 
         // Judgeからスコア、最大コンボ、判定内訳を取得
-        int resultScore = Judge.score;
+        int resultScore = Judge.totalScore;
         int resultCombo = Judge.bestcombo;
 
         score.GetComponent<Text>().text = resultScore.ToString();// スコア表示

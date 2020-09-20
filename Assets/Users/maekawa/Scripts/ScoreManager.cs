@@ -1,24 +1,49 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
+
+// 最大スコアを参照してゲージ描画
 
 public class ScoreManager : MonoBehaviour
 {
+    int lastScore = 0;
+    int maxScore;
+    GameObject scoreText;
+    GameObject scoreGauge;
     //[SerializeField] Sprite[] scoreNum = new Sprite[10];// 0～9の数字画像
     //[SerializeField] float width; // 数字の表示間隔
     //[SerializeField] GameObject[] _score;
 
     //int[] digit = new int[7];// 要素数 = 桁数
 
-    /// <summary>
-    /// 引数:スコア
-    /// </summary>
-    /// <param name="a"></param>
-    public void DrawScore(int a)
+    void Start()
     {
+        scoreText = GameObject.Find("scoreText");
+        scoreGauge = GameObject.Find("scoreGauge");
+
+        maxScore = Judge.gradePoint[0] * Judge.maxCombo;// perfect時の得点 * 最大コンボ　で天井点を取得
+    }
+
+    /// <summary>
+    /// スコア、スコアゲージの描画を行います
+    /// </summary>
+    /// <param name="i">totalScore</param>
+    public void DrawScore(int i)
+    {
+        // スコア表示
+        string s = String.Format("{0:0000000}", i);// 7ケタ表示
+        scoreText.GetComponent<Text>().text = s;
+
+
+        // スコアゲージ増加
+        int points = i - lastScore;// 前回のスコアとの差で増えたポイントを算出
+        lastScore = i;// 今回のスコアを記憶
+
+        float increaseAmount = (float)points / maxScore;// ポイント / 天井点　でゲージ増加量を算出
+        Debug.Log(increaseAmount);
+        scoreGauge.GetComponent<Image>().fillAmount += increaseAmount;
+
         //現在のスコアを破棄
         //var nums = GameObject.FindGameObjectsWithTag("ScoreNum");
         //foreach (var num in nums)

@@ -8,7 +8,6 @@ public class KeyJudge : MonoBehaviour
     private bool[] tapFlag = new bool[8];// 現在タップしているレーンの識別
     private bool[] lastTap = new bool[8];// 前フレームのタップ
 
-    private int gameType = 0;
     [SerializeField] private GameObject leftJudgeLine;  // 左判定ライン
     [SerializeField] private GameObject rightJudgeLine; // 右判定ライン
     [SerializeField] private GameObject[] TapBG = new GameObject[8]; // レーンタップ時の背景
@@ -20,6 +19,7 @@ public class KeyJudge : MonoBehaviour
         {
             tapFlag[i] = false;
             lastTap[i] = false;
+            TapBG[i].SetActive(false);
         }
     }
 
@@ -63,16 +63,16 @@ public class KeyJudge : MonoBehaviour
                 // 左レーン
                 if ((Judge.GOListArray[Judge.keyNotesCount[i]][i] != null) && (i <= 3))
                 {
-                    absTiming = Judge.GetAbsTiming(i, gameType, leftJudgeLine.transform.position.y);
+                    absTiming = Judge.GetAbsTiming(i, leftJudgeLine.transform.position.y);
                 }
                 // 右レーン
                 else if ((Judge.GOListArray[Judge.keyNotesCount[i]][i] != null) && (i >= 4))
                 {
-                    absTiming = Judge.GetAbsTiming(i, gameType, rightJudgeLine.transform.position.y);
+                    absTiming = Judge.GetAbsTiming(i, rightJudgeLine.transform.position.y);
                 }
 
                 // 距離に応じて判定処理
-                Judge.JudgeGrade(absTiming, i, gameType);
+                Judge.JudgeGrade(absTiming, i);
 
                 TapBG[i].SetActive(true);
             }
