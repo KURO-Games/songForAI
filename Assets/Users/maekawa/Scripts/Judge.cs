@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Judge : MonoBehaviour
 {
@@ -33,6 +34,8 @@ public class Judge : MonoBehaviour
     static ScoreManager mg1;
     static ComboManager mg2;
 
+    static DrawGrade[] dg = new DrawGrade[8];
+    public static GameObject[] drawGrade = new GameObject[8];
     void Start()
     {
         //初期化
@@ -59,6 +62,18 @@ public class Judge : MonoBehaviour
         GameObject uiObj = GameObject.Find("UICanvas");
         mg1 = uiObj.GetComponent<ScoreManager>();
         mg2 = uiObj.GetComponent<ComboManager>();
+
+        // 評価UI表示用のスクリプト配列をセット
+        for(int i = 0; i < drawGrade.Length; i++)
+        {
+            string callObject = "drawGrade" + i;
+
+            drawGrade[i] = GameObject.Find(callObject);
+
+            dg[i] = drawGrade[i].GetComponent<DrawGrade>();
+        }
+        // 使い方
+        // dg[laneNumber].DrawGrades(grade);
     }
 
     public static void ListImport()
@@ -146,6 +161,8 @@ public class Judge : MonoBehaviour
             point = gradePoint[0];
             combo++;
             totalGrades[0]++;
+
+            dg[j].DrawGrades(0);
             SoundManager.SESoundCue(2);
         }
         else if (i <= gradeCriterion[1])
@@ -153,6 +170,8 @@ public class Judge : MonoBehaviour
             point = gradePoint[1];
             combo++;
             totalGrades[1]++;
+
+            dg[j].DrawGrades(1);
             SoundManager.SESoundCue(2);
         }
         else if (i <= gradeCriterion[2])
@@ -160,6 +179,8 @@ public class Judge : MonoBehaviour
             point = gradePoint[2];
             combo = 0;
             totalGrades[2]++;
+
+            dg[j].DrawGrades(2);
             SoundManager.SESoundCue(3);
         }
         else if (i <= gradeCriterion[3])
@@ -167,6 +188,8 @@ public class Judge : MonoBehaviour
             point = gradePoint[3];
             combo = 0;
             totalGrades[3]++;
+
+            dg[j].DrawGrades(4);
             SoundManager.SESoundCue(4);
         }
         else// 空タップ
@@ -233,6 +256,8 @@ public class Judge : MonoBehaviour
 
         mg2.DrawCombo(combo);
         int tempLaneNum = int.Parse(i);// 文字列を数字に変換
+
+        dg[tempLaneNum].DrawGrades(4);
 
         NotesDestroy(tempLaneNum);
     }
