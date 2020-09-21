@@ -43,8 +43,8 @@ public class Scenario_Controller : MonoBehaviour
     private void Start()
     {
         //会話の一行目を読ませるための初期化
-        Display_Num = 1;
-        Text_Load();
+        Display_Num = 3;
+        Text_Load("Scenario");
         StartCoroutine(Message_Display());
         Message_Display();
         _isEnded = false;
@@ -63,23 +63,24 @@ public class Scenario_Controller : MonoBehaviour
     /// 
     /// </summary>
     #region テキストロード
-    private void Text_Load()
+    private void Text_Load(string fileName)
     {
         //txtからロード
         TextAsset textAsset = new TextAsset();
         //                              ↓読み込むテキスト名  後にswitch分で進行度（？）ごとに読み込むシナリオを変えれるようにするかも？
         textAsset = Resources.Load("Text_Test3", typeof(TextAsset)) as TextAsset;
 
-        //ロードしたのを一度格納
-        string Text_Lines = textAsset.text;
+        FileInfo info = new FileInfo(Application.streamingAssetsPath + "/Scenario/"+fileName+".csv");
+        StreamReader reader = new StreamReader(info.OpenRead());
+        string Text_Lines = reader.ReadToEnd();
 
         //行ごとに分割
         Text_Message = Text_Lines.Split('\n');
 
         //横列認識
-        Side_Num = Text_Message[0].Split('\t').Length;
+        Side_Num = Text_Message[2].Split(',').Length;
         //縦列認識
-        Vertical_Num = Text_Lines.Split('\n').Length;
+        Vertical_Num = Text_Lines.Split('\n').Length-1;
 
         //配列要素数確定させる
         Text_Words = new string[Vertical_Num, Side_Num];
@@ -87,11 +88,11 @@ public class Scenario_Controller : MonoBehaviour
         for(var i = 0; i < Vertical_Num; i++)
         {
             //保存する行を確定、保存
-            string[] TempWords = Text_Message[i].Split('\t');
+            string[] TempWords = Text_Message[i].Split(',');
 
             for (var n = 0; n < Side_Num; n++)
             {
-                Debug.Log(TempWords[n]);
+                //Debug.Log(TempWords[n]);
                 //保存する列を確定、保存
                 Text_Words[i, n] = TempWords[n];
             }
