@@ -618,8 +618,17 @@ MonoBehaviour:
   BackGround: {fileID: 503086361}
   Character_Sprite:
   - {fileID: 21300000, guid: e50f05247697b40b3994fd640d844136, type: 3}
+  - {fileID: 21300000, guid: 051771e3ec8151b49b7650c78720da08, type: 3}
+  - {fileID: 21300000, guid: 36b35b27a6210754ba5f568403b3573a, type: 3}
+  - {fileID: 21300000, guid: 7a6a2251e545d0d458c79d625747ea0e, type: 3}
+  - {fileID: 21300000, guid: 301d3697f9c57a841b531b70706e75b7, type: 3}
+  - {fileID: 21300000, guid: 3a90e0eebffeb5345b3bb7fb49a83fef, type: 3}
+  - {fileID: 21300000, guid: b20a3950255d20e43b12f7e19795f1c8, type: 3}
+  - {fileID: 21300000, guid: 63e3b20c913639942a6e7be0da23d43e, type: 3}
   BackGround_Sprite:
   - {fileID: 21300000, guid: d14f8612287e80d489a737c45bfe590f, type: 3}
+  - {fileID: 21300000, guid: 0239e0728a159c14d92b33de90803fab, type: 3}
+  - {fileID: 21300000, guid: c2da59d2290fbad418fa38a5699fa647, type: 3}
   Message_Speed: 0.05
 --- !u!4 &837249732
 Transform:
@@ -953,7 +962,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 11.450195}
+  m_AnchoredPosition: {x: 0, y: 11.5}
   m_SizeDelta: {x: -163.15942, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1495985549
