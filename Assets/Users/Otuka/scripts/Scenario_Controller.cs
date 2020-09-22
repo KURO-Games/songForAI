@@ -44,7 +44,7 @@ public class Scenario_Controller : MonoBehaviour
     {
         //会話の一行目を読ませるための初期化
         Display_Num = 3;
-        Text_Load("sinario_0");
+        Text_Load("sinario_1");
         StartCoroutine(Message_Display());
         Message_Display();
         _isEnded = false;
@@ -132,6 +132,16 @@ public class Scenario_Controller : MonoBehaviour
                         Message.text += "\n";
                         Message_Count += 1;
                     }
+                    else if(Text_Words[Display_Num, 4][Message_Count + 1] == '\"')
+                    {
+                        Message.text += "\"";
+                        Message_Count += 1;
+                    }
+                }
+                else if (Text_Words[Display_Num, 4][Message_Count] == '\"')
+                {
+                    
+                    yield return new WaitForSeconds(Message_Speed);
                 }
                 else
                 {
