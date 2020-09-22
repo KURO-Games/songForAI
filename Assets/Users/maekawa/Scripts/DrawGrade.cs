@@ -20,6 +20,7 @@ public class DrawGrade : MonoBehaviour
 
     void Update()
     {
+        // 透過処理
         for (int i = 0; i < gradesImage.Length; i++)
         {
             if (alpha[i] > 0)

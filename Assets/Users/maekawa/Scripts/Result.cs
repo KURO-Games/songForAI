@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,55 +9,64 @@ using UnityEngine.UI;
 // 曲名、総ノーツ数、難易度、楽曲レベル受け渡し
 public class Result : MonoBehaviour
 {
-    // 表示する各テキストをインスペクターでアタッチ
-    // gradesにはperfect～missの順番でアタッチ
+    // プランナー用ランク基準値 *********************
+    // S～Bの順で達成率(%)を入力
+    [SerializeField] float[] rankLimit = new float[3];
+    // **********************************************
+
+
     [SerializeField] GameObject[] grades = new GameObject[5];
     [SerializeField] GameObject score;
-    [SerializeField] GameObject maxCombo;
+    [SerializeField] GameObject bestCombo;
     [SerializeField] GameObject songName;
-    [SerializeField] GameObject Difficulty;
-    [SerializeField] GameObject Level;
+    [SerializeField] GameObject difficulty;
+    [SerializeField] GameObject level;
     [SerializeField] GameObject fullCombo;
-    [SerializeField] GameObject S_sprite;
-    [SerializeField] GameObject A_sprite;
-    [SerializeField] GameObject B_sprite;
-    [SerializeField] GameObject C_sprite;
-
-    // 各ランク基準
-    [SerializeField] int RankS_Rimit;
-    [SerializeField] int RankA_Rimit;
-    [SerializeField] int RankB_Rimit;
+    [SerializeField] GameObject rankS;
+    [SerializeField] GameObject rankA;
+    [SerializeField] GameObject rankB;
+    [SerializeField] GameObject rankC;
     //
-    public static int totalNotes;       // フルコンボ判定に使用する総ノーツ数
-    public static string resultSongName;// 曲名表示
-    public static int level;            // 楽曲レベル表示
-    public static int difficulty;       // 難易度 0...easy～3...pro
+    public static int maxCombo;       // フルコンボ判定に使用する総ノーツ数
+    public static string _songName;   // 曲名表示
+    public static int _level;         // 楽曲レベル表示
+    public static int _difficulty;    // 難易度 0...easy～3...pro
 
-    private int count = 0;
-    private int arrayCount = 0;
-    private bool resultAnimFlag = false;
+    private int count;
+    private int arrayCount;
+    private bool resultAnimFlag;
     void Start()
     {
-        // 曲名、難易度、レベル表示
-        songName.GetComponent<Text>().text = resultSongName;// 曲名表示
-        Level.GetComponent<Text>().text = level.ToString(); ;// 楽曲レベル表示
+        // 初期化
+        count = 0;
+        arrayCount = 0;
+        resultAnimFlag = false;
+
+        // ここに曲データを代入
+
+
+        // 曲名、レベル、難易度表示
+        songName.GetComponent<Text>().text = _songName;       // 曲名表示
+
+        string s = String.Format("{0:00}", _level);            // 2ケタ指定
+        level.GetComponent<Text>().text = s; ;                // 楽曲レベル表示
 
         // 難易度表示
-        if (difficulty == 0)
+        if (_difficulty == 0)
         {
-            Difficulty.GetComponent<Text>().text = ("Easy");
+            difficulty.GetComponent<Text>().text = ("Easy");
         }
-        else if(difficulty == 1)
+        else if(_difficulty == 1)
         {
-            Difficulty.GetComponent<Text>().text = ("Normal");
+            difficulty.GetComponent<Text>().text = ("Normal");
         }
-        else if (difficulty == 2)
+        else if (_difficulty == 2)
         {
-            Difficulty.GetComponent<Text>().text = ("Hard");
+            difficulty.GetComponent<Text>().text = ("Hard");
         }
-        else if(difficulty == 3)
+        else if(_difficulty == 3)
         {
-            Difficulty.GetComponent<Text>().text = ("Pro");
+            difficulty.GetComponent<Text>().text = ("Pro");
         }
 
         // Judgeからスコア、最大コンボ、判定内訳を取得
@@ -64,30 +74,30 @@ public class Result : MonoBehaviour
         int resultCombo = Judge.bestcombo;
 
         score.GetComponent<Text>().text = resultScore.ToString();// スコア表示
-        maxCombo.GetComponent<Text>().text = resultCombo.ToString();// コンボ表示
+        bestCombo.GetComponent<Text>().text = resultCombo.ToString();// コンボ表示
 
         // フルコンボ表示
-        if (resultCombo == totalNotes)
+        if (resultCombo == maxCombo)
         {
             fullCombo.SetActive(true);
         }
 
         // スコアに応じてランク表示
-        if (resultScore >= RankS_Rimit)
+        if (ScoreManager.increaseAmount >= rankLimit[0])
         {
-            S_sprite.SetActive(true);
+            rankS.SetActive(true);
         }
-        else if(resultScore >= RankA_Rimit)
+        else if (ScoreManager.increaseAmount >= rankLimit[1])
         {
-            A_sprite.SetActive(true);
+            rankA.SetActive(true);
         }
-        else if(resultScore >= RankB_Rimit)
+        else if (ScoreManager.increaseAmount >= rankLimit[2])
         {
-            B_sprite.SetActive(true);
+            rankB.SetActive(true);
         }
-        else 
+        else
         {
-            C_sprite.SetActive(true);
+            rankC.SetActive(true);
         }
     }
 
@@ -106,14 +116,14 @@ public class Result : MonoBehaviour
                 if(count == 0)
                 {
                     // 0 + 0～9　と表示させないための処理
-                    int tempNum = Random.Range(0, 9);
+                    int tempNum = UnityEngine.Random.Range(0, 9);
                     grades[arrayCount].GetComponent<Text>().text = tempNum.ToString();
                     count++;
                 }
                 else
                 {
                     // 10単位でカウントアップ、1の位はランダムで表示
-                    grades[arrayCount].GetComponent<Text>().text = count.ToString() + Random.Range(0, 9);
+                    grades[arrayCount].GetComponent<Text>().text = count.ToString() + UnityEngine.Random.Range(0, 9);
                     count++;
                 }
             }
@@ -133,9 +143,15 @@ public class Result : MonoBehaviour
             }
         }
 
-        if(Input.GetMouseButtonDown(0))
+        // タップでリザルトアニメーションをスキップ
+        if (Input.GetMouseButtonDown(0))
         {
-            SceneLoadManager.LoadScene("Home");
+            resultAnimFlag = true;
+
+            for (int i = 0; i < grades.Length; i++)
+            {
+                grades[i].GetComponent<Text>().text = Judge.totalGrades[i].ToString();
+            }
         }
     }
 }
