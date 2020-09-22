@@ -1608,7 +1608,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -223, y: 272.7}
+  m_AnchoredPosition: {x: -223, y: 273}
   m_SizeDelta: {x: 275.90002, y: 148.59998}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &969197554
@@ -2001,8 +2001,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -557.5, y: 490}
-  m_SizeDelta: {x: 813.2, y: 61.7}
+  m_AnchoredPosition: {x: -566, y: 499}
+  m_SizeDelta: {x: 813.2, y: 105.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1284874264
 MonoBehaviour:
@@ -2024,18 +2024,18 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: ed63f574a8055f54180d1a1845dbb90d, type: 3}
-    m_FontSize: 60
+    m_FontSize: 75
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 60
+    m_MaxSize: 80
     m_Alignment: 6
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Sample song
+  m_Text: Sample Song
 --- !u!222 &1284874265
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2158,7 +2158,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -639, y: 272.7}
+  m_AnchoredPosition: {x: -639, y: 273}
   m_SizeDelta: {x: 275.90002, y: 148.59998}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1357128937
