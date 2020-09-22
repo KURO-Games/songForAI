@@ -44,7 +44,7 @@ public class Scenario_Controller : MonoBehaviour
     {
         //会話の一行目を読ませるための初期化
         Display_Num = 3;
-        Text_Load("Scenario");
+        Text_Load("sinario_0");
         StartCoroutine(Message_Display());
         Message_Display();
         _isEnded = false;
@@ -112,7 +112,11 @@ public class Scenario_Controller : MonoBehaviour
             //キャラ表示
             Character.sprite = Character_Sprite[int.Parse(Text_Words[Display_Num, 2])];
             //名前表示
-            Name.text = Text_Words[Display_Num, 3];
+            if(Text_Words[Display_Num, 3]=="null")
+            {
+                Name.text = "";
+            }else
+                Name.text = Text_Words[Display_Num, 3];
             //メッセージ表示
             //テキストリセット
             Message.text = "";
@@ -120,14 +124,27 @@ public class Scenario_Controller : MonoBehaviour
             var t = Time.time;
             while (Text_Words[Display_Num, 4].Length > Message_Count)
             {
-                Message.text += Text_Words[Display_Num, 4][Message_Count];
+                if (Text_Words[Display_Num, 4][Message_Count] == '\\')
+                {
+
+                    if (Text_Words[Display_Num, 4][Message_Count + 1] == 'n')
+                    {
+                        Message.text += "\n";
+                        Message_Count += 1;
+                    }
+                }
+                else
+                {
+                    
+                    Message.text += Text_Words[Display_Num, 4][Message_Count];
+                }
                 Message_Count++;
                 yield return new WaitForSeconds(Message_Speed);
             }
             Display_Num++;
             Message_Complete = true;
         }
-        else　if(!_isEnded)
+        else if (!_isEnded)
         {
             //シーン遷移
             _isEnded = true;
