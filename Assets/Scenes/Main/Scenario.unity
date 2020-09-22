@@ -485,7 +485,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e50f05247697b40b3994fd640d844136, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b3f7a3e5dee213a4fa268b3fd18bf9e1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -617,9 +617,20 @@ MonoBehaviour:
   Character: {fileID: 659613236}
   BackGround: {fileID: 503086361}
   Character_Sprite:
+  - {fileID: 21300000, guid: b3f7a3e5dee213a4fa268b3fd18bf9e1, type: 3}
   - {fileID: 21300000, guid: e50f05247697b40b3994fd640d844136, type: 3}
+  - {fileID: 21300000, guid: 051771e3ec8151b49b7650c78720da08, type: 3}
+  - {fileID: 21300000, guid: 301d3697f9c57a841b531b70706e75b7, type: 3}
+  - {fileID: 21300000, guid: 3a90e0eebffeb5345b3bb7fb49a83fef, type: 3}
+  - {fileID: 21300000, guid: 36b35b27a6210754ba5f568403b3573a, type: 3}
+  - {fileID: 21300000, guid: 7a6a2251e545d0d458c79d625747ea0e, type: 3}
+  - {fileID: 21300000, guid: b20a3950255d20e43b12f7e19795f1c8, type: 3}
+  - {fileID: 21300000, guid: 63e3b20c913639942a6e7be0da23d43e, type: 3}
   BackGround_Sprite:
+  - {fileID: 21300000, guid: 87fc923e0138dd74ab4d453d10463bff, type: 3}
   - {fileID: 21300000, guid: d14f8612287e80d489a737c45bfe590f, type: 3}
+  - {fileID: 21300000, guid: c2da59d2290fbad418fa38a5699fa647, type: 3}
+  - {fileID: 21300000, guid: 0239e0728a159c14d92b33de90803fab, type: 3}
   Message_Speed: 0.05
 --- !u!4 &837249732
 Transform:
