@@ -10,7 +10,7 @@ public class KeyJudge : MonoBehaviour
 
     [SerializeField] private GameObject leftJudgeLine;  // 左判定ライン
     [SerializeField] private GameObject rightJudgeLine; // 右判定ライン
-    [SerializeField] private GameObject[] TapBG = new GameObject[8]; // レーンタップ時の背景
+    [SerializeField] private GameObject[] tapBG = new GameObject[8]; // レーンタップ時の背景
 
     private void Start()
     {
@@ -19,7 +19,7 @@ public class KeyJudge : MonoBehaviour
         {
             tapFlag[i] = false;
             lastTap[i] = false;
-            TapBG[i].SetActive(false);
+            tapBG[i].SetActive(false);
         }
     }
 
@@ -74,12 +74,12 @@ public class KeyJudge : MonoBehaviour
                 // 距離に応じて判定処理
                 Judge.JudgeGrade(absTiming, i);
 
-                TapBG[i].SetActive(true);
+                tapBG[i].SetActive(true);
             }
             // タップ終了
             else if ((lastTap[i] == true) && (tapFlag[i] == false))
             {
-                TapBG[i].SetActive(false);
+                tapBG[i].SetActive(false);
             }
         }
     }

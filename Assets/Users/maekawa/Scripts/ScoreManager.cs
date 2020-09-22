@@ -7,8 +7,9 @@ using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
-    int lastScore = 0;
-    int maxScore;
+    public static float increaseAmount;// スコアゲージ増加量
+    private int lastScore;// totalScoreとの比較用
+    private int maxScore;// 内部用天井点
     GameObject scoreText;
     GameObject scoreGauge;
     //[SerializeField] Sprite[] scoreNum = new Sprite[10];// 0～9の数字画像
@@ -19,10 +20,12 @@ public class ScoreManager : MonoBehaviour
 
     void Start()
     {
+        increaseAmount = 0;
+        lastScore = 0;
+        maxScore = Judge.gradePoint[0] * Judge.maxCombo;// perfect時の得点 * 最大コンボ　で天井点を取得
+
         scoreText = GameObject.Find("scoreText");
         scoreGauge = GameObject.Find("scoreGauge");
-
-        maxScore = Judge.gradePoint[0] * Judge.maxCombo;// perfect時の得点 * 最大コンボ　で天井点を取得
     }
 
     /// <summary>
@@ -40,9 +43,8 @@ public class ScoreManager : MonoBehaviour
         int points = i - lastScore;// 前回のスコアとの差で増えたポイントを算出
         lastScore = i;// 今回のスコアを記憶
 
-        float increaseAmount = (float)points / maxScore;// ポイント / 天井点　でゲージ増加量を算出
-        Debug.Log(increaseAmount);
-        scoreGauge.GetComponent<Image>().fillAmount += increaseAmount;
+        increaseAmount += (float)points / maxScore;// ポイント / 天井点　でゲージ増加量を算出
+        scoreGauge.GetComponent<Image>().fillAmount = increaseAmount;
 
         //現在のスコアを破棄
         //var nums = GameObject.FindGameObjectsWithTag("ScoreNum");
