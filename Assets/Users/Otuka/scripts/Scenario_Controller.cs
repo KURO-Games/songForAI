@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class Scenario_Controller : MonoBehaviour
 {
@@ -39,25 +40,46 @@ public class Scenario_Controller : MonoBehaviour
     private bool Message_Complete;  //メッセージが最期まで表示されたかどうか
 
     private bool _isEnded;
+    GameObject InputCanvas;
 
+    CanvasGroup _userNameInputs;
+    public static bool isUserInputs = false;
+    private void Awake()
+    {
+        SceneLoadManager.SceneAdd("UserInputs");
+    }
     private void Start()
     {
+        
         //会話の一行目を読ませるための初期化
         Display_Num = 3;
+        Scene scene = SceneManager.GetSceneByName("UserInputs");
+        foreach (var rootGameObject in scene.GetRootGameObjects())
+        {
+            _userNameInputs = rootGameObject.GetComponent<CanvasGroup>();
+            if (_userNameInputs != null)
+            {
+                break;
+            }
+        }
         Text_Load("sinario_1");
         StartCoroutine(Message_Display());
         Message_Display();
         _isEnded = false;
+
     }
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && Message_Complete == true)
+        if (Input.GetMouseButtonDown(0) && Message_Complete == true&&isUserInputs==false)
         {
             StartCoroutine(Message_Display());
         }
     }
 
-
+    public void StartCoroutineDisplay()
+    {
+        StartCoroutine(Message_Display());
+    }
 
     /// <summary>
     /// 
@@ -101,7 +123,7 @@ public class Scenario_Controller : MonoBehaviour
     #endregion
 
     #region メッセージ、キャラクター、背景の表示
-    private IEnumerator Message_Display()
+    public IEnumerator Message_Display()
     {
         //表示行数がtxtの行数以下なら
         if (Vertical_Num > Display_Num)
@@ -115,7 +137,11 @@ public class Scenario_Controller : MonoBehaviour
             if(Text_Words[Display_Num, 3]=="null")
             {
                 Name.text = "";
-            }else
+            }else if (Text_Words[Display_Num, 3] == "user")
+            {
+                Name.text = PlayerPrefs.GetString("PlayerName");
+            }
+            else
                 Name.text = Text_Words[Display_Num, 3];
             //メッセージ表示
             //テキストリセット
@@ -136,6 +162,14 @@ public class Scenario_Controller : MonoBehaviour
                     {
                         Message.text += "\"";
                         Message_Count += 1;
+                    }
+                    else if(Text_Words[Display_Num, 4][Message_Count + 1] == 'u')
+                    {
+                        for (float i = 0; i <= 1; i += 0.01f)
+                            _userNameInputs.alpha = i;
+                        isUserInputs = true;
+                        Message_Count += 1;
+                        yield return new WaitForSeconds(Message_Speed);
                     }
                 }
                 else if (Text_Words[Display_Num, 4][Message_Count] == '\"')
