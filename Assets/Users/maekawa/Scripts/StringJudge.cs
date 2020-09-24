@@ -8,10 +8,9 @@ public class StringJudge : MonoBehaviour
     private bool[] tapFlag = new bool[6];// 現在タップしているレーンの識別
     private bool[] lastTap = new bool[6];// 前フレームのタップ
 
-    private int gameType = 1;
     [SerializeField] private GameObject verticalJudgeLine;  // 横レーン用判定ライン
     [SerializeField] private GameObject horizonJudgeLine;   // 縦レーン用判定ライン
-    [SerializeField] private GameObject[] stTapBG = new GameObject[6]; // レーンタップ時の背景
+    //[SerializeField] private GameObject[] stTapBG = new GameObject[6]; // レーンタップ時の背景
 
     private void Start()
     {
@@ -20,6 +19,7 @@ public class StringJudge : MonoBehaviour
         {
             tapFlag[i] = false;
             lastTap[i] = false;
+            //stTapBG[i].SetActive(false);
         }
     }
 
@@ -71,15 +71,19 @@ public class StringJudge : MonoBehaviour
                     absTiming = Judge.GetAbsTiming(i, verticalJudgeLine.transform.position.x);
                 }
 
+                //
+                //absTiming = Judge.GetAbsTiming(100, horizonJudgeLine.transform.position.y);
+                //
+
                 // 距離に応じて判定処理
                 Judge.JudgeGrade(absTiming, i);
 
-                stTapBG[i].SetActive(true);
+                //stTapBG[i].SetActive(true);
             }
             // タップ終了
             else if ((lastTap[i] == true) && (tapFlag[i] == false))
             {
-                stTapBG[i].SetActive(false);
+                //stTapBG[i].SetActive(false);
             }
         }
     }

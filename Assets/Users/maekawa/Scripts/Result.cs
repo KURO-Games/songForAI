@@ -3,10 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityScript.Steps;
 
-// シーン遷移
-// マルチプラットフォーム対応
-// 曲名、総ノーツ数、難易度、楽曲レベル受け渡し
+// gameTypeに応じてキャラクター表示
 public class Result : MonoBehaviour
 {
     // プランナー用ランク基準値 *********************
@@ -17,7 +16,7 @@ public class Result : MonoBehaviour
 
     [SerializeField] GameObject[] grades = new GameObject[5];
     [SerializeField] GameObject score;
-    [SerializeField] GameObject bestCombo;
+    [SerializeField] GameObject maxCombo;
     [SerializeField] GameObject songName;
     [SerializeField] GameObject difficulty;
     [SerializeField] GameObject level;
@@ -27,57 +26,55 @@ public class Result : MonoBehaviour
     [SerializeField] GameObject rankB;
     [SerializeField] GameObject rankC;
     //
-    public static int maxCombo;       // フルコンボ判定に使用する総ノーツ数
-    public static string _songName;   // 曲名表示
-    public static int _level;         // 楽曲レベル表示
-    public static int _difficulty;    // 難易度 0...easy～3...pro
-
+    public static int gameType;
+    //
     private int count;
     private int arrayCount;
-    private bool resultAnimFlag;
+    private bool scoreAnimeFlag;
+    private bool comboAnimeFlag;
+    private bool gradesAnimeFlag;
+
+    //
+    GameObject scoreGauge;
+    float x = 1500;
+    float y = 1500;
+    float alpha = 0;
+    float resultIncrease = 0;
     void Start()
     {
         // 初期化
         count = 0;
         arrayCount = 0;
-        resultAnimFlag = false;
+        scoreAnimeFlag = false;
+        comboAnimeFlag = false;
+        gradesAnimeFlag = false;
 
-        // ここに曲データを代入
+        // 曲名表示
+        songName.GetComponent<Text>().text = MusicDatas.MusicName;  // 曲名表示
 
-
-        // 曲名、レベル、難易度表示
-        songName.GetComponent<Text>().text = _songName;       // 曲名表示
-
-        string s = String.Format("{0:00}", _level);            // 2ケタ指定
-        level.GetComponent<Text>().text = s; ;                // 楽曲レベル表示
+        // レベル表示
+        string s = String.Format("{0:00}", MusicDatas.difficultLevel);       // 2ケタ指定
+        level.GetComponent<Text>().text = s;
 
         // 難易度表示
-        if (_difficulty == 0)
+        switch(MusicDatas.difficultNumber)
         {
-            difficulty.GetComponent<Text>().text = ("Easy");
+            case 0:
+                difficulty.GetComponent<Text>().text = ("Easy");
+                break;
+            case 1:
+                difficulty.GetComponent<Text>().text = ("Normal");
+                break;
+            case 2:
+                difficulty.GetComponent<Text>().text = ("Hard");
+                break;
+            case 3:
+                difficulty.GetComponent<Text>().text = ("Pro");
+                break;
         }
-        else if(_difficulty == 1)
-        {
-            difficulty.GetComponent<Text>().text = ("Normal");
-        }
-        else if (_difficulty == 2)
-        {
-            difficulty.GetComponent<Text>().text = ("Hard");
-        }
-        else if(_difficulty == 3)
-        {
-            difficulty.GetComponent<Text>().text = ("Pro");
-        }
-
-        // Judgeからスコア、最大コンボ、判定内訳を取得
-        int resultScore = Judge.totalScore;
-        int resultCombo = Judge.bestcombo;
-
-        score.GetComponent<Text>().text = resultScore.ToString();// スコア表示
-        bestCombo.GetComponent<Text>().text = resultCombo.ToString();// コンボ表示
 
         // フルコンボ表示
-        if (resultCombo == maxCombo)
+        if (Judge.bestCombo == MusicDatas.allNotes)
         {
             fullCombo.SetActive(true);
         }
@@ -95,23 +92,114 @@ public class Result : MonoBehaviour
         {
             rankB.SetActive(true);
         }
-        else
-        {
-            rankC.SetActive(true);
-        }
+        //else
+        //{
+        //    rankC.SetActive(true);
+        //}
+
+        scoreGauge = GameObject.Find("scoreGauge");
     }
 
     void Update()
     {
+        //rankS.SetActive(true);
+        //RectTransform r = GameObject.Find("S").GetComponent<RectTransform>();
+        //r.sizeDelta = new Vector2(x, y);
+
+        //Image a = GameObject.Find("S").GetComponent<Image>();
+
+        //a.GetComponent<Image>().color = new Color(255, 255, 255, alpha);
+        //if (x > 400)
+        //{
+        //    x -= 100;
+        //    y -= 100;
+        //}
+
+        //if (alpha < 1)
+        //{
+        //    alpha += 0.05f;
+        //}
+        if(scoreAnimeFlag == true && resultIncrease < ScoreManager.increaseAmount)
+        {
+            resultIncrease += 0.001f;
+            scoreGauge.GetComponent<Image>().fillAmount += resultIncrease;
+        }
+
         // リザルト表示アニメーション
-        if (resultAnimFlag != true)
+        // スコアアニメーション
+        if (scoreAnimeFlag != true)
+        {
+            if (count < Judge.totalScore / 100)
+            {
+                if (count == 0)
+                {
+                    // 0 + 0～9　と表示させないための処理
+                    int tempA = UnityEngine.Random.Range(0, 9);
+                    int tempB = UnityEngine.Random.Range(0, 9);
+                    string i = tempA.ToString() + tempB.ToString();
+
+                    int tempInt = int.Parse(i);
+                    score.GetComponent<Text>().text = String.Format("{0:0000000}", tempInt);
+                    count++;
+                }
+                else
+                {
+                    int tempA = UnityEngine.Random.Range(0, 9);
+                    int tempB = UnityEngine.Random.Range(0, 9);
+                    string i = count.ToString() + tempA.ToString() + tempB.ToString();
+
+                    int tempInt = int.Parse(i);
+
+                    score.GetComponent<Text>().text = String.Format("{0:0000000}", tempInt);
+                    count++;
+                }
+            }
+            else
+            {
+                score.GetComponent<Text>().text = String.Format("{0:0000000}", Judge.totalScore);
+                count = 0;   // カウントリセット
+                scoreAnimeFlag = true;
+            }
+        }
+        // コンボアニメーション
+        else if(comboAnimeFlag != true)
+        {
+            if (count <= Judge.bestCombo / 10 && Judge.bestCombo >= 11)
+            {
+                if (count == 0)
+                {
+                    // 0 + 0～9　と表示させないための処理
+                    int tempNum = UnityEngine.Random.Range(0, 9);
+                    maxCombo.GetComponent<Text>().text = tempNum.ToString();
+                    count++;
+                }
+                else
+                {
+                    maxCombo.GetComponent<Text>().text = count.ToString() + UnityEngine.Random.Range(0, 9);
+                    count++;
+                }
+            }
+            else if (count <= Judge.bestCombo && Judge.bestCombo <= 10)
+            {
+                maxCombo.GetComponent<Text>().text = count.ToString();
+                count++;
+            }
+            else
+            {
+                maxCombo.GetComponent<Text>().text = Judge.bestCombo.ToString();
+                count = 0;
+                comboAnimeFlag = true;
+            }
+        }
+        // グレード内訳アニメーション
+        else if(gradesAnimeFlag != true)
         {
             if (arrayCount > 4)
             {
-                resultAnimFlag = true;// データを表示しきったら終了
+                gradesAnimeFlag = true;// データを表示しきったら終了
             }
             // アニメーション①
-            else if ((count <= Judge.totalGrades[arrayCount] / 10) && (Judge.totalGrades[arrayCount] > 10))
+            else if ((count <= Judge.totalGrades[arrayCount] / 10) && (Judge.totalGrades[arrayCount] >= 11))
             {
                 if(count == 0)
                 {
@@ -128,7 +216,7 @@ public class Result : MonoBehaviour
                 }
             }
             // アニメーション②
-            else if ((count <= Judge.totalGrades[arrayCount]) && (Judge.totalGrades[arrayCount] < 10))
+            else if ((count <= Judge.totalGrades[arrayCount]) && (Judge.totalGrades[arrayCount] <= 10))
             {
                 // 表示する値が1桁の場合、普通にカウントアップ
                 grades[arrayCount].GetComponent<Text>().text = count.ToString();
@@ -146,12 +234,22 @@ public class Result : MonoBehaviour
         // タップでリザルトアニメーションをスキップ
         if (Input.GetMouseButtonDown(0))
         {
-            resultAnimFlag = true;
+            // スコア表示
+            string s = String.Format("{0:0000000}", Judge.totalScore);// 7ケタ指定
+            score.GetComponent<Text>().text = s;
 
+            // コンボ表示
+            maxCombo.GetComponent<Text>().text = Judge.bestCombo.ToString();
+
+            // グレード内訳表示
             for (int i = 0; i < grades.Length; i++)
             {
                 grades[i].GetComponent<Text>().text = Judge.totalGrades[i].ToString();
             }
+
+            scoreAnimeFlag = true;
+            comboAnimeFlag = true;
+            gradesAnimeFlag = true;
         }
     }
 }

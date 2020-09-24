@@ -7,13 +7,12 @@ public class Judge : MonoBehaviour
 {
     // プランナーレベルデザイン用 ******************************************************
     // perfect ～ badの順に入力
-    public static float[] gradeCriterion = { 1.0f, 1.5f, 2, 3 }; // 判定許容値
-    public static int[] gradePoint = { 300, 200, 100, 10 };      // 各判定に応じたスコア
+    public static float[] gradesCriterion = { 1.0f, 1.5f, 2, 3 }; // 判定許容値
+    public static int[] gradesPoint = { 300, 200, 100, 10 };      // 各判定に応じたスコア
     // *********************************************************************************
 
     // 曲情報を参照
-    public static int maxCombo = 300;
-    public static int gameType = 0;// 二重鍵盤用
+    public static int gameType = 0;
     public static List<List<GameObject>> GOListArray = new List<List<GameObject>>();// ノーツ座標格納用2次元配列
     //
     // 使い方  GOListArray   [_notesCount[laneNumber]]                   [laneNumber]
@@ -21,9 +20,9 @@ public class Judge : MonoBehaviour
 
 
     // リザルト用
-    public static int totalScore = 0;                    // 合計スコア
-    public static int combo = 0;                         // 現在のコンボ
-    public static int bestcombo = 0;                     // プレイヤー最大コンボ
+    public static int totalScore;                   // 合計スコア
+    public static int combo;                         // 現在のコンボ
+    public static int bestCombo;                     // プレイヤー最大コンボ
     public static int[] totalGrades = new int[5];        // 判定内訳（perfect ～ miss）
 
 
@@ -38,10 +37,13 @@ public class Judge : MonoBehaviour
     public static GameObject[] drawGrade = new GameObject[8];
     void Start()
     {
+        // MusicDatas参照
+        //gameType = MusicDatas.
+
         //初期化
         totalScore = 0;
         combo = 0;
-        bestcombo = 0;
+        bestCombo = 0;
 
         for (int i = 0; i < totalGrades.Length; i++)
         {
@@ -64,16 +66,33 @@ public class Judge : MonoBehaviour
         mg2 = uiObj.GetComponent<ComboManager>();
 
         // 評価UI表示用のスクリプト配列をセット
-        for(int i = 0; i < drawGrade.Length; i++)
+        switch(gameType)
         {
-            string callObject = "drawGrade" + i;
+            case 0:
+                for (int i = 0; i < drawGrade.Length; i++)
+                {
+                    string callObject = "drawGrade" + i;
 
-            drawGrade[i] = GameObject.Find(callObject);
+                    drawGrade[i] = GameObject.Find(callObject);
 
-            dg[i] = drawGrade[i].GetComponent<DrawGrade>();
+                    dg[i] = drawGrade[i].GetComponent<DrawGrade>();
+                }
+                break;
+
+            case 1:
+                for (int i = 0; i < 5; i++)
+                {
+                    string callObject = "drawGrade" + i;
+
+                    drawGrade[i] = GameObject.Find(callObject);
+
+                    dg[i] = drawGrade[i].GetComponent<DrawGrade>();
+                }
+                break;
+
+                // 使い方
+                // dg[laneNumber].DrawGrades(grade(0～5));
         }
-        // 使い方
-        // dg[laneNumber].DrawGrades(grade);
     }
 
     public static void ListImport()
@@ -132,9 +151,10 @@ public class Judge : MonoBehaviour
 
             // ********ここに判定式を書け********
             case 1:
-                if(j < 10)// バイオリン縦レーン
+                if(true)// バイオリン縦レーン
                 {
                     tempTiming = j - GOListArray[stNotesCount[i]][i].transform.position.y;
+                    //tempTiming = j - 99;
                 }
                 else// バイオリン横レーン
                 {
@@ -156,36 +176,36 @@ public class Judge : MonoBehaviour
     public static void JudgeGrade(float i, int j)
     {
         // 判定分岐 perfect ～ bad
-        if (i <= gradeCriterion[0])
+        if (i <= gradesCriterion[0])
         {
-            point = gradePoint[0];
+            point = gradesPoint[0];
             combo++;
             totalGrades[0]++;
 
             dg[j].DrawGrades(0);
             SoundManager.SESoundCue(2);
         }
-        else if (i <= gradeCriterion[1])
+        else if (i <= gradesCriterion[1])
         {
-            point = gradePoint[1];
+            point = gradesPoint[1];
             combo++;
             totalGrades[1]++;
 
             dg[j].DrawGrades(1);
             SoundManager.SESoundCue(2);
         }
-        else if (i <= gradeCriterion[2])
+        else if (i <= gradesCriterion[2])
         {
-            point = gradePoint[2];
+            point = gradesPoint[2];
             combo = 0;
             totalGrades[2]++;
 
             dg[j].DrawGrades(2);
             SoundManager.SESoundCue(3);
         }
-        else if (i <= gradeCriterion[3])
+        else if (i <= gradesCriterion[3])
         {
-            point = gradePoint[3];
+            point = gradesPoint[3];
             combo = 0;
             totalGrades[3]++;
 
@@ -198,9 +218,9 @@ public class Judge : MonoBehaviour
             SoundManager.SESoundCue(5);
         }
 
-        if (combo > bestcombo)
+        if (combo > bestCombo)
         {
-            bestcombo = combo;// 最大コンボ記憶
+            bestCombo = combo;// 最大コンボ記憶
         }
 
         // 空タップでなければ
@@ -246,9 +266,9 @@ public class Judge : MonoBehaviour
     /// <param name="i">laneNumber</param>
     public static void NotesCountUp(string i)
     {
-        if (combo > bestcombo)
+        if (combo > bestCombo)
         {
-            bestcombo = combo;// 最大コンボ記憶
+            bestCombo = combo;// 最大コンボ記憶
         }
 
         combo = 0;
