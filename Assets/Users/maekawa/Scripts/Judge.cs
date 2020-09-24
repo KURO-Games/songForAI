@@ -12,8 +12,7 @@ public class Judge : MonoBehaviour
     // *********************************************************************************
 
     // 曲情報を参照
-    public static int maxCombo = 300;
-    public static int gameType = 0;// とりあえず二重鍵盤用
+    public static int gameType;
     public static List<List<GameObject>> GOListArray = new List<List<GameObject>>();// ノーツ座標格納用2次元配列
     //
     // 使い方  GOListArray   [_notesCount[laneNumber]]                   [laneNumber]
@@ -21,9 +20,9 @@ public class Judge : MonoBehaviour
 
 
     // リザルト用
-    public static int totalScore = 0;                    // 合計スコア
-    public static int combo = 0;                         // 現在のコンボ
-    public static int bestcombo = 0;                     // プレイヤー最大コンボ
+    public static int totalScore;                   // 合計スコア
+    public static int combo;                         // 現在のコンボ
+    public static int bestCombo;                     // プレイヤー最大コンボ
     public static int[] totalGrades = new int[5];        // 判定内訳（perfect ～ miss）
 
 
@@ -38,10 +37,13 @@ public class Judge : MonoBehaviour
     public static GameObject[] drawGrade = new GameObject[8];
     void Start()
     {
+        // MusicDatas参照
+        //gameType = MusicDatas.
+
         //初期化
         totalScore = 0;
         combo = 0;
-        bestcombo = 0;
+        bestCombo = 0;
 
         for (int i = 0; i < totalGrades.Length; i++)
         {
@@ -216,9 +218,9 @@ public class Judge : MonoBehaviour
             SoundManager.SESoundCue(5);
         }
 
-        if (combo > bestcombo)
+        if (combo > bestCombo)
         {
-            bestcombo = combo;// 最大コンボ記憶
+            bestCombo = combo;// 最大コンボ記憶
         }
 
         // 空タップでなければ
@@ -264,9 +266,9 @@ public class Judge : MonoBehaviour
     /// <param name="i">laneNumber</param>
     public static void NotesCountUp(string i)
     {
-        if (combo > bestcombo)
+        if (combo > bestCombo)
         {
-            bestcombo = combo;// 最大コンボ記憶
+            bestCombo = combo;// 最大コンボ記憶
         }
 
         combo = 0;

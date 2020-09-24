@@ -15,7 +15,7 @@ public class DrawGrade : MonoBehaviour
 
     void Start()
     {
-        transparentPerFrame = fps * transparentTime;       
+        transparentPerFrame = 1.0f / (fps * transparentTime);       
 
         for(int i = 0; i < alpha.Length; i++)
         {
@@ -30,7 +30,7 @@ public class DrawGrade : MonoBehaviour
         {
             gradesImage[i].GetComponent<Image>().color = new Color(255, 255, 255, alpha[i]);
 
-            alpha[i] -= 1.0f / transparentPerFrame;
+            alpha[i] -= transparentPerFrame;
         }
     }
 
@@ -40,6 +40,13 @@ public class DrawGrade : MonoBehaviour
     /// <param name="i">grade</param>
     public void DrawGrades(int i)
     {
+        // 重なって描画させないため
+        for(int j = 0; j < alpha.Length; j++)
+        {
+            alpha[j] = 0;
+        }
+
+        // 引数のgradeを表示
         alpha[i] = 1;
     }
 }
