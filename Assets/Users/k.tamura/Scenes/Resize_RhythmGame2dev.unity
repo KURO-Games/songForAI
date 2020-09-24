@@ -1325,7 +1325,7 @@ PrefabInstance:
     - target: {fileID: 8537097813818283538, guid: 37247f74227d44c54b1362e7f52b35ea,
         type: 3}
       propertyPath: NotesSpeed
-      value: 0.25
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8537097813818283538, guid: 37247f74227d44c54b1362e7f52b35ea,
         type: 3}
