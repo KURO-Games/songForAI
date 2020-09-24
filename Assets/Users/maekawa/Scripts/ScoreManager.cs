@@ -22,7 +22,7 @@ public class ScoreManager : MonoBehaviour
     {
         increaseAmount = 0;
         lastScore = 0;
-        maxScore = Judge.gradesPoint[0] * Judge.maxCombo;// perfect時の得点 * 最大コンボ　で天井点を取得
+        maxScore = Judge.gradesPoint[0] * MusicDatas.allNotes; // perfect時の得点 * 最大コンボ　で天井点を取得
 
         scoreText = GameObject.Find("scoreText");
         scoreGauge = GameObject.Find("scoreGauge");

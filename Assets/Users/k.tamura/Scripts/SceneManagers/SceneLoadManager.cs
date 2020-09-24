@@ -93,6 +93,14 @@ public class SceneLoadManager : MonoBehaviour
         );
     }
     /// <summary>
+    /// LoadSceneMode.Additive 
+    /// </summary>
+    /// <param name="sceneName"></param>
+    public static void SceneAdd(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+    }
+    /// <summary>
     /// FadeOut
     /// </summary>
     /// <param name="time"></param>

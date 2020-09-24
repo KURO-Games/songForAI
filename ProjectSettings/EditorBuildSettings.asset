@@ -23,9 +23,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Main/Home.unity
     guid: f02fe3060ef91489bb58f5da8832548b
-  - enabled: 0
-    path: Assets/Scenes/Mock/MockHome.unity
-    guid: b9271036b9a7c46c5a31a34655c53a04
   - enabled: 1
     path: Assets/Users/k.tamura/Scenes/mock/SelectMusicV2.unity
     guid: 7c6301e4c49f42e40a1d336767375121
@@ -36,9 +33,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Main/Resize_RhythmGame2.unity
     guid: b0be2125891924c3cabfad8b8dab2e8e
   - enabled: 1
-    path: Assets/Users/Otuka/Scenes/Scenario.unity
-    guid: b02c5dd984a6d634895dee4d92f384aa
-  - enabled: 1
     path: Assets/Scenes/Main/iPhoneResultScene.unity
     guid: 4a592c22a0db885409ea001819e26467
+  - enabled: 1
+    path: Assets/Scenes/Main/Scenario.unity
+    guid: 3e35bca7f42a6a842986c0f4b026f8c7
+  - enabled: 1
+    path: Assets/Scenes/Tools/UserInputs.unity
+    guid: 6f27974f84150f84997726ed6a8f11ad
   m_configObjects: {}

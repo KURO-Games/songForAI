@@ -6,7 +6,7 @@ using System.IO;
 public class NotesGenerater : MonoBehaviour
 {
     [SerializeField, Header("ノーツを生成する元(Prefab)")]
-    GameObject NotesPrefab = null,bar;
+    GameObject NotesPrefab = null, longNotes = null, bar = null;
     [SerializeField,Header("生成先")]
     List<GameObject> NotesGen = null;
     [SerializeField]
@@ -21,20 +21,39 @@ public class NotesGenerater : MonoBehaviour
     bool Generated=false;
     bool PlayedBGM=false;
     KeyJudge _judge;
+    float fps;
+
+    Vector3 move;
     private void Update()
     {
-
+        fps = 1 / Time.deltaTime;
+        //Debug.Log(fps);
         if (Generated)
-        { 
-            NotesGen[0].transform.root.gameObject.transform.position -= new Vector3(0,1, 0)*Time.deltaTime*NotesSpeed*speed;
+        {
+            //NotesGen[0].transform.root.gameObject.transform.position -= move*Time.deltaTime*NotesSpeed*speed;
+            float a = 60 / bpm;
+            float b = a * fps;
+            float c = b / 8;
+            Debug.Log(a+" "+b+" "+c);
+            move = new Vector3(0, c, 0);
+
             if (NotesGen[0].transform.root.gameObject.transform.position.y <= bar.transform.position.y && !PlayedBGM)
             {
                 //SoundManager.BGMSoundCue(MusicDatas.cueMusic);
-                SoundManager.BGMSoundCue(5);
+                SoundManager.BGMSoundCue(8);
 
                 PlayedBGM = true;
             }
         }
+    }
+
+    private void LateUpdate()
+    {
+        NotesGen[0].transform.root.gameObject.transform.position -= move * NotesSpeed;
+    }
+    private void Start()
+    {
+        Application.targetFrameRate = 60;
     }
     public void ButtonPush()
     {
@@ -56,15 +75,14 @@ public class NotesGenerater : MonoBehaviour
         
 
         //FileInfo info = new FileInfo(Application.streamingAssetsPath + "/music"+MusicDatas.cueMusic+".nts");
-        FileInfo info = new FileInfo(Application.streamingAssetsPath + "/music5.nts");
+        FileInfo info = new FileInfo(Application.streamingAssetsPath + "/musictest.nts");
 
         GenerateNotes(info);
         Debug.Log(musicData);
         Debug.Log(musicData.notes[0].lane);
         SpeedMgr.BPM = musicData.BPM;
         Debug.Log(musicData.BPM);
-        bpm = 60 / musicData.BPM;
-        Debug.Log(bpm);
+
         for (int i = 0; musicData.notes.Length > i; i++)
         {
             NotesManager.NotesPositions.Add(new List<GameObject>()); //nex
@@ -75,18 +93,39 @@ public class NotesGenerater : MonoBehaviour
             int LaneNum = musicData.notes[i].lane;
             int NotesType = musicData.notes[i].type;
             int NotesNum = musicData.notes[i].num;
-
+            bpm = musicData.BPM;
             Debug.Log("LaneNum:" + LaneNum + " NotesType:" + NotesType + " NotesNum:" + NotesNum);
             //GameObject GenNotes = Instantiate(NotesPrefab, new Vector3(NotesGen[LaneNum].transform.position.x, (NotesGen[LaneNum].transform.parent.gameObject.transform.position.y + NotesGen[LaneNum].transform.parent.root.gameObject.transform.position.y + NotesNum)*NotesSpeed, 0), Quaternion.identity);
-            GameObject GenNotes = Instantiate(NotesPrefab, new Vector3(NotesGen[LaneNum].transform.position.x
-                , (NotesGen[LaneNum].transform.parent.gameObject.transform.position.y  + NotesNum -1)*NotesSpeed
-                , 0)
-                , Quaternion.identity) as GameObject;
-            GenNotes.name = "notes_"+NotesNum.ToString();
-            GenNotes.transform.parent = NotesGen[LaneNum].transform;
+            if (NotesType == 1)
+            {
+                GameObject GenNotes = Instantiate(NotesPrefab, new Vector3(NotesGen[LaneNum].transform.position.x
+                    , 0
+                    , 0)
+                    , Quaternion.identity) as GameObject;
+                GenNotes.name = "notes_" + NotesNum.ToString();
+                GenNotes.transform.parent = NotesGen[LaneNum].transform;
+                Vector3 positions = new Vector3(0, (NotesNum +1) * NotesSpeed, 0);
+                GenNotes.transform.localPosition = new Vector3(0, 0, 0);
+                GenNotes.transform.localPosition += positions;
+                notesPositionAdd(GenNotes, LaneNum, i);
+            }
+            else if(NotesType == 2)
+            {
+                int notesNum2 = musicData.notes[i].notes[0].num;
+                GameObject GenNotes = Instantiate(longNotes, new Vector3(NotesGen[LaneNum].transform.position.x
+                    , NotesNum * NotesSpeed
+                    , 0)
+                    , Quaternion.identity) as GameObject;
+                GenNotes.name = "notes_" + NotesNum.ToString();
+                GenNotes.transform.parent = NotesGen[LaneNum].transform;
+                Vector2 longPos = new Vector2(0.23f,notesNum2-NotesNum);
+                longPos.y *= 0.03f;
+                GenNotes.transform.localScale = longPos;
+                notesPositionAdd(GenNotes, LaneNum, i);
+            }
 
-            notesPositionAdd(GenNotes, LaneNum, i);
-
+            move = new Vector3(0, 1.06f*Time.deltaTime, 0);
+            Debug.Log(move);
             NotesManager.NextNotesLine.Add(LaneNum);
             Generated = true;
 
