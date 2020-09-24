@@ -6,6 +6,6 @@ public class ExitButton : MonoBehaviour
 {
     public void Onclick()
     {
-        SceneLoadManager.LoadScene("Home");
+        SceneLoadManager.LoadScene("PlayEnd");
     }
 }

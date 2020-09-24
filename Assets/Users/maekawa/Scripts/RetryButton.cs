@@ -9,14 +9,14 @@ public class RetryButton : MonoBehaviour
     public void Onclick()
     {
         //gameType = MusicDatas.gameType;
-        switch(gameType)
-        {
-            case 0:
-                SceneLoadManager.LoadScene("Resize_RhythmGame2");
-                break;
-            case 1:
-                SceneLoadManager.LoadScene("StringRhythmGameScene");
-                break;
-        }
+        //switch(gameType)
+        //{
+        //    case 0:
+        //        SceneLoadManager.LoadScene("Resize_RhythmGame2");
+        //        break;
+        //    case 1:
+        //        SceneLoadManager.LoadScene("StringRhythmGameScene");
+        //        break;
+        //}
     }
 }
