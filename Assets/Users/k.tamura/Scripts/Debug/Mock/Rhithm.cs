@@ -15,6 +15,7 @@ public class Rhithm : MonoBehaviour
     [SerializeField]
     GameObject NotesGen;
     Color _StartImageColor;
+    private bool isCalled = false;
     void Start()
     {
         _isTaped = false;
@@ -45,8 +46,9 @@ public class Rhithm : MonoBehaviour
     }
     private void Update()
     {
-        if(SoundManager.BGMStatus() == CriAtomSource.Status.PlayEnd)
+        if(SoundManager.BGMStatus() == CriAtomSource.Status.PlayEnd&&!isCalled)
         {
+            isCalled = true;
             SceneLoadManager.LoadScene("iPhoneResultScene");
         }
     }
