@@ -40,7 +40,7 @@ public class NotesGenerater : MonoBehaviour
             if (NotesGen[0].transform.root.gameObject.transform.position.y <= bar.transform.position.y && !PlayedBGM)
             {
                 //SoundManager.BGMSoundCue(MusicDatas.cueMusic);
-                SoundManager.BGMSoundCue(5);
+                SoundManager.BGMSoundCue(6);
 
                 PlayedBGM = true;
             }
@@ -75,7 +75,7 @@ public class NotesGenerater : MonoBehaviour
         
 
         //FileInfo info = new FileInfo(Application.streamingAssetsPath + "/music"+MusicDatas.cueMusic+".nts");
-        FileInfo info = new FileInfo(Application.streamingAssetsPath + "/music5.nts");
+        FileInfo info = new FileInfo(Application.streamingAssetsPath + "/music7.nts");
 
         GenerateNotes(info);
         Debug.Log(musicData);
