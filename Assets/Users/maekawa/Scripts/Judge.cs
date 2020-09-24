@@ -12,7 +12,7 @@ public class Judge : MonoBehaviour
     // *********************************************************************************
 
     // 曲情報を参照
-    public static int gameType;
+    public static int gameType = 0;
     public static List<List<GameObject>> GOListArray = new List<List<GameObject>>();// ノーツ座標格納用2次元配列
     //
     // 使い方  GOListArray   [_notesCount[laneNumber]]                   [laneNumber]
