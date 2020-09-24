@@ -35,9 +35,9 @@ public class NotesGenerater : MonoBehaviour
             float b = a * fps;
             float c = b / 8;
             Debug.Log(a+" "+b+" "+c);
-            move = new Vector3(0, c, 0);
+            move = new Vector3(0, c*speed, 0);
 
-            if (NotesGen[0].transform.root.gameObject.transform.position.y <= bar.transform.position.y && !PlayedBGM)
+            if (!PlayedBGM)
             {
                 //SoundManager.BGMSoundCue(MusicDatas.cueMusic);
                 SoundManager.BGMSoundCue(6);

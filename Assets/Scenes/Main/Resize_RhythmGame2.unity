@@ -723,7 +723,7 @@ PrefabInstance:
     - target: {fileID: 8537097812835491670, guid: 37247f74227d44c54b1362e7f52b35ea,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 22.65
+      value: -13.7
       objectReference: {fileID: 0}
     - target: {fileID: 8537097812835491670, guid: 37247f74227d44c54b1362e7f52b35ea,
         type: 3}
@@ -774,6 +774,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Norts
+      objectReference: {fileID: 0}
+    - target: {fileID: 8537097813818283538, guid: 37247f74227d44c54b1362e7f52b35ea,
+        type: 3}
+      propertyPath: NotesSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8537097813818283538, guid: 37247f74227d44c54b1362e7f52b35ea,
+        type: 3}
+      propertyPath: speed
+      value: 0.0701
+      objectReference: {fileID: 0}
+    - target: {fileID: 8537097813818283549, guid: 37247f74227d44c54b1362e7f52b35ea,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -5.92
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37247f74227d44c54b1362e7f52b35ea, type: 3}
