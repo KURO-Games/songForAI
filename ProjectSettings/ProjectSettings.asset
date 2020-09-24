@@ -120,7 +120,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 1.1
+  bundleVersion: 1.2
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -167,7 +167,11 @@ PlayerSettings:
     Standalone: com.Company.ProductName
     iPhone: jp.ac.tech.game-project.sfai
   buildNumber:
+<<<<<<< HEAD
     iPhone: 10
+=======
+    iPhone: 2
+>>>>>>> k.tamura
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 19
   AndroidTargetSdkVersion: 0

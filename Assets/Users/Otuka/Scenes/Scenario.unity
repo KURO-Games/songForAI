@@ -144,7 +144,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 428457705}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 960, y: 540, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -306,19 +306,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 36
+    m_Font: {fileID: 12800000, guid: ed63f574a8055f54180d1a1845dbb90d, type: 3}
+    m_FontSize: 25
     m_FontStyle: 0
-    m_BestFit: 1
+    m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 36
+    m_MaxSize: 300
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: "\u3042\u3041\uFF3E\u301C\u3053\u3053\u308D\u304C\u3074\u3087\u3093\u3074\u3087\u3093\u3059\u308B\u3093\u3058\u3083\u3041\uFF3E\u301C\uFF13\uFF14\uFF15\n\uFF11\uFF12\uFF13\uFF14\uFF15\uFF16\uFF17\uFF18\uFF19\uFF10\uFF11\uFF12\uFF13\uFF14\uFF15\uFF16\uFF17\uFF18\uFF19\uFF10\uFF11\uFF12\uFF13\uFF14\uFF15"
 --- !u!222 &490403051
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -618,8 +618,17 @@ MonoBehaviour:
   BackGround: {fileID: 503086361}
   Character_Sprite:
   - {fileID: 21300000, guid: e50f05247697b40b3994fd640d844136, type: 3}
+  - {fileID: 21300000, guid: 051771e3ec8151b49b7650c78720da08, type: 3}
+  - {fileID: 21300000, guid: 36b35b27a6210754ba5f568403b3573a, type: 3}
+  - {fileID: 21300000, guid: 7a6a2251e545d0d458c79d625747ea0e, type: 3}
+  - {fileID: 21300000, guid: 301d3697f9c57a841b531b70706e75b7, type: 3}
+  - {fileID: 21300000, guid: 3a90e0eebffeb5345b3bb7fb49a83fef, type: 3}
+  - {fileID: 21300000, guid: b20a3950255d20e43b12f7e19795f1c8, type: 3}
+  - {fileID: 21300000, guid: 63e3b20c913639942a6e7be0da23d43e, type: 3}
   BackGround_Sprite:
   - {fileID: 21300000, guid: d14f8612287e80d489a737c45bfe590f, type: 3}
+  - {fileID: 21300000, guid: 0239e0728a159c14d92b33de90803fab, type: 3}
+  - {fileID: 21300000, guid: c2da59d2290fbad418fa38a5699fa647, type: 3}
   Message_Speed: 0.05
 --- !u!4 &837249732
 Transform:
@@ -869,7 +878,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -953,7 +962,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 11.449982}
+  m_AnchoredPosition: {x: 0, y: 11.5}
   m_SizeDelta: {x: -163.15942, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1495985549
@@ -1063,10 +1072,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 35
-    m_FontStyle: 0
-    m_BestFit: 1
+    m_Font: {fileID: 12800000, guid: ed63f574a8055f54180d1a1845dbb90d, type: 3}
+    m_FontSize: 25
+    m_FontStyle: 1
+    m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 80
     m_Alignment: 3
@@ -1075,7 +1084,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: "\uFF10\uFF11\uFF12\uFF13\uFF14\uFF15"
 --- !u!222 &1498712768
 CanvasRenderer:
   m_ObjectHideFlags: 0
