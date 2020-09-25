@@ -39,7 +39,7 @@ public class SelectMusicScene : MonoBehaviour
         {
             _isTap = true;
             _name=_button.name;
-            UnityEngine.SceneManagement.SceneManager.LoadScene("SelectCaracter");
+            SceneLoadManager.LoadScene("Resize_RhythmGame2");
         }
     }
     public void PushDifficult(int i)

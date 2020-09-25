@@ -167,11 +167,7 @@ PlayerSettings:
     Standalone: com.Company.ProductName
     iPhone: jp.ac.tech.game-project.sfai
   buildNumber:
-<<<<<<< HEAD
-    iPhone: 10
-=======
-    iPhone: 2
->>>>>>> k.tamura
+    iPhone: 3
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 19
   AndroidTargetSdkVersion: 0
