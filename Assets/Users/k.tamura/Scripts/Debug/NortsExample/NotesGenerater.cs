@@ -79,7 +79,7 @@ public class NotesGenerater : MonoBehaviour
 
         GenerateNotes(info);
         Debug.Log(musicData);
-        Debug.Log(musicData.notes[0].lane);
+        Debug.Log(musicData.notes[0].block);
         SpeedMgr.BPM = musicData.BPM;
         Debug.Log(musicData.BPM);
 
@@ -90,7 +90,7 @@ public class NotesGenerater : MonoBehaviour
             {
                 NotesManager.NotesPositions[i].Add(null);
             }
-            int LaneNum = musicData.notes[i].lane;
+            int LaneNum = musicData.notes[i].block;
             int NotesType = musicData.notes[i].type;
             int NotesNum = musicData.notes[i].num;
             bpm = musicData.BPM;
