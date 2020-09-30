@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 各シーンでデータを共有するためのスクリプト
+/// </summary>
 public class MusicDatas : SingletonMonoBehaviour<MusicDatas>
 {
     public static string MusicName;

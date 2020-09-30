@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.IO;
+/// <summary>
+/// ピアノ用ノーツジェネレータ
+/// </summary>
 public class NotesGenerater : MonoBehaviour
 {
     [SerializeField, Header("ノーツを生成する元(Prefab)")]
@@ -16,7 +19,8 @@ public class NotesGenerater : MonoBehaviour
     [SerializeField]
     float speed = 1;
     float bpm = 0;
-    string[] filePaths = System.IO.Directory.GetFiles(Application.streamingAssetsPath, "*.nts");
+    //string[] filePaths = System.IO.Directory.GetFiles(Application.streamingAssetsPath, "*.nts");
+    //ノーツデータ
     NotesJson.MusicData musicData = new NotesJson.MusicData();
     bool Generated=false;
     bool PlayedBGM=false;
@@ -24,6 +28,9 @@ public class NotesGenerater : MonoBehaviour
     float fps;
 
     Vector3 move;
+    /// <summary>
+    /// 
+    /// </summary>
     private void Update()
     {
         fps = 1 / Time.deltaTime;

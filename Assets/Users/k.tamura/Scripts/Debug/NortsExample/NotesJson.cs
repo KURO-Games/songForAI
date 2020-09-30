@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+/// <summary>
+/// ノーツデータクラス
+/// </summary>
 [Serializable]
 public struct NotesJson
 {
+    /// <summary>
+    /// NotesData
+    /// </summary>
     [Serializable]
     public struct MusicData
     {
@@ -14,6 +20,9 @@ public struct NotesJson
         public double offset;
         public Notes[] notes;
     }
+    /// <summary>
+    /// notes 
+    /// </summary>
     [Serializable]
     public struct Notes
     {

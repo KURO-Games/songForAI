@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.IO;
+/// <summary>
+/// バイオリン用ノーツgenerator
+/// </summary>
 public class StringNotesGenerater : MonoBehaviour
 {
     [SerializeField, Header("ノーツを生成する元(Prefab)")]

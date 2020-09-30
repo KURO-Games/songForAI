@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 
+/// <summary>
+/// ランキングデータ(一覧)
+/// </summary>
 [Serializable]
 public class ResnponseGetRanking
 {
     public List<Ranking> rankings;
 }
 
+/// <summary>
+/// ランキングデータ(クラス)
+/// </summary>
 [Serializable]
 public class Ranking
 {

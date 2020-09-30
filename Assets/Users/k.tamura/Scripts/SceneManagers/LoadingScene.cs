@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// シーンを非同期で読み込んでる間に表示するプログラム。
+/// 現状、シーンが見つからない場合は表示が出るように変更している。
+/// </summary>
 public class LoadingScene : MonoBehaviour
 {
     [SerializeField]
