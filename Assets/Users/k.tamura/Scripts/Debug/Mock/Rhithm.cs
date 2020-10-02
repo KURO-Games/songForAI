@@ -41,7 +41,7 @@ public class Rhithm : MonoBehaviour
             {
                 StartImage.GetComponent<CanvasGroup>().alpha = 0;
                 _faded = true;
-                NotesGen.GetComponent<NotesGenerater>().ButtonPush();
+                NotesGen.GetComponent<NotesGenerater>().NotesGenerate();
             }
         }
     }

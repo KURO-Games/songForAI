@@ -29,7 +29,7 @@ public class NotesGenerater : MonoBehaviour
 
     Vector3 move;
     /// <summary>
-    /// 
+    /// Update 主にノーツの移動部分の計算をしている
     /// </summary>
     private void Update()
     {
@@ -53,58 +53,54 @@ public class NotesGenerater : MonoBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// LateUpdate 主にノーツの移動部分の処理をしている
+    /// </summary>
     private void LateUpdate()
     {
         NotesGen[0].transform.root.gameObject.transform.position -= move * NotesSpeed;
     }
+    /// <summary>
+    /// 初期化
+    /// </summary>
     private void Start()
     {
         Application.targetFrameRate = 60;
     }
-    public void ButtonPush()
+    /// <summary>
+    /// ノーツ生成を行う関数
+    /// </summary>
+    public void NotesGenerate()
     {
-        //        //今後ノーツデータを取得して曲選択画面に表示させるプログラム一部実装(ファイル操作)
-        //        foreach (string filePath in filePaths)
-        //        {
-        //            if (System.IO.Path.GetExtension(filePath) != ".nts")
-        //            {
-        //                continue;
-        //            }
-
-        //            using (var stream = new System.IO.FileStream(
-        //                    filePath,
-        //                    System.IO.FileMode.Create))
-        //            {
-        //                
-        //            }
-        //        }
-        
-
+        //ファイルの読み込み
         //FileInfo info = new FileInfo(Application.streamingAssetsPath + "/music"+MusicDatas.cueMusic+".nts");
         FileInfo info = new FileInfo(Application.streamingAssetsPath + "/music7.nts");
-
-        GenerateNotes(info);
-        Debug.Log(musicData);
-        Debug.Log(musicData.notes[0].block);
+        StreamReader reader = new StreamReader(info.OpenRead());
+        string MusicDatas = reader.ReadToEnd();
+        musicData = JsonUtility.FromJson<NotesJson.MusicData>(MusicDatas);
         SpeedMgr.BPM = musicData.BPM;
-        Debug.Log(musicData.BPM);
 
+        // ノーツ生成
         for (int i = 0; musicData.notes.Length > i; i++)
         {
+            // リスト初期化
             NotesManager.NotesPositions.Add(new List<GameObject>()); //nex
             for (int e = 0; e < 8; e++)
             {
                 NotesManager.NotesPositions[i].Add(null);
             }
+
+            // ノーツデータを変数に代入
             int LaneNum = musicData.notes[i].block;
             int NotesType = musicData.notes[i].type;
             int NotesNum = musicData.notes[i].num;
             bpm = musicData.BPM;
-            Debug.Log("LaneNum:" + LaneNum + " NotesType:" + NotesType + " NotesNum:" + NotesNum);
-            //GameObject GenNotes = Instantiate(NotesPrefab, new Vector3(NotesGen[LaneNum].transform.position.x, (NotesGen[LaneNum].transform.parent.gameObject.transform.position.y + NotesGen[LaneNum].transform.parent.root.gameObject.transform.position.y + NotesNum)*NotesSpeed, 0), Quaternion.identity);
+
+
+            // ノーツの種類判別
             if (NotesType == 1)
             {
+                //生成
                 GameObject GenNotes = Instantiate(NotesPrefab, new Vector3(NotesGen[LaneNum].transform.position.x
                     , 0
                     , 0)
@@ -132,7 +128,6 @@ public class NotesGenerater : MonoBehaviour
             }
 
             move = new Vector3(0, 1.06f*Time.deltaTime, 0);
-            Debug.Log(move);
             NotesManager.NextNotesLine.Add(LaneNum);
             Generated = true;
 
@@ -141,15 +136,11 @@ public class NotesGenerater : MonoBehaviour
 
     }
     /// <summary>
-    /// 
+    /// ノーツリストに追加する関数
     /// </summary>
-    /// <param name="info">FilePath</param>
-    public void GenerateNotes(FileInfo info)
-    {
-        StreamReader reader = new StreamReader(info.OpenRead());
-        string MusicDatas = reader.ReadToEnd();
-        musicData = JsonUtility.FromJson<NotesJson.MusicData>(MusicDatas);
-    }
+    /// <param name="notes"></param>
+    /// <param name="Lane"></param>
+    /// <param name="num"></param>
     private void notesPositionAdd(GameObject notes, int Lane, int num)
     {
         for (int i = 0; i < NotesManager.NotesPositions.Count; i++)
