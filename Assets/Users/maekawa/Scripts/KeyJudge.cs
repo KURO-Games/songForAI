@@ -14,6 +14,8 @@ public class KeyJudge : MonoBehaviour
 
     private void Start()
     {
+        Judge.gameType = 0;// 二十鍵盤仕様
+
         // タップ判定用 flag初期化
         for (int i = 0; i < tapFlag.Length; i++)
         {
@@ -61,6 +63,12 @@ public class KeyJudge : MonoBehaviour
                 float absTiming = 9999;// 初期化（0ではだめなので）
 
                 // 左レーン
+
+                //switch(isLong)
+                //{
+                //    case 0;
+                //        break;
+                //}
                 if ((Judge.GOListArray[Judge.keyNotesCount[i]][i] != null) && (i <= 3))
                 {
                     absTiming = Judge.GetAbsTiming(i, leftJudgeLine.transform.position.y);

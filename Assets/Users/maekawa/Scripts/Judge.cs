@@ -5,14 +5,13 @@ using UnityEngine.UI;
 
 public class Judge : MonoBehaviour
 {
-    // プランナーレベルデザイン用 ******************************************************
+    // プランナーレベルデザイン用
     // perfect ～ badの順に入力
     public static float[] gradesCriterion = { 1.0f, 1.5f, 2, 3 }; // 判定許容値
     public static int[] gradesPoint = { 300, 200, 100, 10 };      // 各判定に応じたスコア
-    // *********************************************************************************
 
     // 曲情報を参照
-    public static int gameType = 0;
+    public static int gameType;
     public static List<List<GameObject>> GOListArray = new List<List<GameObject>>();// ノーツ座標格納用2次元配列
     //
     // 使い方  GOListArray   [_notesCount[laneNumber]]                   [laneNumber]
@@ -20,9 +19,9 @@ public class Judge : MonoBehaviour
 
 
     // リザルト用
-    public static int totalScore;                   // 合計スコア
-    public static int combo;                         // 現在のコンボ
-    public static int bestCombo;                     // プレイヤー最大コンボ
+    public static int totalScore;                        // 合計スコア
+    public static int combo;                             // 現在のコンボ
+    public static int bestCombo;                         // プレイヤー最大コンボ
     public static int[] totalGrades = new int[5];        // 判定内訳（perfect ～ miss）
 
 
@@ -35,11 +34,9 @@ public class Judge : MonoBehaviour
 
     static DrawGrade[] dg = new DrawGrade[8];
     public static GameObject[] drawGrade = new GameObject[8];
+
     void Start()
     {
-        // MusicDatas参照
-        //gameType = MusicDatas.
-
         //初期化
         totalScore = 0;
         combo = 0;
@@ -140,7 +137,7 @@ public class Judge : MonoBehaviour
     /// <returns>absTiming</returns>
     public static float GetAbsTiming(int i, float j)// 判定ライン　－　ノーツ
     {
-        float tempTiming = 9999;// 初期化（0ではだめなので）
+        float tempTiming = 9999;// 初期化
 
         switch (gameType)
         {
