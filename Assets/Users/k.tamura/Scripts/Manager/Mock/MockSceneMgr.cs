@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+/// <summary>
+/// モック版用シーンマネージャー
+/// </summary>
 public class MockSceneMgr : SingletonMonoBehaviour<MockSceneMgr>
 {
     private void Start()

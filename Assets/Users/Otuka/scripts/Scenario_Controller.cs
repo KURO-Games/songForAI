@@ -41,7 +41,7 @@ public class Scenario_Controller : MonoBehaviour
 
     private bool _isEnded;
     GameObject InputCanvas;
-
+    [SerializeField]
     CanvasGroup _userNameInputs;
     public static bool isUserInputs = false;
     private void Awake()
@@ -53,16 +53,8 @@ public class Scenario_Controller : MonoBehaviour
         
         //会話の一行目を読ませるための初期化
         Display_Num = 3;
-        Scene scene = SceneManager.GetSceneByName("UserInputs");
-        foreach (var rootGameObject in scene.GetRootGameObjects())
-        {
-            _userNameInputs = rootGameObject.GetComponent<CanvasGroup>();
-            if (_userNameInputs != null)
-            {
-                break;
-            }
-        }
-        Text_Load("sinario_1");
+        
+        Text_Load("sinario_0");
         StartCoroutine(Message_Display());
         Message_Display();
         _isEnded = false;
@@ -192,7 +184,7 @@ public class Scenario_Controller : MonoBehaviour
         {
             //シーン遷移
             _isEnded = true;
-            SceneLoadManager.LoadScene("Home");
+            SceneLoadManager.LoadScene("SelectMusicV2");
         }
     }
     #endregion

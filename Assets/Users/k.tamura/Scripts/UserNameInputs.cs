@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// シナリオシーン中のユーザー名入力管理クラス
+/// </summary>
 public class UserNameInputs : MonoBehaviour
 {
     [SerializeField]
@@ -24,6 +27,9 @@ public class UserNameInputs : MonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// 決定ボタンが押されたときの処理
+    /// </summary>
     public void pushButton()
     {
         if (UserNames.text != ""&&!onePush)

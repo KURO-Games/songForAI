@@ -2,6 +2,10 @@
 
 [RequireComponent(typeof(SpriteRenderer))]
 //[RequireComponent(typeof(Collider2D))]
+/// <summary>
+/// タップエフェクト処理
+/// shader再生終了後にdestroyする。
+/// </summary>
 public class TapEffects : MonoBehaviour
 {
     SpriteRenderer mSpriteRenderer;

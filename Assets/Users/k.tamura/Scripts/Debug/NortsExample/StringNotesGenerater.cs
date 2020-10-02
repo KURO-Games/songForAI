@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.IO;
+/// <summary>
+/// バイオリン用ノーツgenerator
+/// </summary>
 public class StringNotesGenerater : MonoBehaviour
 {
     [SerializeField, Header("ノーツを生成する元(Prefab)")]
@@ -60,7 +63,7 @@ public class StringNotesGenerater : MonoBehaviour
 
         GenerateNotes(info);
         Debug.Log(musicData);
-        Debug.Log(musicData.notes[0].lane);
+        Debug.Log(musicData.notes[0].block);
         SpeedMgr.BPM = musicData.BPM;
         Debug.Log(musicData.BPM);
         bpm = 60 / musicData.BPM;
@@ -72,7 +75,7 @@ public class StringNotesGenerater : MonoBehaviour
             {
                 NotesManager.NotesPositions[i].Add(null);
             }
-            int LaneNum = musicData.notes[i].lane;
+            int LaneNum = musicData.notes[i].block;
             int NotesType = musicData.notes[i].type;
             int NotesNum = musicData.notes[i].num;
 

@@ -14,12 +14,12 @@ public class Rhithm : MonoBehaviour
     GameObject StartImage;
     [SerializeField]
     GameObject NotesGen;
-    Color _StartImageColor;
+    float _StartImageColor;
     private bool isCalled = false;
     void Start()
     {
         _isTaped = false;
-        _StartImageColor = StartImage.GetComponent<Image>().color;
+        _StartImageColor = StartImage.GetComponent<CanvasGroup>().alpha;
         SoundManager.BGMSoundStop();
     }
     public void ReturnHome()
@@ -35,12 +35,13 @@ public class Rhithm : MonoBehaviour
         Times += Time.deltaTime;
         if (Times > 5 && !_faded)
         {
-            _StartImageColor.a -= 0.05f;
-            StartImage.GetComponent<Image>().color = _StartImageColor;
-            if (StartImage.GetComponent<Image>().color.a <= 0)
+            _StartImageColor -= 0.05f;
+            StartImage.GetComponent<CanvasGroup>().alpha = _StartImageColor;
+            if (StartImage.GetComponent<CanvasGroup>().alpha <= 0)
             {
+                StartImage.GetComponent<CanvasGroup>().alpha = 0;
                 _faded = true;
-                NotesGen.GetComponent<NotesGenerater>().ButtonPush();
+                NotesGen.GetComponent<NotesGenerater>().NotesGenerate();
             }
         }
     }
@@ -49,7 +50,7 @@ public class Rhithm : MonoBehaviour
         if(SoundManager.BGMStatus() == CriAtomSource.Status.PlayEnd&&!isCalled)
         {
             isCalled = true;
-            SceneLoadManager.LoadScene("iPhoneResultScene");
+            SceneLoadManager.LoadScene("Result");
         }
     }
 }

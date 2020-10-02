@@ -10,6 +10,7 @@ using UnityEngine.UI;
 
 /// <summary>
 /// UnityVersionController InitializeScene実装　現状iOSのみ対応
+/// バージョンを表示するプログラム
 /// </summary>
 public class Versions : MonoBehaviour
 {
