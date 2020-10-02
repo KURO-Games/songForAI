@@ -21,6 +21,7 @@ public class Rhithm : MonoBehaviour
         _isTaped = false;
         _StartImageColor = StartImage.GetComponent<CanvasGroup>().alpha;
         SoundManager.BGMSoundStop();
+        PlayerPrefs.SetInt("Life", PlayerPrefs.GetInt("Life") - 1);
     }
     public void ReturnHome()
     {

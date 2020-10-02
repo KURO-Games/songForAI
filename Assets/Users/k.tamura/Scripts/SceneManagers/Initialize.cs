@@ -8,6 +8,7 @@ public class Initialize : MonoBehaviour
     {
         //　フレームレート60FPSに固定
         Application.targetFrameRate = 60;
+        PlayerPrefs.SetInt("Life", 3);
         SceneLoadManager.LoadScene("Splash");   
     }
 }
