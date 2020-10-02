@@ -778,12 +778,12 @@ PrefabInstance:
     - target: {fileID: 8537097813818283538, guid: 37247f74227d44c54b1362e7f52b35ea,
         type: 3}
       propertyPath: NotesSpeed
-      value: 0.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8537097813818283538, guid: 37247f74227d44c54b1362e7f52b35ea,
         type: 3}
       propertyPath: speed
-      value: 0.0701
+      value: 0.032
       objectReference: {fileID: 0}
     - target: {fileID: 8537097813818283549, guid: 37247f74227d44c54b1362e7f52b35ea,
         type: 3}

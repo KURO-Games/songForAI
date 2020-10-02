@@ -10,9 +10,8 @@ public class Judge : MonoBehaviour
     public static float[] gradesCriterion = { 1.0f, 1.5f, 2, 3 }; // 判定許容値
     public static int[] gradesPoint = { 300, 200, 100, 10 };      // 各判定に応じたスコア
 
-    // 曲情報を参照
-    public static int gameType;
-    public static List<List<GameObject>> GOListArray = new List<List<GameObject>>();// ノーツ座標格納用2次元配列
+
+    //public static List<List<GameObject>> GOListArray = new List<List<GameObject>>();// ノーツ座標格納用2次元配列
     //
     // 使い方  GOListArray   [_notesCount[laneNumber]]                   [laneNumber]
     //         GOListArray   [何個目のノーツなのか[何番目のレーンの]]    [何番目のレーンなのか]
@@ -26,10 +25,9 @@ public class Judge : MonoBehaviour
 
 
     // 内部用
-    private int notesTypes = 0;
+    public static int gameType;                          // key...0  string...1
     public static int point = 0;                         // 判定に応じた得点
-    public static int[] keyNotesCount = new int[8];      // 二重鍵盤用ノーツカウント
-    public static int[] stNotesCount = new int[6];       // バイオリン用ノーツカウント
+    //public static int[] stNotesCount = new int[6];       // バイオリン用ノーツカウント
     static ScoreManager scoreMg;
     static ComboManager comboMg;
 
@@ -39,7 +37,6 @@ public class Judge : MonoBehaviour
     void Start()
     {
         //初期化
-        notesTypes = 0;
         totalScore = 0;
         combo = 0;
         bestCombo = 0;
@@ -47,16 +44,6 @@ public class Judge : MonoBehaviour
         for (int i = 0; i < totalGrades.Length; i++)
         {
             totalGrades[i] = 0;
-        }
-
-        for (int i = 0; i < keyNotesCount.Length; i++)
-        {
-            keyNotesCount[i] = 0;
-        }
-
-        for(int i = 0; i < stNotesCount.Length; i++)
-        {
-            stNotesCount[i] = 0;
         }
 
         // 関数を呼ぶためにスクリプトを取得
@@ -92,12 +79,6 @@ public class Judge : MonoBehaviour
                 // 使い方
                 // dg[laneNumber].DrawGrades(grade(0～5));
         }
-    }
-
-    public static void ListImport()
-    {
-        GOListArray = NotesManager.NotesPositions;
-        Debug.Log(GOListArray[0][7]);
     }
 
     /// <summary>
@@ -137,36 +118,13 @@ public class Judge : MonoBehaviour
     /// <param name="i">laneNumber</param>
     /// <param name="j">judgeLine</param>
     /// <returns>absTiming</returns>
-    public static float GetAbsTiming(int i, float j)// 判定ライン　－　ノーツ
+    public static float GetAbsTiming(float i, float j)// 判定ライン　－　ノーツ
     {
-        float tempTiming = 9999;// 初期化
-
-        switch (gameType)
-        {
-            // 二重鍵盤
-            case 0:
-                // 判定
-                tempTiming = j - GOListArray[keyNotesCount[i]][i].transform.position.y;
-                break;
-
-            case 1:
-                if(true)// バイオリン縦レーン
-                {
-                    tempTiming = j - GOListArray[stNotesCount[i]][i].transform.position.y;
-                    //tempTiming = j - 99;
-                }
-                else// バイオリン横レーン
-                {
-                    tempTiming = j - GOListArray[stNotesCount[i]][i].transform.position.x;
-                }
-                break;
-         
-            default:
-                break;
-        }
+        float tempTiming = i - j;
 
         return Mathf.Abs(tempTiming);// 絶対値に変換
     }
+
     /// <summary>
     /// 判定からノーツ破棄処理まで
     /// </summary>
@@ -213,7 +171,7 @@ public class Judge : MonoBehaviour
         }
         else// 空タップ
         {
-            if(KeyJudge.isHold[j])
+            if(KeyJudge.isHold[j] == true)
             {
                 point = 0;
                 combo = 0;
@@ -248,12 +206,15 @@ public class Judge : MonoBehaviour
             scoreMg.DrawScore(totalScore);
             comboMg.DrawCombo(combo);
 
-            // ロングノーツか判別
-            KeyJudge.notesType = GOListArray[keyNotesCount[j]][j].GetComponent<NotesSelector>().NotesType;
-
-            if(KeyJudge.notesType == 2)
+            if(gameType == 0)
             {
-                KeyJudge.isHold[j] = true;
+                // ロングノーツか判別
+                KeyJudge.notesType = KeyJudge.GOListArray[KeyJudge.keyNotesCount[j]][j].GetComponent<NotesSelector>().NotesType;
+
+                if (KeyJudge.notesType == 2)
+                {
+                    KeyJudge.isHold[j] = true;
+                }
             }
             else
             {
@@ -271,16 +232,16 @@ public class Judge : MonoBehaviour
         switch (gameType)
         {
             case 0:
-                Destroy(GOListArray[keyNotesCount[i]][i]);   // 該当ノーツ破棄
-                GOListArray[keyNotesCount[i]][i] = null;     // 多重タップを防ぐ
-                keyNotesCount[i]++;                          // 該当レーンのノーツカウント++
+                Destroy(KeyJudge.GOListArray[KeyJudge.keyNotesCount[i]][i]);   // 該当ノーツ破棄
+                KeyJudge.GOListArray[KeyJudge.keyNotesCount[i]][i] = null;     // 多重タップを防ぐ
+                KeyJudge.keyNotesCount[i]++;                          // 該当レーンのノーツカウント++
                 break;
 
-            case 1:
-                Destroy(GOListArray[stNotesCount[i]][i]);
-                GOListArray[stNotesCount[i]][i] = null;
-                stNotesCount[i]++;
-                break;
+            //case 1:
+            //    Destroy(StringJudge.GOListArray[stNotesCount[i]][i]);
+            //    KeyJudge.GOListArray[stNotesCount[i]][i] = null;
+            //    stNotesCount[i]++;
+            //    break;
 
             default:
                 break;
@@ -291,7 +252,7 @@ public class Judge : MonoBehaviour
     /// ノーツがスルーされた時の処理です
     /// </summary>
     /// <param name="i">laneNumber</param>
-    public static void NotesCountUp(string i)
+    public static void NotesCountUp(int i)
     {
         if (combo > bestCombo)
         {
@@ -302,10 +263,9 @@ public class Judge : MonoBehaviour
         totalGrades[4]++;
 
         comboMg.DrawCombo(combo);
-        int tempLaneNum = int.Parse(i);// 文字列を数字に変換
 
-        dg[tempLaneNum].DrawGrades(4);
+        dg[i].DrawGrades(4);
 
-        NotesDestroy(tempLaneNum);
+        NotesDestroy(i);
     }
 }
