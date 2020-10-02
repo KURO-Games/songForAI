@@ -26,11 +26,12 @@ public class Judge : MonoBehaviour
 
 
     // 内部用
+    private int notesTypes = 0;
     public static int point = 0;                         // 判定に応じた得点
     public static int[] keyNotesCount = new int[8];      // 二重鍵盤用ノーツカウント
     public static int[] stNotesCount = new int[6];       // バイオリン用ノーツカウント
-    static ScoreManager mg1;
-    static ComboManager mg2;
+    static ScoreManager scoreMg;
+    static ComboManager comboMg;
 
     static DrawGrade[] dg = new DrawGrade[8];
     public static GameObject[] drawGrade = new GameObject[8];
@@ -38,6 +39,7 @@ public class Judge : MonoBehaviour
     void Start()
     {
         //初期化
+        notesTypes = 0;
         totalScore = 0;
         combo = 0;
         bestCombo = 0;
@@ -59,8 +61,8 @@ public class Judge : MonoBehaviour
 
         // 関数を呼ぶためにスクリプトを取得
         GameObject uiObj = GameObject.Find("UICanvas");
-        mg1 = uiObj.GetComponent<ScoreManager>();
-        mg2 = uiObj.GetComponent<ComboManager>();
+        scoreMg = uiObj.GetComponent<ScoreManager>();
+        comboMg = uiObj.GetComponent<ComboManager>();
 
         // 評価UI表示用のスクリプト配列をセット
         switch(gameType)
@@ -143,10 +145,10 @@ public class Judge : MonoBehaviour
         {
             // 二重鍵盤
             case 0:
+                // 判定
                 tempTiming = j - GOListArray[keyNotesCount[i]][i].transform.position.y;
                 break;
 
-            // ********ここに判定式を書け********
             case 1:
                 if(true)// バイオリン縦レーン
                 {
@@ -211,8 +213,25 @@ public class Judge : MonoBehaviour
         }
         else// 空タップ
         {
-            point = 0;
-            SoundManager.SESoundCue(5);
+            if(KeyJudge.isHold[j])
+            {
+                point = 0;
+                combo = 0;
+                totalGrades[4]++;
+                comboMg.DrawCombo(combo);
+
+                if (combo > bestCombo)
+                {
+                    bestCombo = combo;// 最大コンボ記憶
+                }
+
+                NotesDestroy(j);
+            }
+            else
+            {
+                point = 0;
+                SoundManager.SESoundCue(5);
+            }
         }
 
         if (combo > bestCombo)
@@ -223,12 +242,23 @@ public class Judge : MonoBehaviour
         // 空タップでなければ
         if (point > 0)
         {
+            // タップノーツかロングノーツかを判別
             totalScore += point;
 
-            mg1.DrawScore(totalScore);
-            mg2.DrawCombo(combo);
+            scoreMg.DrawScore(totalScore);
+            comboMg.DrawCombo(combo);
 
-            NotesDestroy(j);
+            // ロングノーツか判別
+            KeyJudge.notesType = GOListArray[keyNotesCount[j]][j].GetComponent<NotesSelector>().NotesType;
+
+            if(KeyJudge.notesType == 2)
+            {
+                KeyJudge.isHold[j] = true;
+            }
+            else
+            {
+                NotesDestroy(j);
+            }
         }
     }
 
@@ -271,7 +301,7 @@ public class Judge : MonoBehaviour
         combo = 0;
         totalGrades[4]++;
 
-        mg2.DrawCombo(combo);
+        comboMg.DrawCombo(combo);
         int tempLaneNum = int.Parse(i);// 文字列を数字に変換
 
         dg[tempLaneNum].DrawGrades(4);

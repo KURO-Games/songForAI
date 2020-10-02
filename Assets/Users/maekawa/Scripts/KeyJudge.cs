@@ -7,6 +7,8 @@ public class KeyJudge : MonoBehaviour
     // タップ背景 ON/OFF 切り替え用
     private bool[] tapFlag = new bool[8];// 現在タップしているレーンの識別
     private bool[] lastTap = new bool[8];// 前フレームのタップ
+    public static bool[] isHold = new bool[8];// 二重鍵盤用ロングノーツ識別
+    public static int notesType;
 
     [SerializeField] private GameObject leftJudgeLine;  // 左判定ライン
     [SerializeField] private GameObject rightJudgeLine; // 右判定ライン
@@ -15,12 +17,14 @@ public class KeyJudge : MonoBehaviour
     private void Start()
     {
         Judge.gameType = 0;// 二十鍵盤仕様
+        notesType = 0;
 
         // タップ判定用 flag初期化
         for (int i = 0; i < tapFlag.Length; i++)
         {
             tapFlag[i] = false;
             lastTap[i] = false;
+            isHold[i] = false;
             tapBG[i].SetActive(false);
         }
     }
@@ -52,6 +56,8 @@ public class KeyJudge : MonoBehaviour
         // 各レーンのタップ状況を前フレームと比較
         for(int i = 0; i < tapFlag.Length; i++)
         {
+            float absTiming = 9999;// 初期化（0ではだめなので）
+
             // タップ継続
             if ((lastTap[i] == true) && (tapFlag[i] == true))
             {
@@ -60,15 +66,7 @@ public class KeyJudge : MonoBehaviour
             // タップ開始
             else if ((lastTap[i] == false) && (tapFlag[i] == true))
             {
-                float absTiming = 9999;// 初期化（0ではだめなので）
-
                 // 左レーン
-
-                //switch(isLong)
-                //{
-                //    case 0;
-                //        break;
-                //}
                 if ((Judge.GOListArray[Judge.keyNotesCount[i]][i] != null) && (i <= 3))
                 {
                     absTiming = Judge.GetAbsTiming(i, leftJudgeLine.transform.position.y);
@@ -87,6 +85,23 @@ public class KeyJudge : MonoBehaviour
             // タップ終了
             else if ((lastTap[i] == true) && (tapFlag[i] == false))
             {
+                // ホールド中なら
+                if(isHold[i])
+                {
+                    // 左レーン
+                    if ((Judge.GOListArray[Judge.keyNotesCount[i]][i] != null) && (i <= 3))
+                    {
+                        absTiming = Judge.GetAbsTiming(hoge, leftJudgeLine.transform.position.y);
+                    }
+                    // 右レーン
+                    else if ((Judge.GOListArray[Judge.keyNotesCount[i]][i] != null) && (i >= 4))
+                    {
+                        absTiming = Judge.GetAbsTiming(hoge, rightJudgeLine.transform.position.y);
+                    }
+
+                    isHold[i] = false;
+                }
+
                 tapBG[i].SetActive(false);
             }
         }
