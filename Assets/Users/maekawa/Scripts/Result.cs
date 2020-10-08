@@ -250,6 +250,30 @@ public class Result : MonoBehaviour
             scoreAnimeFlag = true;
             comboAnimeFlag = true;
             gradesAnimeFlag = true;
+
+            // 2020/10/08 Edited Sakamaki ------------
+
+            // 曲選択UIに持っていくHighScore、MaxCombo習得
+            const string HIGH_SCORE = "highscore";
+            const string MAXCOMBO = "maxcombo";
+            const string HIGH_RANK = "highrank";
+
+            int intScore = Judge.totalScore;
+            int intMaxcombo = Judge.bestCombo;
+
+            // string HIGH_SCORE,HIGH_MAXCOMBOが今までの数値を超えていたらifで分岐しスコアセーブ
+            if (PlayerPrefs.GetInt(HIGH_SCORE,0) < intScore)
+            {
+                PlayerPrefs.SetInt(HIGH_SCORE, intScore);
+                PlayerPrefs.Save();
+            }
+            if (PlayerPrefs.GetInt(MAXCOMBO, 0) < intMaxcombo)
+            {
+                PlayerPrefs.SetInt(MAXCOMBO, intMaxcombo);
+                PlayerPrefs.Save();
+            }
+
+            // ランクのとり方がわからなかったので要相談...多分配列でいい感じに..?
         }
     }
 }
