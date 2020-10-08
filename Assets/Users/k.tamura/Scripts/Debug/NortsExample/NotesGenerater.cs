@@ -41,7 +41,7 @@ public class NotesGenerater : MonoBehaviour
             float a = 60 / bpm;
             float b = a * fps;
             float c = b / 8;
-            Debug.Log(a+" "+b+" "+c);
+            //Debug.Log(a+" "+b+" "+c);
             move = new Vector3(0, c*speed, 0);
 
             if (!PlayedBGM)
@@ -74,7 +74,7 @@ public class NotesGenerater : MonoBehaviour
     {
         //ファイルの読み込み
         //FileInfo info = new FileInfo(Application.streamingAssetsPath + "/music"+MusicDatas.cueMusic+".nts");
-        FileInfo info = new FileInfo(Application.streamingAssetsPath + "/ShiningStar_0_3.nts");
+        FileInfo info = new FileInfo(Application.streamingAssetsPath + "/longNotesTest.nts");
         Debug.Log(info);
         StreamReader reader = new StreamReader(info.OpenRead());
         string MusicDatas = reader.ReadToEnd();

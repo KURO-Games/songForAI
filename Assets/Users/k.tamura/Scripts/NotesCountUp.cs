@@ -14,7 +14,7 @@ public class NotesCountUp : MonoBehaviour
         string i = this.gameObject.name;
         int j = int.Parse(i);
 
-        if(KeyJudge.isHold[j] != true)
+        if (KeyJudge.isHold[j] != true)
         {
             Judge.NotesCountUp(j);
         }

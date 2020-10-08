@@ -138,7 +138,6 @@ public class Judge : MonoBehaviour
             point = gradesPoint[0];
             combo++;
             totalGrades[0]++;
-
             dg[j].DrawGrades(0);
             SoundManager.SESoundCue(2);
         }
@@ -147,7 +146,6 @@ public class Judge : MonoBehaviour
             point = gradesPoint[1];
             combo++;
             totalGrades[1]++;
-
             dg[j].DrawGrades(1);
             SoundManager.SESoundCue(2);
         }
@@ -156,7 +154,6 @@ public class Judge : MonoBehaviour
             point = gradesPoint[2];
             combo = 0;
             totalGrades[2]++;
-
             dg[j].DrawGrades(2);
             SoundManager.SESoundCue(3);
         }
@@ -165,26 +162,28 @@ public class Judge : MonoBehaviour
             point = gradesPoint[3];
             combo = 0;
             totalGrades[3]++;
-
-            dg[j].DrawGrades(4);
+            dg[j].DrawGrades(3);
             SoundManager.SESoundCue(4);
         }
-        else// 空タップ
+        // 判定外
+        else
         {
-            if(KeyJudge.isHold[j] == true)
+            // ロングノーツ終点のミス判定
+            if (KeyJudge.isHold[j] )
             {
-                point = 0;
-                combo = 0;
-                totalGrades[4]++;
-                comboMg.DrawCombo(combo);
-
                 if (combo > bestCombo)
                 {
                     bestCombo = combo;// 最大コンボ記憶
                 }
 
+                point = 0;
+                combo = 0;
+                totalGrades[4]++;
+                dg[j].DrawGrades(4);
+                comboMg.DrawCombo(combo);
                 NotesDestroy(j);
             }
+            // 空タップ
             else
             {
                 point = 0;
@@ -206,19 +205,23 @@ public class Judge : MonoBehaviour
             scoreMg.DrawScore(totalScore);
             comboMg.DrawCombo(combo);
 
-            if(gameType == 0)
+            switch (gameType)
             {
-                // ロングノーツか判別
-                KeyJudge.notesType = KeyJudge.GOListArray[KeyJudge.keyNotesCount[j]][j].GetComponent<NotesSelector>().NotesType;
+                case 0:
+                    // ロングノーツか判別
+                    if ((KeyJudge.GOListArray[KeyJudge.keyNotesCount[j]][j].GetComponent<NotesSelector>().NotesType == 2) && (KeyJudge.isHold[j] == false))
+                    {
+                        KeyJudge.isHold[j] = true;// ホールド開始
+                    }
+                    else
+                    {
+                        NotesDestroy(j);
+                    }
+                    break;
 
-                if (KeyJudge.notesType == 2)
-                {
-                    KeyJudge.isHold[j] = true;
-                }
-            }
-            else
-            {
-                NotesDestroy(j);
+                case 1:
+                    NotesDestroy(j);
+                    break;
             }
         }
     }
@@ -232,16 +235,17 @@ public class Judge : MonoBehaviour
         switch (gameType)
         {
             case 0:
+                Debug.Log(KeyJudge.GOListArray[KeyJudge.keyNotesCount[i]][i].gameObject.name);
                 Destroy(KeyJudge.GOListArray[KeyJudge.keyNotesCount[i]][i]);   // 該当ノーツ破棄
                 KeyJudge.GOListArray[KeyJudge.keyNotesCount[i]][i] = null;     // 多重タップを防ぐ
-                KeyJudge.keyNotesCount[i]++;                          // 該当レーンのノーツカウント++
+                KeyJudge.keyNotesCount[i]++;                                   // 該当レーンのノーツカウント++
                 break;
 
-            //case 1:
+            case 1:
             //    Destroy(StringJudge.GOListArray[stNotesCount[i]][i]);
             //    KeyJudge.GOListArray[stNotesCount[i]][i] = null;
             //    stNotesCount[i]++;
-            //    break;
+                break;
 
             default:
                 break;
