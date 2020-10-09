@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
-//https://www.rt-vfx.dev/entry/2019/11/24/unity-sprite-mask
 
 public class KeyJudge : MonoBehaviour
 {
@@ -19,6 +17,7 @@ public class KeyJudge : MonoBehaviour
     [SerializeField] private GameObject leftJudgeLine;  // 左判定ライン
     [SerializeField] private GameObject rightJudgeLine; // 右判定ライン
     [SerializeField] private GameObject[] tapBG = new GameObject[8]; // レーンタップ時の背景
+    [SerializeField] private GameObject[] mask = new GameObject[8];
 
     private void Start()
     {
@@ -31,6 +30,7 @@ public class KeyJudge : MonoBehaviour
             lastTap[i] = false;
             isHold[i] = false;
             tapBG[i].SetActive(false);
+            mask[i].SetActive(false);
         }
 
         for (int i = 0; i < keyNotesCount.Length; i++)
@@ -153,6 +153,16 @@ public class KeyJudge : MonoBehaviour
                 }
 
                 tapBG[i].SetActive(false);
+            }
+
+            
+            if(isHold[i])
+            {
+                mask[i].SetActive(true);
+            }
+            else
+            {
+                mask[i].SetActive(false);
             }
         }
     }

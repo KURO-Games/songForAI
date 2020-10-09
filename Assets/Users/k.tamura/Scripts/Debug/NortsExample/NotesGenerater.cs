@@ -74,7 +74,7 @@ public class NotesGenerater : MonoBehaviour
     {
         //ファイルの読み込み
         //FileInfo info = new FileInfo(Application.streamingAssetsPath + "/music"+MusicDatas.cueMusic+".nts");
-        FileInfo info = new FileInfo(Application.streamingAssetsPath + "/longNotesTest.nts");
+        FileInfo info = new FileInfo(Application.streamingAssetsPath + "/notesTest.nts");
         Debug.Log(info);
         StreamReader reader = new StreamReader(info.OpenRead());
         string MusicDatas = reader.ReadToEnd();
