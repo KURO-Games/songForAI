@@ -268,11 +268,13 @@ public class Result : MonoBehaviour
             int intMaxcombo = Judge.bestCombo;
 
             // string HIGH_SCORE,HIGH_MAXCOMBOが今までの数値を超えていたらifで分岐しスコアセーブ
+            // ハイスコア習得
             if (PlayerPrefs.GetInt(HIGH_SCORE,0) < intScore)
             {
                 PlayerPrefs.SetInt(HIGH_SCORE, intScore);
                 PlayerPrefs.Save();
             }
+            // マックスコンボ習得
             if (PlayerPrefs.GetInt(MAXCOMBO, 0) < intMaxcombo)
             {
                 PlayerPrefs.SetInt(MAXCOMBO, intMaxcombo);
