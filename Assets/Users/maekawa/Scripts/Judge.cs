@@ -73,11 +73,13 @@ public class Judge : MonoBehaviour
                     drawGrade[i] = GameObject.Find(callObject);
 
                     dg[i] = drawGrade[i].GetComponent<DrawGrade>();
+                    // 使い方
+                    // dg[laneNumber].DrawGrades(grade(0～5));
                 }
                 break;
 
-                // 使い方
-                // dg[laneNumber].DrawGrades(grade(0～5));
+            default:
+                break;
         }
     }
 
@@ -221,6 +223,9 @@ public class Judge : MonoBehaviour
 
                 case 1:
                     NotesDestroy(j);
+                    break;
+
+                default:
                     break;
             }
         }
