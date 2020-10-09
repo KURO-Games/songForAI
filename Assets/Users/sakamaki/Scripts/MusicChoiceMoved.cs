@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class MusicChoiceMoved : MonoBehaviour
 {
-    // プランナー用 スクロールスピード(数値をすくなくすれば早くなります)
+    /*  プランナー用スクロールスピード
+        数値をすくなくすれば早くなります)   */
     [SerializeField] int ScrollSpeed;
+    /******************************************************/
 
     // ボタンを移動させるためのMusicButtonをSrialixeFieldで登録する。
     [SerializeField] GameObject MusicButton1;
@@ -28,6 +30,7 @@ public class MusicChoiceMoved : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             // タップした時の処理を描く
+
             // クリックしたときにlastmousePotisionに座標を習得し代入
             lastmousePotision = Input.mousePosition;
         }

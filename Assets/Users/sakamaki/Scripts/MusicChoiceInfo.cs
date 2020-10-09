@@ -9,10 +9,14 @@ public class MusicChoiceInfo : MonoBehaviour
     [SerializeField] Text Musicname;
     [SerializeField] Image JacketImage;
     [SerializeField] Text MaxCombo;
+    [SerializeField] Text Rank;
+
+    // ボタンがクリックされた時の挙動どうしようか悩み中。
     [SerializeField] GameObject MusicButton;
 
     int _score = 0;
     int _maxcombo = 0;
+    int _rank = 0;
     string _musicname = MusicDatas.MusicName;
 
     public void Jacket()
@@ -35,6 +39,7 @@ public class MusicChoiceInfo : MonoBehaviour
 
         _score = PlayerPrefs.GetInt(HIGH_SCORE, -1);
         _maxcombo = PlayerPrefs.GetInt(MAXCOMBO, -1);
+        _rank = PlayerPrefs.GetInt(HIGH_RANK, -1);
 
         // scoreが0より小さい時は0を代入し、0じゃなかった場合は_scoreにハイスコアを代入する
         if (_score < 0)
@@ -45,7 +50,7 @@ public class MusicChoiceInfo : MonoBehaviour
         {
             Score.text = _score.ToString();
         }
-        // Maxcombo処理も同様
+        // Maxcombo 処理に同様
         if (_maxcombo < 0)
         {
             MaxCombo.text = 0.ToString();
@@ -54,6 +59,20 @@ public class MusicChoiceInfo : MonoBehaviour
         {
             MaxCombo.text = _maxcombo.ToString();
         }
+        // Rank 処理に同様
+        if (_rank < 0)
+        {
+            Rank.text = 0.ToString();
+        }
+        else
+        {
+            Rank.text = _rank.ToString();
+        }
+
+        // 曲選択時のhighScore,maxCombo,Rankをセーブし持ってくる時に
+        // ゲームタイプが3つあり(二重鍵盤, バイオリン, キーボード)かつ
+        // 難易度が4つある(Easy, Normal, Hard, Pro)のでセーブをどうやって
+        // 綺麗にまとめるかが問題。
     }
 
     // Update is called once per frame

@@ -538,6 +538,7 @@ MonoBehaviour:
   Musicname: {fileID: 1151377304}
   JacketImage: {fileID: 0}
   MaxCombo: {fileID: 1233864180}
+  Rank: {fileID: 0}
   MusicButton: {fileID: 765170810}
 --- !u!114 &179354790
 MonoBehaviour:
@@ -551,7 +552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e08fbaf770228d43832ebdc239f9552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ScrollSpeed: 5
+  ScrollSpeed: 3
   MusicButton1: {fileID: 1156610342}
   MusicButton2: {fileID: 1528242961}
   MusicButton3: {fileID: 1854695036}
@@ -3907,6 +3908,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 263
+      objectReference: {fileID: 0}
+    - target: {fileID: 7626503708089924885, guid: dd5815b5aa0dd804ba20138fd62386ac,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8159825598685853463, guid: dd5815b5aa0dd804ba20138fd62386ac,
         type: 3}
