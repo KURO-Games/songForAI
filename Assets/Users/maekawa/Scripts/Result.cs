@@ -30,6 +30,7 @@ public class Result : MonoBehaviour
     //
     private int count;
     private int arrayCount;
+    private int rankNum;
     private bool scoreAnimeFlag;
     private bool comboAnimeFlag;
     private bool gradesAnimeFlag;
@@ -45,6 +46,7 @@ public class Result : MonoBehaviour
         // 初期化
         count = 0;
         arrayCount = 0;
+        rankNum = 0;// 1=C～4=S
         scoreAnimeFlag = false;
         comboAnimeFlag = false;
         gradesAnimeFlag = false;
@@ -83,19 +85,23 @@ public class Result : MonoBehaviour
         if (ScoreManager.increaseAmount >= rankLimit[0])
         {
             rankS.SetActive(true);
+            rankNum = 4;
         }
         else if (ScoreManager.increaseAmount >= rankLimit[1])
         {
             rankA.SetActive(true);
+            rankNum = 3;
         }
         else if (ScoreManager.increaseAmount >= rankLimit[2])
         {
             rankB.SetActive(true);
+            rankNum = 2;
         }
-        //else
-        //{
-        //    rankC.SetActive(true);
-        //}
+        else
+        {
+            rankC.SetActive(true);
+            rankNum = 1;
+        }
 
         scoreGauge = GameObject.Find("scoreGauge");
     }
@@ -270,6 +276,12 @@ public class Result : MonoBehaviour
             if (PlayerPrefs.GetInt(MAXCOMBO, 0) < intMaxcombo)
             {
                 PlayerPrefs.SetInt(MAXCOMBO, intMaxcombo);
+                PlayerPrefs.Save();
+            }
+            // rankNum追加
+            if (PlayerPrefs.GetInt(HIGH_RANK, 0) < rankNum)
+            {
+                PlayerPrefs.SetInt(HIGH_RANK, rankNum);
                 PlayerPrefs.Save();
             }
 
