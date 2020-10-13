@@ -1044,8 +1044,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 227120315}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.2726, y: -4.0199995, z: 0}
-  m_LocalScale: {x: 0.27, y: 2, z: 1}
+  m_LocalPosition: {x: -4.25, y: -4.0199995, z: 0}
+  m_LocalScale: {x: 0.2755242, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 56854469}
   m_RootOrder: 0
@@ -1174,7 +1174,7 @@ PrefabInstance:
     - target: {fileID: 8537097813818283538, guid: 37247f74227d44c54b1362e7f52b35ea,
         type: 3}
       propertyPath: NotesSpeed
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8537097813818283538, guid: 37247f74227d44c54b1362e7f52b35ea,
         type: 3}
@@ -1470,8 +1470,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 419005539}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.2726, y: -4.02, z: 0}
-  m_LocalScale: {x: 0.27, y: 2, z: 1}
+  m_LocalPosition: {x: -4.273, y: -4.02, z: 0}
+  m_LocalScale: {x: 0.26999032, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 1675075947}
   m_RootOrder: 0
@@ -3064,8 +3064,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1045055682}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.2726, y: -4.0199995, z: 0}
-  m_LocalScale: {x: 0.27, y: 2, z: 1}
+  m_LocalPosition: {x: -4.179, y: -4.0199995, z: 0}
+  m_LocalScale: {x: 0.29295003, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 2083701391}
   m_RootOrder: 0
@@ -8241,6 +8241,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GradeCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 8264897710169603823, guid: 6ad9a74abf8042a4fa4a31856367601e,
+        type: 3}
+      propertyPath: m_ScreenMatchMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8264897710169603823, guid: 6ad9a74abf8042a4fa4a31856367601e,
+        type: 3}
+      propertyPath: m_UiScaleMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8264897710169603823, guid: 6ad9a74abf8042a4fa4a31856367601e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ad9a74abf8042a4fa4a31856367601e, type: 3}
