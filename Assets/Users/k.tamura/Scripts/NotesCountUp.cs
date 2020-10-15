@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityScript.Steps;
 
 /// <summary>
 /// ノーツのカウントアップ処理
@@ -10,6 +11,12 @@ public class NotesCountUp : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Judge.NotesCountUp(this.gameObject.name);
+        string i = this.gameObject.name;
+        int j = int.Parse(i);
+
+        if (KeyJudge.isHold[j] != true)
+        {
+            Judge.NotesCountUp(j);
+        }
     }
 }

@@ -122,7 +122,7 @@ public class StringNotesGenerater : MonoBehaviour
             Generated = true;
 
         }
-        Judge.ListImport();
+        KeyJudge.ListImport();
 
     }
     /// <summary>

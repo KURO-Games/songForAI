@@ -121,3 +121,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NotesType: 1
+  EndNotes: {fileID: 0}

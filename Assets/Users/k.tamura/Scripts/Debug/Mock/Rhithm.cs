@@ -51,7 +51,7 @@ public class Rhithm : MonoBehaviour
         if(SoundManager.BGMStatus() == CriAtomSource.Status.PlayEnd&&!isCalled)
         {
             isCalled = true;
-            SceneLoadManager.LoadScene("Result");
+            //SceneLoadManager.LoadScene("Result");
         }
     }
 }

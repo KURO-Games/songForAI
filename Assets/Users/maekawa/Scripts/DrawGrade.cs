@@ -29,7 +29,7 @@ public class DrawGrade : MonoBehaviour
         for (int i = 0; i < gradesImage.Length; i++)
         {
             gradesImage[i].GetComponent<Image>().color = new Color(255, 255, 255, alpha[i]);
-
+              
             alpha[i] -= transparentPerFrame;
         }
     }

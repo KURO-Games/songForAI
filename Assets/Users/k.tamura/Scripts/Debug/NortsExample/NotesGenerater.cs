@@ -41,13 +41,13 @@ public class NotesGenerater : MonoBehaviour
             float a = 60 / bpm;
             float b = a * fps;
             float c = b / 8;
-            Debug.Log(a+" "+b+" "+c);
+            //Debug.Log(a+" "+b+" "+c);
             move = new Vector3(0, c*speed, 0);
 
             if (!PlayedBGM)
             {
                 //SoundManager.BGMSoundCue(MusicDatas.cueMusic);
-                SoundManager.BGMSoundCue(6);
+                SoundManager.BGMSoundCue(5);
 
                 PlayedBGM = true;
             }
@@ -74,7 +74,8 @@ public class NotesGenerater : MonoBehaviour
     {
         //ファイルの読み込み
         //FileInfo info = new FileInfo(Application.streamingAssetsPath + "/music"+MusicDatas.cueMusic+".nts");
-        FileInfo info = new FileInfo(Application.streamingAssetsPath + "/music7.nts");
+        FileInfo info = new FileInfo(Application.streamingAssetsPath + "/MUSIC_02 Easy.nts");
+        Debug.Log(info);
         StreamReader reader = new StreamReader(info.OpenRead());
         string MusicDatas = reader.ReadToEnd();
         musicData = JsonUtility.FromJson<NotesJson.MusicData>(MusicDatas);
@@ -122,7 +123,7 @@ public class NotesGenerater : MonoBehaviour
                 GenNotes.name = "notes_" + NotesNum.ToString();
                 GenNotes.transform.parent = NotesGen[LaneNum].transform;
                 Vector2 longPos = new Vector2(0.23f,notesNum2-NotesNum);
-                longPos.y *= 0.03f;
+                longPos.y *= 0.03f*(16/musicData.notes[i].LPB);
                 GenNotes.transform.localScale = longPos;
                 notesPositionAdd(GenNotes, LaneNum, i);
             }
@@ -132,7 +133,7 @@ public class NotesGenerater : MonoBehaviour
             Generated = true;
 
         }
-        Judge.ListImport();
+        KeyJudge.ListImport();
 
     }
     /// <summary>

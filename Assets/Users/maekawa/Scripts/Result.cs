@@ -30,21 +30,29 @@ public class Result : MonoBehaviour
     //
     private int count;
     private int arrayCount;
+    private int rankNum;
     private bool scoreAnimeFlag;
     private bool comboAnimeFlag;
     private bool gradesAnimeFlag;
 
     //
     GameObject scoreGauge;
+    Image rankImage;
+    RectTransform rankRect;
     float x = 1500;
     float y = 1500;
-    float alpha = 0;
+    float alpha = 0.3f;
     float resultIncrease = 0;
+    float timeCount;
+    bool hoge = false;
+    bool foo = false;
+
     void Start()
     {
         // 初期化
         count = 0;
         arrayCount = 0;
+        rankNum = 0;// 1=C～4=S
         scoreAnimeFlag = false;
         comboAnimeFlag = false;
         gradesAnimeFlag = false;
@@ -80,50 +88,66 @@ public class Result : MonoBehaviour
         }
 
         // スコアに応じてランク表示
+        string callObj;
+
         if (ScoreManager.increaseAmount >= rankLimit[0])
         {
             rankS.SetActive(true);
+            callObj = "S";
+            rankNum = 4;
         }
         else if (ScoreManager.increaseAmount >= rankLimit[1])
         {
             rankA.SetActive(true);
+            callObj = "A";
+            rankNum = 3;
         }
         else if (ScoreManager.increaseAmount >= rankLimit[2])
         {
             rankB.SetActive(true);
+            callObj = "B";
+            rankNum = 2;
         }
-        //else
-        //{
-        //    rankC.SetActive(true);
-        //}
+        else
+        {
+            rankC.SetActive(true);
+            callObj = "C";
+            rankNum = 1;
+        }
+
+        rankImage = GameObject.Find(callObj).GetComponent<Image>();
+        rankRect = GameObject.Find(callObj).GetComponent<RectTransform>();
 
         scoreGauge = GameObject.Find("scoreGauge");
     }
 
     void Update()
     {
-        //rankS.SetActive(true);
-        //RectTransform r = GameObject.Find("S").GetComponent<RectTransform>();
-        //r.sizeDelta = new Vector2(x, y);
-
-        //Image a = GameObject.Find("S").GetComponent<Image>();
-
-        //a.GetComponent<Image>().color = new Color(255, 255, 255, alpha);
-        //if (x > 400)
-        //{
-        //    x -= 100;
-        //    y -= 100;
-        //}
-
-        //if (alpha < 1)
-        //{
-        //    alpha += 0.05f;
-        //}
-        if(scoreAnimeFlag == true && resultIncrease < ScoreManager.increaseAmount)
+        timeCount += Time.deltaTime;
+        //if(timeCount >= 1.5)
         {
-            resultIncrease += 0.001f;
-            scoreGauge.GetComponent<Image>().fillAmount += resultIncrease;
+            if (x > 250 && hoge != true)
+            {
+                x -= 175;
+                y -= 175;
+                if(x < 250)
+                {
+                    hoge = true;
+                }
+            }
+            else if(x <290)
+            {
+                x += 50;
+                y += 50;
+            }
+            rankImage.GetComponent<Image>().color = new Color(255, 255, 255, alpha);
+            if (alpha < 1)
+            {
+                alpha += 0.1f;
+            }
+            rankRect.sizeDelta = new Vector2(x, y);
         }
+        
 
         // リザルト表示アニメーション
         // スコアアニメーション
@@ -230,6 +254,44 @@ public class Result : MonoBehaviour
                 arrayCount++;// 次の配列へ
             }
         }
+
+        if (scoreAnimeFlag == true && resultIncrease < ScoreManager.increaseAmount)
+        {
+            resultIncrease += 0.001f;
+            scoreGauge.GetComponent<Image>().fillAmount += resultIncrease;
+        }
+        
+        // 2020/10/13 Edited Sakamaki ------------
+
+        // 曲選択UIに持っていくHighScore、MaxCombo習得
+        const string HIGH_SCORE = "highscore";
+        const string MAXCOMBO = "maxcombo";
+        const string HIGH_RANK = "highrank";
+
+        int intScore = Judge.totalScore;
+        int intMaxcombo = Judge.bestCombo;
+
+        // string HIGH_SCORE,HIGH_MAXCOMBOが今までの数値を超えていたらifで分岐しスコアセーブ
+        // ハイスコア習得
+        if (PlayerPrefs.GetInt(HIGH_SCORE, 0) < intScore)
+        {
+            PlayerPrefs.SetInt(HIGH_SCORE, intScore);
+            PlayerPrefs.Save();
+        }
+        // マックスコンボ習得
+        if (PlayerPrefs.GetInt(MAXCOMBO, 0) < intMaxcombo)
+        {
+            PlayerPrefs.SetInt(MAXCOMBO, intMaxcombo);
+            PlayerPrefs.Save();
+        }
+        // rankNum追加
+        if (PlayerPrefs.GetInt(HIGH_RANK, 0) < rankNum)
+        {
+            PlayerPrefs.SetInt(HIGH_RANK, rankNum);
+            PlayerPrefs.Save();
+        }
+
+        //------------------------------------------------------------
 
         // タップでリザルトアニメーションをスキップ
         if (Input.GetMouseButtonDown(0))

@@ -14,6 +14,8 @@ public class StringJudge : MonoBehaviour
 
     private void Start()
     {
+        Judge.gameType = 1;// バイオリン仕様
+
         // タップ判定用 flag初期化
         for (int i = 0; i < tapFlag.Length; i++)
         {
@@ -23,70 +25,70 @@ public class StringJudge : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        // tapFlag 全てfalse
-        for (int i = 0; i < tapFlag.Length; i++)
-        {
-            tapFlag[i] = false;
-        }
+    //void Update()
+    //{
+    //    // tapFlag 全てfalse
+    //    for (int i = 0; i < tapFlag.Length; i++)
+    //    {
+    //        tapFlag[i] = false;
+    //    }
 
-        // tapFlagON/OFF処理（マルチタップ対応）
-        if (0 < Input.touchCount)
-        {
-            // タッチされている指の数だけ処理
-            for (int i = 0; i < Input.touchCount; i++)
-            {
-                // タップしたレーンを取得
-                int laneNumber = Judge.GetLaneNumber(i);
+    //    // tapFlagON/OFF処理（マルチタップ対応）
+    //    if (0 < Input.touchCount)
+    //    {
+    //        // タッチされている指の数だけ処理
+    //        for (int i = 0; i < Input.touchCount; i++)
+    //        {
+    //            // タップしたレーンを取得
+    //            int laneNumber = Judge.GetLaneNumber(i);
 
-                if (laneNumber == -1)
-                    continue;// 処理を抜ける
+    //            if (laneNumber == -1)
+    //                continue;// 処理を抜ける
 
-                tapFlag[laneNumber] = true;
-            }
-        }
+    //            tapFlag[laneNumber] = true;
+    //        }
+    //    }
 
-        // 各レーンのタップ状況を前フレームと比較
-        for (int i = 0; i < tapFlag.Length; i++)
-        {
-            // タップ継続
-            if ((lastTap[i] == true) && (tapFlag[i] == true))
-            {
+    //    // 各レーンのタップ状況を前フレームと比較
+    //    for (int i = 0; i < tapFlag.Length; i++)
+    //    {
+    //        // タップ継続
+    //        if ((lastTap[i] == true) && (tapFlag[i] == true))
+    //        {
 
-            }
-            // タップ開始
-            else if ((lastTap[i] == false) && (tapFlag[i] == true))
-            {
-                float absTiming = 9999;// 初期化（0ではだめなので）
+    //        }
+    //        // タップ開始
+    //        else if ((lastTap[i] == false) && (tapFlag[i] == true))
+    //        {
+    //            float absTiming = 9999;// 初期化（0ではだめなので）
 
-                // 縦レーン
-                if ((Judge.GOListArray[Judge.stNotesCount[i]][i] != null) && (i <= 3))
-                {
-                    absTiming = Judge.GetAbsTiming(i, horizonJudgeLine.transform.position.y);
-                }
-                // 横レーン
-                else if ((Judge.GOListArray[Judge.stNotesCount[i]][i] != null) && (i >= 4))
-                {
-                    absTiming = Judge.GetAbsTiming(i, verticalJudgeLine.transform.position.x);
-                }
+    //            // 縦レーン
+    //            if ((Judge.GOListArray[Judge.stNotesCount[i]][i] != null) && (i <= 3))
+    //            {
+    //                absTiming = Judge.GetAbsTiming(i, horizonJudgeLine.transform.position.y);
+    //            }
+    //            // 横レーン
+    //            else if ((Judge.GOListArray[Judge.stNotesCount[i]][i] != null) && (i >= 4))
+    //            {
+    //                absTiming = Judge.GetAbsTiming(i, verticalJudgeLine.transform.position.x);
+    //            }
 
-                //
-                //absTiming = Judge.GetAbsTiming(100, horizonJudgeLine.transform.position.y);
-                //
+    //            //
+    //            //absTiming = Judge.GetAbsTiming(100, horizonJudgeLine.transform.position.y);
+    //            //
 
-                // 距離に応じて判定処理
-                Judge.JudgeGrade(absTiming, i);
+    //            // 距離に応じて判定処理
+    //            Judge.JudgeGrade(absTiming, i);
 
-                //stTapBG[i].SetActive(true);
-            }
-            // タップ終了
-            else if ((lastTap[i] == true) && (tapFlag[i] == false))
-            {
-                //stTapBG[i].SetActive(false);
-            }
-        }
-    }
+    //            //stTapBG[i].SetActive(true);
+    //        }
+    //        // タップ終了
+    //        else if ((lastTap[i] == true) && (tapFlag[i] == false))
+    //        {
+    //            //stTapBG[i].SetActive(false);
+    //        }
+    //    }
+    //}
 
     private void LateUpdate()
     {
