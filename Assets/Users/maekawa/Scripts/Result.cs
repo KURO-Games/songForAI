@@ -119,6 +119,7 @@ public class Result : MonoBehaviour
         rankRect = GameObject.Find(callObj).GetComponent<RectTransform>();
 
         scoreGauge = GameObject.Find("scoreGauge");
+        SaveHighScores();
     }
 
     void Update()
@@ -263,33 +264,7 @@ public class Result : MonoBehaviour
         
         // 2020/10/13 Edited Sakamaki ------------
 
-        // 曲選択UIに持っていくHighScore、MaxCombo習得
-        const string HIGH_SCORE = "highscore";
-        const string MAXCOMBO = "maxcombo";
-        const string HIGH_RANK = "highrank";
-
-        int intScore = Judge.totalScore;
-        int intMaxcombo = Judge.bestCombo;
-
-        // string HIGH_SCORE,HIGH_MAXCOMBOが今までの数値を超えていたらifで分岐しスコアセーブ
-        // ハイスコア習得
-        if (PlayerPrefs.GetInt(HIGH_SCORE, 0) < intScore)
-        {
-            PlayerPrefs.SetInt(HIGH_SCORE, intScore);
-            PlayerPrefs.Save();
-        }
-        // マックスコンボ習得
-        if (PlayerPrefs.GetInt(MAXCOMBO, 0) < intMaxcombo)
-        {
-            PlayerPrefs.SetInt(MAXCOMBO, intMaxcombo);
-            PlayerPrefs.Save();
-        }
-        // rankNum追加
-        if (PlayerPrefs.GetInt(HIGH_RANK, 0) < rankNum)
-        {
-            PlayerPrefs.SetInt(HIGH_RANK, rankNum);
-            PlayerPrefs.Save();
-        }
+        
 
         //------------------------------------------------------------
 
@@ -312,6 +287,34 @@ public class Result : MonoBehaviour
             scoreAnimeFlag = true;
             comboAnimeFlag = true;
             gradesAnimeFlag = true;
+        }
+    }
+    private void SaveHighScores()
+    {
+        int intScore = Judge.totalScore;
+        int intMaxcombo = Judge.bestCombo;
+
+        // string HIGH_SCORE,HIGH_MAXCOMBOが今までの数値を超えていたらifで分岐しスコアセーブ
+        // ハイスコア習得
+        if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat, 
+            MusicDatas.MusicName, MusicDatas.difficultNumber,ScoreClass.PlayerPrefsHighScore)) < intScore)
+        {
+            PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat, 
+                MusicDatas.MusicName, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighScore), intScore);
+        }
+        // マックスコンボ習得
+        if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat, 
+            MusicDatas.MusicName, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo)) < intMaxcombo)
+        {
+            PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat, 
+                MusicDatas.MusicName, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo), intMaxcombo);
+        }
+        // rankNum追加
+        if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat, 
+            MusicDatas.MusicName, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank)) < rankNum)
+        {
+            PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat, 
+                MusicDatas.MusicName, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank), rankNum);
         }
     }
 }

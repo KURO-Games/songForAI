@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public static class PlayerPrefsUtil<T>
 {
@@ -30,17 +28,4 @@ public static class PlayerPrefsUtil<T>
     {
         PlayerPrefs.DeleteKey(key);
     }
-
-    public class SavedDatas : MonoBehaviour
-    {
-        private void Start()
-        {
-            PlayerPrefsUtil<string>.Save("StringsSaves", "st_Saves");
-            PlayerPrefsUtil<int>.Save("ints", 10);
-            PlayerPrefsUtil<float>.Save("floats", 10.1f);
-            string _load = PlayerPrefsUtil<string>.Load("StringsSaves");
-        }
-
-    }
 }
-
