@@ -297,24 +297,24 @@ public class Result : MonoBehaviour
         // string HIGH_SCORE,HIGH_MAXCOMBOが今までの数値を超えていたらifで分岐しスコアセーブ
         // ハイスコア習得
         if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat, 
-            MusicDatas.MusicName, MusicDatas.difficultNumber,ScoreClass.PlayerPrefsHighScore)) < intScore)
+            MusicDatas.NotesDataName, MusicDatas.difficultNumber,ScoreClass.PlayerPrefsHighScore)) < intScore)
         {
             PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat, 
-                MusicDatas.MusicName, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighScore), intScore);
+                MusicDatas.NotesDataName, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighScore), intScore);
         }
         // マックスコンボ習得
         if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat, 
-            MusicDatas.MusicName, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo)) < intMaxcombo)
+            MusicDatas.NotesDataName, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo)) < intMaxcombo)
         {
             PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat, 
-                MusicDatas.MusicName, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo), intMaxcombo);
+                MusicDatas.NotesDataName, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo), intMaxcombo);
         }
         // rankNum追加
         if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat, 
-            MusicDatas.MusicName, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank)) < rankNum)
+            MusicDatas.NotesDataName, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank)) < rankNum)
         {
             PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat, 
-                MusicDatas.MusicName, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank), rankNum);
+                MusicDatas.NotesDataName, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank), rankNum);
         }
     }
 }

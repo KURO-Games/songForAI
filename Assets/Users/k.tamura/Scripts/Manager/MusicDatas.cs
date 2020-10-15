@@ -8,6 +8,7 @@ using UnityEngine;
 public class MusicDatas : SingletonMonoBehaviour<MusicDatas>
 {
     public static string MusicName;
+    public static string NotesDataName;
     public static int allNotes;
     public static int difficultNumber;
     public static int difficultLevel;
