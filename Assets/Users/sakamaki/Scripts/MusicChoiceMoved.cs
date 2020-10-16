@@ -38,7 +38,6 @@ public class MusicChoiceMoved : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             // マウスの動きとオブジェクトの動きを同期させる
-
             mousePotision = Input.mousePosition;
             Vector3 movepos = MusicButton1.transform.position;
             // Y軸をlastmousePotision - mousePotisionする
