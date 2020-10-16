@@ -22,7 +22,7 @@ public class SpeedMgr:NotesManager
     /// </summary>
     private void Update()
     {
-        Debug.LogError("経過時間 : "+TimeAssy);
+        //Debug.LogError("経過時間 : "+TimeAssy);
     }
     /// <summary>
     /// 一定時間に呼ばれる関数。秒数計測用

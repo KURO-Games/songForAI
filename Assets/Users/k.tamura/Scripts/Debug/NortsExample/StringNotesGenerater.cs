@@ -23,9 +23,10 @@ public class StringNotesGenerater : MonoBehaviour
     NotesJson.MusicData musicData = new NotesJson.MusicData();
     bool Generated=false;
     bool PlayedBGM=false;
-    KeyJudge _judge;
+    StringJudge _judge;
     private void Update()
     {
+        ButtonPush();
 
         if (Generated)
         { 
@@ -59,7 +60,7 @@ public class StringNotesGenerater : MonoBehaviour
         
 
         //FileInfo info = new FileInfo(Application.streamingAssetsPath + "/music"+MusicDatas.cueMusic+".nts");
-        FileInfo info = new FileInfo(Application.streamingAssetsPath + "/music6.nts");
+        FileInfo info = new FileInfo(Application.streamingAssetsPath + "/longNotesTest");
 
         GenerateNotes(info);
         Debug.Log(musicData);
@@ -122,7 +123,7 @@ public class StringNotesGenerater : MonoBehaviour
             Generated = true;
 
         }
-        KeyJudge.ListImport();
+        StringJudge.ListImport();
 
     }
     /// <summary>
