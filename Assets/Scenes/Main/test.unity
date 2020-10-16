@@ -3680,12 +3680,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1498323758 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3640270239538505213, guid: 1ce7444c46814e54d9d19920a031b201,
-    type: 3}
-  m_PrefabInstance: {fileID: 4971141951698680870}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1500191102
 GameObject:
   m_ObjectHideFlags: 0
@@ -7689,11 +7683,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 154561517}
     m_Modifications:
-    - target: {fileID: 3640270238390135992, guid: 1ce7444c46814e54d9d19920a031b201,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3640270239538505212, guid: 1ce7444c46814e54d9d19920a031b201,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8449,24 +8438,3 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4971141951698680870}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8537097813637533857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8537097813637533855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 829602563efc83341a42b02465bd0eec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NotesPrefab: {fileID: 2533045303746496797, guid: 12d26bbeab31b1d48ad6cd73dab645b3,
-    type: 3}
-  longNotes: {fileID: 2533045303746496797, guid: 9dc5fea4fe4d4b240941d66a7dfbd934,
-    type: 3}
-  bar: {fileID: 1498323758}
-  NotesGen: []
-  NotesDistance: 0.001
-  NotesSpeed: 1
-  speed: 1

@@ -7,10 +7,17 @@ public class StringJudge : MonoBehaviour
     // タップ背景 ON/OFF 切り替え用
     private bool[] tapFlag = new bool[6];// 現在タップしているレーンの識別
     private bool[] lastTap = new bool[6];// 前フレームのタップ
+    public static bool[] isHold = new bool[6];// ロングノーツ識別
+    public static int[] stringNotesCount = new int[6];      // 二重鍵盤用ノーツカウント
+    public static List<List<GameObject>> GOListArray = new List<List<GameObject>>();// ノーツ座標格納用2次元配列
+    //
+    // 使い方  GOListArray   [_notesCount[laneNumber]]                   [laneNumber]
+    //         GOListArray   [何個目のノーツなのか[何番目のレーンの]]    [何番目のレーンなのか]
 
-    [SerializeField] private GameObject verticalJudgeLine;  // 横レーン用判定ライン
-    [SerializeField] private GameObject horizonJudgeLine;   // 縦レーン用判定ライン
-    //[SerializeField] private GameObject[] stTapBG = new GameObject[6]; // レーンタップ時の背景
+    [SerializeField] private GameObject horizonJudgeLine;  // 縦ノーツ判定ライン
+    [SerializeField] private GameObject verticalJudgeLine; // 横ノーツ判定ライン
+    [SerializeField] private GameObject[] tapBG = new GameObject[6]; // レーンタップ時の背景
+    [SerializeField] private GameObject[] mask = new GameObject[6];
 
     private void Start()
     {
@@ -21,74 +28,133 @@ public class StringJudge : MonoBehaviour
         {
             tapFlag[i] = false;
             lastTap[i] = false;
-            //stTapBG[i].SetActive(false);
+            isHold[i] = false;
+            //tapBG[i].SetActive(false);
+            //mask[i].SetActive(false);
+        }
+
+        for (int i = 0; i < stringNotesCount.Length; i++)
+        {
+            stringNotesCount[i] = 0;
         }
     }
 
-    //void Update()
-    //{
-    //    // tapFlag 全てfalse
-    //    for (int i = 0; i < tapFlag.Length; i++)
-    //    {
-    //        tapFlag[i] = false;
-    //    }
+    void Update()
+    {
+        // tapFlag 全てfalse
+        for (int i = 0; i < tapFlag.Length; i++)
+        {
+            tapFlag[i] = false;
+        }
 
-    //    // tapFlagON/OFF処理（マルチタップ対応）
-    //    if (0 < Input.touchCount)
-    //    {
-    //        // タッチされている指の数だけ処理
-    //        for (int i = 0; i < Input.touchCount; i++)
-    //        {
-    //            // タップしたレーンを取得
-    //            int laneNumber = Judge.GetLaneNumber(i);
+        // デバッグ用コード
+        if (Input.GetMouseButton(0))
+        {
+            int laneNumber = -1;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 10f, 1);
 
-    //            if (laneNumber == -1)
-    //                continue;// 処理を抜ける
+            if (hit.collider)
+            {
+                GameObject clickObj = hit.transform.gameObject;
 
-    //            tapFlag[laneNumber] = true;
-    //        }
-    //    }
+                if ((clickObj != null) && (clickObj.tag == ("Lane")))// tagでレーンを識別
+                {
+                    string s = clickObj.name;     // レーン番号を取得
+                    laneNumber = int.Parse(s);    // 文字列を数字に変換
+                }
+            }
+            if (laneNumber >= 0)
+                tapFlag[laneNumber] = true;
+        }
+        // End
 
-    //    // 各レーンのタップ状況を前フレームと比較
-    //    for (int i = 0; i < tapFlag.Length; i++)
-    //    {
-    //        // タップ継続
-    //        if ((lastTap[i] == true) && (tapFlag[i] == true))
-    //        {
 
-    //        }
-    //        // タップ開始
-    //        else if ((lastTap[i] == false) && (tapFlag[i] == true))
-    //        {
-    //            float absTiming = 9999;// 初期化（0ではだめなので）
+        // tapFlagON/OFF処理（マルチタップ対応）
+        if (0 < Input.touchCount)
+        {
+            // タッチされている指の数だけ処理
+            for (int i = 0; i < Input.touchCount; i++)
+            {
+                // タップしたレーンを取得
+                int laneNumber = Judge.GetLaneNumber(i);
 
-    //            // 縦レーン
-    //            if ((Judge.GOListArray[Judge.stNotesCount[i]][i] != null) && (i <= 3))
-    //            {
-    //                absTiming = Judge.GetAbsTiming(i, horizonJudgeLine.transform.position.y);
-    //            }
-    //            // 横レーン
-    //            else if ((Judge.GOListArray[Judge.stNotesCount[i]][i] != null) && (i >= 4))
-    //            {
-    //                absTiming = Judge.GetAbsTiming(i, verticalJudgeLine.transform.position.x);
-    //            }
+                if (laneNumber == -1)
+                    continue;// 処理を抜ける
 
-    //            //
-    //            //absTiming = Judge.GetAbsTiming(100, horizonJudgeLine.transform.position.y);
-    //            //
+                tapFlag[laneNumber] = true;
+            }
+        }
 
-    //            // 距離に応じて判定処理
-    //            Judge.JudgeGrade(absTiming, i);
+        // 各レーンのタップ状況を前フレームと比較
+        for (int i = 0; i < tapFlag.Length; i++)
+        {
+            float absTiming = 9999;// 初期化（0ではだめなので）
 
-    //            //stTapBG[i].SetActive(true);
-    //        }
-    //        // タップ終了
-    //        else if ((lastTap[i] == true) && (tapFlag[i] == false))
-    //        {
-    //            //stTapBG[i].SetActive(false);
-    //        }
-    //    }
-    //}
+            // タップ継続
+            if ((lastTap[i] == true) && (tapFlag[i] == true))
+            {
+                // ロングノーツホールド中、終点を通過した場合
+                if ((i >= 4) && (isHold[i] == true))
+                {
+                    if (verticalJudgeLine.transform.position.x + Judge.gradesCriterion[3] > GOListArray[stringNotesCount[i]][i].GetComponent<NotesSelector>().EndNotes.transform.position.y)
+                    {
+                        Judge.NotesCountUp(i);
+                        isHold[i] = false;
+                    }
+                }
+            }
+            // タップ開始
+            else if ((lastTap[i] == false) && (tapFlag[i] == true))
+            {
+                // 横レーン
+                if ((GOListArray[stringNotesCount[i]][i] != null) && (i <= 3))
+                {
+                    absTiming = Judge.GetAbsTiming(GOListArray[stringNotesCount[i]][i].transform.position.y
+                                , horizonJudgeLine.transform.position.y);
+                }
+                // 縦レーン
+                else if ((GOListArray[stringNotesCount[i]][i] != null) && (i >= 4))
+                {
+                    absTiming = Judge.GetAbsTiming(GOListArray[stringNotesCount[i]][i].transform.position.x
+                                , verticalJudgeLine.transform.position.x);
+                }
+
+                // 距離に応じて判定処理
+                Judge.JudgeGrade(absTiming, i);
+
+                //tapBG[i].SetActive(true);
+            }
+            // タップ終了
+            else if ((lastTap[i] == true) && (tapFlag[i] == false))
+            {
+                if (isHold[i])
+                {
+                    if (GOListArray[stringNotesCount[i]][i] != null)
+                    {
+                        absTiming = Judge.GetAbsTiming(GOListArray[stringNotesCount[i]][i].GetComponent<NotesSelector>().EndNotes.transform.position.x
+                                    , verticalJudgeLine.transform.position.x);
+                    }
+
+                    Judge.JudgeGrade(absTiming, i);
+
+                    isHold[i] = false;
+                }
+
+                //tapBG[i].SetActive(false);
+            }
+
+
+            //if (isHold[i])
+            //{
+            //    mask[i].SetActive(true);
+            //}
+            //else
+            //{
+            //    mask[i].SetActive(false);
+            //}
+        }
+    }
 
     private void LateUpdate()
     {
@@ -96,5 +162,11 @@ public class StringJudge : MonoBehaviour
         {
             lastTap[i] = tapFlag[i];// 次フレームで比較するためタップ状況を保存
         }
+    }
+
+    public static void ListImport()
+    {
+        GOListArray = NotesManager.NotesPositions;
+        Debug.Log(GOListArray[0][7]);
     }
 }

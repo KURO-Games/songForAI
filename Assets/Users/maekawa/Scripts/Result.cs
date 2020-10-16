@@ -272,7 +272,7 @@ public class Result : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             // スコア表示
-            string s = String.Format("{0:0000000}", Judge.totalScore);// 7ケタ指定
+            string s = string.Format("{0:0000000}", Judge.totalScore);// 7ケタ指定
             score.GetComponent<Text>().text = s;
 
             // コンボ表示
@@ -297,24 +297,24 @@ public class Result : MonoBehaviour
         // string HIGH_SCORE,HIGH_MAXCOMBOが今までの数値を超えていたらifで分岐しスコアセーブ
         // ハイスコア習得
         if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat, 
-            MusicDatas.NotesDataName, MusicDatas.difficultNumber,ScoreClass.PlayerPrefsHighScore)) < intScore)
+            MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber,ScoreClass.PlayerPrefsHighScore)) < intScore)
         {
             PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat, 
-                MusicDatas.NotesDataName, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighScore), intScore);
+                MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighScore), intScore);
         }
         // マックスコンボ習得
-        if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat, 
-            MusicDatas.NotesDataName, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo)) < intMaxcombo)
+        if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
+            MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo)) < intMaxcombo)
         {
             PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat, 
-                MusicDatas.NotesDataName, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo), intMaxcombo);
+                MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo), intMaxcombo);
         }
         // rankNum追加
         if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat, 
-            MusicDatas.NotesDataName, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank)) < rankNum)
+            MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank)) < rankNum)
         {
             PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat, 
-                MusicDatas.NotesDataName, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank), rankNum);
+                MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank), rankNum);
         }
     }
 }

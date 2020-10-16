@@ -46,40 +46,23 @@ public class Judge : MonoBehaviour
             totalGrades[i] = 0;
         }
 
+
         // 関数を呼ぶためにスクリプトを取得
         GameObject uiObj = GameObject.Find("UICanvas");
         scoreMg = uiObj.GetComponent<ScoreManager>();
         comboMg = uiObj.GetComponent<ComboManager>();
 
+
         // 評価UI表示用のスクリプト配列をセット
-        switch(gameType)
+        for (int i = 0; i < drawGrade.Length; i++)
         {
-            case 0:
-                for (int i = 0; i < drawGrade.Length; i++)
-                {
-                    string callObject = "drawGrade" + i;
+            string callObject = "drawGrade" + i;
 
-                    drawGrade[i] = GameObject.Find(callObject);
+            drawGrade[i] = GameObject.Find(callObject);
 
-                    dg[i] = drawGrade[i].GetComponent<DrawGrade>();
-                }
-                break;
-
-            case 1:
-                for (int i = 0; i < 5; i++)
-                {
-                    string callObject = "drawGrade" + i;
-
-                    drawGrade[i] = GameObject.Find(callObject);
-
-                    dg[i] = drawGrade[i].GetComponent<DrawGrade>();
-                    // 使い方
-                    // dg[laneNumber].DrawGrades(grade(0～5));
-                }
-                break;
-
-            default:
-                break;
+            dg[i] = drawGrade[i].GetComponent<DrawGrade>();
+            // 使い方
+            // dg[laneNumber].DrawGrades(grade(0～5));
         }
     }
 
@@ -167,15 +150,29 @@ public class Judge : MonoBehaviour
             dg[j].DrawGrades(3);
             SoundManager.SESoundCue(4);
         }
-        // 判定外
         else
         {
+            bool tempIsHold = false;
+            switch(gameType)
+            {
+                case 0:
+                    tempIsHold = KeyJudge.isHold[j];
+                    break;
+
+                case 1:
+                    tempIsHold = StringJudge.isHold[j];
+                    break;
+
+                default:
+                    break;
+            }
+
             // ロングノーツ終点のミス判定
-            if (KeyJudge.isHold[j] )
+            if (tempIsHold)
             {
                 if (combo > bestCombo)
                 {
-                    bestCombo = combo;// 最大コンボ記憶
+                    bestCombo = combo;
                 }
 
                 point = 0;
@@ -193,14 +190,15 @@ public class Judge : MonoBehaviour
             }
         }
 
-        if (combo > bestCombo)
-        {
-            bestCombo = combo;// 最大コンボ記憶
-        }
-
         // 空タップでなければ
         if (point > 0)
         {
+            // 最大コンボ記憶
+            if (combo > bestCombo)
+            {
+                bestCombo = combo;
+            } 
+
             // タップノーツかロングノーツかを判別
             totalScore += point;
 
@@ -216,13 +214,16 @@ public class Judge : MonoBehaviour
                         KeyJudge.isHold[j] = true;// ホールド開始
                     }
                     else
-                    {
                         NotesDestroy(j);
-                    }
                     break;
 
                 case 1:
-                    NotesDestroy(j);
+                    if ((StringJudge.GOListArray[StringJudge.stringNotesCount[j]][j].GetComponent<NotesSelector>().NotesType == 2) && (StringJudge.isHold[j] == false))
+                    {
+                        StringJudge.isHold[j] = true;// ホールド開始
+                    }
+                    else
+                        NotesDestroy(j);
                     break;
 
                 default:
@@ -240,16 +241,15 @@ public class Judge : MonoBehaviour
         switch (gameType)
         {
             case 0:
-                Debug.Log(KeyJudge.GOListArray[KeyJudge.keyNotesCount[i]][i].gameObject.name);
                 Destroy(KeyJudge.GOListArray[KeyJudge.keyNotesCount[i]][i]);   // 該当ノーツ破棄
                 KeyJudge.GOListArray[KeyJudge.keyNotesCount[i]][i] = null;     // 多重タップを防ぐ
                 KeyJudge.keyNotesCount[i]++;                                   // 該当レーンのノーツカウント++
                 break;
 
             case 1:
-            //    Destroy(StringJudge.GOListArray[stNotesCount[i]][i]);
-            //    KeyJudge.GOListArray[stNotesCount[i]][i] = null;
-            //    stNotesCount[i]++;
+                Destroy(StringJudge.GOListArray[StringJudge.stringNotesCount[i]][i]);
+                StringJudge.GOListArray[StringJudge.stringNotesCount[i]][i] = null;
+                StringJudge.stringNotesCount[i]++;
                 break;
 
             default:
