@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MusicChoiceMoved : MonoBehaviour
 {
+    // MusicchoiceInfo に移行
+
     // Start is called before the first frame update
     void Start()
     {

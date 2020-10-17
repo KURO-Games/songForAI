@@ -535,10 +535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94f38728425da4e439c575f1a6d45e1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Score:
-  - {fileID: 6311098474166968923}
-  - {fileID: 3823000109251261950}
-  - {fileID: 8360312512680718335}
+  Score: {fileID: 0}
   MusicNameTitle:
   - {fileID: 6311098474166968923}
   - {fileID: 3823000109251261950}
@@ -563,9 +560,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  MusicButton1: {fileID: 0}
-  MusicButton2: {fileID: 0}
-  MusicButton3: {fileID: 0}
   MusicButton: {fileID: 5627233678538146056}
 --- !u!1 &201357688
 GameObject:
@@ -1563,7 +1557,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 83}
+  m_AnchoredPosition: {x: 0, y: 83.00012}
   m_SizeDelta: {x: 0, y: 764.8}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &772014602
