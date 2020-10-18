@@ -63,6 +63,7 @@ public class SelectMusicScene : MonoBehaviour
             ChooseHighlight[i].gameObject.SetActive(false);
         }
         ChooseHighlight[DifficultsNum].gameObject.SetActive(true);
+        MusicDatas.difficultNumber = DifficultsNum;
     }
     public void PButton(int i)
     {
