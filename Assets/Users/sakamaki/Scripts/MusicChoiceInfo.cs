@@ -125,14 +125,12 @@ public class MusicChoiceInfo : MonoBehaviour
             if (Moving_ds > 300)
             {
                 Debug.Log("test");
-                //if (MusicName.Length - 1 > listCount)
                 listCount--;
                 Moving_ds = 0;
             }
             // 上記と基本的には同じ
             else if (Moving_ds < -300)
             {
-                //if (MusicName.Length + 1 > listCount)
                 listCount++;
                 Moving_ds = 0;
             }
