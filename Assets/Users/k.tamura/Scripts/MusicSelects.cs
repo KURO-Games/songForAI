@@ -8,17 +8,21 @@ using UnityEngine;
 /// </summary>
 public enum MusicNames
 {
-    hoge,
+    Shining = 0,
+    YourSmile = 1,
+    DevilCastle = 2
 }
 
-public class MusicSelects : SingletonMonoBehaviour<MusicSelects>
+public static class MusicSelects
 {
     /// <summary>
     /// 曲名を上のEnumと同じ配列に入れる
     /// </summary>
     private readonly string[] musicNames = new string[]
     {
-        "hoge"
+        "シャイニングスター",
+        "君の笑顔",
+        "魔王城"
     };
 
     /// <summary>
@@ -26,21 +30,28 @@ public class MusicSelects : SingletonMonoBehaviour<MusicSelects>
     /// </summary>
     private readonly string[] musicNotesNames = new string[]
     {
-        "hoge"
+        "Shining",
+        "YourSmile",
+        "DevilCastle"
     };
     /// <summary>
     /// 曲のNum指定
     /// </summary>
     private readonly int[] cueMusicID = new int[]
     {
-        1
+        5,
+        6,
+        7
+
     };
     /// <summary>
     /// 曲名を参照してenumを返す変数
     /// </summary>
     Dictionary<string, MusicNames> MusicNameDict=new Dictionary<string,MusicNames>
     {
-        {"hoge",MusicNames.hoge },
+        {"Shining",MusicNames.Shining },
+        {"YourSmile",MusicNames.YourSmile },
+        {"DevilCastle",MusicNames.DevilCastle }
     };
     /// <summary>
     /// 選択された曲の名前通りのデータをMusicDatasに入力
@@ -51,6 +62,7 @@ public class MusicSelects : SingletonMonoBehaviour<MusicSelects>
         MusicDatas.MusicName = Instance.musicNames[(int)selectMusicNames];
         MusicDatas.NotesDataName = Instance.musicNotesNames[(int)selectMusicNames];
         MusicDatas.cueMusic = Instance.cueMusicID[(int)selectMusicNames];
+        Debug.Log(MusicDatas.MusicName);
     }
     /// <summary>
     /// 曲名のstring配列を返す

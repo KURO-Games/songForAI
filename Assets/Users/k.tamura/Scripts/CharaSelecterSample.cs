@@ -15,13 +15,14 @@ public class CharaSelecterSample : MonoBehaviour
         nextSprite = 0;
         prevSprite = nextSprite;
     }
+
     /// <summary>
     /// Update
     /// </summary>
     private void Update()
     {
         // 前のフレームと今のフレームで差があるか
-        if(prevSprite != nextSprite)
+        if (prevSprite != nextSprite)
         {
             //差があるので、一致させる
             prevSprite = nextSprite;
@@ -35,6 +36,7 @@ public class CharaSelecterSample : MonoBehaviour
             CharaImage.sprite = character[nextSprite];
         }
     }
+
     /// <summary>
     /// 配列番号を変えるスクリプト(今のところ想定はボタンだが、スライドのところで呼んでも大丈夫なつくりにしてある)
     /// 一枚先なら+1
