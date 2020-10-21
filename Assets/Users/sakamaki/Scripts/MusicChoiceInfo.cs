@@ -14,7 +14,7 @@ public class MusicChoiceInfo : MonoBehaviour
     [SerializeField] public string[] MusicName;
     [SerializeField] public GameObject[] MaxCombo;
     [SerializeField] public GameObject[] Rank;
-    [SerializeField] public GameObject[] RankImage = new GameObject[4];
+    [SerializeField] public Sprite[] RankImage = new Sprite[4];
 
     // マウス座標を習得
     Vector3 lastmousePotision;
@@ -45,7 +45,8 @@ public class MusicChoiceInfo : MonoBehaviour
 
         ChangeMusicText();
 
-        // 
+        // データロード関数呼び出し
+        DataLoads();
         // 曲名表示、ジャケット習得
         Jacket();
 
@@ -151,6 +152,7 @@ public class MusicChoiceInfo : MonoBehaviour
             //MusicNameTitle[2].GetComponent<Text>().text = musicName[listCount + 2];
         }
     }
+
     /// <summary>
     /// データロード類
     /// </summary>
@@ -159,6 +161,8 @@ public class MusicChoiceInfo : MonoBehaviour
         // Resultから習得したPlayerplefsを使い曲選択にhighscore,maxcombo,rankを持っていく
         for (int i = 0; i < MusicNameTitle.Length; i++) 
         {
+            Sprite isrankImage = default(Sprite);
+
             // スコア習得
             Score[i].GetComponent<Text>().text = PlayerPrefsUtil<string>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
                 MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighScore), "0");
@@ -168,23 +172,26 @@ public class MusicChoiceInfo : MonoBehaviour
             // ランク習得しswitchでactiveするランク画像を分岐
             // switch文で曲選択画面時のRank画像表示分岐
             switch (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
-                MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank)))
+                MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank), 0))
             {
-                case 4:
-                    RankImage[3].SetActive(true);
-                    break;
-                case 3:
-                    RankImage[2].SetActive(true);
+                case 1:
+                    isrankImage = RankImage[3];
                     break;
                 case 2:
-                    RankImage[1].SetActive(true);
+                    isrankImage = RankImage[2];
                     break;
-                case 1:
-                    RankImage[0].SetActive(true);
+                case 3:
+                    isrankImage = RankImage[1];
+                    break;
+                case 4:
+                    isrankImage = RankImage[0];
                     break;
                 default:
-                    break;
+                    Rank[i].gameObject.SetActive(false);
+                    continue;
             }
+
+            Rank[i].gameObject.GetComponent<Image>().sprite = isrankImage;
         }
     }
 }
