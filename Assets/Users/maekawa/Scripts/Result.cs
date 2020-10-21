@@ -15,10 +15,10 @@ public class Result : MonoBehaviour
 
 
     [SerializeField] GameObject[] grades = new GameObject[5];
+    [SerializeField] GameObject[] difficulty = new GameObject[4];
     [SerializeField] GameObject score;
     [SerializeField] GameObject maxCombo;
     [SerializeField] GameObject songName;
-    [SerializeField] GameObject difficulty;
     [SerializeField] GameObject level;
     [SerializeField] GameObject fullCombo;
     [SerializeField] GameObject rankS;
@@ -58,7 +58,7 @@ public class Result : MonoBehaviour
         gradesAnimeFlag = false;
 
         // 曲名表示
-        songName.GetComponent<Text>().text = MusicDatas.MusicName;  // 曲名表示
+        songName.GetComponent<Text>().text = MusicDatas.MusicName;  // 曲名表示;
 
         // レベル表示
         string s = String.Format("{0:00}", MusicDatas.difficultLevel);       // 2ケタ指定
@@ -68,24 +68,26 @@ public class Result : MonoBehaviour
         switch(MusicDatas.difficultNumber)
         {
             case 0:
-                difficulty.GetComponent<Text>().text = ("Easy");
+                difficulty[0].SetActive(true);
                 break;
             case 1:
-                difficulty.GetComponent<Text>().text = ("Normal");
+                difficulty[1].SetActive(true);
                 break;
             case 2:
-                difficulty.GetComponent<Text>().text = ("Hard");
+                difficulty[2].SetActive(true);
                 break;
             case 3:
-                difficulty.GetComponent<Text>().text = ("Pro");
+                difficulty[3].SetActive(true);
+                break;
+            default:
                 break;
         }
 
         // フルコンボ表示
-        if (Judge.bestCombo == MusicDatas.allNotes)
-        {
-            fullCombo.SetActive(true);
-        }
+        //if (Judge.bestCombo == MusicDatas.allNotes)
+        //{
+        //    fullCombo.SetActive(true);
+        //}
 
         // スコアに応じてランク表示
         string callObj;
@@ -124,30 +126,30 @@ public class Result : MonoBehaviour
 
     void Update()
     {
-        timeCount += Time.deltaTime;
-        //if(timeCount >= 1.5)
-        {
-            if (x > 250 && hoge != true)
-            {
-                x -= 175;
-                y -= 175;
-                if(x < 250)
-                {
-                    hoge = true;
-                }
-            }
-            else if(x <290)
-            {
-                x += 50;
-                y += 50;
-            }
-            rankImage.GetComponent<Image>().color = new Color(255, 255, 255, alpha);
-            if (alpha < 1)
-            {
-                alpha += 0.1f;
-            }
-            rankRect.sizeDelta = new Vector2(x, y);
-        }
+        //timeCount += Time.deltaTime;
+        ////if(timeCount >= 1.5)
+        //{
+        //    if (x > 250 && hoge != true)
+        //    {
+        //        x -= 175;
+        //        y -= 175;
+        //        if(x < 250)
+        //        {
+        //            hoge = true;
+        //        }
+        //    }
+        //    else if(x <290)
+        //    {
+        //        x += 50;
+        //        y += 50;
+        //    }
+        //    rankImage.GetComponent<Image>().color = new Color(255, 255, 255, alpha);
+        //    if (alpha < 1)
+        //    {
+        //        alpha += 0.1f;
+        //    }
+        //    rankRect.sizeDelta = new Vector2(x, y);
+        //}
         
 
         // リザルト表示アニメーション
@@ -262,11 +264,6 @@ public class Result : MonoBehaviour
             scoreGauge.GetComponent<Image>().fillAmount += resultIncrease;
         }
         
-        // 2020/10/13 Edited Sakamaki ------------
-
-        
-
-        //------------------------------------------------------------
 
         // タップでリザルトアニメーションをスキップ
         if (Input.GetMouseButtonDown(0))
