@@ -159,7 +159,7 @@ public class MusicChoiceInfo : MonoBehaviour
     private void DataLoads()
     {
         // Resultから習得したPlayerplefsを使い曲選択にhighscore,maxcombo,rankを持っていく
-        for (int i = 0; i < MusicNameTitle.Length; i++) 
+        for (int i = 0; i < Score.Length; i++) 
         {
             Sprite isrankImage = default(Sprite);
 
