@@ -47,7 +47,7 @@ public class NotesGenerater : MonoBehaviour
             if (!PlayedBGM)
             {
                 //SoundManager.BGMSoundCue(MusicDatas.cueMusic);
-                SoundManager.BGMSoundCue(5);
+                SoundManager.BGMSoundCue(MusicDatas.cueMusic);
 
                 PlayedBGM = true;
             }
@@ -74,11 +74,11 @@ public class NotesGenerater : MonoBehaviour
     {
         //ファイルの読み込み
         //FileInfo info = new FileInfo(Application.streamingAssetsPath + "/music"+MusicDatas.cueMusic+".nts");
-        FileInfo info = new FileInfo(Application.streamingAssetsPath + "/MUSIC_02 Easy.nts");
+        FileInfo info = new FileInfo(Application.streamingAssetsPath + string.Format("/{0}_{1}.nts",MusicDatas.NotesDataName,MusicDatas.difficultNumber));
         Debug.Log(info);
         StreamReader reader = new StreamReader(info.OpenRead());
-        string MusicDatas = reader.ReadToEnd();
-        musicData = JsonUtility.FromJson<NotesJson.MusicData>(MusicDatas);
+        string Musics_ = reader.ReadToEnd();
+        musicData = JsonUtility.FromJson<NotesJson.MusicData>(Musics_);
         SpeedMgr.BPM = musicData.BPM;
 
         // ノーツ生成
