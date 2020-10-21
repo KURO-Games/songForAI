@@ -26,7 +26,7 @@ public class SelectMusicScene : MonoBehaviour
     private void Start()
     {
         //PlayerPrefs.SetInt("Lifes", 2);
-        LifeNum = PlayerPrefs.GetInt("Lifes");
+        LifeNum = PlayerPrefs.GetInt("Lifes", 3);
         DifficultsNum = -1;
         _isTap = false;
         MusicDatas.cueMusic = -1;

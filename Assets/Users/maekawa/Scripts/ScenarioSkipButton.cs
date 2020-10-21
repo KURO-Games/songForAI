@@ -6,6 +6,6 @@ public class ScenarioSkipButton : MonoBehaviour
 {
     public void Onclick()
     {
-        SceneLoadManager.LoadScene("SelectMusicV2");
+        SceneLoadManager.LoadScene("SelectMusicV3");
     }
 }
