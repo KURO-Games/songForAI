@@ -62,7 +62,6 @@ public static class MusicSelects
         MusicDatas.MusicName = musicNames[(int)selectMusicNames];
         MusicDatas.NotesDataName = musicNotesNames[(int)selectMusicNames];
         MusicDatas.cueMusic = cueMusicID[(int)selectMusicNames];
-        Debug.Log(MusicDatas.MusicName);
     }
     /// <summary>
     /// 曲名のstring配列を返す
