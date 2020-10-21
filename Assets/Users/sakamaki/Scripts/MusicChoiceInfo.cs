@@ -8,7 +8,7 @@ public class MusicChoiceInfo : MonoBehaviour
 {
 
     // listで動かすように配列化させたAttribute群
-    [SerializeField] public GameObject Score;
+    [SerializeField] public GameObject[] Score;
     [SerializeField] public GameObject[] MusicNameTitle;
     [SerializeField] public GameObject[] JacketImage;
     [SerializeField] public string[] MusicName;
@@ -44,36 +44,8 @@ public class MusicChoiceInfo : MonoBehaviour
         musicName.Add("Song5");
 
         ChangeMusicText();
-        // Resultから習得したPlayerplefsを使い曲選択にhighscore,maxcombo,rankを持っていく
 
-        // スコア習得
-        Score.GetComponent<Text>().text = PlayerPrefsUtil<string>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
-            MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighScore));
-        //// マックスコンボ習得
-        MaxCombo[0].GetComponent<Text>().text = PlayerPrefsUtil<string>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
-            MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo),"0");
-        // ランク習得しswitchでactiveするランク画像を分岐
-
-        // switch文で曲選択画面時のRank画像表示分岐
-        switch (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
-            MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank)))
-        {
-            case 4:
-                RankImage[3].SetActive(true);
-                break;
-            case 3:
-                RankImage[2].SetActive(true);
-                break;
-            case 2:
-                RankImage[1].SetActive(true);
-                break;
-            case 1:
-                RankImage[0].SetActive(true);
-                break;
-            default:
-                break;
-        }
-
+        // 
         // 曲名表示、ジャケット習得
         Jacket();
 
@@ -177,6 +149,42 @@ public class MusicChoiceInfo : MonoBehaviour
             //MusicNameTitle[0].GetComponent<Text>().text = musicName[listCount];
             //MusicNameTitle[1].GetComponent<Text>().text = musicName[listCount + 1];
             //MusicNameTitle[2].GetComponent<Text>().text = musicName[listCount + 2];
+        }
+    }
+    /// <summary>
+    /// データロード類
+    /// </summary>
+    private void DataLoads()
+    {
+        // Resultから習得したPlayerplefsを使い曲選択にhighscore,maxcombo,rankを持っていく
+        for (int i = 0; i < MusicNameTitle.Length; i++) 
+        {
+            // スコア習得
+            Score[i].GetComponent<Text>().text = PlayerPrefsUtil<string>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
+                MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighScore), "0");
+            //// マックスコンボ習得
+            MaxCombo[i].GetComponent<Text>().text = PlayerPrefsUtil<string>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
+                MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo), "0");
+            // ランク習得しswitchでactiveするランク画像を分岐
+            // switch文で曲選択画面時のRank画像表示分岐
+            switch (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
+                MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank)))
+            {
+                case 4:
+                    RankImage[3].SetActive(true);
+                    break;
+                case 3:
+                    RankImage[2].SetActive(true);
+                    break;
+                case 2:
+                    RankImage[1].SetActive(true);
+                    break;
+                case 1:
+                    RankImage[0].SetActive(true);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
