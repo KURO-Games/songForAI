@@ -10,12 +10,8 @@ public class CharactorImageMoved : MonoBehaviour
     [SerializeField] GameObject CharactorImage = default(GameObject);
     [SerializeField] Sprite[] Charactor = default(Sprite[]);
 
-    [SerializeField] Button RightButton = default(Button);
-    [SerializeField] Button LeftButton = default(Button);
-
     int prev = default(int);
-    int result = default(int);
-    int intButton = default(int);
+    public static int result = default(int);
 
 
     // Start is called before the first frame update
