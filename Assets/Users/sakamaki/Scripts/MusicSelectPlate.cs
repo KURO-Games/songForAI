@@ -12,7 +12,8 @@ public class MusicSelectPlate : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        mArray = MusicSelects.MusicNameArray();
+        musicdict = MusicSelects.MusicDict();
     }
 
     // Update is called once per frame

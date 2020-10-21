@@ -143,10 +143,10 @@ public class MusicChoiceInfo : MonoBehaviour
             }
             else
             {
-                MusicNameTitle[0].gameObject.SetActive(true);
+                //MusicNameTitle[0].gameObject.SetActive(true);
                 //continue;
             }
-            MusicNameTitle[i].GetComponent<Text>().text = musicName[listCount + i - 1];
+            //MusicNameTitle[i].GetComponent<Text>().text = musicName[listCount + i - 1];
             //MusicNameTitle[0].GetComponent<Text>().text = musicName[listCount];
             //MusicNameTitle[1].GetComponent<Text>().text = musicName[listCount + 1];
             //MusicNameTitle[2].GetComponent<Text>().text = musicName[listCount + 2];

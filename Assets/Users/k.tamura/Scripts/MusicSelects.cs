@@ -70,7 +70,7 @@ public static class MusicSelects
     /// <returns></returns>
     public static string[] MusicNameArray()
     {
-        return musicNames;
+        return musicNotesNames;
     }
     /// <summary>
     /// 曲名と連動したenumを返す
