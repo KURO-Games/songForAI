@@ -5,5 +5,4 @@ using UnityEngine;
 public static class SceneDefine
 {
     public const string Hoge = "Hoge";
-
 }
