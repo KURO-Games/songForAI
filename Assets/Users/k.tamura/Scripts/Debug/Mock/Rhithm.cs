@@ -43,6 +43,7 @@ public class Rhithm : MonoBehaviour
                 StartImage.GetComponent<CanvasGroup>().alpha = 0;
                 _faded = true;
                 NotesGen.GetComponent<NotesGenerater>().NotesGenerate();
+                //NotesGen.GetComponent<TestNotesGen>().NotesGenerate();
             }
         }
     }
@@ -51,7 +52,7 @@ public class Rhithm : MonoBehaviour
         if(SoundManager.BGMStatus() == CriAtomSource.Status.PlayEnd&&!isCalled)
         {
             isCalled = true;
-            //SceneLoadManager.LoadScene("Result");
+            SceneLoadManager.LoadScene("Result");
         }
     }
 }

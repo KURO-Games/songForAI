@@ -10,13 +10,6 @@ public class Judge : MonoBehaviour
     public static float[] gradesCriterion = { 1.0f, 1.5f, 2, 3 }; // 判定許容値
     public static int[] gradesPoint = { 300, 200, 100, 10 };      // 各判定に応じたスコア
 
-
-    //public static List<List<GameObject>> GOListArray = new List<List<GameObject>>();// ノーツ座標格納用2次元配列
-    //
-    // 使い方  GOListArray   [_notesCount[laneNumber]]                   [laneNumber]
-    //         GOListArray   [何個目のノーツなのか[何番目のレーンの]]    [何番目のレーンなのか]
-
-
     // リザルト用
     public static int totalScore;                        // 合計スコア
     public static int combo;                             // 現在のコンボ
@@ -25,9 +18,8 @@ public class Judge : MonoBehaviour
 
 
     // 内部用
-    public static int gameType;                          // key...0  string...1
-    public static int point = 0;                         // 判定に応じた得点
-    //public static int[] stNotesCount = new int[6];       // バイオリン用ノーツカウント
+    public static int gameType;   // key...0  string...1
+    public static int point = 0;  // 判定に応じた得点
     static ScoreManager scoreMg;
     static ComboManager comboMg;
 
