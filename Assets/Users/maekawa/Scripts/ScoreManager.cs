@@ -9,7 +9,7 @@ public class ScoreManager : MonoBehaviour
 {
     public static float increaseAmount;// スコアゲージ増加量
     private int lastScore;// totalScoreとの比較用
-    private int maxScore;// 内部用天井点
+    public static int maxScore;// 内部用天井点
     GameObject scoreText;
     GameObject scoreGauge;
     //[SerializeField] Sprite[] scoreNum = new Sprite[10];// 0～9の数字画像
@@ -22,7 +22,6 @@ public class ScoreManager : MonoBehaviour
     {
         increaseAmount = 0;
         lastScore = 0;
-        maxScore = Judge.gradesPoint[0] * MusicDatas.allNotes; // perfect時の得点 * 最大コンボ　で天井点を取得
 
         scoreText = GameObject.Find("scoreText");
         scoreGauge = GameObject.Find("scoreGauge");

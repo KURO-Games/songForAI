@@ -133,6 +133,7 @@ public class NotesGenerater : MonoBehaviour
             Generated = true;
 
         }
+        ScoreManager.maxScore = Judge.gradesPoint[0] * musicData.notes.Length; // perfect時の得点 * 最大コンボ　で天井点を取得
         KeyJudge.ListImport();
 
     }
