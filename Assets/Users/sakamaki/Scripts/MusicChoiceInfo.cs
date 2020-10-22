@@ -36,26 +36,26 @@ public class MusicChoiceInfo : MonoBehaviour
     void Start()
     {
 
-        prev = listCount;
-        musicName.Add("Song1");
-        musicName.Add("Song2");
-        musicName.Add("Song3");
-        musicName.Add("Song4");
-        musicName.Add("Song5");
+        //prev = listCount;
+        //musicName.Add("Song1");
+        //musicName.Add("Song2");
+        //musicName.Add("Song3");
+        //musicName.Add("Song4");
+        //musicName.Add("Song5");
 
-        ChangeMusicText();
+        //ChangeMusicText();
 
         // データロード関数呼び出し
         DataLoads();
         // 曲名表示、ジャケット習得
-        Jacket();
+        //Jacket();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        MusicListMove();
+        //MusicListMove();
     }
 
     /// <summary>

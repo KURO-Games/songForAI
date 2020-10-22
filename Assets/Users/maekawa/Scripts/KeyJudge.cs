@@ -17,7 +17,7 @@ public class KeyJudge : MonoBehaviour
     [SerializeField] private GameObject leftJudgeLine;  // 左判定ライン
     [SerializeField] private GameObject rightJudgeLine; // 右判定ライン
     [SerializeField] private GameObject[] tapBG = new GameObject[8]; // レーンタップ時の背景
-    [SerializeField] private GameObject[] mask = new GameObject[8];
+    [SerializeField] private GameObject[] mask = new GameObject[8];  // ロングノーツ用マスク
 
     private void Start()
     {
@@ -48,25 +48,25 @@ public class KeyJudge : MonoBehaviour
         }
 
         // デバッグ用コード
-        //if (Input.GetMouseButton(0))
-        //{
-        //    int laneNumber = -1;
-        //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //    RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 10f, 1);
+        if (Input.GetMouseButton(0))
+        {
+            int laneNumber = -1;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 10f, 1);
 
-        //    if (hit.collider)
-        //    {
-        //        GameObject clickObj = hit.transform.gameObject;
+            if (hit.collider)
+            {
+                GameObject clickObj = hit.transform.gameObject;
 
-        //        if ((clickObj != null) && (clickObj.tag == ("Lane")))// tagでレーンを識別
-        //        {
-        //            string s = clickObj.name;  // レーン番号を取得
-        //            laneNumber = int.Parse(s);    // 文字列を数字に変換
-        //        }
-        //    }
-        //    if (laneNumber >= 0)
-        //        tapFlag[laneNumber] = true;
-        //}
+                if ((clickObj != null) && (clickObj.tag == ("Lane")))// tagでレーンを識別
+                {
+                    string s = clickObj.name;  // レーン番号を取得
+                    laneNumber = int.Parse(s);    // 文字列を数字に変換
+                }
+            }
+            if (laneNumber >= 0)
+                tapFlag[laneNumber] = true;
+        }
         // End
 
 
