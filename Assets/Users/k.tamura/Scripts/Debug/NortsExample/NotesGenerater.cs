@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.IO;
+/// <summary>
+/// ピアノ用ノーツジェネレータ
+/// </summary>
 public class NotesGenerater : MonoBehaviour
 {
     [SerializeField, Header("ノーツを生成する元(Prefab)")]
@@ -16,7 +19,8 @@ public class NotesGenerater : MonoBehaviour
     [SerializeField]
     float speed = 1;
     float bpm = 0;
-    string[] filePaths = System.IO.Directory.GetFiles(Application.streamingAssetsPath, "*.nts");
+    //string[] filePaths = System.IO.Directory.GetFiles(Application.streamingAssetsPath, "*.nts");
+    //ノーツデータ
     NotesJson.MusicData musicData = new NotesJson.MusicData();
     bool Generated=false;
     bool PlayedBGM=false;
@@ -24,6 +28,9 @@ public class NotesGenerater : MonoBehaviour
     float fps;
 
     Vector3 move;
+    /// <summary>
+    /// Update 主にノーツの移動部分の計算をしている
+    /// </summary>
     private void Update()
     {
         fps = 1 / Time.deltaTime;
@@ -34,70 +41,67 @@ public class NotesGenerater : MonoBehaviour
             float a = 60 / bpm;
             float b = a * fps;
             float c = b / 8;
-            Debug.Log(a+" "+b+" "+c);
+            //Debug.Log(a+" "+b+" "+c);
             move = new Vector3(0, c*speed, 0);
 
             if (!PlayedBGM)
             {
                 //SoundManager.BGMSoundCue(MusicDatas.cueMusic);
-                SoundManager.BGMSoundCue(6);
+                SoundManager.BGMSoundCue(MusicDatas.cueMusic);
 
                 PlayedBGM = true;
             }
         }
     }
-
+    /// <summary>
+    /// LateUpdate 主にノーツの移動部分の処理をしている
+    /// </summary>
     private void LateUpdate()
     {
         NotesGen[0].transform.root.gameObject.transform.position -= move * NotesSpeed;
     }
+    /// <summary>
+    /// 初期化
+    /// </summary>
     private void Start()
     {
         Application.targetFrameRate = 60;
     }
-    public void ButtonPush()
+    /// <summary>
+    /// ノーツ生成を行う関数
+    /// </summary>
+    public void NotesGenerate()
     {
-        //        //今後ノーツデータを取得して曲選択画面に表示させるプログラム一部実装(ファイル操作)
-        //        foreach (string filePath in filePaths)
-        //        {
-        //            if (System.IO.Path.GetExtension(filePath) != ".nts")
-        //            {
-        //                continue;
-        //            }
-
-        //            using (var stream = new System.IO.FileStream(
-        //                    filePath,
-        //                    System.IO.FileMode.Create))
-        //            {
-        //                
-        //            }
-        //        }
-        
-
+        //ファイルの読み込み
         //FileInfo info = new FileInfo(Application.streamingAssetsPath + "/music"+MusicDatas.cueMusic+".nts");
-        FileInfo info = new FileInfo(Application.streamingAssetsPath + "/music7.nts");
-
-        GenerateNotes(info);
-        Debug.Log(musicData);
-        Debug.Log(musicData.notes[0].lane);
+        FileInfo info = new FileInfo(Application.streamingAssetsPath + string.Format("/{0}_{1}.nts",MusicDatas.NotesDataName,MusicDatas.difficultNumber));
+        Debug.Log(info);
+        StreamReader reader = new StreamReader(info.OpenRead());
+        string Musics_ = reader.ReadToEnd();
+        musicData = JsonUtility.FromJson<NotesJson.MusicData>(Musics_);
         SpeedMgr.BPM = musicData.BPM;
-        Debug.Log(musicData.BPM);
 
+        // ノーツ生成
         for (int i = 0; musicData.notes.Length > i; i++)
         {
+            // リスト初期化
             NotesManager.NotesPositions.Add(new List<GameObject>()); //nex
             for (int e = 0; e < 8; e++)
             {
                 NotesManager.NotesPositions[i].Add(null);
             }
-            int LaneNum = musicData.notes[i].lane;
+
+            // ノーツデータを変数に代入
+            int LaneNum = musicData.notes[i].block;
             int NotesType = musicData.notes[i].type;
             int NotesNum = musicData.notes[i].num;
             bpm = musicData.BPM;
-            Debug.Log("LaneNum:" + LaneNum + " NotesType:" + NotesType + " NotesNum:" + NotesNum);
-            //GameObject GenNotes = Instantiate(NotesPrefab, new Vector3(NotesGen[LaneNum].transform.position.x, (NotesGen[LaneNum].transform.parent.gameObject.transform.position.y + NotesGen[LaneNum].transform.parent.root.gameObject.transform.position.y + NotesNum)*NotesSpeed, 0), Quaternion.identity);
+
+
+            // ノーツの種類判別
             if (NotesType == 1)
             {
+                //生成
                 GameObject GenNotes = Instantiate(NotesPrefab, new Vector3(NotesGen[LaneNum].transform.position.x
                     , 0
                     , 0)
@@ -119,30 +123,25 @@ public class NotesGenerater : MonoBehaviour
                 GenNotes.name = "notes_" + NotesNum.ToString();
                 GenNotes.transform.parent = NotesGen[LaneNum].transform;
                 Vector2 longPos = new Vector2(0.23f,notesNum2-NotesNum);
-                longPos.y *= 0.03f;
+                longPos.y *= 0.03f*(16/musicData.notes[i].LPB);
                 GenNotes.transform.localScale = longPos;
                 notesPositionAdd(GenNotes, LaneNum, i);
             }
 
             move = new Vector3(0, 1.06f*Time.deltaTime, 0);
-            Debug.Log(move);
             NotesManager.NextNotesLine.Add(LaneNum);
             Generated = true;
 
         }
-        Judge.ListImport();
+        KeyJudge.ListImport();
 
     }
     /// <summary>
-    /// 
+    /// ノーツリストに追加する関数
     /// </summary>
-    /// <param name="info">FilePath</param>
-    public void GenerateNotes(FileInfo info)
-    {
-        StreamReader reader = new StreamReader(info.OpenRead());
-        string MusicDatas = reader.ReadToEnd();
-        musicData = JsonUtility.FromJson<NotesJson.MusicData>(MusicDatas);
-    }
+    /// <param name="notes"></param>
+    /// <param name="Lane"></param>
+    /// <param name="num"></param>
     private void notesPositionAdd(GameObject notes, int Lane, int num)
     {
         for (int i = 0; i < NotesManager.NotesPositions.Count; i++)

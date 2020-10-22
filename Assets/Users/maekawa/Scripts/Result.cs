@@ -15,10 +15,10 @@ public class Result : MonoBehaviour
 
 
     [SerializeField] GameObject[] grades = new GameObject[5];
+    [SerializeField] GameObject[] difficulty = new GameObject[4];
     [SerializeField] GameObject score;
     [SerializeField] GameObject maxCombo;
     [SerializeField] GameObject songName;
-    [SerializeField] GameObject difficulty;
     [SerializeField] GameObject level;
     [SerializeField] GameObject fullCombo;
     [SerializeField] GameObject rankS;
@@ -30,27 +30,35 @@ public class Result : MonoBehaviour
     //
     private int count;
     private int arrayCount;
+    private int rankNum;
     private bool scoreAnimeFlag;
     private bool comboAnimeFlag;
     private bool gradesAnimeFlag;
 
     //
     GameObject scoreGauge;
+    Image rankImage;
+    RectTransform rankRect;
     float x = 1500;
     float y = 1500;
-    float alpha = 0;
+    float alpha = 0.3f;
     float resultIncrease = 0;
+    float timeCount;
+    bool hoge = false;
+    bool foo = false;
+
     void Start()
     {
         // 初期化
         count = 0;
         arrayCount = 0;
+        rankNum = 0;// 1=C～4=S
         scoreAnimeFlag = false;
         comboAnimeFlag = false;
         gradesAnimeFlag = false;
 
         // 曲名表示
-        songName.GetComponent<Text>().text = MusicDatas.MusicName;  // 曲名表示
+        songName.GetComponent<Text>().text = MusicDatas.MusicName;  // 曲名表示;
 
         // レベル表示
         string s = String.Format("{0:00}", MusicDatas.difficultLevel);       // 2ケタ指定
@@ -60,70 +68,89 @@ public class Result : MonoBehaviour
         switch(MusicDatas.difficultNumber)
         {
             case 0:
-                difficulty.GetComponent<Text>().text = ("Easy");
+                difficulty[0].SetActive(true);
                 break;
             case 1:
-                difficulty.GetComponent<Text>().text = ("Normal");
+                difficulty[1].SetActive(true);
                 break;
             case 2:
-                difficulty.GetComponent<Text>().text = ("Hard");
+                difficulty[2].SetActive(true);
                 break;
             case 3:
-                difficulty.GetComponent<Text>().text = ("Pro");
+                difficulty[3].SetActive(true);
+                break;
+            default:
                 break;
         }
 
         // フルコンボ表示
-        if (Judge.bestCombo == MusicDatas.allNotes)
-        {
-            fullCombo.SetActive(true);
-        }
+        //if (Judge.bestCombo == MusicDatas.allNotes)
+        //{
+        //    fullCombo.SetActive(true);
+        //}
 
         // スコアに応じてランク表示
+        string callObj;
+
         if (ScoreManager.increaseAmount >= rankLimit[0])
         {
             rankS.SetActive(true);
+            callObj = "S";
+            rankNum = 4;
         }
         else if (ScoreManager.increaseAmount >= rankLimit[1])
         {
             rankA.SetActive(true);
+            callObj = "A";
+            rankNum = 3;
         }
         else if (ScoreManager.increaseAmount >= rankLimit[2])
         {
             rankB.SetActive(true);
+            callObj = "B";
+            rankNum = 2;
         }
-        //else
-        //{
-        //    rankC.SetActive(true);
-        //}
+        else
+        {
+            rankC.SetActive(true);
+            callObj = "C";
+            rankNum = 1;
+        }
+
+        rankImage = GameObject.Find(callObj).GetComponent<Image>();
+        rankRect = GameObject.Find(callObj).GetComponent<RectTransform>();
 
         scoreGauge = GameObject.Find("scoreGauge");
+        SaveHighScores();
     }
 
     void Update()
     {
-        //rankS.SetActive(true);
-        //RectTransform r = GameObject.Find("S").GetComponent<RectTransform>();
-        //r.sizeDelta = new Vector2(x, y);
-
-        //Image a = GameObject.Find("S").GetComponent<Image>();
-
-        //a.GetComponent<Image>().color = new Color(255, 255, 255, alpha);
-        //if (x > 400)
+        //timeCount += Time.deltaTime;
+        ////if(timeCount >= 1.5)
         //{
-        //    x -= 100;
-        //    y -= 100;
+        //    if (x > 250 && hoge != true)
+        //    {
+        //        x -= 175;
+        //        y -= 175;
+        //        if(x < 250)
+        //        {
+        //            hoge = true;
+        //        }
+        //    }
+        //    else if(x <290)
+        //    {
+        //        x += 50;
+        //        y += 50;
+        //    }
+        //    rankImage.GetComponent<Image>().color = new Color(255, 255, 255, alpha);
+        //    if (alpha < 1)
+        //    {
+        //        alpha += 0.1f;
+        //    }
+        //    rankRect.sizeDelta = new Vector2(x, y);
         //}
-
-        //if (alpha < 1)
-        //{
-        //    alpha += 0.05f;
-        //}
-        if(scoreAnimeFlag == true && resultIncrease < ScoreManager.increaseAmount)
-        {
-            resultIncrease += 0.001f;
-            scoreGauge.GetComponent<Image>().fillAmount += resultIncrease;
-        }
+        
 
         // リザルト表示アニメーション
         // スコアアニメーション
@@ -231,11 +258,18 @@ public class Result : MonoBehaviour
             }
         }
 
+        if (scoreAnimeFlag == true && resultIncrease < ScoreManager.increaseAmount)
+        {
+            resultIncrease += 0.001f;
+            scoreGauge.GetComponent<Image>().fillAmount += resultIncrease;
+        }
+        
+
         // タップでリザルトアニメーションをスキップ
         if (Input.GetMouseButtonDown(0))
         {
             // スコア表示
-            string s = String.Format("{0:0000000}", Judge.totalScore);// 7ケタ指定
+            string s = string.Format("{0:0000000}", Judge.totalScore);// 7ケタ指定
             score.GetComponent<Text>().text = s;
 
             // コンボ表示
@@ -250,6 +284,34 @@ public class Result : MonoBehaviour
             scoreAnimeFlag = true;
             comboAnimeFlag = true;
             gradesAnimeFlag = true;
+        }
+    }
+    private void SaveHighScores()
+    {
+        int intScore = Judge.totalScore;
+        int intMaxcombo = Judge.bestCombo;
+
+        // string HIGH_SCORE,HIGH_MAXCOMBOが今までの数値を超えていたらifで分岐しスコアセーブ
+        // ハイスコア習得
+        if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat, 
+            MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber,ScoreClass.PlayerPrefsHighScore)) < intScore)
+        {
+            PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat, 
+                MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighScore), intScore);
+        }
+        // マックスコンボ習得
+        if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
+            MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo)) < intMaxcombo)
+        {
+            PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat, 
+                MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo), intMaxcombo);
+        }
+        // rankNum追加
+        if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat, 
+            MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank)) < rankNum)
+        {
+            PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat, 
+                MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank), rankNum);
         }
     }
 }

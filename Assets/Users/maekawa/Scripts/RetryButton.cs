@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Lifetime;
 using UnityEngine;
 
 public class RetryButton : MonoBehaviour
@@ -18,5 +19,14 @@ public class RetryButton : MonoBehaviour
         //        SceneLoadManager.LoadScene("StringRhythmGameScene");
         //        break;
         //}
+
+        int life = PlayerPrefs.GetInt("Lifes", 3);
+
+        if (life > 0)
+
+        {
+            PlayerPrefs.SetInt("Lifes", life--);
+            SceneLoadManager.LoadScene("Resize_RhythmGame2");
+        }
     }
 }

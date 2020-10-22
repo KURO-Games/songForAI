@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.IO;
+/// <summary>
+/// バイオリン用ノーツgenerator
+/// </summary>
 public class StringNotesGenerater : MonoBehaviour
 {
     [SerializeField, Header("ノーツを生成する元(Prefab)")]
@@ -20,9 +23,10 @@ public class StringNotesGenerater : MonoBehaviour
     NotesJson.MusicData musicData = new NotesJson.MusicData();
     bool Generated=false;
     bool PlayedBGM=false;
-    KeyJudge _judge;
+    StringJudge _judge;
     private void Update()
     {
+        ButtonPush();
 
         if (Generated)
         { 
@@ -56,11 +60,11 @@ public class StringNotesGenerater : MonoBehaviour
         
 
         //FileInfo info = new FileInfo(Application.streamingAssetsPath + "/music"+MusicDatas.cueMusic+".nts");
-        FileInfo info = new FileInfo(Application.streamingAssetsPath + "/music6.nts");
+        FileInfo info = new FileInfo(Application.streamingAssetsPath + "/longNotesTest");
 
         GenerateNotes(info);
         Debug.Log(musicData);
-        Debug.Log(musicData.notes[0].lane);
+        Debug.Log(musicData.notes[0].block);
         SpeedMgr.BPM = musicData.BPM;
         Debug.Log(musicData.BPM);
         bpm = 60 / musicData.BPM;
@@ -72,7 +76,7 @@ public class StringNotesGenerater : MonoBehaviour
             {
                 NotesManager.NotesPositions[i].Add(null);
             }
-            int LaneNum = musicData.notes[i].lane;
+            int LaneNum = musicData.notes[i].block;
             int NotesType = musicData.notes[i].type;
             int NotesNum = musicData.notes[i].num;
 
@@ -119,7 +123,7 @@ public class StringNotesGenerater : MonoBehaviour
             Generated = true;
 
         }
-        Judge.ListImport();
+        StringJudge.ListImport();
 
     }
     /// <summary>

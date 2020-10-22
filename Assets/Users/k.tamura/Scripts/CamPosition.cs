@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// カメラの描画距離を現在の画面サイズに合わせて描画するプログラム。
+/// </summary>
 public class CamPosition : MonoBehaviour
 {
     [SerializeField]

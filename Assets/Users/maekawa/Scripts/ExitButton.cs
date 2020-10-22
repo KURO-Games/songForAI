@@ -6,6 +6,18 @@ public class ExitButton : MonoBehaviour
 {
     public void Onclick()
     {
-        SceneLoadManager.LoadScene("PlayEnd");
+        int life = PlayerPrefs.GetInt("Lifes", 3);
+
+        if (life == 0)
+        {
+            PlayerPrefs.SetInt("Lifes", 3);
+            SceneLoadManager.LoadScene("PlayEnd");
+        }
+
+        else
+        {
+            PlayerPrefs.SetInt("Lifes", life--);
+            SceneLoadManager.LoadScene("SelectMusicV3");
+        }
     }
 }
