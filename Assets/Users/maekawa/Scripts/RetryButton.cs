@@ -20,12 +20,13 @@ public class RetryButton : MonoBehaviour
         //        break;
         //}
 
-        int life = PlayerPrefs.GetInt("Lifes", 3);
+        int life = SelectMusicScene.life;//PlayerPrefs.GetInt("Lifes", 3);
 
         if (life > 0)
 
         {
-            PlayerPrefs.SetInt("Lifes", life--);
+            //PlayerPrefs.SetInt("Lifes", life--);
+            SelectMusicScene.life--;
             SceneLoadManager.LoadScene("Resize_RhythmGame2");
         }
     }
