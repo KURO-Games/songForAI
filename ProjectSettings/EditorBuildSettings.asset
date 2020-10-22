@@ -33,13 +33,13 @@ EditorBuildSettings:
     path: Assets/Scenes/Main/Resize_RhythmGame2.unity
     guid: b0be2125891924c3cabfad8b8dab2e8e
   - enabled: 1
-    path: Assets/Users/sakamaki/Scenes/SelectMusicV3.unity
+    path: Assets/Scenes/Main/SelectMusicV3.unity
     guid: 9b6acb08c804ce54a9d24c211e4b5dbb
   - enabled: 1
     path: Assets/Scenes/Main/Result.unity
     guid: dadd75879ee28eb4183b345aa639a51b
   - enabled: 0
-    path: Assets/Scenes/Main/iPhoneResultScene.unity
+    path: Assets/Scenes/Legacy/iPhoneResultScene.unity
     guid: 4a592c22a0db885409ea001819e26467
   - enabled: 1
     path: Assets/Scenes/Main/PlayEnd.unity
