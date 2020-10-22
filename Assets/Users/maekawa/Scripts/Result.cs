@@ -16,6 +16,7 @@ public class Result : MonoBehaviour
 
     [SerializeField] GameObject[] grades = new GameObject[5];
     [SerializeField] GameObject[] difficulty = new GameObject[4];
+    [SerializeField] GameObject[] character = new GameObject[3];
     [SerializeField] GameObject score;
     [SerializeField] GameObject maxCombo;
     [SerializeField] GameObject songName;
@@ -25,8 +26,10 @@ public class Result : MonoBehaviour
     [SerializeField] GameObject rankA;
     [SerializeField] GameObject rankB;
     [SerializeField] GameObject rankC;
+    [SerializeField] Image jacket;
     //
     public static int gameType;
+    public static int charaNum = 0;// キャラ表示用
     //
     private int count;
     private int arrayCount;
@@ -122,6 +125,14 @@ public class Result : MonoBehaviour
 
         scoreGauge = GameObject.Find("scoreGauge");
         SaveHighScores();
+
+        // ジャケット表示
+        Sprite[] jacketSprite = Resources.LoadAll<Sprite>("Sprite/UI/Result/resultJacket");// ジャケットをすべて格納
+        if (jacketSprite.Length > MusicDatas.MusicNumber)// 例外処理
+            jacket.sprite = jacketSprite[MusicDatas.MusicNumber];// 曲１ = musicNum 0;
+
+        // キャラ表示
+        character[charaNum].SetActive(true);
     }
 
     void Update()
@@ -288,7 +299,7 @@ public class Result : MonoBehaviour
     }
     private void SaveHighScores()
     {
-        int intScore = Judge.totalScore;
+        int intScore = 100;//Judge.totalScore;
         int intMaxcombo = Judge.bestCombo;
 
         // string HIGH_SCORE,HIGH_MAXCOMBOが今までの数値を超えていたらifで分岐しスコアセーブ

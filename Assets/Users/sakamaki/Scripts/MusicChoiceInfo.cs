@@ -166,7 +166,7 @@ public class MusicChoiceInfo : MonoBehaviour
             // スコア習得
             Score[i].GetComponent<Text>().text = PlayerPrefsUtil<string>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
                 MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighScore), "0");
-            //// マックスコンボ習得
+            // マックスコンボ習得
             MaxCombo[i].GetComponent<Text>().text = PlayerPrefsUtil<string>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
                 MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo), "0");
             // ランク習得しswitchでactiveするランク画像を分岐
