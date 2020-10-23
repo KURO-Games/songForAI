@@ -28,7 +28,7 @@ public static class MusicSelects
     /// <summary>
     /// ノーツの名前を配列通りに入力
     /// </summary>
-    private static readonly string[] musicNotesNames = new string[]
+    public static readonly string[] musicNotesNames = new string[]// loadで使うのでpublic
     {
         "Shining",
         "YourSmile",

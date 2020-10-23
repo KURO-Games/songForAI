@@ -165,14 +165,14 @@ public class MusicChoiceInfo : MonoBehaviour
 
             // スコア習得
             Score[i].GetComponent<Text>().text = PlayerPrefsUtil<string>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
-                MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighScore), "0");
+                MusicSelects.musicNotesNames[i], Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighScore), "0");
             // マックスコンボ習得
             MaxCombo[i].GetComponent<Text>().text = PlayerPrefsUtil<string>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
-                MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo), "0");
+                MusicSelects.musicNotesNames[i], Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo), "0");
             // ランク習得しswitchでactiveするランク画像を分岐
             // switch文で曲選択画面時のRank画像表示分岐
             switch (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
-                MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank), 0))
+                MusicSelects.musicNotesNames[i], Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank), 0))
             {
                 case 1:
                     isrankImage = RankImage[3];
