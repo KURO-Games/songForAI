@@ -41,6 +41,10 @@ public class KeyJudge : MonoBehaviour
 
     void Update()
     {
+        if(Input.GetMouseButtonDown(0))
+        {
+            SceneLoadManager.LoadScene("Result");
+        }
         // tapFlag 全てfalse
         for (int i = 0; i < tapFlag.Length; i++)
         {
