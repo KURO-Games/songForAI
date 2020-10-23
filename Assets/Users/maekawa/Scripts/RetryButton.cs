@@ -5,8 +5,12 @@ using UnityEngine;
 
 public class RetryButton : MonoBehaviour
 {
-    public static int gameType;
+    private bool isClick;
 
+    private void Start()
+    {
+        isClick = true;
+    }
     public void Onclick()
     {
         //gameType = MusicDatas.gameType;
@@ -20,14 +24,18 @@ public class RetryButton : MonoBehaviour
         //        break;
         //}
 
-        int life = SelectMusicScene.life;//PlayerPrefs.GetInt("Lifes", 3);
-
-        if (life > 0)
-
+        if (isClick)
         {
-            //PlayerPrefs.SetInt("Lifes", life--);
-            SelectMusicScene.life--;
-            SceneLoadManager.LoadScene("Resize_RhythmGame2");
+            isClick = false;
+            int life = SelectMusicScene.life;//PlayerPrefs.GetInt("Lifes", 3);
+
+            if (life > 0)
+
+            {
+                //PlayerPrefs.SetInt("Lifes", life--);
+                SelectMusicScene.life--;
+                SceneLoadManager.LoadScene("Resize_RhythmGame2");
+            }
         }
     }
 }

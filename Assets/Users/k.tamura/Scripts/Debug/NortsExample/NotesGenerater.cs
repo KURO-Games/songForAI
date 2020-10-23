@@ -28,6 +28,11 @@ public class NotesGenerater : MonoBehaviour
     float fps;
 
     Vector3 move;
+
+    // とりあえずここで設定
+    private float[] highSpeeds = { 0.3f, 0.4f, 0.3f };
+    private float[] Speeds = { 0.256f, 0.075f, 0.335f };
+    private float[] offsets = { 0, -8.0f, -9.0f };
     /// <summary>
     /// Update 主にノーツの移動部分の計算をしている
     /// </summary>
@@ -49,6 +54,7 @@ public class NotesGenerater : MonoBehaviour
                 //SoundManager.BGMSoundCue(7);
                 PlayedBGM = true;
             }
+            Debug.Log(NotesSpeed);
         }
     }
     /// <summary>
@@ -66,6 +72,10 @@ public class NotesGenerater : MonoBehaviour
         // ノーツを遅らせる
         NotesGen[0].transform.root.gameObject.transform.position += new Vector3(0, offset, 0);
         Application.targetFrameRate = 60;
+
+        NotesSpeed = highSpeeds[MusicDatas.MusicNumber];
+        speed = Speeds[MusicDatas.MusicNumber];
+        offset = offsets[MusicDatas.MusicNumber];
     }
     /// <summary>
     /// ノーツ生成を行う関数
