@@ -4,21 +4,29 @@ using UnityEngine;
 
 public class ExitButton : MonoBehaviour
 {
+    private bool isClick;
+    private void Start()
+    {
+        isClick = true;
+    }
     public void Onclick()
     {
-        int life = SelectMusicScene.life;//PlayerPrefs.GetInt("Lifes", 3);
-
-        if (life == 0)
+        if(isClick)
         {
-            //PlayerPrefs.SetInt("Lifes", 3);
-            SelectMusicScene.life = 3;
-            SceneLoadManager.LoadScene("PlayEnd");
-        }
-        else
-        {
-            //PlayerPrefs.SetInt("Lifes", life--);
+            isClick = false;
             SelectMusicScene.life--;
-            SceneLoadManager.LoadScene("SelectMusicV3");
+            int life = SelectMusicScene.life;//PlayerPrefs.GetInt("Lifes", 3);
+            if (life == 0)
+            {
+                //PlayerPrefs.SetInt("Lifes", 3);
+                SceneLoadManager.LoadScene("PlayEnd");
+            }
+            else
+            {
+                //PlayerPrefs.SetInt("Lifes", life--);
+
+                SceneLoadManager.LoadScene("SelectMusicV3");
+            }
         }
     }
 }

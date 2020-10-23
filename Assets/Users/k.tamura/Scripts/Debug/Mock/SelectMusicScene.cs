@@ -16,7 +16,7 @@ public class SelectMusicScene : MonoBehaviour
     //[SerializeField]
     //int LifeNum = 0;
 
-    public static int life;
+    public static int life = 2;
     private enum Difficults
     {
         EASY,
@@ -29,8 +29,6 @@ public class SelectMusicScene : MonoBehaviour
     {
         //PlayerPrefs.SetInt("Lifes", 2);
         //LifeNum = PlayerPrefs.GetInt("Lifes", 3);
-        if (life < 1)
-            life = 3;
 
         DifficultsNum = -1;
         _isTap = false;
