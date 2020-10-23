@@ -184,7 +184,7 @@ public class Scenario_Controller : MonoBehaviour
         {
             //シーン遷移
             _isEnded = true;
-            SceneLoadManager.LoadScene("SelectMusicV2");
+            SceneLoadManager.LoadScene("SelectMusicV3");
         }
     }
     #endregion

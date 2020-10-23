@@ -9,17 +9,23 @@ public class MusicSelectPlate : MonoBehaviour
     Dictionary<string, MusicNames> musicdict = MusicSelects.MusicDict();
 
     [SerializeField] GameObject[] MusicSelect;
-    // Start is called before the first frame update
+
     void Start()
     {
         mArray = MusicSelects.MusicNameArray();
         musicdict = MusicSelects.MusicDict();
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // デフォルトで0番目を選択
+        for (int i = 0; i < MusicSelect.Length; i++)
+        {
+            MusicSelect[i].SetActive(false);
+        }
+        MusicSelect[0].SetActive(true);
+
+        // 曲名に基づいてenumを出力させる
+        MusicNames musicNames = musicdict[mArray[0]];
+        // enumを送って曲名などを保存
+        MusicSelects.MusicSelector(musicNames);
     }
 
     public void OnClick(int j)
@@ -29,9 +35,12 @@ public class MusicSelectPlate : MonoBehaviour
             MusicSelect[i].SetActive(false);
         }
         MusicSelect[j].SetActive(true);
+
         // 曲名に基づいてenumを出力させる
         MusicNames musicNames = musicdict[mArray[j]];
         // enumを送って曲名などを保存
         MusicSelects.MusicSelector(musicNames);
+
+        MusicDatas.MusicNumber = j;
     }
 }

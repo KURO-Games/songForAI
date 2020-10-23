@@ -13,8 +13,10 @@ public class SelectMusicScene : MonoBehaviour
     private Image[] ChooseHighlight;
     [SerializeField]
     private GameObject[] Lifes;
-    [SerializeField]
-    int LifeNum = 0;
+    //[SerializeField]
+    //int LifeNum = 0;
+
+    public static int life = 2;
     private enum Difficults
     {
         EASY,
@@ -26,7 +28,8 @@ public class SelectMusicScene : MonoBehaviour
     private void Start()
     {
         //PlayerPrefs.SetInt("Lifes", 2);
-        LifeNum = PlayerPrefs.GetInt("Lifes");
+        //LifeNum = PlayerPrefs.GetInt("Lifes", 3);
+
         DifficultsNum = -1;
         _isTap = false;
         MusicDatas.cueMusic = -1;
@@ -73,7 +76,7 @@ public class SelectMusicScene : MonoBehaviour
     {
         for (int i = 0; i < Lifes.Length; i++)
             Lifes[i].gameObject.SetActive(false);
-        for (int i = 0; i < LifeNum ; i++)
+        for (int i = 0; i < life; i++)
             Lifes[i].gameObject.SetActive(true);
 
 

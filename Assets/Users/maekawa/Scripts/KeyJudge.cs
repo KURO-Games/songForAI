@@ -17,7 +17,7 @@ public class KeyJudge : MonoBehaviour
     [SerializeField] private GameObject leftJudgeLine;  // 左判定ライン
     [SerializeField] private GameObject rightJudgeLine; // 右判定ライン
     [SerializeField] private GameObject[] tapBG = new GameObject[8]; // レーンタップ時の背景
-    [SerializeField] private GameObject[] mask = new GameObject[8];
+    [SerializeField] private GameObject[] mask = new GameObject[8];  // ロングノーツ用マスク
 
     private void Start()
     {

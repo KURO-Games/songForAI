@@ -14,11 +14,11 @@ public class NotesGenerater : MonoBehaviour
     List<GameObject> NotesGen = null;
     [SerializeField]
     float NotesDistance = 0.001f;
-    [SerializeField]
-    float NotesSpeed = 1.0f;
-    [SerializeField]
-    float speed = 1;
+    public static float NotesSpeed = 0.3f;
+    public static float speed = 0.3f;
+    public static float offset = 0;// 譜面の再生を遅らせる
     float bpm = 0;
+
     //string[] filePaths = System.IO.Directory.GetFiles(Application.streamingAssetsPath, "*.nts");
     //ノーツデータ
     NotesJson.MusicData musicData = new NotesJson.MusicData();
@@ -28,6 +28,11 @@ public class NotesGenerater : MonoBehaviour
     float fps;
 
     Vector3 move;
+
+    // とりあえずここで設定
+    private float[] highSpeeds = { 0.3f, 0.4f, 0.3f };
+    private float[] Speeds = { 0.256f, 0.075f, 0.335f };
+    private float[] offsets = { 0, -8.0f, -9.0f };
     /// <summary>
     /// Update 主にノーツの移動部分の計算をしている
     /// </summary>
@@ -37,7 +42,6 @@ public class NotesGenerater : MonoBehaviour
         //Debug.Log(fps);
         if (Generated)
         {
-            //NotesGen[0].transform.root.gameObject.transform.position -= move*Time.deltaTime*NotesSpeed*speed;
             float a = 60 / bpm;
             float b = a * fps;
             float c = b / 8;
@@ -46,11 +50,11 @@ public class NotesGenerater : MonoBehaviour
 
             if (!PlayedBGM)
             {
-                //SoundManager.BGMSoundCue(MusicDatas.cueMusic);
                 SoundManager.BGMSoundCue(MusicDatas.cueMusic);
-
+                //SoundManager.BGMSoundCue(7);
                 PlayedBGM = true;
             }
+            Debug.Log(NotesSpeed);
         }
     }
     /// <summary>
@@ -65,7 +69,13 @@ public class NotesGenerater : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        // ノーツを遅らせる
+        NotesGen[0].transform.root.gameObject.transform.position += new Vector3(0, offset, 0);
         Application.targetFrameRate = 60;
+
+        NotesSpeed = highSpeeds[MusicDatas.MusicNumber];
+        speed = Speeds[MusicDatas.MusicNumber];
+        offset = offsets[MusicDatas.MusicNumber];
     }
     /// <summary>
     /// ノーツ生成を行う関数
@@ -73,9 +83,9 @@ public class NotesGenerater : MonoBehaviour
     public void NotesGenerate()
     {
         //ファイルの読み込み
-        //FileInfo info = new FileInfo(Application.streamingAssetsPath + "/music"+MusicDatas.cueMusic+".nts");
         FileInfo info = new FileInfo(Application.streamingAssetsPath + string.Format("/{0}_{1}.nts",MusicDatas.NotesDataName,MusicDatas.difficultNumber));
-        Debug.Log(info);
+        //FileInfo info = new FileInfo(Application.streamingAssetsPath + "/DevilCastle_3.nts");
+        //Debug.Log(info);
         StreamReader reader = new StreamReader(info.OpenRead());
         string Musics_ = reader.ReadToEnd();
         musicData = JsonUtility.FromJson<NotesJson.MusicData>(Musics_);
@@ -96,7 +106,6 @@ public class NotesGenerater : MonoBehaviour
             int NotesType = musicData.notes[i].type;
             int NotesNum = musicData.notes[i].num;
             bpm = musicData.BPM;
-
 
             // ノーツの種類判別
             if (NotesType == 1)
@@ -124,6 +133,7 @@ public class NotesGenerater : MonoBehaviour
                 GenNotes.transform.parent = NotesGen[LaneNum].transform;
                 Vector2 longPos = new Vector2(0.23f,notesNum2-NotesNum);
                 longPos.y *= 0.03f*(16/musicData.notes[i].LPB);
+                //longPos.y *= 0.03f * (4 / musicData.notes[i].LPB);
                 GenNotes.transform.localScale = longPos;
                 notesPositionAdd(GenNotes, LaneNum, i);
             }
@@ -133,6 +143,7 @@ public class NotesGenerater : MonoBehaviour
             Generated = true;
 
         }
+        ScoreManager.maxScore = Judge.gradesPoint[0] * musicData.notes.Length; // perfect時の得点 * 最大コンボ　で天井点を取得
         KeyJudge.ListImport();
 
     }

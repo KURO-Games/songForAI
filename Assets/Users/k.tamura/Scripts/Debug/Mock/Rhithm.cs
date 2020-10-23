@@ -15,9 +15,12 @@ public class Rhithm : MonoBehaviour
     [SerializeField]
     GameObject NotesGen;
     float _StartImageColor;
+    private float timeCount;
     private bool isCalled = false;
     void Start()
     {
+        Times = 0;
+        timeCount = 0;
         _isTaped = false;
         _StartImageColor = StartImage.GetComponent<CanvasGroup>().alpha;
         SoundManager.BGMSoundStop();
@@ -34,16 +37,19 @@ public class Rhithm : MonoBehaviour
     private void FixedUpdate()
     {
         Times += Time.deltaTime;
-        if (Times > 5 && !_faded)
+        if (Times > 3 && !_faded)
         {
             _StartImageColor -= 0.05f;
             StartImage.GetComponent<CanvasGroup>().alpha = _StartImageColor;
             if (StartImage.GetComponent<CanvasGroup>().alpha <= 0)
             {
                 StartImage.GetComponent<CanvasGroup>().alpha = 0;
-                _faded = true;
-                NotesGen.GetComponent<NotesGenerater>().NotesGenerate();
-                //NotesGen.GetComponent<TestNotesGen>().NotesGenerate();
+                timeCount += Time.deltaTime;
+                if(timeCount > 2)
+                {
+                    _faded = true;
+                    NotesGen.GetComponent<NotesGenerater>().NotesGenerate();
+                }
             }
         }
     }
