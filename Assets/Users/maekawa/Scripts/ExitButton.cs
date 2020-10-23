@@ -16,7 +16,7 @@ public class ExitButton : MonoBehaviour
             isClick = false;
             SelectMusicScene.life--;
             int life = SelectMusicScene.life;//PlayerPrefs.GetInt("Lifes", 3);
-            if (life == 0)
+            if (life <= 0)
             {
                 //PlayerPrefs.SetInt("Lifes", 3);
                 SceneLoadManager.LoadScene("PlayEnd");
