@@ -9,17 +9,18 @@ public class MusicSelectPlate : MonoBehaviour
     Dictionary<string, MusicNames> musicdict = MusicSelects.MusicDict();
 
     [SerializeField] GameObject[] MusicSelect;
+    [SerializeField] GameObject[] MusicSelectDark;
 
     void Start()
     {
         mArray = MusicSelects.MusicNameArray();
         musicdict = MusicSelects.MusicDict();
 
-        // デフォルトで0番目を選択
         for (int i = 0; i < MusicSelect.Length; i++)
         {
             MusicSelect[i].SetActive(false);
         }
+        // デフォルトで0番目を選択
         MusicSelect[0].SetActive(true);
 
         // 曲名に基づいてenumを出力させる
@@ -42,5 +43,13 @@ public class MusicSelectPlate : MonoBehaviour
         MusicSelects.MusicSelector(musicNames);
 
         MusicDatas.MusicNumber = j;
+    }
+    public void OnClickDark(int j)
+    {
+        for (int i = 0; i < MusicSelectDark.Length; i++)
+        {
+            MusicSelectDark[i].SetActive(true);
+        }
+        MusicSelectDark[j].SetActive(false);
     }
 }
