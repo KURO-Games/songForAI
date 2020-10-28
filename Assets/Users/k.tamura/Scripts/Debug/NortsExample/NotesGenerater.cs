@@ -51,10 +51,10 @@ public class NotesGenerater : MonoBehaviour
             if (!PlayedBGM)
             {
                 SoundManager.BGMSoundCue(MusicDatas.cueMusic);
-                //SoundManager.BGMSoundCue(7);
+                //SoundManager.BGMSoundCue(5);
                 PlayedBGM = true;
             }
-            Debug.Log(NotesSpeed);
+            // Debug.Log(NotesSpeed);
         }
     }
     /// <summary>
@@ -69,13 +69,13 @@ public class NotesGenerater : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        // ノーツを遅らせる
-        NotesGen[0].transform.root.gameObject.transform.position += new Vector3(0, offset, 0);
-        Application.targetFrameRate = 60;
-
         NotesSpeed = highSpeeds[MusicDatas.MusicNumber];
         speed = Speeds[MusicDatas.MusicNumber];
         offset = offsets[MusicDatas.MusicNumber];
+
+        // ノーツを遅らせる
+        NotesGen[0].transform.root.gameObject.transform.position += new Vector3(0, offset, 0);
+        Application.targetFrameRate = 60;
     }
     /// <summary>
     /// ノーツ生成を行う関数
@@ -84,7 +84,7 @@ public class NotesGenerater : MonoBehaviour
     {
         //ファイルの読み込み
         FileInfo info = new FileInfo(Application.streamingAssetsPath + string.Format("/{0}_{1}.nts",MusicDatas.NotesDataName,MusicDatas.difficultNumber));
-        //FileInfo info = new FileInfo(Application.streamingAssetsPath + "/DevilCastle_3.nts");
+        //FileInfo info = new FileInfo(Application.streamingAssetsPath + "/Shining_3.nts");
         //Debug.Log(info);
         StreamReader reader = new StreamReader(info.OpenRead());
         string Musics_ = reader.ReadToEnd();
@@ -144,6 +144,7 @@ public class NotesGenerater : MonoBehaviour
 
         }
         ScoreManager.maxScore = Judge.gradesPoint[0] * musicData.notes.Length; // perfect時の得点 * 最大コンボ　で天井点を取得
+
         KeyJudge.ListImport();
 
     }

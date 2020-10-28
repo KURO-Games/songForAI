@@ -53,6 +53,7 @@ public class Result : MonoBehaviour
     void Start()
     {
         // 初期化
+        resultIncrease = 0;
         count = 0;
         arrayCount = 0;
         rankNum = 0;// 1=C～4=S
@@ -271,8 +272,8 @@ public class Result : MonoBehaviour
 
         if (scoreAnimeFlag == true && resultIncrease < ScoreManager.increaseAmount)
         {
-            resultIncrease += 0.001f;
-            scoreGauge.GetComponent<Image>().fillAmount += resultIncrease;
+            resultIncrease += 0.02f;
+            scoreGauge.GetComponent<Image>().fillAmount = resultIncrease;
         }
         
 

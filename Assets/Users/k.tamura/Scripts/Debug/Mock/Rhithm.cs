@@ -14,6 +14,8 @@ public class Rhithm : MonoBehaviour
     GameObject StartImage;
     [SerializeField]
     GameObject NotesGen;
+    [SerializeField]
+    GameObject judge;
     float _StartImageColor;
     private float timeCount;
     private bool isCalled = false;
@@ -49,13 +51,14 @@ public class Rhithm : MonoBehaviour
                 {
                     _faded = true;
                     NotesGen.GetComponent<NotesGenerater>().NotesGenerate();
+                    judge.SetActive(true);
                 }
             }
         }
     }
     private void Update()
     {
-        if(SoundManager.BGMStatus() == CriAtomSource.Status.PlayEnd&&!isCalled)
+        if (SoundManager.BGMStatus() == CriAtomSource.Status.PlayEnd && !isCalled)
         {
             isCalled = true;
             SceneLoadManager.LoadScene("Result");
