@@ -27,6 +27,7 @@ public class Rhithm : MonoBehaviour
         _StartImageColor = StartImage.GetComponent<CanvasGroup>().alpha;
         SoundManager.BGMSoundStop();
         PlayerPrefs.SetInt("Life", PlayerPrefs.GetInt("Life") - 1);
+        Application.targetFrameRate = 60;
     }
     public void ReturnHome()
     {
