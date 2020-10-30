@@ -48,7 +48,7 @@ public class KeyJudge : MonoBehaviour
         }
 
         // デバッグ用コード
-        if (Input.GetMouseButton(0))
+        //if (Input.GetMouseButton(0))
         //{
         //    int laneNumber = -1;
         //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

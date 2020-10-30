@@ -32,7 +32,6 @@ public class MusicChoiceInfo : MonoBehaviour
     int prev = 0;
     private int preDifficult;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -48,7 +47,6 @@ public class MusicChoiceInfo : MonoBehaviour
 
         // 曲名表示、ジャケット習得
         //Jacket();
-
     }
 
     // Update is called once per frame
