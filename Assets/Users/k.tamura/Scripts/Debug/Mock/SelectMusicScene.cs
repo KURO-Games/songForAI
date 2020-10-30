@@ -33,7 +33,7 @@ public class SelectMusicScene : MonoBehaviour
         // DifficultsNum = -1;
 
         // デフォルトでproを表示
-        PushDifficult(3);
+        PushDifficult(0);
         _isTap = false;
         MusicDatas.cueMusic = 0;
         LifeDraw();

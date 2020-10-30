@@ -4,8 +4,18 @@ using UnityEngine;
 
 public class ScenarioSkipButton : MonoBehaviour
 {
+    private bool isClick;
+
+    private void Start()
+    {
+        isClick = true;
+    }
     public void Onclick()
     {
-        SceneLoadManager.LoadScene("SelectMusicV3");
+       if(isClick)
+        {
+            isClick = false;
+            SceneLoadManager.LoadScene("SelectMusicV3");
+        }
     }
 }

@@ -52,6 +52,8 @@ public class Result : MonoBehaviour
 
     void Start()
     {
+        SelectMusicScene.life--;
+
         // 初期化
         resultIncrease = 0;
         count = 0;
