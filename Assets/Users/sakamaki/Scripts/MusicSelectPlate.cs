@@ -19,9 +19,11 @@ public class MusicSelectPlate : MonoBehaviour
         for (int i = 0; i < MusicSelect.Length; i++)
         {
             MusicSelect[i].SetActive(false);
+            MusicSelectDark[i].SetActive(true);
         }
         // デフォルトで0番目を選択
         MusicSelect[0].SetActive(true);
+        MusicSelectDark[0].SetActive(false);
 
         // 曲名に基づいてenumを出力させる
         MusicNames musicNames = musicdict[mArray[0]];

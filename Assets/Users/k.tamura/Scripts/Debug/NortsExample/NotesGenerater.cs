@@ -9,7 +9,7 @@ using System.IO;
 public class NotesGenerater : MonoBehaviour
 {
     [SerializeField, Header("ノーツを生成する元(Prefab)")]
-    GameObject NotesPrefab = null, longNotes = null, bar = null;
+    GameObject NotesPrefab = null, longNotes = null, edgeStart = null, edgeEnd = null, bar = null;
     [SerializeField,Header("生成先")]
     List<GameObject> NotesGen = null;
     [SerializeField]
@@ -51,10 +51,10 @@ public class NotesGenerater : MonoBehaviour
             if (!PlayedBGM)
             {
                 SoundManager.BGMSoundCue(MusicDatas.cueMusic);
-                //SoundManager.BGMSoundCue(7);
+                //SoundManager.BGMSoundCue(5);
                 PlayedBGM = true;
             }
-            Debug.Log(NotesSpeed);
+            // Debug.Log(NotesSpeed);
         }
     }
     /// <summary>
@@ -69,13 +69,14 @@ public class NotesGenerater : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        // ノーツを遅らせる
-        NotesGen[0].transform.root.gameObject.transform.position += new Vector3(0, offset, 0);
-        Application.targetFrameRate = 60;
-
         NotesSpeed = highSpeeds[MusicDatas.MusicNumber];
         speed = Speeds[MusicDatas.MusicNumber];
         offset = offsets[MusicDatas.MusicNumber];
+
+        // ノーツを遅らせる
+        NotesGen[0].transform.root.gameObject.transform.position += new Vector3(0, offset, 0);
+
+        Application.targetFrameRate = 60;
     }
     /// <summary>
     /// ノーツ生成を行う関数
@@ -84,7 +85,7 @@ public class NotesGenerater : MonoBehaviour
     {
         //ファイルの読み込み
         FileInfo info = new FileInfo(Application.streamingAssetsPath + string.Format("/{0}_{1}.nts",MusicDatas.NotesDataName,MusicDatas.difficultNumber));
-        //FileInfo info = new FileInfo(Application.streamingAssetsPath + "/DevilCastle_3.nts");
+        //FileInfo info = new FileInfo(Application.streamingAssetsPath + "/Shining_3.nts");
         //Debug.Log(info);
         StreamReader reader = new StreamReader(info.OpenRead());
         string Musics_ = reader.ReadToEnd();
@@ -136,6 +137,22 @@ public class NotesGenerater : MonoBehaviour
                 //longPos.y *= 0.03f * (4 / musicData.notes[i].LPB);
                 GenNotes.transform.localScale = longPos;
                 notesPositionAdd(GenNotes, LaneNum, i);
+
+                // ロングノーツ始点オブジェクト生成
+                GameObject startEdge = Instantiate(edgeStart, new Vector3(NotesGen[LaneNum].transform.position.x
+                    , NotesNum * NotesSpeed
+                    , 0)
+                    , Quaternion.identity) as GameObject;
+                startEdge.name = "startEdge_" + NotesNum.ToString();
+                startEdge.transform.parent = GenNotes.transform;
+
+                // ロングノーツ終点オブジェクト生成
+                GameObject endEdge = Instantiate(edgeEnd, new Vector3(NotesGen[LaneNum].transform.position.x
+                    , GenNotes.GetComponent<NotesSelector>().EndNotes.transform.position.y
+                    , 0)
+                    , Quaternion.identity) as GameObject;
+                endEdge.name = "endEdge_" + NotesNum.ToString();
+                endEdge.transform.parent = GenNotes.transform;
             }
 
             move = new Vector3(0, 1.06f*Time.deltaTime, 0);
@@ -144,6 +161,7 @@ public class NotesGenerater : MonoBehaviour
 
         }
         ScoreManager.maxScore = Judge.gradesPoint[0] * musicData.notes.Length; // perfect時の得点 * 最大コンボ　で天井点を取得
+
         KeyJudge.ListImport();
 
     }
