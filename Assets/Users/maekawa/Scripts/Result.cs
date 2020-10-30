@@ -14,6 +14,7 @@ public class Result : MonoBehaviour
     // **********************************************
 
     [SerializeField] GameObject panel;
+    [SerializeField] GameObject details;
     [SerializeField] GameObject[] grades = new GameObject[5];
     [SerializeField] GameObject[] difficulty = new GameObject[4];
     [SerializeField] GameObject[] character = new GameObject[3];
@@ -37,6 +38,7 @@ public class Result : MonoBehaviour
     private bool scoreAnimeFlag;
     private bool comboAnimeFlag;
     private bool gradesAnimeFlag;
+    private bool popUpFlag;
 
     //
     GameObject scoreGauge;
@@ -63,10 +65,11 @@ public class Result : MonoBehaviour
         arrayCount = 0;
         rankNum = 0;// 1=C～4=S
         panel_x = 0;
-        panel_y = 0;
+        panel_y = 0.05f;
         scoreAnimeFlag = false;
         comboAnimeFlag = false;
         gradesAnimeFlag = false;
+        popUpFlag = false;
 
         // 曲名表示
         songName.GetComponent<Text>().text = MusicDatas.MusicName;  // 曲名表示;
@@ -306,18 +309,23 @@ public class Result : MonoBehaviour
         }
 
         // ポップアップ表示
-        if(scoreAnimeFlag && comboAnimeFlag && gradesAnimeFlag)
+        if (scoreAnimeFlag && comboAnimeFlag && gradesAnimeFlag && popUpFlag != true)
         {
             panel.SetActive(true);
             panel.transform.GetChild(0).localScale = new Vector3(panel_x, panel_y, 0);
 
-            if(panel_y < 1)
+            if (panel_x < 1)
             {
-                panel_y += 0.05f;
+                panel_x += 0.1f;
             }
-            else if(panel_x < 1)
+            else if (panel_y < 1)
             {
-                panel_x += 0.05f;
+                panel_y += 0.1f;
+            }
+            else
+            {
+                details.SetActive(true);
+                popUpFlag = true;
             }
         }
     }
