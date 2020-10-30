@@ -13,7 +13,7 @@ public class Result : MonoBehaviour
     [SerializeField] float[] rankLimit = new float[3];
     // **********************************************
 
-
+    [SerializeField] GameObject panel;
     [SerializeField] GameObject[] grades = new GameObject[5];
     [SerializeField] GameObject[] difficulty = new GameObject[4];
     [SerializeField] GameObject[] character = new GameObject[3];
@@ -50,6 +50,9 @@ public class Result : MonoBehaviour
     bool hoge = false;
     bool foo = false;
 
+    float panel_x;
+    float panel_y;
+
     void Start()
     {
         SelectMusicScene.life--;
@@ -59,6 +62,8 @@ public class Result : MonoBehaviour
         count = 0;
         arrayCount = 0;
         rankNum = 0;// 1=C～4=S
+        panel_x = 0;
+        panel_y = 0;
         scoreAnimeFlag = false;
         comboAnimeFlag = false;
         gradesAnimeFlag = false;
@@ -272,7 +277,7 @@ public class Result : MonoBehaviour
             }
         }
 
-        if (scoreAnimeFlag == true && resultIncrease < ScoreManager.increaseAmount)
+        if (scoreAnimeFlag && resultIncrease < ScoreManager.increaseAmount)
         {
             resultIncrease += 0.02f;
             scoreGauge.GetComponent<Image>().fillAmount = resultIncrease;
@@ -299,7 +304,24 @@ public class Result : MonoBehaviour
             comboAnimeFlag = true;
             gradesAnimeFlag = true;
         }
+
+        // ポップアップ表示
+        if(scoreAnimeFlag && comboAnimeFlag && gradesAnimeFlag)
+        {
+            panel.SetActive(true);
+            panel.transform.GetChild(0).localScale = new Vector3(panel_x, panel_y, 0);
+
+            if(panel_y < 1)
+            {
+                panel_y += 0.05f;
+            }
+            else if(panel_x < 1)
+            {
+                panel_x += 0.05f;
+            }
+        }
     }
+
     private void SaveHighScores()
     {
         // string HIGH_SCORE,HIGH_MAXCOMBOが今までの数値を超えていたらifで分岐しスコアセーブ
