@@ -32,18 +32,22 @@ public class UserNameInputs : MonoBehaviour
     /// </summary>
     public void pushButton()
     {
-        if (UserNames.text != ""&&!onePush)
+        if(UserNames.text.Length < 6)
         {
-            PlayerPrefs.SetString("PlayerName", UserNames.text);
-            PlayerPrefs.Save();
-            onePush = true;
-            for (float i = 1; i >= 0; i -= 0.01f)
+            if (UserNames.text != "" && !onePush)
             {
-                this.gameObject.GetComponent<CanvasGroup>().alpha = i;
+
+                PlayerPrefs.SetString("PlayerName", UserNames.text);
+                PlayerPrefs.Save();
+                onePush = true;
+                for (float i = 1; i >= 0; i -= 0.01f)
+                {
+                    this.gameObject.GetComponent<CanvasGroup>().alpha = i;
+                }
+                Scenario_Controller.isUserInputs = false;
+                _ScenarioControler.StartCoroutineDisplay();
+
             }
-            Scenario_Controller.isUserInputs = false;
-            _ScenarioControler.StartCoroutineDisplay();
-            
         }
     }
 }

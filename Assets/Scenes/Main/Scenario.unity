@@ -176,7 +176,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 3e2bb32ed819a9541b9aa7e8ab7e488a, type: 3}
     m_FontSize: 60
     m_FontStyle: 0
     m_BestFit: 0
@@ -188,7 +188,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u3053\u306E\u540D\u524D\u306F\u30E9\u30F3\u30AD\u30F3\u30B0\u306B\u4F7F\u7528\u3055\u308C\u307E\u3059\u3002"
+  m_Text: "\u540D\u524D\u3092\u5165\u529B\u3057\u3066\u304F\u3060\u3055\u3044"
 --- !u!222 &104645700
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -261,7 +261,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: ed63f574a8055f54180d1a1845dbb90d, type: 3}
+    m_Font: {fileID: 12800000, guid: 1144ea8d6e90bcd4d9be0a22df920f68, type: 3}
     m_FontSize: 45
     m_FontStyle: 0
     m_BestFit: 0
@@ -1048,12 +1048,13 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 7a6a2251e545d0d458c79d625747ea0e, type: 3}
   - {fileID: 21300000, guid: b20a3950255d20e43b12f7e19795f1c8, type: 3}
   - {fileID: 21300000, guid: 63e3b20c913639942a6e7be0da23d43e, type: 3}
+  - {fileID: 21300000, guid: 99478a0ff6150a04fa7896e5cc2af597, type: 3}
   BackGround_Sprite:
   - {fileID: 21300000, guid: 87fc923e0138dd74ab4d453d10463bff, type: 3}
   - {fileID: 21300000, guid: d14f8612287e80d489a737c45bfe590f, type: 3}
   - {fileID: 21300000, guid: c2da59d2290fbad418fa38a5699fa647, type: 3}
   - {fileID: 21300000, guid: 0239e0728a159c14d92b33de90803fab, type: 3}
-  Message_Speed: 0.05
+  Message_Speed: 0.01
   _userNameInputs: {fileID: 996438862}
 --- !u!4 &837249732
 Transform:
@@ -1125,7 +1126,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 1144ea8d6e90bcd4d9be0a22df920f68, type: 3}
     m_FontSize: 59
     m_FontStyle: 0
     m_BestFit: 0
@@ -1771,7 +1772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1844,10 +1845,10 @@ RectTransform:
   m_Father: {fileID: 1965296216}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 9.9, y: 9.8}
-  m_SizeDelta: {x: 130.2, y: 130.2}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -75, y: -75}
+  m_SizeDelta: {x: 112, y: 112}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1608579430
 MonoBehaviour:
@@ -1922,7 +1923,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: ed63f574a8055f54180d1a1845dbb90d, type: 3}
+    m_Font: {fileID: 12800000, guid: 3e2bb32ed819a9541b9aa7e8ab7e488a, type: 3}
     m_FontSize: 49
     m_FontStyle: 2
     m_BestFit: 0
@@ -1934,7 +1935,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u540D\u524D\u3092\u5165\u529B\u3057\u3066\u304F\u3060\u3055\u3044"
+  m_Text: "5\u6587\u5B57\u4EE5\u5185"
 --- !u!222 &1633364802
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1999,8 +2000,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -89.59985, y: -89.6001}
-  m_SizeDelta: {x: 179.3, y: 179.3}
+  m_AnchoredPosition: {x: -77.4, y: -75.8}
+  m_SizeDelta: {x: 155, y: 151.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1965296217
 MonoBehaviour:

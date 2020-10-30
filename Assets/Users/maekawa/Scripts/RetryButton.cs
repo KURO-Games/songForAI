@@ -5,12 +5,6 @@ using UnityEngine;
 
 public class RetryButton : MonoBehaviour
 {
-    private bool isClick;
-
-    private void Start()
-    {
-        isClick = true;
-    }
     public void Onclick()
     {
         //gameType = MusicDatas.gameType;
@@ -24,14 +18,11 @@ public class RetryButton : MonoBehaviour
         //        break;
         //}
 
-        if (isClick)
+        if (ExitButton.isClick)
         {
-            isClick = false;
-            SelectMusicScene.life--;
-            int life = SelectMusicScene.life;//PlayerPrefs.GetInt("Lifes", 3);
-            if (life > 0)
+            ExitButton.isClick = false;
+            if (SelectMusicScene.life > 0)
             {
-                //PlayerPrefs.SetInt("Lifes", life--);
                 SceneLoadManager.LoadScene("Resize_RhythmGame2");
             }
         }

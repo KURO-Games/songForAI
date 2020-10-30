@@ -54,7 +54,7 @@ public class Scenario_Controller : MonoBehaviour
         //会話の一行目を読ませるための初期化
         Display_Num = 3;
         
-        Text_Load("sinario_2");
+        Text_Load("sinario_0");
         StartCoroutine(Message_Display());
         Message_Display();
         _isEnded = false;
@@ -182,10 +182,9 @@ public class Scenario_Controller : MonoBehaviour
         }
         else if (!_isEnded)
         {
-            Text_Load("sinario_2");
-            ////シーン遷移
-            //_isEnded = true;
-            //SceneLoadManager.LoadScene("SelectMusicV3");
+            //シーン遷移
+            _isEnded = true;
+            SceneLoadManager.LoadScene("SelectMusicV3");
         }
     }
     #endregion
