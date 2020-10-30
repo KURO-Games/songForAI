@@ -24,15 +24,18 @@ public class SelectMusicScene : MonoBehaviour
         HARD,
         PRO
     }
-    private int[] Level = {3,7,12,16 };
+    private int[] Level = {3,7,12,16 };// 後で変更
     private void Start()
     {
         //PlayerPrefs.SetInt("Lifes", 2);
         //LifeNum = PlayerPrefs.GetInt("Lifes", 3);
 
-        DifficultsNum = -1;
+        // DifficultsNum = -1;
+
+        // デフォルトでproを表示
+        PushDifficult(3);
         _isTap = false;
-        MusicDatas.cueMusic = -1;
+        MusicDatas.cueMusic = 0;
         LifeDraw();
     }
     public void BackHome()
@@ -56,7 +59,7 @@ public class SelectMusicScene : MonoBehaviour
     {
         DifficultsNum = i;
         MusicDatas.difficultNumber = i;
-        MusicDatas.difficultLevel = Level[i];
+        MusicDatas.difficultLevel = Level[i];// 変数化する
         Highlight();
     }
     private void Highlight()
