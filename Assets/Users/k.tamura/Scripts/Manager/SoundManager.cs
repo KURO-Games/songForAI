@@ -51,4 +51,8 @@ public class SoundManager:SingletonMonoBehaviour<SoundManager>
     {
         return Instance.BGMSource.status;
     }
+    public static void BgmTime(ref long times)
+    {
+        times = Instance.BGMSource.time;
+    }
 }
