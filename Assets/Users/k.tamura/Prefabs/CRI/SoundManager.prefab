@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BGMSource: {fileID: 6696783556989241293}
   SESource: {fileID: 2348672661439026744}
+  DemoBgmSource: {fileID: 9026790058212390772}
 --- !u!1 &2363022981391918894
 GameObject:
   m_ObjectHideFlags: 0
@@ -339,8 +340,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8634526604039566845, guid: 92f0c6b4391e44e759a93c1d14b77a2c,
         type: 3}
+      propertyPath: cueSheets.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8634526604039566845, guid: 92f0c6b4391e44e759a93c1d14b77a2c,
+        type: 3}
       propertyPath: dontRemoveExistsCueSheet
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8634526604039566845, guid: 92f0c6b4391e44e759a93c1d14b77a2c,
+        type: 3}
+      propertyPath: cueSheets.Array.data[2].name
+      value: Demo
+      objectReference: {fileID: 0}
+    - target: {fileID: 8634526604039566845, guid: 92f0c6b4391e44e759a93c1d14b77a2c,
+        type: 3}
+      propertyPath: cueSheets.Array.data[2].acbFile
+      value: Demo.acb
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92f0c6b4391e44e759a93c1d14b77a2c, type: 3}
@@ -357,6 +373,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7386914007410677667}
     m_Modifications:
+    - target: {fileID: 253722550099549872, guid: 989a8b8113c8ac74bb1f153da2d2ac0b,
+        type: 3}
+      propertyPath: _cueName
+      value: Demo
+      objectReference: {fileID: 0}
     - target: {fileID: 1871915191317246441, guid: 989a8b8113c8ac74bb1f153da2d2ac0b,
         type: 3}
       propertyPath: m_Name
@@ -425,3 +446,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 9133580332932950468}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &9026790058212390772 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 253722550099549872, guid: 989a8b8113c8ac74bb1f153da2d2ac0b,
+    type: 3}
+  m_PrefabInstance: {fileID: 9133580332932950468}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1e631c3b9947b54c823c6853a05529c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
