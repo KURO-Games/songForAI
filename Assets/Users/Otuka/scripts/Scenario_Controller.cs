@@ -44,6 +44,7 @@ public class Scenario_Controller : MonoBehaviour
     [SerializeField]
     CanvasGroup _userNameInputs;
     public static bool isUserInputs = false;
+    public static int scenarioNumber = 0;
     private void Awake()
     {
         SceneLoadManager.SceneAdd("UserInputs");
@@ -53,8 +54,8 @@ public class Scenario_Controller : MonoBehaviour
         
         //会話の一行目を読ませるための初期化
         Display_Num = 3;
-        
-        Text_Load("sinario_0");
+
+        Text_Load("sinario_" + scenarioNumber);
         StartCoroutine(Message_Display());
         Message_Display();
         _isEnded = false;
@@ -131,7 +132,7 @@ public class Scenario_Controller : MonoBehaviour
                 Name.text = "";
             }else if (Text_Words[Display_Num, 3] == "user")
             {
-                Name.text = PlayerPrefs.GetString("PlayerName");
+                Name.text = PlayerPrefs.GetString("PlayerName", "プレイヤー");
             }
             else
                 Name.text = Text_Words[Display_Num, 3];
@@ -182,9 +183,13 @@ public class Scenario_Controller : MonoBehaviour
         }
         else if (!_isEnded)
         {
+            Debug.Log(SelectMusicScene.life);
             //シーン遷移
             _isEnded = true;
-            SceneLoadManager.LoadScene("SelectMusicV3");
+            if (SelectMusicScene.life <= 0)
+                SceneLoadManager.LoadScene("PlayEnd");
+            else
+                SceneLoadManager.LoadScene("SelectMusicV3");
         }
     }
     #endregion

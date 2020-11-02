@@ -29,6 +29,8 @@ public class MusicSelectPlate : MonoBehaviour
         MusicNames musicNames = musicdict[mArray[0]];
         // enumを送って曲名などを保存
         MusicSelects.MusicSelector(musicNames);
+        MusicDatas.MusicNumber = 0;
+        SoundManager.DemoBGMSoundCue(0);
     }
 
     public void OnClick(int j)

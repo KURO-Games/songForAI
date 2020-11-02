@@ -55,9 +55,11 @@ public class Result : MonoBehaviour
     float panel_x;
     float panel_y;
 
+    public static bool isClick;// ボタン用
     void Start()
     {
         SelectMusicScene.life--;
+        isClick = true;
 
         // 初期化
         resultIncrease = 0;
@@ -72,10 +74,10 @@ public class Result : MonoBehaviour
         popUpFlag = false;
 
         // 曲名表示
-        songName.GetComponent<Text>().text = MusicDatas.MusicName;  // 曲名表示;
+        songName.GetComponent<Text>().text = MusicDatas.MusicName;// 曲名表示;
 
         // レベル表示
-        string s = String.Format("{0:00}", MusicDatas.difficultLevel);       // 2ケタ指定
+        string s = String.Format("{0:00}", MusicDatas.difficultLevel);// 2ケタ指定
         level.GetComponent<Text>().text = s;
 
         // 難易度表示
