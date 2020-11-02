@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SceneName: Scenario
-  PvSceneTime: 90
+  PvSceneTime: 180
   Times: 0

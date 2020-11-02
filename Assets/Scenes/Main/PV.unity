@@ -348,4 +348,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VideoPlayer: {fileID: 1166550036}
-  OffsetFrame: 10
+  OffsetFrame: 30

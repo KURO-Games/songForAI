@@ -38,7 +38,7 @@ public class PvSceneManager :MonoBehaviour
         else if (!VideoPlayer.isPlaying&&isFrame>OffsetFrame&&isPlaying)
         {
             isPlaying = false;
-            SceneLoadManager.LoadScene("Title");
+            SceneLoadManager.LoadScene("Init");
             isFrame = 0;
         }
         else if(Input.GetMouseButtonDown(0)&& isPlaying)
