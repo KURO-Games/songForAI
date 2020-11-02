@@ -56,7 +56,7 @@ public class Scenario_Controller : MonoBehaviour
         //会話の一行目を読ませるための初期化
         Display_Num = 3;
 
-        Text_Load("sinario_" + scenarioNumber);
+        Text_Load("sinario_" + scenarioNumber.ToString());
         StartCoroutine(Message_Display());
         Message_Display();
         _isEnded = false;
@@ -192,6 +192,7 @@ public class Scenario_Controller : MonoBehaviour
             //シーン遷移
             _isEnded = true;
             isReaded = true;
+            //Debug.Log("life" + SelectMusicScene.life);
             if (SelectMusicScene.life <= 0)
                 SceneLoadManager.LoadScene("PlayEnd");
             else

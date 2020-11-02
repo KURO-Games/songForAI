@@ -72,6 +72,11 @@ public class Result : MonoBehaviour
         // レベル表示
         string s = String.Format("{0:00}", MusicDatas.difficultLevel);// 2ケタ指定
         level.GetComponent<Text>().text = s;
+        
+        for(int i = 0; i < 4; i++)
+        {
+            difficulty[i].SetActive(false);
+        }
 
         // 難易度表示
         switch(MusicDatas.difficultNumber)
@@ -130,6 +135,7 @@ public class Result : MonoBehaviour
         rankRect = GameObject.Find(callObj).GetComponent<RectTransform>();
 
         scoreGauge = GameObject.Find("scoreGauge");
+        scoreGauge.GetComponent<Image>().fillAmount = 0;
         SaveHighScores();
 
         // ジャケット表示

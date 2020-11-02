@@ -234,6 +234,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panel: {fileID: 1903941630}
   details: {fileID: 718990188}
+  subText: {fileID: 1959173397}
 --- !u!1 &65758751
 GameObject:
   m_ObjectHideFlags: 0
