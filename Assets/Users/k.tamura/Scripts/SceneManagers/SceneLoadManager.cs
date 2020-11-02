@@ -66,6 +66,8 @@ public class SceneLoadManager : MonoBehaviour
     static int Tarminal;
     IEnumerator fadeOut;
     IEnumerator fadeIn;
+
+    static public bool Loading = false;
     /// <summary>
     /// 画面反転用
     /// </summary>
@@ -84,6 +86,7 @@ public class SceneLoadManager : MonoBehaviour
     /// <param name="sceneName">呼ぶシーンの名前を指定する</param>
     public static void LoadScene(string sceneName)
     {
+        Loading = true;
         nextScene = sceneName;
         Instance.StartCoroutine(Instance.FadeOutScene(Instance.fadeTime, () =>
                 {
@@ -179,6 +182,7 @@ public class SceneLoadManager : MonoBehaviour
         if (callback != null)
         {
             callback();
+           
         }
     }
     /// <summary>
@@ -203,6 +207,7 @@ public class SceneLoadManager : MonoBehaviour
             callback();
         }
         isFading = false;
+        Loading = false;
     }
 
 }

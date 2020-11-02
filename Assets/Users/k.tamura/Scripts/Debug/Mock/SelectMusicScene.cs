@@ -33,6 +33,7 @@ public class SelectMusicScene : MonoBehaviour
         // DifficultsNum = -1;
 
         // デフォルトでproを表示
+        SoundManager.BGMStop();
         PushDifficult(0);
         _isTap = false;
         MusicDatas.cueMusic = 0;

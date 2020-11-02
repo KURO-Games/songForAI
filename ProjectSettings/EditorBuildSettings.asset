@@ -50,4 +50,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tools/UserInputs.unity
     guid: 6f27974f84150f84997726ed6a8f11ad
+  - enabled: 1
+    path: Assets/Scenes/Main/PV.unity
+    guid: 2983e7d460e926e4386c43f3e62187c4
   m_configObjects: {}
