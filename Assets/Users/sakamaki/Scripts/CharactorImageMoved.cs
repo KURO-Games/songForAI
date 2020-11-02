@@ -58,22 +58,4 @@ public class CharactorImageMoved : MonoBehaviour
             Result.charaNum = result;
         }
     }
-
-    /// <summary>
-    /// ボタンで配列の中身の数値を変える関数
-    /// public なのでどこでも呼び込める(ハズ)
-    /// </summary>
-    /// <param name ="addValue"></param>
-    public void PushButtonRight(int value)
-    {
-        // result = result + value;
-        result += value;
-    }
-
-    public void PushButtonLeft(int addValue)
-    {
-        result -= addValue;
-    }
-
-    // ...?
 }

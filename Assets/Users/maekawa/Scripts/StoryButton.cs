@@ -6,13 +6,10 @@ public class StoryButton : MonoBehaviour
 {
     public void Onclick()
     {
-        if (ExitButton.isClick)
+        if (Result.isClick)
         {
-            ExitButton.isClick = false;
-            if (SelectMusicScene.life > 0)
-            {
-                SceneLoadManager.LoadScene("Scenario");
-            }
+            Result.isClick = false;
+            SceneLoadManager.LoadScene("Scenario");
         }
     }
 }

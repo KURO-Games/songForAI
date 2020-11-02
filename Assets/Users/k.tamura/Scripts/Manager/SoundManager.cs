@@ -10,9 +10,11 @@ using System;
 public class SoundManager:SingletonMonoBehaviour<SoundManager>
 {
     [SerializeField]
-    CriAtomSource BGMSource = null;
+    CriAtomSource BGMSource = default(CriAtomSource);
     [SerializeField]
-    CriAtomSource SESource = null;
+    CriAtomSource SESource = default(CriAtomSource);
+    [SerializeField]
+    CriAtomSource DemoBgmSource = default(CriAtomSource);
     /// <summary>
     /// 初期化
     /// </summary>
@@ -36,10 +38,19 @@ public class SoundManager:SingletonMonoBehaviour<SoundManager>
     {
         Instance.SESource.Play(cueID);
     }
+    public static void DemoBGMSoundCue(int cueID)
+    {
+        Instance.DemoBgmSource.Play(cueID);
+    }
     /// <summary>
     /// BGMを停止する関数 static化済
     /// </summary>
-    public static void BGMSoundStop()
+    public static void AllBGMSoundStop()
+    {
+        Instance.DemoBgmSource.Stop();
+        Instance.BGMSource.Stop();
+    }
+    public static void BGMStop()
     {
         Instance.BGMSource.Stop();
     }
@@ -50,5 +61,9 @@ public class SoundManager:SingletonMonoBehaviour<SoundManager>
     public static CriAtomSource.Status BGMStatus()
     {
         return Instance.BGMSource.status;
+    }
+    public static void BgmTime(ref long times)
+    {
+        times = Instance.BGMSource.time;
     }
 }

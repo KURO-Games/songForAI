@@ -81,10 +81,5 @@ public class SelectMusicScene : MonoBehaviour
             Lifes[i].gameObject.SetActive(false);
         for (int i = 0; i < life; i++)
             Lifes[i].gameObject.SetActive(true);
-
-
     }
-
-
-
 }

@@ -9,13 +9,13 @@ public class RhithmGameManager : MonoBehaviour
     void Start()
     {
         _isTaped = false;
-        SoundManager.BGMSoundStop();
+        SoundManager.AllBGMSoundStop();
     }
     public void ReturnHome()
     {
         if (!_isTaped)
         {
-            SoundManager.BGMSoundStop();
+            SoundManager.AllBGMSoundStop();
             _isTaped = true;
             SceneLoadManager.LoadScene("MockHome");
         }

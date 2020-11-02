@@ -10,7 +10,7 @@ public class MusicSelectPlate : MonoBehaviour
 
     [SerializeField] GameObject[] MusicSelect;
     [SerializeField] GameObject[] MusicSelectDark;
-
+    [SerializeField] int ChoiceButtonNow = default(int);
     void Start()
     {
         mArray = MusicSelects.MusicNameArray();
@@ -24,11 +24,13 @@ public class MusicSelectPlate : MonoBehaviour
         // デフォルトで0番目を選択
         MusicSelect[0].SetActive(true);
         MusicSelectDark[0].SetActive(false);
-
+        ChoiceButtonNow = 0;
         // 曲名に基づいてenumを出力させる
         MusicNames musicNames = musicdict[mArray[0]];
         // enumを送って曲名などを保存
         MusicSelects.MusicSelector(musicNames);
+        MusicDatas.MusicNumber = 0;
+        SoundManager.DemoBGMSoundCue(0);
     }
 
     public void OnClick(int j)
@@ -48,10 +50,13 @@ public class MusicSelectPlate : MonoBehaviour
     }
     public void OnClickDark(int j)
     {
+        if (j.Equals(ChoiceButtonNow)) return;
         for (int i = 0; i < MusicSelectDark.Length; i++)
         {
             MusicSelectDark[i].SetActive(true);
+            SoundManager.DemoBGMSoundCue(j);
         }
         MusicSelectDark[j].SetActive(false);
+        ChoiceButtonNow = j;
     }
 }

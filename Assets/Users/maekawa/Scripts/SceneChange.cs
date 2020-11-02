@@ -12,7 +12,6 @@ public class SceneChange : MonoBehaviour
     void Start()
     {
         SoundManager.BGMSoundCue(1);
-        PlayerPrefs.DeleteAll();
     }
 
     // Update is called once per frame
