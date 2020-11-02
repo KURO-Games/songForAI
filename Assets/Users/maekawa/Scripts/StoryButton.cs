@@ -9,7 +9,6 @@ public class StoryButton : MonoBehaviour
         if (Result.isClick)
         {
             Result.isClick = false;
-            Scenario_Controller.scenarioNumber++;
             SceneLoadManager.LoadScene("Scenario");
         }
     }

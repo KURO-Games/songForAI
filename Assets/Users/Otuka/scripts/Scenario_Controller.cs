@@ -45,6 +45,7 @@ public class Scenario_Controller : MonoBehaviour
     CanvasGroup _userNameInputs;
     public static bool isUserInputs = false;
     public static int scenarioNumber = 0;
+    public static bool isReaded;// シナリオを読んでいるか
     private void Awake()
     {
         SceneLoadManager.SceneAdd("UserInputs");
@@ -59,6 +60,11 @@ public class Scenario_Controller : MonoBehaviour
         StartCoroutine(Message_Display());
         Message_Display();
         _isEnded = false;
+
+        if (scenarioNumber == 0)
+            isReaded = true;// プロローグは読んでる扱い
+        else
+            isReaded = false;// それ以外はスキップせず読んだか確認する
 
     }
     private void Update()
@@ -183,9 +189,9 @@ public class Scenario_Controller : MonoBehaviour
         }
         else if (!_isEnded)
         {
-            Debug.Log(SelectMusicScene.life);
             //シーン遷移
             _isEnded = true;
+            isReaded = true;
             if (SelectMusicScene.life <= 0)
                 SceneLoadManager.LoadScene("PlayEnd");
             else
