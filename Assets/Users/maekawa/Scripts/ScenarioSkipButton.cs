@@ -15,6 +15,9 @@ public class ScenarioSkipButton : MonoBehaviour
        if(isClick)
         {
             isClick = false;
+            if (SelectMusicScene.life <= 0)
+                SceneLoadManager.LoadScene("PlayEnd");
+            else
             SceneLoadManager.LoadScene("SelectMusicV3");
         }
     }
