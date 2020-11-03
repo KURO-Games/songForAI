@@ -50,6 +50,11 @@ public class KeyJudge : MonoBehaviour
         // デバッグ用コード
         //if (Input.GetMouseButton(0))
         //{
+        //    SceneLoadManager.LoadScene("Result");
+        //}
+
+        //if (Input.GetMouseButton(0))
+        //{
         //    int laneNumber = -1;
         //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         //    RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 10f, 1);

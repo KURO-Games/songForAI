@@ -33,6 +33,7 @@ public class SelectMusicScene : MonoBehaviour
         // DifficultsNum = -1;
 
         // デフォルトでproを表示
+        SoundManager.BGMStop();
         PushDifficult(0);
         _isTap = false;
         MusicDatas.cueMusic = 0;
@@ -81,10 +82,5 @@ public class SelectMusicScene : MonoBehaviour
             Lifes[i].gameObject.SetActive(false);
         for (int i = 0; i < life; i++)
             Lifes[i].gameObject.SetActive(true);
-
-
     }
-
-
-
 }

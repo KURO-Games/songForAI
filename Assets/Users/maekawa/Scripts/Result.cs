@@ -13,8 +13,6 @@ public class Result : MonoBehaviour
     [SerializeField] float[] rankLimit = new float[3];
     // **********************************************
 
-    [SerializeField] GameObject panel;
-    [SerializeField] GameObject details;
     [SerializeField] GameObject[] grades = new GameObject[5];
     [SerializeField] GameObject[] difficulty = new GameObject[4];
     [SerializeField] GameObject[] character = new GameObject[3];
@@ -38,7 +36,7 @@ public class Result : MonoBehaviour
     private bool scoreAnimeFlag;
     private bool comboAnimeFlag;
     private bool gradesAnimeFlag;
-    private bool popUpFlag;
+    public static bool isEnded;// リザルトアニメーション全体の終了
 
     //
     GameObject scoreGauge;
@@ -52,31 +50,33 @@ public class Result : MonoBehaviour
     bool hoge = false;
     bool foo = false;
 
-    float panel_x;
-    float panel_y;
-
+    public static bool isClick;// ボタン用
     void Start()
     {
         SelectMusicScene.life--;
+        isClick = true;
 
         // 初期化
         resultIncrease = 0;
         count = 0;
         arrayCount = 0;
         rankNum = 0;// 1=C～4=S
-        panel_x = 0;
-        panel_y = 0.05f;
         scoreAnimeFlag = false;
         comboAnimeFlag = false;
         gradesAnimeFlag = false;
-        popUpFlag = false;
+        isEnded = false;
 
         // 曲名表示
-        songName.GetComponent<Text>().text = MusicDatas.MusicName;  // 曲名表示;
+        songName.GetComponent<Text>().text = MusicDatas.MusicName;// 曲名表示;
 
         // レベル表示
-        string s = String.Format("{0:00}", MusicDatas.difficultLevel);       // 2ケタ指定
+        string s = String.Format("{0:00}", MusicDatas.difficultLevel);// 2ケタ指定
         level.GetComponent<Text>().text = s;
+        
+        for(int i = 0; i < 4; i++)
+        {
+            difficulty[i].SetActive(false);
+        }
 
         // 難易度表示
         switch(MusicDatas.difficultNumber)
@@ -135,6 +135,7 @@ public class Result : MonoBehaviour
         rankRect = GameObject.Find(callObj).GetComponent<RectTransform>();
 
         scoreGauge = GameObject.Find("scoreGauge");
+        scoreGauge.GetComponent<Image>().fillAmount = 0;
         SaveHighScores();
 
         // ジャケット表示
@@ -309,24 +310,9 @@ public class Result : MonoBehaviour
         }
 
         // ポップアップ表示
-        if (scoreAnimeFlag && comboAnimeFlag && gradesAnimeFlag && popUpFlag != true)
+        if (scoreAnimeFlag && comboAnimeFlag && gradesAnimeFlag)
         {
-            panel.SetActive(true);
-            panel.transform.GetChild(0).localScale = new Vector3(panel_x, panel_y, 0);
-
-            if (panel_x < 1)
-            {
-                panel_x += 0.1f;
-            }
-            else if (panel_y < 1)
-            {
-                panel_y += 0.1f;
-            }
-            else
-            {
-                details.SetActive(true);
-                popUpFlag = true;
-            }
+            isEnded = true;
         }
     }
 

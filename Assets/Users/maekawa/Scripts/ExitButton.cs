@@ -4,25 +4,18 @@ using UnityEngine;
 
 public class ExitButton : MonoBehaviour
 {
-    public static bool isClick;
-
-    private void Start()
-    {
-        isClick = true;
-    }
-
     public void Onclick()
     {
-        if(isClick)
+        if(Result.isClick)
         {
-            isClick = false;
             if (SelectMusicScene.life <= 0)
             {
-                //PlayerPrefs.SetInt("Lifes", 3);
+                Result.isClick = false;
                 SceneLoadManager.LoadScene("PlayEnd");
             }
             else
             {
+                Result.isClick = false;
                 SceneLoadManager.LoadScene("SelectMusicV3");
             }
         }

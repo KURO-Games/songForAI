@@ -18,7 +18,8 @@ public class NotesGenerater : MonoBehaviour
     public static float speed = 0.3f;
     public static float offset = 0;// 譜面の再生を遅らせる
     float bpm = 0;
-
+    long BgmTimes = 0;
+    float NotesSpeeds = 0;
     //string[] filePaths = System.IO.Directory.GetFiles(Application.streamingAssetsPath, "*.nts");
     //ノーツデータ
     NotesJson.MusicData musicData = new NotesJson.MusicData();
@@ -39,14 +40,20 @@ public class NotesGenerater : MonoBehaviour
     private void Update()
     {
         fps = 1 / Time.deltaTime;
+        SoundManager.BgmTime(ref BgmTimes);
+       
         //Debug.Log(fps);
         if (Generated)
         {
             float a = 60 / bpm;
             float b = a * fps;
             float c = b / 8;
+            NotesSpeeds = ((BgmTimes)/6.12f);
+            move = new Vector3(0, NotesSpeeds * speed, 0);//曲の再生ポジションでとっている値
+            //move = new Vector3(0, c * speed, 0);//FPS値でとっていた値
+            //Debug.LogErrorFormat("c:{0} BGM {1}",c, NotesSpeeds);
             //Debug.Log(a+" "+b+" "+c);
-            move = new Vector3(0, c*speed, 0);
+            
 
             if (!PlayedBGM)
             {
@@ -62,7 +69,8 @@ public class NotesGenerater : MonoBehaviour
     /// </summary>
     private void LateUpdate()
     {
-        NotesGen[0].transform.root.gameObject.transform.position -= move * NotesSpeed;
+        //NotesGen[0].transform.root.gameObject.transform.position -= move * NotesSpeed;
+        NotesGen[0].transform.root.gameObject.transform.position = -1*(move * NotesSpeed);
     }
     /// <summary>
     /// 初期化
