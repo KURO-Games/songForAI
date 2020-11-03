@@ -92,8 +92,8 @@ public class NotesGenerater : MonoBehaviour
     public void NotesGenerate()
     {
         //ファイルの読み込み
-        FileInfo info = new FileInfo(Application.streamingAssetsPath + string.Format("/{0}_{1}.nts",MusicDatas.NotesDataName,MusicDatas.difficultNumber));
-        //FileInfo info = new FileInfo(Application.streamingAssetsPath + "/Shining_3.nts");
+        //FileInfo info = new FileInfo(Application.streamingAssetsPath + string.Format("/{0}_{1}.nts",MusicDatas.NotesDataName,MusicDatas.difficultNumber));
+        FileInfo info = new FileInfo(Application.streamingAssetsPath + "/Shining_3.nts");
         //Debug.Log(info);
         StreamReader reader = new StreamReader(info.OpenRead());
         string Musics_ = reader.ReadToEnd();
@@ -140,7 +140,7 @@ public class NotesGenerater : MonoBehaviour
                     , Quaternion.identity) as GameObject;
                 GenNotes.name = "notes_" + NotesNum.ToString();
                 GenNotes.transform.parent = NotesGen[LaneNum].transform;
-                Vector2 longPos = new Vector2(0.23f,notesNum2-NotesNum);
+                Vector2 longPos = new Vector2(0.19f,notesNum2-NotesNum);
                 longPos.y *= 0.03f*(16/musicData.notes[i].LPB);
                 //longPos.y *= 0.03f * (4 / musicData.notes[i].LPB);
                 GenNotes.transform.localScale = longPos;

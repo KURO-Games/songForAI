@@ -183,6 +183,5 @@ public class KeyJudge : MonoBehaviour
     public static void ListImport()
     {
         GOListArray = NotesManager.NotesPositions;
-        Debug.Log(GOListArray[0][7]);
     }
 }
