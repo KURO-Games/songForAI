@@ -14,8 +14,6 @@ public class MusicSelectPlate : MonoBehaviour
     [SerializeField] int ChoiceButtonNow = default(int);
     [SerializeField] Text[] diffNumTexts;
 
-     int diffnum;
-
      void Start()
     {
         mArray = MusicSelects.MusicNameArray();
@@ -37,56 +35,27 @@ public class MusicSelectPlate : MonoBehaviour
         MusicDatas.MusicNumber = 0;
         SoundManager.DemoBGMSoundCue(0);
 
-        DiffNum();
+        DrawDifficulty(0);
     }
 
-     /// <summary>
-     /// 難易度数値表示関数
-     /// </summary>
-     void DiffNum()
+    /// <summary>
+    /// 難易度数値表示関数
+    /// </summary>
+    /// <param name="i">曲名番号</param>
+    void DrawDifficulty(int i)
      {
-         for (int i = 0; i < MusicSelect.Length; i++)
-         {
-             if (ChoiceButtonNow == 0)
-             {
-                 diffNumTexts[0].text = 2.ToString();
-                 diffNumTexts[1].text = 2.ToString();
-                 diffNumTexts[2].text = 8.ToString();
-                 diffNumTexts[3].text = 8.ToString();
-                 diffNumTexts[4].text = 12.ToString();
-                 diffNumTexts[5].text = 12.ToString();
-                 diffNumTexts[6].text = 17.ToString();
-                 diffNumTexts[7].text = 17.ToString();
-             }
-             else if (ChoiceButtonNow == 1)
-             {
-                 diffNumTexts[0].text = 3.ToString();
-                diffNumTexts[1].text = 3.ToString();
-                diffNumTexts[2].text = 6.ToString();
-                diffNumTexts[3].text = 6.ToString();
-                diffNumTexts[4].text = 13.ToString();
-                diffNumTexts[5].text = 13.ToString();
-                diffNumTexts[6].text = 20.ToString();
-                diffNumTexts[7].text = 20.ToString();
-            }
-             else if (ChoiceButtonNow == 2)
-             {
-                 diffNumTexts[0].text = 5.ToString();
-                 diffNumTexts[1].text = 5.ToString();
-                 diffNumTexts[2].text = 12.ToString();
-                 diffNumTexts[3].text = 12.ToString();
-                 diffNumTexts[4].text = 18.ToString();
-                 diffNumTexts[5].text = 18.ToString();
-                 diffNumTexts[6].text = 28.ToString();
-                 diffNumTexts[7].text = 28.ToString();
-             }
-             else
-             {
-                 Debug.LogWarning("難易度を表示する値がありません");
-             }
-         }
-         // ループを行って変更加えられたりしたらdiffNumTextsに代入するみたいなことをしたかった..良い実装案が思いつかず断念
-         // とりあえずの雑実装...修正途中です
+        for(int j = 0; j < diffNumTexts.Length; j++)
+        {
+            // MusicSelects.で難易度を宣言　musicDifficulty[曲番号, 難易度]
+            diffNumTexts[0].text = MusicSelects.musicDifficulty[i, 0].ToString();
+            diffNumTexts[1].text = MusicSelects.musicDifficulty[i, 0].ToString();
+            diffNumTexts[2].text = MusicSelects.musicDifficulty[i, 1].ToString();
+            diffNumTexts[3].text = MusicSelects.musicDifficulty[i, 1].ToString();
+            diffNumTexts[4].text = MusicSelects.musicDifficulty[i, 2].ToString();
+            diffNumTexts[5].text = MusicSelects.musicDifficulty[i, 2].ToString();
+            diffNumTexts[6].text = MusicSelects.musicDifficulty[i, 3].ToString();
+            diffNumTexts[7].text = MusicSelects.musicDifficulty[i, 3].ToString();
+        }
      }
 
     /// <summary>
@@ -107,6 +76,8 @@ public class MusicSelectPlate : MonoBehaviour
         MusicSelects.MusicSelector(musicNames);
 
         MusicDatas.MusicNumber = j;
+
+        DrawDifficulty(j);
     }
 
     /// <summary>
