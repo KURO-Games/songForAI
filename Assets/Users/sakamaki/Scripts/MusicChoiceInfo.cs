@@ -195,4 +195,9 @@ public class MusicChoiceInfo : MonoBehaviour
             Rank[i].gameObject.GetComponent<Image>().sprite = isrankImage;
         }
     }
+
+    private void DrawAchievement()
+    {
+
+    }
 }

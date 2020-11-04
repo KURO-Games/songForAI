@@ -34,6 +34,17 @@ public static class MusicSelects
         "YourSmile",
         "DevilCastle"
     };
+
+    /// <summary>
+    /// 曲ごとの難易度
+    /// </summary>
+    public static readonly int[,] musicDifficulty = new int[3, 4]
+    {
+        { 2, 8, 12, 17 },
+        { 3, 6, 13, 20 },
+        { 5, 12, 18, 28 }
+    };
+
     /// <summary>
     /// 曲のNum指定
     /// </summary>

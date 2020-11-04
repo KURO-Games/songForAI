@@ -14,9 +14,9 @@ public class NotesGenerater : MonoBehaviour
     List<GameObject> NotesGen = null;
     [SerializeField]
     float NotesDistance = 0.001f;
-    public static float NotesSpeed = 0.3f;
-    public static float speed = 0.3f;
-    public static float offset = 0;// 譜面の再生を遅らせる
+    public static float NotesSpeed;
+    public static float speed;
+    public static float offset;// 譜面の再生を遅らせる
     float bpm = 0;
     long BgmTimes = 0;
     float NotesSpeeds = 0;
@@ -30,10 +30,11 @@ public class NotesGenerater : MonoBehaviour
 
     Vector3 move;
 
-    // とりあえずここで設定
-    private float[] highSpeeds = { 0.3f, 0.4f, 0.3f };
-    private float[] Speeds = { 0.256f, 0.075f, 0.335f };
-    private float[] offsets = { 0, -8.0f, -9.0f };
+    // とりあえずここで設定 musicselectsに移動するかも
+    private float[] highSpeeds = { 0.28f, 0.5f, 0.28f };
+    private float[] Speeds = { 0.258f, 0.139f, 0.295f };
+    private float[] offsets = { 0, -9.4f, -9.2f };
+
     /// <summary>
     /// Update 主にノーツの移動部分の計算をしている
     /// </summary>
@@ -57,8 +58,9 @@ public class NotesGenerater : MonoBehaviour
 
             if (!PlayedBGM)
             {
+                // ノーツを遅らせる
                 SoundManager.BGMSoundCue(MusicDatas.cueMusic);
-                //SoundManager.BGMSoundCue(5);
+                //SoundManager.BGMSoundCue(6);
                 PlayedBGM = true;
             }
             // Debug.Log(NotesSpeed);
@@ -70,7 +72,7 @@ public class NotesGenerater : MonoBehaviour
     private void LateUpdate()
     {
         //NotesGen[0].transform.root.gameObject.transform.position -= move * NotesSpeed;
-        NotesGen[0].transform.root.gameObject.transform.position = -1*(move * NotesSpeed);
+        NotesGen[0].transform.root.gameObject.transform.position = -1*(move * NotesSpeed) + new Vector3(0, offset, 0);
     }
     /// <summary>
     /// 初期化
@@ -80,9 +82,9 @@ public class NotesGenerater : MonoBehaviour
         NotesSpeed = highSpeeds[MusicDatas.MusicNumber];
         speed = Speeds[MusicDatas.MusicNumber];
         offset = offsets[MusicDatas.MusicNumber];
-
-        // ノーツを遅らせる
-        NotesGen[0].transform.root.gameObject.transform.position += new Vector3(0, offset, 0);
+        //NotesSpeed = highSpeeds[1];
+        //speed = Speeds[1];
+        //offset = offsets[1];
 
         Application.targetFrameRate = 60;
     }
@@ -92,8 +94,8 @@ public class NotesGenerater : MonoBehaviour
     public void NotesGenerate()
     {
         //ファイルの読み込み
-        //FileInfo info = new FileInfo(Application.streamingAssetsPath + string.Format("/{0}_{1}.nts",MusicDatas.NotesDataName,MusicDatas.difficultNumber));
-        FileInfo info = new FileInfo(Application.streamingAssetsPath + "/Shining_3.nts");
+        FileInfo info = new FileInfo(Application.streamingAssetsPath + string.Format("/{0}_{1}.nts",MusicDatas.NotesDataName,MusicDatas.difficultNumber));
+        //FileInfo info = new FileInfo(Application.streamingAssetsPath + "/YourSmile_0.nts");
         //Debug.Log(info);
         StreamReader reader = new StreamReader(info.OpenRead());
         string Musics_ = reader.ReadToEnd();
@@ -166,7 +168,6 @@ public class NotesGenerater : MonoBehaviour
             move = new Vector3(0, 1.06f*Time.deltaTime, 0);
             NotesManager.NextNotesLine.Add(LaneNum);
             Generated = true;
-
         }
         ScoreManager.maxScore = Judge.gradesPoint[0] * musicData.notes.Length; // perfect時の得点 * 最大コンボ　で天井点を取得
 
