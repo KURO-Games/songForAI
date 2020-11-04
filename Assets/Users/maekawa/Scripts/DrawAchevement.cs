@@ -10,9 +10,10 @@ public class DrawAchevement : MonoBehaviour
     [SerializeField] int MusicNumber;
     void Start()
     {
-       // test
-       // PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat,
-       // MusicSelects.musicNotesNames[0], 0, 3, ScoreClass.PlayerPrefsHighRank), 4);
+        // test
+        //PlayerPrefs.DeleteAll();
+        //PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat,
+        //MusicSelects.musicNotesNames[2], 0, 3, ScoreClass.PlayerPrefsHighRank), 4);
 
         for (int difficultNum = 0; difficultNum < 4; difficultNum++)
         {
