@@ -53,6 +53,7 @@ public class SelectMusicScene : MonoBehaviour
         {
             _isTap = true;
             _name=_button.name;
+            SoundManager.SESoundCue(1);
             SceneLoadManager.LoadScene("Resize_RhythmGame2");
         }
     }
