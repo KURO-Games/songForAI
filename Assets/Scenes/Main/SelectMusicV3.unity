@@ -1289,6 +1289,15 @@ MonoBehaviour:
   - {fileID: 1719153016}
   - {fileID: 1820583439}
   ChoiceButtonNow: 0
+  diffNumTexts:
+  - {fileID: 701164382}
+  - {fileID: 1054498773}
+  - {fileID: 1508523143}
+  - {fileID: 1504277486}
+  - {fileID: 901767760}
+  - {fileID: 765419656}
+  - {fileID: 1552377018}
+  - {fileID: 1103076186}
 --- !u!1 &193956975
 GameObject:
   m_ObjectHideFlags: 0
@@ -4095,7 +4104,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &818321396
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5239,7 +5248,7 @@ GameObject:
   - component: {fileID: 1103076187}
   - component: {fileID: 1103076186}
   m_Layer: 5
-  m_Name: HardTopNum (1)
+  m_Name: ProTopNum
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6597,7 +6606,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1331453806
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8118,7 +8127,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1712826795
 RectTransform:
   m_ObjectHideFlags: 0
