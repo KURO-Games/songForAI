@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,7 +12,10 @@ public class MusicSelectPlate : MonoBehaviour
     [SerializeField] GameObject[] MusicSelect;
     [SerializeField] GameObject[] MusicSelectDark;
     [SerializeField] int ChoiceButtonNow = default(int);
-    void Start()
+    [SerializeField] Text[] diffNumTexts;
+
+     int diffnum;
+     void Start()
     {
         mArray = MusicSelects.MusicNameArray();
         musicdict = MusicSelects.MusicDict();
@@ -31,8 +35,14 @@ public class MusicSelectPlate : MonoBehaviour
         MusicSelects.MusicSelector(musicNames);
         MusicDatas.MusicNumber = 0;
         SoundManager.DemoBGMSoundCue(0);
+        
+        DiffNum(diffnum);
     }
 
+    /// <summary>
+    /// 曲名クリック時処理(ハイライト等)
+    /// </summary>
+    /// <param name="j">曲名番号</param>
     public void OnClick(int j)
     {
         for (int i = 0; i < MusicSelect.Length; i++)
@@ -48,6 +58,11 @@ public class MusicSelectPlate : MonoBehaviour
 
         MusicDatas.MusicNumber = j;
     }
+
+    /// <summary>
+    /// 曲名クリック時選択されていない曲を暗くする
+    /// </summary>
+    /// <param name="j">曲名番号</param>
     public void OnClickDark(int j)
     {
         if (j.Equals(ChoiceButtonNow)) return;
@@ -58,5 +73,29 @@ public class MusicSelectPlate : MonoBehaviour
         }
         MusicSelectDark[j].SetActive(false);
         ChoiceButtonNow = j;
+    }
+
+    /// <summary>
+    /// 難易度数値表示関数
+    /// </summary>
+    public void DiffNum(int j)
+    {
+        //if (ChoiceButtonNow == 1)
+        //{
+        diffNumTexts[0].text = 2.ToString();
+        diffNumTexts[1].text = 2.ToString();
+        diffNumTexts[2].text = 8.ToString();
+        diffNumTexts[3].text = 8.ToString();
+        diffNumTexts[4].text = 12.ToString();
+        diffNumTexts[5].text = 12.ToString();
+        diffNumTexts[6].text = 17.ToString();
+        diffNumTexts[7].text = 17.ToString();
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("難易度を表示する値がありません");
+        //}
+
+        // すごい雑実装...修正途中です
     }
 }
