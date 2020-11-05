@@ -13,17 +13,17 @@ public class ComboManager : MonoBehaviour
     [SerializeField] GameObject comboImage;
     [SerializeField] GameObject[] combo;
 
-    int[] digit = new int[4];// 要素数 = 桁数
+    int[] digit = new int[3];// 要素数 = 桁数
     int tempCombo;
 
     private void Start()
     {
-        for(int i = 0; i < combo.Length;i++)
-        {
-            combo[i].SetActive(false);
-        }
+        //for(int i = 0; i < combo.Length;i++)
+        //{
+        //    combo[i].SetActive(false);
+        //}
 
-        comboImage.SetActive(false);
+        //comboImage.SetActive(false);
         tempCombo = 0;
     }
     /// <summary>
@@ -42,12 +42,12 @@ public class ComboManager : MonoBehaviour
         //    }
         //}
 
-        comboImage.SetActive(true);
+        //comboImage.SetActive(true);
         tempCombo = a;
 
         for (int i = 0; i < digit.Length; i++)// 桁数分だけループ
         {
-            combo[i].SetActive(true);
+            //combo[i].SetActive(true);
 
             digit[i] = a % 10;// 1の位を取り出す
 
@@ -61,22 +61,22 @@ public class ComboManager : MonoBehaviour
             a /= 10; //次のループに入るため、1の位を切り落とす
         }
 
-        if (tempCombo < 1000)
-        {
-            combo[3].SetActive(false);
-        }
-        if (tempCombo < 100)
-        {
-            combo[2].SetActive(false);
-        }
-        if (tempCombo < 10)
-        {
-            combo[1].SetActive(false);
-        }
-        if (tempCombo < 5)
-        {
-            combo[0].SetActive(false);
-            comboImage.SetActive(false);
-        }
+        //if (tempCombo < 1000)
+        //{
+        //    combo[3].SetActive(false);
+        //}
+        //if (tempCombo < 100)
+        //{
+        //    combo[2].SetActive(false);
+        //}
+        //if (tempCombo < 10)
+        //{
+        //    combo[1].SetActive(false);
+        //}
+        //if (tempCombo < 5)
+        //{
+        //    combo[0].SetActive(false);
+        //    comboImage.SetActive(false);
+        //}
     }
 }
