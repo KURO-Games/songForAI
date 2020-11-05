@@ -54,6 +54,7 @@ public class SelectMusicScene : MonoBehaviour
             _isTap = true;
             _name=_button.name;
             SoundManager.SESoundCue(1);
+            MusicDatas.difficultLevel = MusicSelects.musicDifficulty[MusicDatas.MusicNumber,MusicDatas.difficultNumber];
             SceneLoadManager.LoadScene("Resize_RhythmGame2");
         }
     }
@@ -61,7 +62,6 @@ public class SelectMusicScene : MonoBehaviour
     {
         DifficultsNum = i;
         MusicDatas.difficultNumber = i;
-        MusicDatas.difficultLevel = Level[i];// 変数化する
         Highlight();
     }
     private void Highlight()
