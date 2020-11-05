@@ -132,6 +132,7 @@ public class NotesGenerater : MonoBehaviour
                 GenNotes.transform.localPosition = new Vector3(0, 0, 0);
                 GenNotes.transform.localPosition += positions;
                 notesPositionAdd(GenNotes, LaneNum, i);
+                GenNotes.gameObject.transform.parent.transform.SetSiblingIndex(0);// ロングノーツと重なる場合裏に隠す（本当はいらない）
             }
             else if(NotesType == 2)
             {
