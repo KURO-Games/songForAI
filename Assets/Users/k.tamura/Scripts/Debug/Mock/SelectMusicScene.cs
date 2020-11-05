@@ -71,6 +71,7 @@ public class SelectMusicScene : MonoBehaviour
             ChooseHighlight[i].gameObject.SetActive(false);
         }
         ChooseHighlight[DifficultsNum].gameObject.SetActive(true);
+        ChooseHighlight[DifficultsNum].gameObject.transform.parent.transform.SetSiblingIndex(99);// 最前面に表示
         MusicDatas.difficultNumber = DifficultsNum;
     }
     public void PButton(int i)
