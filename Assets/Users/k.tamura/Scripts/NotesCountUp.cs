@@ -11,12 +11,15 @@ public class NotesCountUp : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        string i = this.gameObject.name;
-        int j = int.Parse(i);
-
-        if (KeyJudge.isHold[j] != true)
+        if(collision.gameObject.tag == "Notes")
         {
-            Judge.NotesCountUp(j);
+            string i = this.gameObject.name;
+            int j = int.Parse(i);
+
+            if (KeyJudge.isHold[j] != true)
+            {
+                Judge.NotesCountUp(j);
+            }
         }
     }
 }
