@@ -51,7 +51,18 @@ public class Rhithm : MonoBehaviour
                 if(timeCount > 2)
                 {
                     _faded = true;
-                    NotesGen.GetComponent<NotesGenerater>().NotesGenerate();
+                    switch (Judge.gameType)
+                    {
+                        case 0:
+                            NotesGen.GetComponent<NotesGenerater>().NotesGenerate();
+                            break;
+
+                        case 1:
+                            NotesGen.GetComponent<ViolineNotesGenerater>().NotesGenerate();
+                            break;
+
+                    }
+
                     judge.SetActive(true);
                 }
             }
