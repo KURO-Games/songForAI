@@ -13,6 +13,8 @@ public class SelectMusicScene : MonoBehaviour
     private Image[] ChooseHighlight;
     [SerializeField]
     private GameObject[] Lifes;
+    [SerializeField] GameObject Panel;
+
     //[SerializeField]
     //int LifeNum = 0;
 
@@ -55,6 +57,7 @@ public class SelectMusicScene : MonoBehaviour
             _name=_button.name;
             SoundManager.SESoundCue(1);
             MusicDatas.difficultLevel = MusicSelects.musicDifficulty[MusicDatas.MusicNumber,MusicDatas.difficultNumber];
+            Panel.SetActive(true);// 遷移中の選択を無効
             SceneLoadManager.LoadScene("Resize_RhythmGame2");
         }
     }

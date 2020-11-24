@@ -140,7 +140,7 @@ public class NotesGenerater : MonoBehaviour
                     , NotesNum * NotesSpeed
                     , 0)
                     , Quaternion.identity) as GameObject;
-                GenNotes.name = "notes_" + NotesNum.ToString();
+                GenNotes.name = "long" + NotesNum.ToString();
                 GenNotes.transform.parent = NotesGen[LaneNum].transform;
                 Vector2 longPos = new Vector2(0.19f,notesNum2-NotesNum);
                 longPos.y *= 0.03f*(16/musicData.notes[i].LPB);
