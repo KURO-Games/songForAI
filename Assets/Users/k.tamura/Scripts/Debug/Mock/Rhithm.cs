@@ -51,7 +51,10 @@ public class Rhithm : MonoBehaviour
                 if(timeCount > 2)
                 {
                     _faded = true;
+
+                    // TODO: 後ほど取得コンポをNotesGeneratorBaseに変更
                     NotesGen.GetComponent<NotesGenerater>().NotesGenerate();
+
                     judge.SetActive(true);
                 }
             }
