@@ -5,19 +5,17 @@ using UnityEngine;
 public class SelectCharactor : MonoBehaviour
 {
     [SerializeField] GameObject[] charactor = new GameObject[3];
-    private Vector2[] charaPosition = new Vector2[3];
-    private float mousePositionX;
-    private float lastMousePosX;
-    private bool isSwiping;
-
-    public static int gameType;
+    [SerializeField] Sprite[] charaUI = new Sprite[3];
+    private Vector3[] defaultPosition = new Vector3[3];
+    private float lastMousePosX = 0;
+    private bool isSwiping = false;
+    private int centerNum = 0;// gameTypeと同義
+    private int shiftNum = 0;
 
     private void Start()
     {
-        gameType = 0;
-
         for (int i = 0; i < charactor.Length; i++)
-            charaPosition[i] = charactor[i].transform.position;
+            defaultPosition[i] = charactor[i].transform.position;
     }
 
     private void Update()
@@ -25,7 +23,7 @@ public class SelectCharactor : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, 10f, 1);
 
-        if (Input.GetMouseButtonDown(0))
+        if ((Input.GetMouseButtonDown(0)) && (hit))
         {
             if ((hit.transform.gameObject != null) && (hit.transform.gameObject.tag == "Right"))
             {
@@ -38,7 +36,7 @@ public class SelectCharactor : MonoBehaviour
         {
             float distance = lastMousePosX - Input.mousePosition.x;
 
-            Vector3 movePosition = new Vector3(distance * 3, 0, 0);
+            Vector3 movePosition = new Vector3(distance * 2.5f, 0, 0);
 
             for (int i = 0; i < charactor.Length; i++)
             {
@@ -52,23 +50,37 @@ public class SelectCharactor : MonoBehaviour
         {
             isSwiping = false;
 
-            if(charactor[0].transform.localPosition.x < 150)
+            for (int i = 0; i < charactor.Length; i++)
             {
+                charactor[i].transform.position = defaultPosition[i];
 
-            }
-            else if(charactor[0].transform.localPosition.x > 850)
-            {
+                if (shiftNum == charactor.Length)
+                    shiftNum = 0;
 
-            }
-            else
-            {
-                for(int i = 0; i < charactor.Length; i++)
-                    charactor[i].transform.position = charaPosition[i];
+                SpriteRenderer sr = charactor[i].GetComponent<SpriteRenderer>();
+                sr.sprite = charaUI[shiftNum];
+                shiftNum++;
             }
         }
     }
 
-    public void SetCharactor(int CharaNumber)
+    public void SetCharactor(bool LorR)
     {
+        if(LorR)
+        {
+            centerNum++;
+
+            if (centerNum == charactor.Length)
+                centerNum = 0;
+            shiftNum = centerNum;
+        }
+        else
+        {
+            centerNum--;
+
+            if (centerNum < 0)
+                centerNum = charactor.Length - 1;
+            shiftNum = centerNum;
+        }
     }
 }
