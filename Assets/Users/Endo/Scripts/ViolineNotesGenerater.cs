@@ -6,7 +6,7 @@ using System.IO;
 /// <summary>
 /// ピアノ用ノーツジェネレータ
 /// </summary>
-public class NotesGenerater : MonoBehaviour
+public class ViolineNotesGenerater : MonoBehaviour
 {
     [SerializeField, Header("ノーツを生成する元(Prefab)")]
     GameObject NotesPrefab = null, longNotes = null, edgeStart = null, edgeEnd = null, bar = null;
@@ -46,14 +46,6 @@ public class NotesGenerater : MonoBehaviour
         //Debug.Log(fps);
         if (Generated)
         {
-            if(SoundManager.BGMStatus() == CriAtomSource.Status.Stop)//曲が再生される前
-            {
-
-            }
-            else if(SoundManager.BGMStatus() == CriAtomSource.Status.Playing)//曲が再生されている時
-            {
-
-            }
             float a = 60 / bpm;
             float b = a * fps;
             float c = b / 8;
@@ -102,8 +94,8 @@ public class NotesGenerater : MonoBehaviour
     public void NotesGenerate()
     {
         //ファイルの読み込み
-        FileInfo info = new FileInfo(Application.streamingAssetsPath + string.Format("/{0}_{1}.nts",MusicDatas.NotesDataName,MusicDatas.difficultNumber));
-        //FileInfo info = new FileInfo(Application.streamingAssetsPath + "/YourSmile_0.nts");
+        //FileInfo info = new FileInfo(Application.streamingAssetsPath + string.Format("/{0}_{1}.nts",MusicDatas.NotesDataName,MusicDatas.difficultNumber));
+        FileInfo info = new FileInfo(Application.streamingAssetsPath + "/YourSmile_0.nts");
         //Debug.Log(info);
         StreamReader reader = new StreamReader(info.OpenRead());
         string Musics_ = reader.ReadToEnd();
@@ -145,10 +137,10 @@ public class NotesGenerater : MonoBehaviour
             {
                 int notesNum2 = musicData.notes[i].notes[0].num;
                 GameObject GenNotes = Instantiate(longNotes, new Vector3(NotesGen[LaneNum].transform.position.x
-                    , notesNum2 * NotesSpeed// NotesNumからnotesNum2 ?
+                    , NotesNum * NotesSpeed
                     , 0)
                     , Quaternion.identity) as GameObject;
-                GenNotes.name = "long" + NotesNum.ToString();
+                GenNotes.name = "notes_" + NotesNum.ToString();
                 GenNotes.transform.parent = NotesGen[LaneNum].transform;
                 Vector2 longPos = new Vector2(0.19f,notesNum2-NotesNum);
                 longPos.y *= 0.03f*(16/musicData.notes[i].LPB);
@@ -158,7 +150,7 @@ public class NotesGenerater : MonoBehaviour
 
                 // ロングノーツ始点オブジェクト生成
                 GameObject startEdge = Instantiate(edgeStart, new Vector3(NotesGen[LaneNum].transform.position.x
-                    , notesNum2 * NotesSpeed
+                    , NotesNum * NotesSpeed
                     , 0)
                     , Quaternion.identity) as GameObject;
                 startEdge.name = "startEdge_" + NotesNum.ToString();
