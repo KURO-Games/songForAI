@@ -144,7 +144,7 @@ namespace SFAI
                     builder.Append("SFAI_MASTER;SFAI_L_SOUND;");
                     break;
                 case SetBuildSettings.None:
-                    builder.Append("SFAI_DEBUG;SFAI_SOUND;");
+                    builder.Append("");
                     break;
                 default:
                     Debug.LogErrorFormat("Missing Settings : {0}", buildsettings);
