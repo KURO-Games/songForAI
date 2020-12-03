@@ -145,7 +145,7 @@ public class NotesGenerater : MonoBehaviour
             {
                 int notesNum2 = musicData.notes[i].notes[0].num;
                 GameObject GenNotes = Instantiate(longNotes, new Vector3(NotesGen[LaneNum].transform.position.x
-                    , NotesNum * NotesSpeed
+                    , notesNum2 * NotesSpeed// NotesNumからnotesNum2 ?
                     , 0)
                     , Quaternion.identity) as GameObject;
                 GenNotes.name = "long" + NotesNum.ToString();
@@ -158,7 +158,7 @@ public class NotesGenerater : MonoBehaviour
 
                 // ロングノーツ始点オブジェクト生成
                 GameObject startEdge = Instantiate(edgeStart, new Vector3(NotesGen[LaneNum].transform.position.x
-                    , NotesNum * NotesSpeed
+                    , notesNum2 * NotesSpeed
                     , 0)
                     , Quaternion.identity) as GameObject;
                 startEdge.name = "startEdge_" + NotesNum.ToString();
