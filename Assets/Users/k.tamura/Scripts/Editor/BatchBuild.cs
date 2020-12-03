@@ -20,25 +20,25 @@ namespace SFAI
         [MenuItem("SFAI/Build/Android/None")]
         static void AndroidBuild()
         {
-            SetSymbols(SetBuildSettings.None);
+            SetSymbols(SetBuildSettings.None, BuildTargetGroup.Android);
             AndroidBuilder();
         }
         [MenuItem("SFAI/Build/Android/Debug")]
         static void AndroidBuildDebug()
         {
-            SetSymbols(SetBuildSettings.Debug);
+            SetSymbols(SetBuildSettings.Debug, BuildTargetGroup.Android);
             AndroidBuilder();
         }
         [MenuItem("SFAI/Build/Android/Release")]
         static void AndroidBuildRelease()
         {
-            SetSymbols(SetBuildSettings.Release);
+            SetSymbols(SetBuildSettings.Release, BuildTargetGroup.Android);
             AndroidBuilder();
         }
         [MenuItem("SFAI/Build/Android/Master")]
         static void AndroidBuildMaster()
         {
-            SetSymbols(SetBuildSettings.Master);
+            SetSymbols(SetBuildSettings.Master, BuildTargetGroup.Android);
             AndroidBuilder();
         }
 
@@ -128,7 +128,7 @@ namespace SFAI
         }
 
 
-        static void SetSymbols(SetBuildSettings buildsettings=SetBuildSettings.Debug)
+        static void SetSymbols(SetBuildSettings buildsettings=SetBuildSettings.Debug , BuildTargetGroup target = BuildTargetGroup.iOS)
         {
             StringBuilder builder = new StringBuilder();
             builder.Clear();
@@ -151,7 +151,7 @@ namespace SFAI
                     return;
             }
 
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, builder.ToString());
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(target, builder.ToString());
         }
 
 
