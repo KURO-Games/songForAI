@@ -7,6 +7,7 @@ using System;
 /// サウンドマネージャー
 /// singleton化済
 /// </summary>
+[Obsolete("現状ALLメモリー展開")]
 public class SoundManager:SingletonMonoBehaviour<SoundManager>
 {
     [SerializeField]
@@ -15,6 +16,16 @@ public class SoundManager:SingletonMonoBehaviour<SoundManager>
     CriAtomSource SESource = default(CriAtomSource);
     [SerializeField]
     CriAtomSource DemoBgmSource = default(CriAtomSource);
+#if false
+    /// <summary>
+    /// 非同期acbファイルロード用
+    /// </summary>
+    public static void BGMLoad()
+    {
+        
+    }
+
+#endif
     /// <summary>
     /// 初期化
     /// </summary>
