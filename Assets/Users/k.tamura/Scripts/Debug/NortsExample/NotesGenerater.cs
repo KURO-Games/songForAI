@@ -143,13 +143,17 @@ public class NotesGenerater : MonoBehaviour
             }
             else if(NotesType == 2)
             {
+                // test
                 int notesNum2 = musicData.notes[i].notes[0].num;
                 GameObject GenNotes = Instantiate(longNotes, new Vector3(NotesGen[LaneNum].transform.position.x
-                    , notesNum2 * NotesSpeed// NotesNumからnotesNum2 ?
+                    , 0
                     , 0)
                     , Quaternion.identity) as GameObject;
-                GenNotes.name = "long" + NotesNum.ToString();
+                GenNotes.name = "longNotes_" + NotesNum.ToString();
                 GenNotes.transform.parent = NotesGen[LaneNum].transform;
+                Vector3 positions = new Vector3(0, (NotesNum) * NotesSpeed, 0);
+                GenNotes.transform.localPosition = new Vector3(0, 0, 0);
+                GenNotes.transform.localPosition += positions;
                 Vector2 longPos = new Vector2(0.19f,notesNum2-NotesNum);
                 longPos.y *= 0.03f*(16/musicData.notes[i].LPB);
                 //longPos.y *= 0.03f * (4 / musicData.notes[i].LPB);
@@ -158,7 +162,7 @@ public class NotesGenerater : MonoBehaviour
 
                 // ロングノーツ始点オブジェクト生成
                 GameObject startEdge = Instantiate(edgeStart, new Vector3(NotesGen[LaneNum].transform.position.x
-                    , notesNum2 * NotesSpeed
+                    , GenNotes.transform.position.y - 0.1f
                     , 0)
                     , Quaternion.identity) as GameObject;
                 startEdge.name = "startEdge_" + NotesNum.ToString();
@@ -166,7 +170,7 @@ public class NotesGenerater : MonoBehaviour
 
                 // ロングノーツ終点オブジェクト生成
                 GameObject endEdge = Instantiate(edgeEnd, new Vector3(NotesGen[LaneNum].transform.position.x
-                    , GenNotes.GetComponent<NotesSelector>().EndNotes.transform.position.y
+                    , GenNotes.GetComponent<NotesSelector>().EndNotes.transform.position.y + 0.1f
                     , 0)
                     , Quaternion.identity) as GameObject;
                 endEdge.name = "endEdge_" + NotesNum.ToString();
