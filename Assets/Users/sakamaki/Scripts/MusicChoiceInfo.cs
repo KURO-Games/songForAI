@@ -161,19 +161,23 @@ public class MusicChoiceInfo : MonoBehaviour
     private void DataLoads(int difficultNum)
     {
         // Resultから習得したPlayerplefsを使い曲選択にhighscore,maxcombo,rankを持っていく
-        for (int i = 0; i < Score.Length; i++) 
+        for (int i = 0; i < Score.Length; i++)
         {
             Sprite isrankImage = default(Sprite);
 
             // スコア習得
             Score[i].GetComponent<Text>().text = PlayerPrefsUtil<string>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
-                MusicSelects.musicNotesNames[i], 0, difficultNum, ScoreClass.PlayerPrefsHighScore), "0");// 定数0は本来gametype
+                 MusicSelects.musicNotesNames[i], 0, difficultNum, ScoreClass.PlayerPrefsHighScore), "0");
+            // TODO: 演奏モードが選択可能になったら↓に置き換え
+            // MusicSelects.musicNotesNames[i], (int) MusicDatas.gameType, difficultNum, ScoreClass.PlayerPrefsHighScore), "0");
             // マックスコンボ習得
             MaxCombo[i].GetComponent<Text>().text = PlayerPrefsUtil<string>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
                 MusicSelects.musicNotesNames[i], 0, difficultNum, ScoreClass.PlayerPrefsMaxCombo), "0");
+                // MusicSelects.musicNotesNames[i], (int) MusicDatas.gameType, difficultNum, ScoreClass.PlayerPrefsMaxCombo), "0");
             // ランク習得しswitchでactiveするランク画像を分岐
             switch (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
                 MusicSelects.musicNotesNames[i], 0, difficultNum, ScoreClass.PlayerPrefsHighRank), 0))
+                // MusicSelects.musicNotesNames[i], (int) MusicDatas.gameType, difficultNum, ScoreClass.PlayerPrefsHighRank), 0))
             {
                 case 1:
                     isrankImage = RankImage[3];
