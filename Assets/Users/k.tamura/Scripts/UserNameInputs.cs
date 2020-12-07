@@ -32,7 +32,7 @@ public class UserNameInputs : MonoBehaviour
     /// </summary>
     public void pushButton()
     {
-        if(UserNames.text.Length < 6)
+        if(UserNames.text.Length < 11)
         {
             if (UserNames.text != "" && !onePush)
             {
