@@ -87,6 +87,9 @@ public abstract class NotesGeneratorBase : MonoBehaviour
         // TODO: jsonファイルの名称を演奏モード含めたものに置き換えたら↓に変更
         // $"{Application.streamingAssetsPath}/{MusicDatas.NotesDataName}_{MusicDatas.gameType}_{MusicDatas.difficultNumber}.nts");
 
+        // FileInfo info = new FileInfo(
+        //     $"{Application.streamingAssetsPath}/Shining_1_0.nts");
+
         StreamReader reader  = new StreamReader(info.OpenRead());
         string       Musics_ = reader.ReadToEnd();
         musicData    = JsonUtility.FromJson<NotesJson.MusicData>(Musics_);

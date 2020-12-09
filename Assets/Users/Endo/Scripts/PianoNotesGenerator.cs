@@ -41,6 +41,8 @@ public class PianoNotesGenerator : NotesGeneratorBase
             int laneNum   = musicData.notes[i].block;
             int notesType = musicData.notes[i].type;
             int notesNum  = musicData.notes[i].num;
+            // 生成先のトランスフォーム
+            Transform genPosTrf = NotesGen[laneNum].transform;
             // bpm = musicData.BPM;
 
             // ノーツの種類判別
@@ -49,17 +51,17 @@ public class PianoNotesGenerator : NotesGeneratorBase
                 case NotesType.Single:
                 {
                     //生成
-                    GameObject GenNotes = Instantiate(NotesPrefab, new Vector3(NotesGen[laneNum].transform.position.x
+                    GameObject genNotes = Instantiate(NotesPrefab, new Vector3(genPosTrf.position.x
                                                                                , 0
                                                                                , 0)
                                                       , Quaternion.identity);
 
-                    GenNotes.name             = "notes_" + notesNum;
-                    GenNotes.transform.parent = NotesGen[laneNum].transform;
+                    genNotes.name             = $"notes_{notesNum}";
+                    genNotes.transform.parent = genPosTrf;
                     Vector3 positions = new Vector3(0, (notesNum + 1) * NotesSpeed, 0);
-                    GenNotes.transform.localPosition =  new Vector3(0, 0, 0);
-                    GenNotes.transform.localPosition += positions;
-                    NotesPositionAdd(GenNotes, laneNum, i);
+                    genNotes.transform.localPosition =  new Vector3(0, 0, 0);
+                    genNotes.transform.localPosition += positions;
+                    NotesPositionAdd(genNotes, laneNum, i);
 
                     break;
                 }
@@ -67,37 +69,39 @@ public class PianoNotesGenerator : NotesGeneratorBase
                 case NotesType.LongAndSlide:
                 {
                     int notesNum2 = musicData.notes[i].notes[0].num;
-                    GameObject GenNotes = Instantiate(longNotes, new Vector3(NotesGen[laneNum].transform.position.x
+                    GameObject genNotes = Instantiate(longNotes, new Vector3(genPosTrf.position.x
                                                                              , notesNum * NotesSpeed
                                                                              , 0)
                                                       , Quaternion.identity);
 
-                    GenNotes.name             = "notes_" + notesNum;
-                    GenNotes.transform.parent = NotesGen[laneNum].transform;
+                    genNotes.name             = $"notes_{notesNum}";
+                    genNotes.transform.parent = NotesGen[laneNum].transform;
                     Vector2 longPos = new Vector2(0.19f, notesNum2 - notesNum);
                     longPos.y *= 0.03f * (16 / musicData.notes[i].LPB);
                     //longPos.y *= 0.03f * (4 / musicData.notes[i].LPB);
-                    GenNotes.transform.localScale = longPos;
-                    NotesPositionAdd(GenNotes, laneNum, i);
+                    genNotes.transform.localScale = longPos;
+                    NotesPositionAdd(genNotes, laneNum, i);
+
+                    // ロングノーツ始点位置
+                    Vector3 startGenPos = new Vector3(genPosTrf.position.x, notesNum * NotesSpeed, 0);
 
                     // ロングノーツ始点オブジェクト生成
-                    GameObject startEdge = Instantiate(edgeStart, new Vector3(NotesGen[laneNum].transform.position.x
-                                                                              , notesNum * NotesSpeed
-                                                                              , 0)
-                                                       , Quaternion.identity);
+                    GameObject startEdge = Instantiate(edgeStart, startGenPos, Quaternion.identity);
 
-                    startEdge.name             = "startEdge_" + notesNum;
-                    startEdge.transform.parent = GenNotes.transform;
+                    startEdge.name             = $"startEdge_{notesNum}";
+                    startEdge.transform.parent = genNotes.transform;
+
+                    // ロングノーツ終点位置
+                    Vector3 endGenPos = new Vector3(genPosTrf.position.x,
+                                                    genNotes.GetComponent<NotesSelector>()
+                                                            .EndNotes.transform.position.y,
+                                                    0);
 
                     // ロングノーツ終点オブジェクト生成
-                    GameObject endEdge = Instantiate(edgeEnd, new Vector3(NotesGen[laneNum].transform.position.x
-                                                                          , GenNotes.GetComponent<NotesSelector>()
-                                                                              .EndNotes.transform.position.y
-                                                                          , 0)
-                                                     , Quaternion.identity);
+                    GameObject endEdge = Instantiate(edgeEnd, endGenPos, Quaternion.identity);
 
-                    endEdge.name             = "endEdge_" + notesNum;
-                    endEdge.transform.parent = GenNotes.transform;
+                    endEdge.name             = $"endEdge_{notesNum}";
+                    endEdge.transform.parent = genNotes.transform;
 
                     break;
                 }
