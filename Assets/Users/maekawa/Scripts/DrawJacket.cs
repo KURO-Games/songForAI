@@ -13,6 +13,6 @@ public class DrawJacket : MonoBehaviour
         Sprite[] jacketSprite = Resources.LoadAll<Sprite>("Jacket/");// ジャケットをすべて格納
         if (jacketSprite.Length > MusicDatas.MusicNumber)// 例外処理
             jacket.sprite = jacketSprite[MusicDatas.MusicNumber];// 曲１ = musicNum 0;
-        musicName.text = MusicDatas.MusicName;
+        musicName.text = MusicSelects.musicNames[MusicDatas.MusicNumber];
     }
 }

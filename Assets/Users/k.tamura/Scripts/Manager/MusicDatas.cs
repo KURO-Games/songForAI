@@ -14,7 +14,8 @@ public class MusicDatas : SingletonMonoBehaviour<MusicDatas>
     public static int difficultNumber;
     public static int difficultLevel;
     public static int cueMusic;
-    
+    public static int gameType;
+
 
     private void Start()
     {

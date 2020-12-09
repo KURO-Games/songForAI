@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// スワイプしたまま元に戻すとキャラが変わってしまうので後で修正
 public class SelectCharactor : MonoBehaviour
 {
+    [SerializeField] float slideRate;// キャラクターがどれくらい動くか（x方向、値と比例）
+    //
     [SerializeField] GameObject[] charactor = new GameObject[3];       // キャラUI
     [SerializeField] Sprite[] charaUI = new Sprite[3];                 // 元画像
     private SpriteRenderer[] spriteRenderers = new SpriteRenderer[3];  // 画像ソースやalpha値をコントロール
@@ -42,7 +45,7 @@ public class SelectCharactor : MonoBehaviour
             // スワイプの移動距離に応じてキャラ移動
             float distance = lastMousePosX - Input.mousePosition.x;
             lastMousePosX = Input.mousePosition.x;
-            Vector3 movePosition = new Vector3(distance * 2.5f, 0, 0);
+            Vector3 movePosition = new Vector3(distance * slideRate, 0, 0);
 
             for (int i = 0; i < charactor.Length; i++)
                 charactor[i].transform.position -= movePosition;
@@ -75,7 +78,7 @@ public class SelectCharactor : MonoBehaviour
             isSwiping = false;
         }
 
-        Result.charaNum = centerNum;// とりあえずここで指定(あとで修正)
+        MusicDatas.gameType = centerNum;
     }
 
     /// <summary>

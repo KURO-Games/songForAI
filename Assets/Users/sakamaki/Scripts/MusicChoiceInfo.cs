@@ -36,17 +36,6 @@ public class MusicChoiceInfo : MonoBehaviour
     void Start()
     {
         preDifficult = -1;
-        //prev = listCount;
-        //musicName.Add("Song1");
-        //musicName.Add("Song2");
-        //musicName.Add("Song3");
-        //musicName.Add("Song4");
-        //musicName.Add("Song5");
-
-        //ChangeMusicText();
-
-        // 曲名表示、ジャケット習得
-        //Jacket();
     }
 
     // Update is called once per frame
@@ -194,10 +183,5 @@ public class MusicChoiceInfo : MonoBehaviour
             // switch文で曲選択画面時のRank画像表示分岐
             Rank[i].gameObject.GetComponent<Image>().sprite = isrankImage;
         }
-    }
-
-    private void DrawAchievement()
-    {
-
     }
 }

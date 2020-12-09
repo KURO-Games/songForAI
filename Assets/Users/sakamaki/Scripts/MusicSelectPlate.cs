@@ -62,39 +62,39 @@ public class MusicSelectPlate : MonoBehaviour
     /// 曲名クリック時処理(ハイライト等)
     /// </summary>
     /// <param name="j">曲名番号</param>
-    public void OnClick(int j)
-    {
-        for (int i = 0; i < MusicSelect.Length; i++)
-        {
-            MusicSelect[i].SetActive(false);
-        }
-        MusicSelect[j].SetActive(true);
+    //public void OnClick(int j)
+    //{
+    //    for (int i = 0; i < MusicSelect.Length; i++)
+    //    {
+    //        MusicSelect[i].SetActive(false);
+    //    }
+    //    MusicSelect[j].SetActive(true);
 
-        // 曲名に基づいてenumを出力させる
-        MusicNames musicNames = musicdict[mArray[j]];
-        // enumを送って曲名などを保存
-        MusicSelects.MusicSelector(musicNames);
+    //    // 曲名に基づいてenumを出力させる
+    //    MusicNames musicNames = musicdict[mArray[j]];
+    //    // enumを送って曲名などを保存
+    //    MusicSelects.MusicSelector(musicNames);
 
-        MusicDatas.MusicNumber = j;
+    //    MusicDatas.MusicNumber = j;
 
-        DrawDifficulty(j);
-    }
+    //    DrawDifficulty(j);
+    //}
 
     /// <summary>
     /// 曲名クリック時選択されていない曲を暗くする
     /// </summary>
     /// <param name="j">曲名番号</param>
-    public void OnClickDark(int j)
-    {
-        if (j.Equals(ChoiceButtonNow)) return;
-        for (int i = 0; i < MusicSelectDark.Length; i++)
-        {
-            MusicSelectDark[i].SetActive(true);
-            SoundManager.DemoBGMSoundCue(j);
-        }
-        MusicSelectDark[j].SetActive(false);
-        ChoiceButtonNow = j;
-    }
+    //public void OnClickDark(int j)
+    //{
+    //    if (j.Equals(ChoiceButtonNow)) return;
+    //    for (int i = 0; i < MusicSelectDark.Length; i++)
+    //    {
+    //        MusicSelectDark[i].SetActive(true);
+    //        SoundManager.DemoBGMSoundCue(j);
+    //    }
+    //    MusicSelectDark[j].SetActive(false);
+    //    ChoiceButtonNow = j;
+    //}
 
 }
 
