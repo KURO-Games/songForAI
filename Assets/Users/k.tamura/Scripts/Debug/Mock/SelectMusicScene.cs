@@ -58,7 +58,9 @@ public class SelectMusicScene : MonoBehaviour
             SoundManager.SESoundCue(1);
             MusicDatas.difficultLevel = MusicSelects.musicDifficulty[MusicDatas.MusicNumber,MusicDatas.difficultNumber];
             Panel.SetActive(true);// 遷移中の選択を無効
+            // TODO: gameTypeに応じてロードシーン切替
             SceneLoadManager.LoadScene("Resize_RhythmGame2");
+            // SceneLoadManager.LoadScene("ViolineDev");
         }
     }
     public void PushDifficult(int i)
