@@ -18,6 +18,7 @@ public class SelectMusicScene : MonoBehaviour
 
     private int lastMusicNumber = 0;
     private int lastDifficultNumber = 0;
+    private int lastGameType = 0;
     private enum Difficults
     {
         EASY,
@@ -32,16 +33,17 @@ public class SelectMusicScene : MonoBehaviour
 
         LifeDraw();
         Highlight();
-        DrawDifficulty(lastMusicNumber);
+        DrawDifficulty(lastGameType, lastMusicNumber);
     }
 
     private void Update()
     {
-        // 曲を変更した場合
-        if (lastMusicNumber != MusicDatas.MusicNumber)
+        // 曲もしくは演奏方法を変更した場合
+        if (lastMusicNumber != MusicDatas.MusicNumber || lastGameType != (int)MusicDatas.gameType)
         {
             lastMusicNumber = MusicDatas.MusicNumber;
-            DrawDifficulty(lastMusicNumber);
+            lastGameType = (int)MusicDatas.gameType;
+            DrawDifficulty(lastGameType, lastMusicNumber);
         }
     }
     public void SelectMusic(Button _button)
@@ -49,7 +51,7 @@ public class SelectMusicScene : MonoBehaviour
         SoundManager.SESoundCue(1);
 
         // リザルト用　難易度レベルを保持
-        MusicDatas.difficultLevel = MusicSelects.musicDifficulty[MusicDatas.MusicNumber,MusicDatas.difficultNumber];
+        MusicDatas.difficultLevel = MusicSelects.musicDifficulty[(int)MusicDatas.gameType, MusicDatas.MusicNumber, MusicDatas.difficultNumber];
         // 演奏画面用データをセット
         MusicSelects.MusicSelector((MusicNames)lastMusicNumber);
 
@@ -101,17 +103,17 @@ public class SelectMusicScene : MonoBehaviour
         MusicDatas.difficultNumber = lastDifficultNumber;
     }
     /// <summary>
-    /// 難易度表示
+    /// 演奏方法、曲ごとの難易度表示
     /// </summary>
-    /// <param name="i">musicNumber</param>
-    private void DrawDifficulty(int i)
+    /// <param name="i">gameType</param>
+    /// <param name="j">musicNumber</param>
+    private void DrawDifficulty(int i, int j)
     {
-        for (int j = 0; j < diffcultLevel.Length; j++)
+        for (int k = 0; k < diffcultLevel.Length; k++)
         {
-            // バイオリン未対応
-            // MusicSelects.で難易度を宣言　musicDifficulty[曲番号, 難易度]
-            diffcultLevel[j].text = MusicSelects.musicDifficulty[i, j].ToString();
-            selectedDifLevel[j].text = MusicSelects.musicDifficulty[i, j].ToString();
+            // MusicSelects.で難易度を宣言　musicDifficulty[演奏方法, 曲番号, 難易度]
+            diffcultLevel[k].text = MusicSelects.musicDifficulty[i, j, k].ToString();
+            selectedDifLevel[k].text = MusicSelects.musicDifficulty[i, j, k].ToString();
         }
     }
 }

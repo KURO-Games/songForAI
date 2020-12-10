@@ -36,28 +36,28 @@ public class MusicSelectPlate : MonoBehaviour
         MusicDatas.MusicNumber = 0;
         SoundManager.DemoBGMSoundCue(0);
 
-        DrawDifficulty(0);
+        //DrawDifficulty(0);
     }
 
     /// <summary>
     /// 難易度数値表示関数
     /// </summary>
     /// <param name="i">曲名番号</param>
-    void DrawDifficulty(int i)
-     {
-        for(int j = 0; j < diffNumTexts.Length; j++)
-        {
-            // MusicSelects.で難易度を宣言　musicDifficulty[曲番号, 難易度]
-            diffNumTexts[0].text = MusicSelects.musicDifficulty[i, 0].ToString();
-            diffNumTexts[1].text = MusicSelects.musicDifficulty[i, 0].ToString();
-            diffNumTexts[2].text = MusicSelects.musicDifficulty[i, 1].ToString();
-            diffNumTexts[3].text = MusicSelects.musicDifficulty[i, 1].ToString();
-            diffNumTexts[4].text = MusicSelects.musicDifficulty[i, 2].ToString();
-            diffNumTexts[5].text = MusicSelects.musicDifficulty[i, 2].ToString();
-            diffNumTexts[6].text = MusicSelects.musicDifficulty[i, 3].ToString();
-            diffNumTexts[7].text = MusicSelects.musicDifficulty[i, 3].ToString();
-        }
-     }
+    //void DrawDifficulty(int i)
+    // {
+    //    for(int j = 0; j < diffNumTexts.Length; j++)
+    //    {
+    //        // MusicSelects.で難易度を宣言　musicDifficulty[曲番号, 難易度]
+    //        diffNumTexts[0].text = MusicSelects.musicDifficulty[i, 0].ToString();
+    //        diffNumTexts[1].text = MusicSelects.musicDifficulty[i, 0].ToString();
+    //        diffNumTexts[2].text = MusicSelects.musicDifficulty[i, 1].ToString();
+    //        diffNumTexts[3].text = MusicSelects.musicDifficulty[i, 1].ToString();
+    //        diffNumTexts[4].text = MusicSelects.musicDifficulty[i, 2].ToString();
+    //        diffNumTexts[5].text = MusicSelects.musicDifficulty[i, 2].ToString();
+    //        diffNumTexts[6].text = MusicSelects.musicDifficulty[i, 3].ToString();
+    //        diffNumTexts[7].text = MusicSelects.musicDifficulty[i, 3].ToString();
+    //    }
+    // }
 
     /// <summary>
     /// 曲名クリック時処理(ハイライト等)
