@@ -10,6 +10,8 @@ TagManager:
   - ScoreNum
   - Right
   - Left
+  - Violine
+  - Charactor
   layers:
   - Default
   - TransparentFX

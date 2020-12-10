@@ -1386,6 +1386,9 @@ MonoBehaviour:
   musicName: {fileID: 4444094571374531279}
   highScore: {fileID: 4444094572382816040}
   maxCombo: {fileID: 4444094571840398336}
+  activeFrame: {fileID: 4444094571677283629}
+  isActiveFrame: {fileID: 4444094572767138678}
+  isSelected: 0
 --- !u!61 &5965733330276222176
 BoxCollider2D:
   m_ObjectHideFlags: 0

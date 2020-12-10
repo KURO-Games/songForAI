@@ -11,9 +11,9 @@ using UnityEngine;
 public enum GameType
 {
     None  = -1,
-    Piano = 1,
-    Violin,
-    Drum
+    Piano = 0,
+    Violin = 1,
+    Drum = 2
 }
 
 /// <summary>
@@ -33,17 +33,6 @@ public enum NotesType
 /// </summary>
 public class MusicDatas : SingletonMonoBehaviour<MusicDatas>
 {
-<<<<<<< HEAD
-    public static string MusicName;
-    public static string NotesDataName;
-    public static int MusicNumber;// 0から数える
-    public static int totalNotes;// 両方start関数なのでとりあえずNotesGeneratorからScoreManagerに直接代入
-    public static int difficultNumber;
-    public static int difficultLevel;
-    public static int cueMusic;
-    public static int gameType;
-
-=======
     public static string   MusicName;
     public static string   NotesDataName;
     public static int      MusicNumber; // 0から数える
@@ -52,12 +41,13 @@ public class MusicDatas : SingletonMonoBehaviour<MusicDatas>
     public static int      difficultLevel;
     public static int      cueMusic;
     public static GameType gameType; // 選択中の演奏モード
->>>>>>> origin/Endo
 
     private void Start()
     {
         DontDestroyOnLoad(this);
 
-        gameType = GameType.None;
+        gameType = GameType.Piano;
+        difficultNumber = 0;
+        //cueMusic = 0;
     }
 }

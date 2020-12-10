@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class SelectMusic : MonoBehaviour
 {
-    //
     [SerializeField] int plateSize;// 曲プレートの生成個数
     [SerializeField] float platePositionX;// 固定
     [SerializeField] float centerPositionY;// 0曲目が生成される位置(値-generateInterval)
@@ -19,33 +18,48 @@ public class SelectMusic : MonoBehaviour
     private Vector3[] defaultPositions;// 各プレートの初期位置
     private float lastMousePosY = 0;
     private bool isSwiping = false;
-    private int musicNumCount = 0;// 曲番号
+    private int selectNumber = 0;
+    private DrawStatus[] drawStatus;
+    private MusicNumber[] musicNumber;
 
     void Start()
     {
         musicPlates = new GameObject[plateSize];// 要素数分確保
         defaultPositions = new Vector3[plateSize];
+        drawStatus = new DrawStatus[plateSize];
+        musicNumber = new MusicNumber[plateSize];
 
         // 生成
+        int musicNum = 0;
         for (int i = 0; i < plateSize; i++)
         {
             // 生成
             musicPlates[i] = Instantiate(musicPlatePrefab) as GameObject;
+            // 順番に並べる
             musicPlates[i].transform.position = new Vector3(platePositionX, centerPositionY -= generateInterval, 0);
+            // 各初期位置を保持
             defaultPositions[i] = musicPlates[i].transform.position;
             musicPlates[i].name = "Plate" + i.ToString();
             musicPlates[i].transform.SetParent(setParent.transform, false);
 
             // 順番にPrefabに曲番号を代入
-            musicPlates[i].GetComponent<MusicNumber>().musicNumber = musicNumCount;
-            musicNumCount++;
-            if (musicNumCount > MusicSelects.musicNames.Length - 1)
-                musicNumCount = 0;
+            musicPlates[i].GetComponent<MusicNumber>().musicNumber = musicNum;
+            musicNum++;
+            if (musicNum > MusicSelects.musicNames.Length - 1)
+                musicNum = 0;
+            // 制御スクリプトを取得
+            drawStatus[i] = musicPlates[i].GetComponent<DrawStatus>();
+            musicNumber[i] = musicPlates[i].GetComponent<MusicNumber>();
         }
 
+        // 配置を再調整
         ShiftUp();
         for(int i = 0; i < musicPlates.Length; i++)
             SetPlate(i);
+        // デフォルトで0番目を選択
+        musicNum = 0;
+        drawStatus[musicNum].isSelected = true;
+        SoundManager.DemoBGMSoundCue(musicNum);
     }
 
     void Update()
@@ -75,15 +89,45 @@ public class SelectMusic : MonoBehaviour
             for (int i = 0; i < musicPlates.Length; i++)
             {
                 musicPlates[i].transform.position -= movePos;
-                SetPlate(i);
             }
         }
 
         if (Input.GetMouseButtonUp(0))
+        {
             isSwiping = false;
 
-        ShiftDown();
+            for(int i = 0; i < musicPlates.Length; i++)
+            {
+                drawStatus[i].isSelected = false;
+                double lineUp = Math.Round(musicPlates[i].transform.localPosition.y / generateInterval, MidpointRounding.AwayFromZero);
+
+                // 一番中心に近い曲を選択状態
+                if(0 == (int)lineUp)
+                {
+                    drawStatus[i].isSelected = true;
+                    // 曲番号が違うならdemo再生
+                    if(selectNumber != musicNumber[i].musicNumber)
+                    {
+                        MusicDatas.MusicNumber = musicNumber[i].musicNumber;
+                        SoundManager.DemoBGMSoundCue(musicNumber[i].musicNumber);
+                        selectNumber = musicNumber[i].musicNumber;
+                    }
+                }
+            }
+            // 整列
+            //for (int i = 0; i < musicPlates.Length; i++)
+            //{
+            //    double lineUp = Math.Round(musicPlates[i].transform.localPosition.y / generateInterval, MidpointRounding.AwayFromZero);
+            //    if (lineUp < 0)
+            //        lineUp = musicPlates.Length + lineUp;
+            //    musicPlates[i].transform.localPosition = defaultPositions[(int)lineUp];
+            //}
+        }
+
         ShiftUp();
+        ShiftDown();
+        for(int i = 0; i < musicPlates.Length; i++)
+        SetPlate(i);
     }
 
     /// <summary>

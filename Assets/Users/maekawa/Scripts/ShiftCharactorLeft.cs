@@ -12,8 +12,9 @@ public class ShiftCharactorLeft : MonoBehaviour
         selectCharactor = obj.GetComponent<SelectCharactor>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        selectCharactor.SetCharactor(false);
+        if (Input.GetMouseButtonUp(0) && collision.gameObject.tag == "Charactor")
+            selectCharactor.SetCharactor(false);
     }
 }

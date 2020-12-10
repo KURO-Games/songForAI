@@ -14,7 +14,8 @@ public class MusicSelectPlate : MonoBehaviour
     [SerializeField] int ChoiceButtonNow = default(int);
     [SerializeField] Text[] diffNumTexts;
 
-     void Start()
+
+    void Start()
     {
         mArray = MusicSelects.MusicNameArray();
         musicdict = MusicSelects.MusicDict();
@@ -90,7 +91,6 @@ public class MusicSelectPlate : MonoBehaviour
     //    for (int i = 0; i < MusicSelectDark.Length; i++)
     //    {
     //        MusicSelectDark[i].SetActive(true);
-    //        SoundManager.DemoBGMSoundCue(j);
     //    }
     //    MusicSelectDark[j].SetActive(false);
     //    ChoiceButtonNow = j;
