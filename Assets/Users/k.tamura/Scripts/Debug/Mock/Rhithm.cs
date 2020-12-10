@@ -54,6 +54,7 @@ public class Rhithm : MonoBehaviour
 
                     // TODO: 後ほど取得コンポをNotesGeneratorBaseに変更
                     NotesGen.GetComponent<NotesGenerater>().NotesGenerate();
+                    // NotesGen.GetComponent<NotesGeneratorBase>().NotesGenerate();
 
                     judge.SetActive(true);
                 }

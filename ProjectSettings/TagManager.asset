@@ -9,6 +9,7 @@ TagManager:
   - ComboNum
   - ScoreNum
   - Right
+  - Left
   layers:
   - Default
   - TransparentFX

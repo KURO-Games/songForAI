@@ -27,10 +27,13 @@ public abstract class NotesGeneratorBase : MonoBehaviour
     protected bool                Generated;
 
     protected bool PlayedBGM;
-    // protected KeyJudge            _judge;
-    // protected float               fps;
+    // protected KeyJudge _judge;
+    // protected float    fps;
 
     protected Vector3 move;
+
+    // ルートオブジェクト
+    protected GameObject rootObj;
 
     // とりあえずここで設定 musicselectsに移動するかも
     protected float[] highSpeeds = {0.28f, 0.5f, 0.28f};
@@ -45,6 +48,7 @@ public abstract class NotesGeneratorBase : MonoBehaviour
         NotesSpeed = highSpeeds[MusicDatas.MusicNumber];
         speed      = Speeds[MusicDatas.MusicNumber];
         offset     = offsets[MusicDatas.MusicNumber];
+        rootObj    = NotesGen[0].transform.root.gameObject;
         //NotesSpeed = highSpeeds[1];
         //speed = Speeds[1];
         //offset = offsets[1];
@@ -78,13 +82,16 @@ public abstract class NotesGeneratorBase : MonoBehaviour
     public void NotesGenerate()
     {
         //ファイルの読み込み
-        var info = new FileInfo(Application.streamingAssetsPath +
-                                $"/{MusicDatas.NotesDataName}_{MusicDatas.difficultNumber}.nts");
+        FileInfo info = new FileInfo(
+            $"{Application.streamingAssetsPath}/{MusicDatas.NotesDataName}_{MusicDatas.difficultNumber}.nts");
+        // TODO: jsonファイルの名称を演奏モード含めたものに置き換えたら↓に変更
+        // $"{Application.streamingAssetsPath}/{MusicDatas.NotesDataName}_{MusicDatas.gameType}_{MusicDatas.difficultNumber}.nts");
 
-        //FileInfo info = new FileInfo(Application.streamingAssetsPath + "/YourSmile_0.nts");
-        //Debug.Log(info);
-        var reader  = new StreamReader(info.OpenRead());
-        var Musics_ = reader.ReadToEnd();
+        // FileInfo info = new FileInfo(
+        //     $"{Application.streamingAssetsPath}/Shining_1_0.nts");
+
+        StreamReader reader  = new StreamReader(info.OpenRead());
+        string       Musics_ = reader.ReadToEnd();
         musicData    = JsonUtility.FromJson<NotesJson.MusicData>(Musics_);
         SpeedMgr.BPM = musicData.BPM;
 
@@ -94,8 +101,6 @@ public abstract class NotesGeneratorBase : MonoBehaviour
         ScoreManager.maxScore = Judge.gradesPoint[0] * musicData.notes.Length; // perfect時の得点 * 最大コンボ　で天井点を取得
 
         KeyJudge.ListImport();
-
-        // 継承先では base.NotesGenerate() を呼び出した後に生成処理を書くこと
     }
 
     /// <summary>
@@ -111,7 +116,10 @@ public abstract class NotesGeneratorBase : MonoBehaviour
     /// <param name="num"></param>
     protected static void NotesPositionAdd(GameObject notes, int lane, int num)
     {
-        foreach (var t in NotesManager.NotesPositions.Where(t => t[lane] == null))
+        // OPTIMIZE: 現状の処理だとNotesManager.NotesPositionsの二次元配列の構造が "[ノーツ][レーン]" となってしまい、
+        // また、都度先頭から空きを探しているので意図した正常な形式とならない様子（KeyJudgeでの読み取りおよび処理はなぜか動作）
+        // NotesManager.NotesPositions[num][lane] = notes とすればとりあえず正しくなる、その場合KeyJudge側の調整が必要
+        foreach (List<GameObject> t in NotesManager.NotesPositions.Where(t => t[lane] == null))
         {
             t[lane] = notes;
 

@@ -18,8 +18,8 @@ public static class MusicSelects
     /// <summary>
     /// 曲名を上のEnumと同じ配列に入れる
     /// </summary>
-    private static readonly string[] musicNames = new string[]
-        {
+    public static readonly string[] musicNames = new string[]
+    {
         "シャイニングスター",
         "君の笑顔",
         "魔王城"
