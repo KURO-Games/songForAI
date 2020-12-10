@@ -92,9 +92,9 @@ public class MusicSelectPlate : MonoBehaviour
             MusicSelectDark[i].SetActive(true);
             SoundManager.DemoBGMSoundCue(j);
         }
+
         MusicSelectDark[j].SetActive(false);
         ChoiceButtonNow = j;
     }
-
 }
 
