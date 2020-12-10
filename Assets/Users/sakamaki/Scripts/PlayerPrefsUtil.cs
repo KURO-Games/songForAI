@@ -20,6 +20,7 @@ public static class PlayerPrefsUtil<T>
             JsonUtility.ToJson(defaultData)
         );
         var data = JsonUtility.FromJson<JsonClass<T>>(json);
+
         return data.value;
     }
 
