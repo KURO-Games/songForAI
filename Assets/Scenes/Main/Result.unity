@@ -280,8 +280,8 @@ MonoBehaviour:
   - {fileID: 964965917}
   - {fileID: 473538110}
   character:
-  - {fileID: 565845859}
   - {fileID: 228492488}
+  - {fileID: 565845859}
   - {fileID: 955336380}
   score: {fileID: 1210119979}
   maxCombo: {fileID: 457631327}
