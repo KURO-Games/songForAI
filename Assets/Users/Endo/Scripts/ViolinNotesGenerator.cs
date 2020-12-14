@@ -149,6 +149,7 @@ public class ViolinNotesGenerator : NotesGeneratorBase
                                                               nextSlideGenPosTrf.position.y);
 
                         // 帯生成
+                        // TODO: 現状、暫定的に個々に帯を生成しているが、通過判定用にメッシュで生成する必要があるかも
                         GameObject slideBody    = Instantiate(slideNotesBody, slideBodyGenPos, Quaternion.identity);
                         Transform  slideBodyTrf = slideBody.transform;
 
@@ -164,15 +165,13 @@ public class ViolinNotesGenerator : NotesGeneratorBase
                         slideBodyTrf.localRotation = Quaternion.Euler(
                             0, 0, GetAngle(prevSlideNotesTrf.position, nextNotesTrf.position));
 
+                        // 前後ノーツ間の距離
                         float prevAndNextNotesDist = Vector3.Distance(prevSlideNotesTrf.position,
                                                                       nextNotesTrf.position);
 
-                        Vector3 slideBodyScale = new Vector3(prevSlideNotes.num - nextSlideNotesNum,
-                                                             // そのままだと向きが逆転するため符号反転
+                        // 帯のスケール。そのままだと向きが逆転するため符号反転
+                        Vector3 slideBodyScale = new Vector3(-prevAndNextNotesDist / 10,
                                                              -slideBodyTrf.localScale.y);
-
-                        // FIXME: 斜めに架かる帯では長さが若干足りないため要改善
-                        slideBodyScale.x *= .03f * (16f / notes.LPB);
 
                         slideBodyTrf.localScale = slideBodyScale;
 
