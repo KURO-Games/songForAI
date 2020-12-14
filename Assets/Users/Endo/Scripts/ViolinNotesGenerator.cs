@@ -110,70 +110,74 @@ public class ViolinNotesGenerator : NotesGeneratorBase
                     headSlideNotes.transform.localPosition =  Vector3.zero;
                     headSlideNotes.transform.localPosition += new Vector3(-(notesNum + 1) * NotesSpeed, 0);
 
-                    // 1つ前のスライドノーツオブジェクトとして設定
-                    GameObject prevSlideNotesObj = headSlideNotes;
+                    // 1つ前のスライドノーツトランスフォームとして設定
+                    Transform prevSlideNotesTrf = headSlideNotes.transform;
 
                     // 1つ前のスライドノーツ
                     NotesJson.Notes prevSlideNotes = thisNotes;
 
                     // 先頭以降のノーツ生成
-                    foreach (NotesJson.Notes notes in thisNotes.notes)
+                    foreach (NotesJson.Notes nextSlideNotes in thisNotes.notes)
                     {
                         // ノーツ配列でのインデックス
-                        int       j                 = Array.IndexOf(thisNotes.notes, notes);
-                        int       midSlideLaneNum   = notes.block;
-                        int       midSlideNotesNum  = notes.num;
-                        Transform midSlideGenPosTrf = NotesGen[midSlideLaneNum - 1].transform;
+                        int       j                  = Array.IndexOf(thisNotes.notes, nextSlideNotes);
+                        int       nextSlideLaneNum   = nextSlideNotes.block;
+                        int       nextSlideNotesNum  = nextSlideNotes.num;
+                        Transform nextSlideGenPosTrf = NotesGen[nextSlideLaneNum - 1].transform;
 
                         // 中間ノーツの生成位置
-                        Vector3 midSlideNotesGenPos = midSlideGenPosTrf.position;
+                        Vector3 nextSlideNotesGenPos = nextSlideGenPosTrf.position;
 
                         // 中間ノーツ生成
-                        GameObject midSlideNotes = Instantiate(slideNotes, midSlideNotesGenPos, Quaternion.identity);
+                        GameObject nextSlideNotesObj =
+                            Instantiate(slideNotes, nextSlideNotesGenPos, Quaternion.identity);
+
+                        Transform nextNotesTrf = nextSlideNotesObj.transform;
 
                         // インデックスによって名称変更
-                        midSlideNotes.name = j == thisNotes.notes.Length - 1
-                                                 ? "slideEnd_"  // 末尾
-                                                 : "slideMid_"; // 中間
+                        nextSlideNotesObj.name = j == thisNotes.notes.Length - 1
+                                                     ? "slideEnd_"  // 末尾
+                                                     : "slideMid_"; // 中間
 
-                        midSlideNotes.name                    += midSlideNotesNum;
-                        midSlideNotes.transform.parent        =  midSlideGenPosTrf;
-                        midSlideNotes.transform.localPosition =  Vector3.zero;
-                        midSlideNotes.transform.localPosition += new Vector3(-(midSlideNotesNum + 1) * NotesSpeed, 0);
+                        nextSlideNotesObj.name     += nextSlideNotesNum;
+                        nextNotesTrf.parent        =  nextSlideGenPosTrf;
+                        nextNotesTrf.localPosition =  Vector3.zero;
+                        nextNotesTrf.localPosition += new Vector3(-(nextSlideNotesNum + 1) * NotesSpeed, 0);
 
                         // 帯の位置
-                        Vector3 slideBodyGenPos = new Vector3(midSlideNotesNum * NotesSpeed,
-                                                              midSlideGenPosTrf.position.y);
+                        Vector3 slideBodyGenPos = new Vector3(nextSlideNotesNum * NotesSpeed,
+                                                              nextSlideGenPosTrf.position.y);
 
                         // 帯生成
-                        GameObject slideBody = Instantiate(slideNotesBody, slideBodyGenPos, Quaternion.identity);
+                        GameObject slideBody    = Instantiate(slideNotesBody, slideBodyGenPos, Quaternion.identity);
+                        Transform  slideBodyTrf = slideBody.transform;
 
-                        slideBody.name             = $"slideNotes_{midSlideNotesNum}";
-                        slideBody.transform.parent = midSlideGenPosTrf;
+                        slideBody.name      = $"slideNotes_{nextSlideNotesNum}";
+                        slideBodyTrf.parent = nextSlideGenPosTrf;
 
                         // 位置をスライドノーツの中間に設定
-                        slideBody.transform.position = Vector3.Lerp(midSlideNotes.transform.position,
-                                                                    prevSlideNotesObj.transform.position,
-                                                                    .5f);
+                        slideBodyTrf.position = Vector3.Lerp(nextNotesTrf.position,
+                                                             prevSlideNotesTrf.position,
+                                                             .5f);
 
                         // 角度を前後ノーツのベクトルと平行に
-                        slideBody.transform.localRotation = Quaternion.Euler(
-                            0, 0, GetAngle(prevSlideNotesObj.transform.position, midSlideNotes.transform.position));
+                        slideBodyTrf.localRotation = Quaternion.Euler(
+                            0, 0, GetAngle(prevSlideNotesTrf.position, nextNotesTrf.position));
 
-                        float prevAndNextNotesDist = Vector3.Distance(prevSlideNotesObj.transform.position,
-                                                                      midSlideNotes.transform.position);
+                        float prevAndNextNotesDist = Vector3.Distance(prevSlideNotesTrf.position,
+                                                                      nextNotesTrf.position);
 
-                        Vector3 slideBodyScale = new Vector3(prevSlideNotes.num - midSlideNotesNum,
+                        Vector3 slideBodyScale = new Vector3(prevSlideNotes.num - nextSlideNotesNum,
                                                              // そのままだと向きが逆転するため符号反転
-                                                             -slideBody.transform.localScale.y);
+                                                             -slideBodyTrf.localScale.y);
 
                         // FIXME: 斜めに架かる帯では長さが若干足りないため要改善
                         slideBodyScale.x *= .03f * (16f / notes.LPB);
 
-                        slideBody.transform.localScale = slideBodyScale;
+                        slideBodyTrf.localScale = slideBodyScale;
 
-                        prevSlideNotesObj = midSlideNotes;
-                        prevSlideNotes    = notes;
+                        prevSlideNotesTrf = nextSlideNotesObj.transform;
+                        prevSlideNotes    = nextSlideNotes;
                     }
 
                     break;
