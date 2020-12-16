@@ -9,7 +9,7 @@ public class PianoNotesGenerator : NotesGeneratorBase
 
         SoundManager.BgmTime(ref BgmTimes);
 
-        NotesSpeeds = ((BgmTimes) / 6.12f);
+        NotesSpeeds = BgmTimes / 6.12f;
         move        = new Vector3(0, NotesSpeeds * speed, 0); //曲の再生ポジションでとっている値
 
         if (PlayedBGM) return;
@@ -21,7 +21,7 @@ public class PianoNotesGenerator : NotesGeneratorBase
 
     protected override void MoveNotes()
     {
-        rootObj.transform.position = move * (-1 * NotesSpeed) + new Vector3(0, offset, 0);
+        rootObj.transform.position = move * (-1 * NotesSpeed) + new Vector3(0, offset);
     }
 
     protected override void LoadNotes()
@@ -29,6 +29,9 @@ public class PianoNotesGenerator : NotesGeneratorBase
         // ノーツ生成
         for (int i = 0; musicData.notes.Length > i; i++)
         {
+            // このループでの単一ノーツ情報
+            NotesJson.Notes thisNotes = musicData.notes[i];
+
             // リスト初期化
             NotesManager.NotesPositions.Add(new List<GameObject>()); //nex
 
@@ -38,11 +41,11 @@ public class PianoNotesGenerator : NotesGeneratorBase
             }
 
             // ノーツデータを変数に代入
-            int laneNum   = musicData.notes[i].block;
-            int notesType = musicData.notes[i].type;
-            int notesNum  = musicData.notes[i].num;
+            int laneNum   = thisNotes.block;
+            int notesType = thisNotes.type;
+            int notesNum  = thisNotes.num;
             // 生成先のトランスフォーム
-            Transform genPosTrf = NotesGen[laneNum].transform;
+            Transform notesGenPosTrf = NotesGen[laneNum].transform;
             // bpm = musicData.BPM;
 
             // ノーツの種類判別
@@ -50,17 +53,18 @@ public class PianoNotesGenerator : NotesGeneratorBase
             {
                 case NotesType.Single:
                 {
-                    //生成
-                    GameObject genNotes = Instantiate(NotesPrefab, new Vector3(genPosTrf.position.x
-                                                                               , 0
-                                                                               , 0)
-                                                      , Quaternion.identity);
+                    // 生成位置
+                    Vector3 notesGenPos = new Vector3(notesGenPosTrf.position.x, 0);
 
-                    genNotes.name             = $"notes_{notesNum}";
-                    genNotes.transform.parent = genPosTrf;
-                    Vector3 positions = new Vector3(0, (notesNum + 1) * NotesSpeed, 0);
-                    genNotes.transform.localPosition =  new Vector3(0, 0, 0);
-                    genNotes.transform.localPosition += positions;
+                    // 生成
+                    GameObject genNotes = Instantiate(NotesPrefab, notesGenPos, Quaternion.identity);
+
+                    // 各種設定
+                    genNotes.name                    =  $"notes_{notesNum}";
+                    genNotes.transform.parent        =  notesGenPosTrf;
+                    genNotes.transform.localPosition =  Vector3.zero;
+                    genNotes.transform.localPosition += new Vector3(0, (notesNum + 1) * NotesSpeed);
+
                     NotesPositionAdd(genNotes, laneNum, i);
 
                     break;
@@ -68,43 +72,50 @@ public class PianoNotesGenerator : NotesGeneratorBase
 
                 case NotesType.LongAndSlide:
                 {
-                    int notesNum2 = musicData.notes[i].notes[0].num;
-                    GameObject genNotes = Instantiate(longNotes, new Vector3(genPosTrf.position.x
-                                                                             , 0
-                                                                             , 0)
-                                                      , Quaternion.identity);
+                    int        longNotesNum      = thisNotes.notes[0].num;
+                    Vector3    longNotesGenPos   = new Vector3(notesGenPosTrf.position.x, 0);
+                    GameObject longNotesGenNotes = Instantiate(longNotes, longNotesGenPos, Quaternion.identity);
 
-                    genNotes.name             = $"longNotes_{notesNum}";
-                    genNotes.transform.parent = NotesGen[laneNum].transform;
-                    Vector3 positions = new Vector3(0, (notesNum) * NotesSpeed, 0);
-                    genNotes.transform.localPosition =  new Vector3(0, 0, 0);
-                    genNotes.transform.localPosition += positions;
-                    Vector2 longPos = new Vector2(0.19f, notesNum2 - notesNum);
-                    longPos.y *= 0.03f * (16 / musicData.notes[i].LPB);
-                    //longPos.y *= 0.03f * (4 / musicData.notes[i].LPB);
-                    genNotes.transform.localScale = longPos;
-                    NotesPositionAdd(genNotes, laneNum, i);
+                    // 各種設定
+                    longNotesGenNotes.name                    =  $"longNotes_{notesNum}";
+                    longNotesGenNotes.transform.parent        =  notesGenPosTrf;
+                    longNotesGenNotes.transform.localPosition =  Vector3.zero;
+                    longNotesGenNotes.transform.localPosition += new Vector3(0, notesNum * NotesSpeed);
 
-                    // ロングノーツ始点位置
-                    Vector3 startGenPos = new Vector3(genPosTrf.position.x, genNotes.transform.position.y - .1f, 0);
+                    // スケール設定
+                    Vector2 longNotesScale = new Vector2(0.19f, longNotesNum - notesNum);
+                    longNotesScale.y                       *= 0.03f * (16f / thisNotes.LPB);
+                    longNotesGenNotes.transform.localScale =  longNotesScale;
 
-                    // ロングノーツ始点オブジェクト生成
+                    NotesPositionAdd(longNotesGenNotes, laneNum, i);
+
+                    /* ロングノーツ始点 */
+
+                    // 始点位置
+                    Vector3 startGenPos = new Vector3(notesGenPosTrf.position.x,
+                                                      longNotesGenNotes.transform.position.y - .1f);
+
+                    // 始点オブジェクト生成
                     GameObject startEdge = Instantiate(edgeStart, startGenPos, Quaternion.identity);
 
+                    // 各種設定
                     startEdge.name             = $"startEdge_{notesNum}";
-                    startEdge.transform.parent = genNotes.transform;
+                    startEdge.transform.parent = longNotesGenNotes.transform;
 
-                    // ロングノーツ終点位置
-                    Vector3 endGenPos = new Vector3(genPosTrf.position.x,
-                                                    genNotes.GetComponent<NotesSelector>()
-                                                            .EndNotes.transform.position.y + .1f,
-                                                    0);
+                    NotesSelector longNotesSel = longNotesGenNotes.GetComponent<NotesSelector>();
 
-                    // ロングノーツ終点オブジェクト生成
+                    /* ロングノーツ終点 */
+
+                    // 終点位置
+                    Vector3 endGenPos = new Vector3(notesGenPosTrf.position.x,
+                                                    longNotesSel.EndNotes.transform.position.y + .1f);
+
+                    // 終点オブジェクト生成
                     GameObject endEdge = Instantiate(edgeEnd, endGenPos, Quaternion.identity);
 
+                    // 各種設定
                     endEdge.name             = $"endEdge_{notesNum}";
-                    endEdge.transform.parent = genNotes.transform;
+                    endEdge.transform.parent = longNotesGenNotes.transform;
 
                     break;
                 }
@@ -113,7 +124,7 @@ public class PianoNotesGenerator : NotesGeneratorBase
                     continue;
             }
 
-            move = new Vector3(0, 1.06f * Time.deltaTime, 0);
+            move = new Vector3(0, 1.06f * Time.deltaTime);
             NotesManager.NextNotesLine.Add(laneNum);
             Generated = true;
         }

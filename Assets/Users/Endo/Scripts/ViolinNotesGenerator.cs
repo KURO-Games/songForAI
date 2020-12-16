@@ -49,6 +49,7 @@ public class ViolinNotesGenerator : NotesGeneratorBase
         // ノーツ生成
         for (int i = 0; musicData.notes.Length > i; i++)
         {
+            // このループでの単一ノーツ情報
             NotesJson.Notes thisNotes = musicData.notes[i];
 
             // リスト初期化
