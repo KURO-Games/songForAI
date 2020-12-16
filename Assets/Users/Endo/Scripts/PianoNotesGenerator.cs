@@ -70,12 +70,15 @@ public class PianoNotesGenerator : NotesGeneratorBase
                 {
                     int notesNum2 = musicData.notes[i].notes[0].num;
                     GameObject genNotes = Instantiate(longNotes, new Vector3(genPosTrf.position.x
-                                                                             , notesNum * NotesSpeed
+                                                                             , 0
                                                                              , 0)
                                                       , Quaternion.identity);
 
-                    genNotes.name             = $"notes_{notesNum}";
+                    genNotes.name             = $"longNotes_{notesNum}";
                     genNotes.transform.parent = NotesGen[laneNum].transform;
+                    Vector3 positions = new Vector3(0, (notesNum) * NotesSpeed, 0);
+                    genNotes.transform.localPosition =  new Vector3(0, 0, 0);
+                    genNotes.transform.localPosition += positions;
                     Vector2 longPos = new Vector2(0.19f, notesNum2 - notesNum);
                     longPos.y *= 0.03f * (16 / musicData.notes[i].LPB);
                     //longPos.y *= 0.03f * (4 / musicData.notes[i].LPB);
@@ -83,7 +86,7 @@ public class PianoNotesGenerator : NotesGeneratorBase
                     NotesPositionAdd(genNotes, laneNum, i);
 
                     // ロングノーツ始点位置
-                    Vector3 startGenPos = new Vector3(genPosTrf.position.x, notesNum * NotesSpeed, 0);
+                    Vector3 startGenPos = new Vector3(genPosTrf.position.x, genNotes.transform.position.y - .1f, 0);
 
                     // ロングノーツ始点オブジェクト生成
                     GameObject startEdge = Instantiate(edgeStart, startGenPos, Quaternion.identity);
@@ -94,7 +97,7 @@ public class PianoNotesGenerator : NotesGeneratorBase
                     // ロングノーツ終点位置
                     Vector3 endGenPos = new Vector3(genPosTrf.position.x,
                                                     genNotes.GetComponent<NotesSelector>()
-                                                            .EndNotes.transform.position.y,
+                                                            .EndNotes.transform.position.y + .1f,
                                                     0);
 
                     // ロングノーツ終点オブジェクト生成
