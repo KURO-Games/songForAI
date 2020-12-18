@@ -135,8 +135,8 @@ public class Result : MonoBehaviour
 
         scoreGauge = GameObject.Find("scoreGauge");
         scoreGauge.GetComponent<Image>().fillAmount = 0;
-        // αでは一旦なし
-        //SaveHighScores();
+
+        SaveHighScores();
 
         // ジャケット表示
         Sprite[] jacketSprite = Resources.LoadAll<Sprite>("Sprite/UI/Result/resultJacket");// ジャケットをすべて格納
@@ -318,26 +318,41 @@ public class Result : MonoBehaviour
 
     private void SaveHighScores()
     {
-        // string HIGH_SCORE,HIGH_MAXCOMBOが今までの数値を超えていたらifで分岐しスコアセーブ
-        // ハイスコア習得
-        if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat, 
-            MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber,ScoreClass.PlayerPrefsHighScore), 0) < Judge.totalScore)
+        //if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat, 
+        //    MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber,ScoreClass.PlayerPrefsHighScore), 0) < Judge.totalScore)
+        //{
+        //    PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat, 
+        //        MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighScore), Judge.totalScore);
+        //}
+        //if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
+        //    MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo), 0) < Judge.bestCombo)
+        //{
+        //    PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat, 
+        //        MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo), Judge.bestCombo);
+        //}
+        //if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat, 
+        //    MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank), 0) < rankNum)
+        //{
+        //    PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat, 
+        //        MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank), rankNum);
+        //}
+
+        if (PlayerPrefs.GetInt(string.Format(ScoreClass.PlayerPrefsFormat,
+            MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighScore), 0) < Judge.totalScore)
         {
-            PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat, 
+            PlayerPrefs.SetInt(string.Format(ScoreClass.PlayerPrefsFormat,
                 MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighScore), Judge.totalScore);
         }
-        // マックスコンボ習得
-        if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
+        if (PlayerPrefs.GetInt(string.Format(ScoreClass.PlayerPrefsFormat,
             MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo), 0) < Judge.bestCombo)
         {
-            PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat, 
+            PlayerPrefs.SetInt(string.Format(ScoreClass.PlayerPrefsFormat,
                 MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo), Judge.bestCombo);
         }
-        // rankNum追加
-        if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat, 
+        if (PlayerPrefs.GetInt(string.Format(ScoreClass.PlayerPrefsFormat,
             MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank), 0) < rankNum)
         {
-            PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat, 
+            PlayerPrefs.SetInt(string.Format(ScoreClass.PlayerPrefsFormat,
                 MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank), rankNum);
         }
     }

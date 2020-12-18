@@ -24,26 +24,26 @@ public class DrawStatus : MonoBehaviour
     private void Start()
     {
         // α用テスト
-        for (int musicNumbers = 0; musicNumbers < 3; musicNumbers++)
-        {
-            for (int gameTypes = 0; gameTypes < 3; gameTypes++)
-            {
-                for (int diffcultNumbers = 0; diffcultNumbers < 4; diffcultNumbers++)
-                {
-                    int a = Random.Range(0, 50001);
-                    string b = a.ToString();
-                    PlayerPrefs.SetString(string.Format(ScoreClass.PlayerPrefsFormat,
-                        MusicSelects.musicNotesNames[musicNumbers], gameTypes, diffcultNumbers, ScoreClass.PlayerPrefsHighScore), b);
-                    int c = Random.Range(30, 201);
-                    string d = c.ToString();
-                    PlayerPrefs.SetString(string.Format(ScoreClass.PlayerPrefsFormat,
-                        MusicSelects.musicNotesNames[musicNumbers], gameTypes, diffcultNumbers, ScoreClass.PlayerPrefsMaxCombo), d);
-                    int x = Random.Range(0, 4);
-                    PlayerPrefs.SetInt(string.Format(ScoreClass.PlayerPrefsFormat,
-                         MusicSelects.musicNotesNames[musicNumbers], gameTypes, diffcultNumbers, ScoreClass.PlayerPrefsHighRank), x);
-                }
-            }
-        }
+        //for (int musicNumbers = 0; musicNumbers < 3; musicNumbers++)
+        //{
+        //    for (int gameTypes = 0; gameTypes < 3; gameTypes++)
+        //    {
+        //        for (int diffcultNumbers = 0; diffcultNumbers < 4; diffcultNumbers++)
+        //        {
+        //            int a = Random.Range(0, 50001);
+        //            string b = a.ToString();
+        //            PlayerPrefs.SetString(string.Format(ScoreClass.PlayerPrefsFormat,
+        //                MusicSelects.musicNotesNames[musicNumbers], gameTypes, diffcultNumbers, ScoreClass.PlayerPrefsHighScore), b);
+        //            int c = Random.Range(30, 201);
+        //            string d = c.ToString();
+        //            PlayerPrefs.SetString(string.Format(ScoreClass.PlayerPrefsFormat,
+        //                MusicSelects.musicNotesNames[musicNumbers], gameTypes, diffcultNumbers, ScoreClass.PlayerPrefsMaxCombo), d);
+        //            int x = Random.Range(0, 4);
+        //            PlayerPrefs.SetInt(string.Format(ScoreClass.PlayerPrefsFormat,
+        //                 MusicSelects.musicNotesNames[musicNumbers], gameTypes, diffcultNumbers, ScoreClass.PlayerPrefsHighRank), x);
+        //        }
+        //    }
+        //}
         //
 
         lastMusicNum = gameObject.GetComponent<MusicNumber>().musicNumber;
