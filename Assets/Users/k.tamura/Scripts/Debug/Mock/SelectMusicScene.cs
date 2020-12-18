@@ -64,7 +64,7 @@ public class SelectMusicScene : MonoBehaviour
                 break;
             case 1:
                 Panel.SetActive(true);// 遷移中の選択を無効
-                SceneLoadManager.LoadScene("ViolineDev");
+                //SceneLoadManager.LoadScene("ViolineDev");
                 break;
             case 2:
                 break;

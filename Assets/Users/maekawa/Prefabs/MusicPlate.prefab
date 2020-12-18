@@ -820,9 +820,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575db33a4e37b6c4ca73fc4bf23649ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeFrame: {fileID: 4444094571677283629}
-  InactiveFrame: {fileID: 4444094572767138678}
-  isSelected: 0
 --- !u!1 &4444094572626100305
 GameObject:
   m_ObjectHideFlags: 0
@@ -954,7 +951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.16862746, g: 0.16862746, b: 0.16862746, a: 0.59607846}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.6862745}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1313,6 +1310,7 @@ GameObject:
   - component: {fileID: 8716973059876596451}
   - component: {fileID: 3937097363910356698}
   - component: {fileID: 5965733330276222176}
+  - component: {fileID: 5924062399776643698}
   m_Layer: 5
   m_Name: MusicPlate
   m_TagString: Untagged
@@ -1415,3 +1413,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1000, y: 309}
   m_EdgeRadius: 0
+--- !u!225 &5924062399776643698
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017576218358764487}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

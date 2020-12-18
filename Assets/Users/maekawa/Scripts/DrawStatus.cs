@@ -137,6 +137,8 @@ public class DrawStatus : MonoBehaviour
         maxCombo.text = PlayerPrefs.GetString(string.Format(ScoreClass.PlayerPrefsFormat,
          MusicSelects.musicNotesNames[i], j, k, ScoreClass.PlayerPrefsMaxCombo), "0");
 
+
+        bestRankEmpty.GetComponent<Image>().color = new Color(1, 1, 1, 1);
         //switch (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
         // MusicSelects.musicNotesNames[i], j, k, ScoreClass.PlayerPrefsHighRank), 0))
         switch (PlayerPrefs.GetInt(string.Format(ScoreClass.PlayerPrefsFormat,
@@ -155,6 +157,7 @@ public class DrawStatus : MonoBehaviour
                 bestRankEmpty.GetComponent<Image>().sprite = rank[3];
                 break;
             default:
+                bestRankEmpty.GetComponent<Image>().color = new Color(1, 1, 1, 0);
                 break;
         }
     }
