@@ -63,10 +63,14 @@ public class SelectMusicScene : MonoBehaviour
                 SceneLoadManager.LoadScene("Piano");
                 break;
             case 1:
-                Panel.SetActive(true);// 遷移中の選択を無効
-                SceneLoadManager.LoadScene("ViolineDev");
+                //Panel.SetActive(true);// 遷移中の選択を無効
+                //SceneLoadManager.LoadScene("ViolineDev");
+
+                // ゲームショウ用
+                SelectMusicPanelController.popUpFlag = true;
                 break;
             case 2:
+                SelectMusicPanelController.popUpFlag = true;
                 break;
             default:
                 break;

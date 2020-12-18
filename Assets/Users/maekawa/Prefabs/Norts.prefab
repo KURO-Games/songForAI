@@ -255,7 +255,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3640270238390135991}
-  - component: {fileID: 3640270238390135992}
+  - component: {fileID: 8830838438480591787}
   m_Layer: 0
   m_Name: NotesGenerater
   m_TagString: Untagged
@@ -277,7 +277,7 @@ Transform:
   m_Father: {fileID: 3640270239538505212}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3640270238390135992
+--- !u!114 &8830838438480591787
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -286,14 +286,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 3640270238390135993}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77c1b7eb8c97c4c81ad5813fef47246f, type: 3}
+  m_Script: {fileID: 11500000, guid: a8103348df084a5b948a93b610e4f17f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   NotesPrefab: {fileID: 2533045303746496797, guid: 12d26bbeab31b1d48ad6cd73dab645b3,
     type: 3}
   longNotes: {fileID: 2533045303746496797, guid: 9dc5fea4fe4d4b240941d66a7dfbd934,
     type: 3}
-  bar: {fileID: 3640270239538505213}
+  edgeStart: {fileID: 189260756183166432, guid: 794ffb29c7442ec4ba9e785419073d4e,
+    type: 3}
+  edgeEnd: {fileID: 3035872578805933621, guid: 5596ede19595b2e4589b8a0f59051a4b, type: 3}
   NotesGen:
   - {fileID: 3640270238761830673}
   - {fileID: 3640270239510804828}
@@ -303,9 +305,6 @@ MonoBehaviour:
   - {fileID: 3640270239212095731}
   - {fileID: 3640270237966890638}
   - {fileID: 3640270239253892838}
-  NotesDistance: 0
-  NotesSpeed: 1
-  speed: 0.032
 --- !u!1 &3640270238492788188
 GameObject:
   m_ObjectHideFlags: 0
