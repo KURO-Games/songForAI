@@ -26,14 +26,13 @@ public class SelectMusic : MonoBehaviour
     private DrawStatus[] drawStatus;
     private MusicNumber[] musicNumber;
     private CanvasGroup[] canvasGroups;
-    private float topDistance;
-    private float bottomDistance;
-    private bool isPlateFading = false;
+    private float fadeAreaDistanceAtTop;
+    private float fadeAreaDistanceAtBottom;
 
-    void Start()
+    private void Start()
     {
-        topDistance = Vector3.Distance(topOrigin.position, topAlphaStart.position);
-        bottomDistance = Vector3.Distance(bottomOrigin.position, bottomAlphaStart.position);
+        fadeAreaDistanceAtTop = Vector3.Distance(topOrigin.position, topAlphaStart.position);
+        fadeAreaDistanceAtBottom = Vector3.Distance(bottomOrigin.position, bottomAlphaStart.position);
 
         musicPlates = new GameObject[plateSize];// 要素数分確保
         defaultPositions = new Vector3[plateSize];
@@ -74,7 +73,7 @@ public class SelectMusic : MonoBehaviour
         for (int i = 0; i < musicPlates.Length; i++)
         {
             drawStatus[i].isSelected = false;
-            double lineUp = Math.Round(musicPlates[i].transform.localPosition.y / generateInterval, MidpointRounding.AwayFromZero);
+            double lineUp = GetLineUpOfMusicPlate(i);
 
             switch ((int)lineUp)
             {
@@ -90,6 +89,7 @@ public class SelectMusic : MonoBehaviour
                 case -1:
                     canvasGroups[i].alpha = 1;
                     break;
+
                 default:
                     canvasGroups[i].alpha = 0;
                     break;
@@ -97,7 +97,7 @@ public class SelectMusic : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Update()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, 10f, 1);
@@ -105,21 +105,15 @@ public class SelectMusic : MonoBehaviour
         // 画面左側をタップした場合処理
         if ((Input.GetMouseButtonDown(0)) && (hit))
         {
-            if ((hit.transform.gameObject != null) && (hit.transform.gameObject.tag == "Left"))
+            if ((hit.transform.gameObject != null) && (hit.transform.gameObject.CompareTag("Left")))
             {
                 lastMousePosY = Input.mousePosition.y;
                 isSwiping = true;
-                isPlateFading = true;
             }
         }
 
         if ((Input.GetMouseButton(0)) && (isSwiping))
         {
-            //if(isPlateFading)
-            //{
-                
-            //}
-
             // スワイプの移動距離に応じてプレート移動
             float distance = lastMousePosY - Input.mousePosition.y;
             lastMousePosY = Input.mousePosition.y;
@@ -129,35 +123,14 @@ public class SelectMusic : MonoBehaviour
 
             for (int i = 0; i < musicPlates.Length; i++)
             {
+                Transform musicPlateTrf = musicPlates[i].transform;
                 drawStatus[i].isSelected = false;
-                double lineUp = Math.Round(musicPlates[i].transform.localPosition.y / generateInterval, MidpointRounding.AwayFromZero);
-                if(lineUp == 0)
+                double lineUp = GetLineUpOfMusicPlate(i);
+
+                if (lineUp == 0)
                     drawStatus[i].isSelected = true;
 
-                musicPlates[i].transform.position -= movePos;
-                canvasGroups[i].alpha = 1;
-
-                //
-                Vector3 platesPosition = new Vector3(0, musicPlates[i].transform.position.y);
-                float distanceFromTop = Vector3.Distance(topOrigin.position, platesPosition);
-                float distanceFromBoottom = Vector3.Distance(bottomOrigin.position, platesPosition);
-                float ratio = 1;
-
-                if(topDistance >= distanceFromTop)
-                {
-                    ratio = distanceFromTop / topDistance;
-                }
-                else if(bottomDistance >= distanceFromBoottom && distanceFromBoottom >= 0)
-                {
-                    ratio = distanceFromBoottom / bottomDistance;
-                }
-
-                canvasGroups[i].alpha = ratio;
-
-                if (musicPlates[i].transform.position.y >= topOrigin.position.y || musicPlates[i].transform.position.y <= bottomOrigin.position.y)
-                {
-                    canvasGroups[i].alpha = 0;
-                }
+                musicPlateTrf.position -= movePos;
             }
         }
 
@@ -168,13 +141,14 @@ public class SelectMusic : MonoBehaviour
             for(int i = 0; i < musicPlates.Length; i++)
             {
                 drawStatus[i].isSelected = false;
-                double lineUp = Math.Round(musicPlates[i].transform.localPosition.y / generateInterval, MidpointRounding.AwayFromZero);
+                double lineUp = GetLineUpOfMusicPlate(i);
 
-                switch((int)lineUp)
+                switch ((int) lineUp)
                 {
                     // 一番中心に近い曲を選択状態
                     case 0:
                         drawStatus[i].isSelected = true;
+
                         // 曲番号が違うならdemo再生
                         if (selectNumber != musicNumber[i].musicNumber)
                         {
@@ -182,21 +156,22 @@ public class SelectMusic : MonoBehaviour
                             SoundManager.DemoBGMSoundCue(musicNumber[i].musicNumber);
                             selectNumber = musicNumber[i].musicNumber;
                         }
+
                         break;
 
                     case 1:
                     case -1:
-                        canvasGroups[i].alpha = 1;
                         break;
+
                     default:
-                        canvasGroups[i].alpha = 0;
                         break;
                 }
             }
             // 整列したい
             for (int i = 0; i < musicPlates.Length; i++)
             {
-                double lineUp = Math.Round(musicPlates[i].transform.localPosition.y / generateInterval, MidpointRounding.AwayFromZero);
+                double lineUp = GetLineUpOfMusicPlate(i);
+
                 if (lineUp == 0)
                 {
                     float distance = defaultPositions[0].y - musicPlates[i].transform.localPosition.y;
@@ -211,7 +186,9 @@ public class SelectMusic : MonoBehaviour
         ShiftUp();
         ShiftDown();
         for(int i = 0; i < musicPlates.Length; i++)
-        SetPlate(i);
+            SetPlate(i);
+
+        FadeMusicPlates();
     }
 
     /// <summary>
@@ -258,6 +235,129 @@ public class SelectMusic : MonoBehaviour
                     nextNum = 0;
                 Vector3 tempPos = musicPlates[nextNum].transform.localPosition + new Vector3(0, generateInterval, 0);
                 musicPlates[musicPlates.Length - i].transform.localPosition = tempPos;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 指定インデックスのプレートの、中心からのインデックスを返す
+    /// </summary>
+    /// <param name="index">Index of musicPlates</param>
+    /// <returns></returns>
+    private double GetLineUpOfMusicPlate(int index)
+    {
+        return Math.Round(musicPlates[index].transform.localPosition.y / generateInterval,
+                          MidpointRounding.AwayFromZero);
+    }
+
+    /// <summary>
+    /// 指定プレートの期待される透明度（アルファ値）を取得する
+    /// </summary>
+    /// <param name="target">対象プレートのトランスフォーム</param>
+    /// <returns>アルファ値</returns>
+    private float GetExpectedAlphaOfMusicPlate(Transform target)
+    {
+        Vector3 targetPlatePos             = new Vector3(0, target.position.y);
+        float   distanceFromTopToTarget    = Vector3.Distance(topOrigin.position, targetPlatePos);
+        float   distanceFromBottomToTarget = Vector3.Distance(bottomOrigin.position, targetPlatePos);
+        float   alphaValue                 = 1;
+
+        // プレートのフェード効果範囲内への侵入率によってアルファ値決定
+        // 上部
+        if (fadeAreaDistanceAtTop >= distanceFromTopToTarget)
+        {
+            alphaValue = distanceFromTopToTarget / fadeAreaDistanceAtTop;
+        }
+        // 下部
+        else if (fadeAreaDistanceAtBottom >= distanceFromBottomToTarget)
+        {
+            alphaValue = distanceFromBottomToTarget / fadeAreaDistanceAtBottom;
+        }
+
+        return alphaValue;
+    }
+
+    /// <summary>
+    /// 各プレートのフェードアニメーションを行う
+    /// </summary>
+    private void FadeMusicPlates()
+    {
+        // スワイプ中
+        if (isSwiping)
+        {
+            for (int i = 0; i < musicPlates.Length; i++)
+            {
+                int lineUp = (int) GetLineUpOfMusicPlate(i);
+
+                switch (lineUp)
+                {
+                    // 中央3つのプレート
+                    case 0:
+                    case 1:
+                    case -1:
+                        // 常に表示するため、不透明になるまでフェードイン
+                        if (canvasGroups[i].alpha < 1)
+                        {
+                            canvasGroups[i].alpha += Time.deltaTime * 2;
+                        }
+
+                        break;
+
+                    // 外側のプレート
+                    default:
+                        float musicPlateAlphaRatio = GetExpectedAlphaOfMusicPlate(musicPlates[i].transform);
+
+                        // 期待透明度に満たない場合
+                        if (canvasGroups[i].alpha < musicPlateAlphaRatio)
+                        {
+                            Vector3 musicPlatePos = musicPlates[i].transform.position;
+
+                            // 計算の都合上、画面端に差し掛かるプレートは逆にフェードインしてしまうので、その範囲では透明に
+                            if (musicPlatePos.y >= topOrigin.position.y ||
+                                musicPlatePos.y <= bottomOrigin.position.y)
+                            {
+                                canvasGroups[i].alpha = 0;
+                            }
+                            // 通常は期待値を満たすまでフェードイン
+                            else
+                            {
+                                canvasGroups[i].alpha += Time.deltaTime * 2;
+                            }
+                        }
+                        // 透明度が期待値を超えていたら戻す
+                        // フェードアウトにすると、満たない場合の処理とのループになるのでそのまま代入
+                        else if (canvasGroups[i].alpha > musicPlateAlphaRatio)
+                        {
+                            canvasGroups[i].alpha = musicPlateAlphaRatio;
+                        }
+
+                        break;
+                }
+            }
+        }
+        // 非スワイプ中
+        else
+        {
+            for (int i = 0; i < musicPlates.Length; i++)
+            {
+                int lineUp = (int) GetLineUpOfMusicPlate(i);
+
+                switch (lineUp)
+                {
+                    // 中央3つプレートは常に表示
+                    case 0:
+                    case 1:
+                    case -1:
+                        canvasGroups[i].alpha = 1;
+
+                        break;
+
+                    // 外側のプレートはフェードアウト
+                    default:
+                        canvasGroups[i].alpha -= Time.deltaTime;
+
+                        break;
+                }
             }
         }
     }
