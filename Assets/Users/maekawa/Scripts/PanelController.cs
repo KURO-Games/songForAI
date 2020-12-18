@@ -10,12 +10,11 @@ public class PanelController : MonoBehaviour
     [SerializeField] Text subText;
     private float panelWidth;
     private float panelHeight;
-    private bool popUpFlag;
+    private bool popUpFlag = false;
     void Start()
     {
         panelWidth = 0;
         panelHeight = 0.05f;
-        popUpFlag = false;
 
         // シナリオを読んでいたら処理
         if (Scenario_Controller.isReaded)
