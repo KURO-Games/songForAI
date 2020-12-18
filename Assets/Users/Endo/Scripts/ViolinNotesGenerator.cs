@@ -23,7 +23,8 @@ public class ViolinNotesGenerator : NotesGeneratorBase
 
     protected override void CalculateNotesPositions()
     {
-        if (!Generated) return;
+        // ノーツ生成およびジャケット表示が済んだら座標計算開始
+        if (!Generated || !jacketIsFaded) return;
 
         SoundManager.BgmTime(ref BgmTimes);
 
@@ -189,8 +190,9 @@ public class ViolinNotesGenerator : NotesGeneratorBase
 
             move = new Vector3(0, 1.06f * Time.deltaTime);
             NotesManager.NextNotesLine.Add(laneNum);
-            Generated = true;
         }
+
+        Generated = true;
     }
 
     /// <summary>あるオブジェクトからあるオブジェクトまでの角度を取得する</summary>

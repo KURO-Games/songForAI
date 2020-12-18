@@ -16,7 +16,8 @@ public abstract class NotesGeneratorBase : MonoBehaviour
 
     public static float NotesSpeed;
     public static float speed;
-    public static float offset; // 譜面の再生を遅らせる
+    public static float offset;        // 譜面の再生を遅らせる
+    public bool         jacketIsFaded; // 演奏開始時のジャケット表示のフェードが終了しているか
 
     protected long  BgmTimes;
     protected float NotesSpeeds;
