@@ -13,9 +13,6 @@ public class PanelController : MonoBehaviour
     private bool popUpFlag = false;
     void Start()
     {
-        panelWidth = 0;
-        panelHeight = 0.05f;
-
         // シナリオを読んでいたら処理
         if (Scenario_Controller.isReaded)
         {
