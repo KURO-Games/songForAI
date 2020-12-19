@@ -348,7 +348,7 @@ public class SelectMusic : MonoBehaviour
                     case 0:
                     case 1:
                     case -1:
-                        canvasGroups[i].alpha = 1;
+                        canvasGroups[i].alpha += Time.deltaTime * 2;
 
                         break;
 
