@@ -832,7 +832,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c2da59d2290fbad418fa38a5699fa647, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 833a8e6b8f2173a4c9fa1e3c234ee02d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1203,9 +1203,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 99478a0ff6150a04fa7896e5cc2af597, type: 3}
   BackGround_Sprite:
   - {fileID: 21300000, guid: 87fc923e0138dd74ab4d453d10463bff, type: 3}
-  - {fileID: 21300000, guid: d14f8612287e80d489a737c45bfe590f, type: 3}
-  - {fileID: 21300000, guid: c2da59d2290fbad418fa38a5699fa647, type: 3}
-  - {fileID: 21300000, guid: 0239e0728a159c14d92b33de90803fab, type: 3}
+  - {fileID: 21300000, guid: a9ee7ed367a527246bc20eeb96cdcb0b, type: 3}
+  - {fileID: 21300000, guid: 833a8e6b8f2173a4c9fa1e3c234ee02d, type: 3}
+  - {fileID: 21300000, guid: 822c717be16577743bbcd70c6ded1390, type: 3}
   Message_Speed: 0.01
   _userNameInputs: {fileID: 996438862}
 --- !u!4 &837249732
@@ -1240,7 +1240,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &911640167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2487,7 +2487,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -123.71, y: -57.440002}
+  m_AnchoredPosition: {x: -123.71002, y: -57.440002}
   m_SizeDelta: {x: 247.61, y: 114.97}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1965296217

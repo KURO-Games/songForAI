@@ -36,13 +36,19 @@ public static class MusicSelects
     };
 
     /// <summary>
-    /// 曲ごとの難易度
+    /// 演奏方法、曲ごとの難易度
     /// </summary>
-    public static readonly int[,] musicDifficulty = new int[3, 4]
+    public static readonly int[,,] musicDifficulty = new int[3, 3, 4]
     {
-        { 2, 8, 12, 17 },
-        { 3, 6, 13, 20 },
-        { 5, 12, 18, 28 }
+        {
+            { 2, 8, 12, 17 }, { 3, 6, 13, 20 }, { 5, 12, 18, 28 }
+        },
+        {
+            { 1, 2, 3, 4 }, { 10, 11, 12, 13 }, { 10, 20, 30, 40 }
+        },
+        {
+            { 5, 10, 15, 20 }, { 3, 6, 12, 24 }, { 99, 98, 97, 96 }
+        }
     };
 
     /// <summary>

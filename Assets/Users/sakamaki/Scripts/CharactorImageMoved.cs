@@ -55,7 +55,7 @@ public class CharactorImageMoved : MonoBehaviour
             CharactorImage[result].SetActive(true);
 
             //リザルトで一致したキャラを表示させるために代入
-            Result.charaNum = result;
+            //Result.charaNum = result;
         }
     }
 }

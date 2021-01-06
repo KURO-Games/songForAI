@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class PanelButton : MonoBehaviour
 {
+    [SerializeField] GameObject panel;
+    [SerializeField] GameObject details;
     public void Onclick()
     {
-        this.gameObject.transform.root.gameObject.SetActive(false);
+        details.SetActive(false);
+        panel.SetActive(false);
     }
 }

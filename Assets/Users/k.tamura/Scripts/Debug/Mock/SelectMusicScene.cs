@@ -5,20 +5,20 @@ using UnityEngine.UI;
 
 public class SelectMusicScene : MonoBehaviour
 {
-    string _name;
-    Button PushButton;
-    bool _isTap = false;
-    public static int DifficultsNum;
-    [SerializeField]
-    private Image[] ChooseHighlight;
-    [SerializeField]
-    private GameObject[] Lifes;
+    // life
+    public static int life = 2;
+    [SerializeField]private GameObject[] Lifes;
+
+    // 難易度選択/表示
+    [SerializeField] private Image[] ChooseHighlight = new Image[4];
+    [SerializeField] private Text[] diffcultLevel = new Text[4];
+    [SerializeField] private Text[] selectedDifLevel = new Text[4];
+    // OKボタンで起動
     [SerializeField] GameObject Panel;
 
-    //[SerializeField]
-    //int LifeNum = 0;
-
-    public static int life = 2;
+    private int lastMusicNumber = 0;
+    private int lastDifficultNumber = 0;
+    private int lastGameType = 0;
     private enum Difficults
     {
         EASY,
@@ -26,68 +26,98 @@ public class SelectMusicScene : MonoBehaviour
         HARD,
         PRO
     }
-    private int[] Level = {3,7,12,16 };// 後で変更
+
     private void Start()
     {
-        //PlayerPrefs.SetInt("Lifes", 2);
-        //LifeNum = PlayerPrefs.GetInt("Lifes", 3);
-
-        // DifficultsNum = -1;
-
-        // デフォルトでproを表示
         SoundManager.BGMStop();
-        PushDifficult(0);
-        _isTap = false;
-        MusicDatas.cueMusic = 0;
+
         LifeDraw();
+        Highlight();
+        DrawDifficulty(lastGameType, lastMusicNumber);
     }
-    public void BackHome()
+
+    private void Update()
     {
-        if (!_isTap)
+        // 曲もしくは演奏方法を変更した場合
+        if (lastMusicNumber != MusicDatas.MusicNumber || lastGameType != (int)MusicDatas.gameType)
         {
-            _isTap = true;
-            SceneLoadManager.LoadScene("Home");
+            lastMusicNumber = MusicDatas.MusicNumber;
+            lastGameType = (int)MusicDatas.gameType;
+            DrawDifficulty(lastGameType, lastMusicNumber);
         }
     }
     public void SelectMusic(Button _button)
     {
-        if (!_isTap&&DifficultsNum!=-1)
+        SoundManager.SESoundCue(1);
+
+        // リザルト用　難易度レベルを保持
+        MusicDatas.difficultLevel = MusicSelects.musicDifficulty[(int)MusicDatas.gameType, MusicDatas.MusicNumber, MusicDatas.difficultNumber];
+        // 演奏画面用データをセット
+        MusicSelects.MusicSelector((MusicNames)lastMusicNumber);
+
+        // 選択しているキャラに応じて遷移
+        switch ((int)MusicDatas.gameType)
         {
-            _isTap = true;
-            _name=_button.name;
-            SoundManager.SESoundCue(1);
-            MusicDatas.difficultLevel = MusicSelects.musicDifficulty[MusicDatas.MusicNumber,MusicDatas.difficultNumber];
-            Panel.SetActive(true);// 遷移中の選択を無効
-            // TODO: gameTypeに応じてロードシーン切替
-            SceneLoadManager.LoadScene("Resize_RhythmGame2");
-            // SceneLoadManager.LoadScene("ViolineDev");
-        }
+            case 0:
+                Panel.SetActive(true);// 遷移中の選択を無効
+                SceneLoadManager.LoadScene("Piano");
+                break;
+            case 1:
+                //Panel.SetActive(true);// 遷移中の選択を無効
+                //SceneLoadManager.LoadScene("ViolineDev");
+
+                // ゲームショウ用
+                SelectMusicPanelController.popUpFlag = true;
+                break;
+            case 2:
+                SelectMusicPanelController.popUpFlag = true;
+                break;
+            default:
+                break;
+        }    
     }
-    public void PushDifficult(int i)
-    {
-        DifficultsNum = i;
-        MusicDatas.difficultNumber = i;
-        Highlight();
-    }
-    private void Highlight()
-    {
-        for(int i=0;i<ChooseHighlight.Length;i++)
-        {
-            ChooseHighlight[i].gameObject.SetActive(false);
-        }
-        ChooseHighlight[DifficultsNum].gameObject.SetActive(true);
-        ChooseHighlight[DifficultsNum].gameObject.transform.parent.transform.SetSiblingIndex(99);// 最前面に表示
-        MusicDatas.difficultNumber = DifficultsNum;
-    }
-    public void PButton(int i)
-    {
-        MusicDatas.cueMusic = i;
-    }
+
+    //public void PButton(int i)
+    //{
+    //    MusicDatas.cueMusic = i;
+    //}
     private void LifeDraw()
     {
         for (int i = 0; i < Lifes.Length; i++)
             Lifes[i].gameObject.SetActive(false);
         for (int i = 0; i < life; i++)
             Lifes[i].gameObject.SetActive(true);
+    }
+
+    public void PushDifficult(int i)
+    {
+        if(lastDifficultNumber != i)
+        {
+            lastDifficultNumber = i;
+            Highlight();
+        }
+    }
+    private void Highlight()
+    {
+        for (int i = 0; i < ChooseHighlight.Length; i++)
+            ChooseHighlight[i].gameObject.SetActive(false);
+
+        ChooseHighlight[lastDifficultNumber].gameObject.SetActive(true);
+        ChooseHighlight[lastDifficultNumber].gameObject.transform.parent.transform.SetSiblingIndex(99);// 最前面に表示
+        MusicDatas.difficultNumber = lastDifficultNumber;
+    }
+    /// <summary>
+    /// 演奏方法、曲ごとの難易度表示
+    /// </summary>
+    /// <param name="i">gameType</param>
+    /// <param name="j">musicNumber</param>
+    private void DrawDifficulty(int i, int j)
+    {
+        for (int k = 0; k < diffcultLevel.Length; k++)
+        {
+            // MusicSelects.で難易度を宣言　musicDifficulty[演奏方法, 曲番号, 難易度]
+            diffcultLevel[k].text = MusicSelects.musicDifficulty[i, j, k].ToString();
+            selectedDifLevel[k].text = MusicSelects.musicDifficulty[i, j, k].ToString();
+        }
     }
 }

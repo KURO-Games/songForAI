@@ -18,7 +18,6 @@ public class NotesCountUp : MonoBehaviour
 
             if (KeyJudge.isHold[j] != true)
             {
-                Debug.Log(collision.gameObject.name);
                 Judge.NotesCountUp(j);
             }
         }

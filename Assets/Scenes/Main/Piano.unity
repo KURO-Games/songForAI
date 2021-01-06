@@ -8115,6 +8115,12 @@ PrefabInstance:
       propertyPath: m_AspectRatio
       value: 1.3333334
       objectReference: {fileID: 0}
+    - target: {fileID: 6079652469697296400, guid: 5f93fd8ad4db4df4f9bc302183cb14e9,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 833a8e6b8f2173a4c9fa1e3c234ee02d,
+        type: 3}
     - target: {fileID: 6079652469697296401, guid: 5f93fd8ad4db4df4f9bc302183cb14e9,
         type: 3}
       propertyPath: m_AnchorMax.x

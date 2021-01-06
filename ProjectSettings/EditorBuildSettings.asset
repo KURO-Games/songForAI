@@ -30,7 +30,7 @@ EditorBuildSettings:
     path: Assets/Users/k.tamura/Scenes/mock/SelectCaracter.unity
     guid: 5733446ca2b70044a86212afdd44a68a
   - enabled: 1
-    path: Assets/Scenes/Main/Resize_RhythmGame2.unity
+    path: Assets/Scenes/Main/Piano.unity
     guid: b0be2125891924c3cabfad8b8dab2e8e
   - enabled: 1
     path: Assets/Scenes/Main/SelectMusicV3.unity
