@@ -128,30 +128,32 @@ namespace SFAI
         }
 
 
-        static void SetSymbols(SetBuildSettings buildsettings=SetBuildSettings.Debug , BuildTargetGroup target = BuildTargetGroup.iOS)
+        static void SetSymbols(SetBuildSettings buildsettings = SetBuildSettings.Debug, BuildTargetGroup targetGroup = BuildTargetGroup.iOS, BuildTarget target = BuildTarget.iOS)
         {
+            if (!EditorUserBuildSettings.activeBuildTarget.Equals(target))
+                EditorUserBuildSettings.SwitchActiveBuildTarget(targetGroup, target);
             StringBuilder builder = new StringBuilder();
             builder.Clear();
-            switch(buildsettings)
+            switch (buildsettings)
             {
                 case SetBuildSettings.Debug:
-                    builder.Append("SFAI_DEBUG;SFAI_SOUND;");
+                    builder.Append("SFAI_DEBUG;SFAI_SOUND;UNITY_POST_PROCESSING_STACK_V2;");
                     break;
                 case SetBuildSettings.Release:
-                    builder.Append("SFAI_RELEASE;SFAI_L_SOUND;");
+                    builder.Append("SFAI_RELEASE;SFAI_L_SOUND;UNITY_POST_PROCESSING_STACK_V2;");
                     break;
                 case SetBuildSettings.Master:
-                    builder.Append("SFAI_MASTER;SFAI_L_SOUND;");
+                    builder.Append("SFAI_MASTER;SFAI_L_SOUND;UNITY_POST_PROCESSING_STACK_V2;");
                     break;
                 case SetBuildSettings.None:
-                    builder.Append("");
+                    builder.Append("UNITY_POST_PROCESSING_STACK_V2;");
                     break;
                 default:
                     Debug.LogErrorFormat("Missing Settings : {0}", buildsettings);
                     return;
             }
 
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(target, builder.ToString());
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, builder.ToString());
         }
 
 
