@@ -21,8 +21,6 @@ public class KeyJudge : MonoBehaviour
 
     private void Start()
     {
-        Judge.gameType = 0;// 二十鍵盤仕様
-
         // タップ判定用 flag初期化
         for (int i = 0; i < tapFlag.Length; i++)
         {
@@ -90,7 +88,7 @@ public class KeyJudge : MonoBehaviour
                 tapFlag[laneNumber] = true;
             }
         }
-#endif 
+#endif
 
         // 各レーンのタップ状況を前フレームと比較
         for(int i = 0; i < tapFlag.Length; i++)
@@ -161,7 +159,7 @@ public class KeyJudge : MonoBehaviour
                 tapBG[i].SetActive(false);
             }
 
-            
+
             if(isHold[i])
             {
                 mask[i].SetActive(true);

@@ -145,14 +145,20 @@ public class Judge : MonoBehaviour
         else
         {
             bool tempIsHold = false;
-            switch(gameType)
+            switch(MusicDatas.gameType)
             {
-                case 0:
+                case GameType.None:
+                    break;
+
+                case GameType.Piano:
                     tempIsHold = KeyJudge.isHold[j];
                     break;
 
-                case 1:
+                case GameType.Violin:
                     tempIsHold = StringJudge.isHold[j];
+                    break;
+
+                case GameType.Drum:
                     break;
 
                 default:
@@ -189,7 +195,7 @@ public class Judge : MonoBehaviour
             if (combo > bestCombo)
             {
                 bestCombo = combo;
-            } 
+            }
 
             // タップノーツかロングノーツかを判別
             totalScore += point;
@@ -197,9 +203,12 @@ public class Judge : MonoBehaviour
             scoreMg.DrawScore(totalScore);
             comboMg.DrawCombo(combo);
 
-            switch (gameType)
+            switch (MusicDatas.gameType)
             {
-                case 0:
+                case GameType.None:
+                    break;
+
+                case GameType.Piano:
                     // ロングノーツか判別
                     if ((KeyJudge.GOListArray[KeyJudge.keyNotesCount[j]][j].GetComponent<NotesSelector>().NotesType == 2) && (KeyJudge.isHold[j] == false))
                     {
@@ -209,13 +218,16 @@ public class Judge : MonoBehaviour
                         NotesDestroy(j);
                     break;
 
-                case 1:
+                case GameType.Violin:
                     if ((StringJudge.GOListArray[StringJudge.stringNotesCount[j]][j].GetComponent<NotesSelector>().NotesType == 2) && (StringJudge.isHold[j] == false))
                     {
                         StringJudge.isHold[j] = true;// ホールド開始
                     }
                     else
                         NotesDestroy(j);
+                    break;
+
+                case GameType.Drum:
                     break;
 
                 default:
@@ -230,18 +242,24 @@ public class Judge : MonoBehaviour
     /// <param name="i">laneNumber</param>
     public static void NotesDestroy(int i)
     {
-        switch (gameType)
+        switch (MusicDatas.gameType)
         {
-            case 0:
+            case GameType.None:
+                break;
+
+            case GameType.Piano:
                 Destroy(KeyJudge.GOListArray[KeyJudge.keyNotesCount[i]][i]);   // 該当ノーツ破棄
                 KeyJudge.GOListArray[KeyJudge.keyNotesCount[i]][i] = null;     // 多重タップを防ぐ
                 KeyJudge.keyNotesCount[i]++;                                   // 該当レーンのノーツカウント++
                 break;
 
-            case 1:
+            case GameType.Violin:
                 Destroy(StringJudge.GOListArray[StringJudge.stringNotesCount[i]][i]);
                 StringJudge.GOListArray[StringJudge.stringNotesCount[i]][i] = null;
                 StringJudge.stringNotesCount[i]++;
+                break;
+
+            case GameType.Drum:
                 break;
 
             default:

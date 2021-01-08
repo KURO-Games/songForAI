@@ -21,8 +21,6 @@ public class StringJudge : MonoBehaviour
 
     private void Start()
     {
-        Judge.gameType = 1;// バイオリン仕様
-
         // タップ判定用 flag初期化
         for (int i = 0; i < tapFlag.Length; i++)
         {

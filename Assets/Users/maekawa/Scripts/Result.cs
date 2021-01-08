@@ -71,7 +71,7 @@ public class Result : MonoBehaviour
         // レベル表示
         string s = String.Format("{0:00}", MusicDatas.difficultLevel);// 2ケタ指定
         level.GetComponent<Text>().text = s;
-        
+
         for(int i = 0; i < 4; i++)
         {
             difficulty[i].SetActive(false);
@@ -173,7 +173,7 @@ public class Result : MonoBehaviour
         //    }
         //    rankRect.sizeDelta = new Vector2(x, y);
         //}
-        
+
 
         // リザルト表示アニメーション
         // スコアアニメーション
@@ -286,7 +286,7 @@ public class Result : MonoBehaviour
             resultIncrease += 0.02f;
             scoreGauge.GetComponent<Image>().fillAmount = resultIncrease;
         }
-        
+
 
         // タップでリザルトアニメーションをスキップ
         if (Input.GetMouseButtonDown(0))
@@ -318,42 +318,42 @@ public class Result : MonoBehaviour
 
     private void SaveHighScores()
     {
-        //if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat, 
-        //    MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber,ScoreClass.PlayerPrefsHighScore), 0) < Judge.totalScore)
+        //if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
+        //    MusicDatas.NotesDataName, (int) MusicDatas.gameType, MusicDatas.difficultNumber,ScoreClass.PlayerPrefsHighScore), 0) < Judge.totalScore)
         //{
-        //    PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat, 
-        //        MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighScore), Judge.totalScore);
+        //    PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat,
+        //        MusicDatas.NotesDataName, (int) MusicDatas.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighScore), Judge.totalScore);
         //}
         //if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
-        //    MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo), 0) < Judge.bestCombo)
+        //    MusicDatas.NotesDataName, (int) MusicDatas.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo), 0) < Judge.bestCombo)
         //{
-        //    PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat, 
-        //        MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo), Judge.bestCombo);
+        //    PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat,
+        //        MusicDatas.NotesDataName, (int) MusicDatas.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo), Judge.bestCombo);
         //}
-        //if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat, 
-        //    MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank), 0) < rankNum)
+        //if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
+        //    MusicDatas.NotesDataName, (int) MusicDatas.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank), 0) < rankNum)
         //{
-        //    PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat, 
-        //        MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank), rankNum);
+        //    PlayerPrefsUtil<int>.Save(string.Format(ScoreClass.PlayerPrefsFormat,
+        //        MusicDatas.NotesDataName, (int) MusicDatas.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank), rankNum);
         //}
 
         if (PlayerPrefs.GetInt(string.Format(ScoreClass.PlayerPrefsFormat,
-            MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighScore), 0) < Judge.totalScore)
+            MusicDatas.NotesDataName, (int) MusicDatas.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighScore), 0) < Judge.totalScore)
         {
             PlayerPrefs.SetInt(string.Format(ScoreClass.PlayerPrefsFormat,
-                MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighScore), Judge.totalScore);
+                MusicDatas.NotesDataName, (int) MusicDatas.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighScore), Judge.totalScore);
         }
         if (PlayerPrefs.GetInt(string.Format(ScoreClass.PlayerPrefsFormat,
-            MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo), 0) < Judge.bestCombo)
+            MusicDatas.NotesDataName, (int) MusicDatas.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo), 0) < Judge.bestCombo)
         {
             PlayerPrefs.SetInt(string.Format(ScoreClass.PlayerPrefsFormat,
-                MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo), Judge.bestCombo);
+                MusicDatas.NotesDataName, (int) MusicDatas.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsMaxCombo), Judge.bestCombo);
         }
         if (PlayerPrefs.GetInt(string.Format(ScoreClass.PlayerPrefsFormat,
-            MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank), 0) < rankNum)
+            MusicDatas.NotesDataName, (int) MusicDatas.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank), 0) < rankNum)
         {
             PlayerPrefs.SetInt(string.Format(ScoreClass.PlayerPrefsFormat,
-                MusicDatas.NotesDataName, Judge.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank), rankNum);
+                MusicDatas.NotesDataName, (int) MusicDatas.gameType, MusicDatas.difficultNumber, ScoreClass.PlayerPrefsHighRank), rankNum);
         }
     }
 }
