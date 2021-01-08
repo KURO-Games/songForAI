@@ -17,7 +17,7 @@ public abstract class NotesGeneratorBase : MonoBehaviour
     public static float NotesSpeed;
     public static float speed;
     public static float offset;        // 譜面の再生を遅らせる
-    public bool         jacketIsFaded; // 演奏開始時のジャケット表示のフェードが終了しているか
+    public        bool  jacketIsFaded; // 演奏開始時のジャケット表示のフェードが終了しているか
 
     protected long  BgmTimes;
     protected float NotesSpeeds;
@@ -84,12 +84,7 @@ public abstract class NotesGeneratorBase : MonoBehaviour
     {
         //ファイルの読み込み
         FileInfo info = new FileInfo(
-            $"{Application.streamingAssetsPath}/{MusicDatas.NotesDataName}_{MusicDatas.difficultNumber}.nts");
-        // TODO: jsonファイルの名称を演奏モード含めたものに置き換えたら↓に変更
-        // $"{Application.streamingAssetsPath}/{MusicDatas.NotesDataName}_{MusicDatas.gameType}_{MusicDatas.difficultNumber}.nts");
-
-        // FileInfo info = new FileInfo(
-        //     $"{Application.streamingAssetsPath}/Shining_1_0.nts");
+            $"{Application.streamingAssetsPath}/{MusicDatas.NotesDataName}_{(int) MusicDatas.gameType}_{MusicDatas.difficultNumber}.nts");
 
         StreamReader reader  = new StreamReader(info.OpenRead());
         string       Musics_ = reader.ReadToEnd();
