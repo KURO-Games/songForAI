@@ -48,18 +48,9 @@ public class ViolinNotesGenerator : NotesGeneratorBase
     protected override void LoadNotes()
     {
         // ノーツ生成
-        for (int i = 0; musicData.notes.Length > i; i++)
+        foreach (NotesJson.Notes thisNotes in musicData.notes)
         {
-            // このループでの単一ノーツ情報
-            NotesJson.Notes thisNotes = musicData.notes[i];
-
-            // リスト初期化
-            NotesManager.NotesPositions.Add(new List<GameObject>()); //nex
-
-            for (int e = 0; e < 6; e++)
-            {
-                NotesManager.NotesPositions[i].Add(null);
-            }
+            NotesManager.NotesPositions.Add(new List<(GameObject gameObject, NotesSelector selector)>()); //nex
 
             // ノーツデータを変数に代入
             int laneNum   = thisNotes.block;
@@ -87,7 +78,7 @@ public class ViolinNotesGenerator : NotesGeneratorBase
                     genNotes.transform.localPosition =  Vector3.zero;
                     genNotes.transform.localPosition += new Vector3(0, (notesNum + 1) * NotesSpeed);
 
-                    NotesPositionAdd(genNotes, laneNum, i);
+                    NotesPositionAdd(genNotes, laneNum);
 
                     break;
                 }
@@ -151,7 +142,6 @@ public class ViolinNotesGenerator : NotesGeneratorBase
                                                               nextSlideGenPosTrf.position.y);
 
                         // 帯生成
-                        // TODO: 現状、暫定的に個々に帯を生成しているが、通過判定用にメッシュで生成する必要があるかも
                         GameObject slideBody    = Instantiate(slideNotesBody, slideBodyGenPos, Quaternion.identity);
                         Transform  slideBodyTrf = slideBody.transform;
 

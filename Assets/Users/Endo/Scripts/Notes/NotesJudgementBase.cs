@@ -42,14 +42,15 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     private static DrawGrade[]  _drawGrades;
 
     // タップ背景 ON/OFF 切り替え用
-    private static bool[] _tappedLane;     // 現在タップしているレーンの識別
-    private static bool[] _lastTappedLane; // 前フレームのタップ
-    public static  bool[] isHold;          // ロングノーツ識別
-    public static  int[]  notesCount;      // ノーツカウント
+    private static   bool[] _tappedLane;     // 現在タップしているレーンの識別
+    private static   bool[] _lastTappedLane; // 前フレームのタップ
+    public static    bool[] isHold;          // ロングノーツ識別
+    protected static int[]  notesCount;      // 各レーンのノーツカウント
 
-    protected static List<List<GameObject>> GOListArray = new List<List<GameObject>>(); // ノーツ座標格納用2次元配列
-    // 使い方  GOListArray   [_notesCount[laneNumber]]              [laneNumber]
-    //        GOListArray   [何個目のノーツなのか[何番目のレーンの]]    [何番目のレーンなのか]
+    protected static List<List<(GameObject gameObject, NotesSelector selector)>> GOListArray =
+        new List<List<(GameObject gameObject, NotesSelector selector)>>(); // ノーツ座標格納用2次元配列
+    // 使い方  GOListArray  [laneNumber]         [notesCount[laneNumber]]
+    //        GOListArray  [何番目のレーンなのか] [何個目のノーツなのか[何番目のレーンなのか]]
 
     /// <summary>
     /// タップ判定時のタイミンググレードごとの処理を行う
@@ -280,9 +281,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
         scoreMgr.DrawScore(totalScore);
         comboMgr.DrawCombo(currentCombo);
 
-        int thisNotesType = GOListArray[notesCount[laneNum]][laneNum]
-                            .GetComponent<NotesSelector>()
-                            .NotesType;
+        int thisNotesType = GOListArray[laneNum][notesCount[laneNum]].selector.NotesType;
 
         Instance.JudgeNotesType(thisNotesType, laneNum);
     }
@@ -293,9 +292,11 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     /// <param name="laneNum">laneNumber</param>
     protected static void DestroyNotes(int laneNum)
     {
-        Destroy(GOListArray[notesCount[laneNum]][laneNum]); // 該当ノーツ破棄
-        GOListArray[notesCount[laneNum]][laneNum] = null;   // 多重タップを防ぐ
-        notesCount[laneNum]++;                              // 該当レーンのノーツカウント++
+        (GameObject notesObj, NotesSelector notesSel) = GOListArray[laneNum][notesCount[laneNum]];
+        Destroy(notesObj); // 該当ノーツ破棄
+        notesObj = null;   // 多重タップを防ぐ
+        notesSel = null;
+        notesCount[laneNum]++; // 該当レーンのノーツカウント++
     }
 
     /// <summary>

@@ -34,7 +34,7 @@ public class DrumNotesGenerator : NotesGeneratorBase
         //ドラムの円の中心から浮き出るように動かす
         //allNotesLaneNum次に生成されるノーツを確認して拡大される
         //NotesGen[0].transform.root.gameObject.transform.position = move * (-1 * NotesSpeed) + new Vector3(0, offset, 0);
-        var displayPosition = NotesSpeeds * speed;      //ドラムの表示位置
+        float displayPosition = NotesSpeeds * speed;      //ドラムの表示位置
 
         //ノーツの拡大表示処理
         if(drumNotesCount < musicData.notes.Length && LastNotes != null)
@@ -48,13 +48,14 @@ public class DrumNotesGenerator : NotesGeneratorBase
             {
                 //処理させたいノーツを検索させる
                 List<GameObject> wantToBeProgress = new List<GameObject>();
-                foreach(List<GameObject> lane in NotesManager.NotesPositions)
+
+                foreach(List<(GameObject gameObject, NotesSelector selector)> lane in NotesManager.NotesPositions)
                 {
-                    foreach(GameObject notes in lane)
+                    foreach((GameObject notesObj, NotesSelector _) in lane)
                     {
-                        if (notes != null && notes.name == $"notes_{notesNum}")
+                        if (notesObj != null && notesObj.name == $"notes_{notesNum}")
                         {
-                            wantToBeProgress.Add(notes);
+                            wantToBeProgress.Add(notesObj);
                         }
                     }
                 }
@@ -88,38 +89,28 @@ public class DrumNotesGenerator : NotesGeneratorBase
                 nowInProgressDrumNotes.RemoveAll(notes2 => notes2 == notes);
             }
         }
-
-
     }
 
     protected override void LoadNotes()
     {
         // ノーツ生成
-        for (var i = 0; musicData.notes.Length > i; i++)
+        for (int i = 0; musicData.notes.Length > i; i++)
         {
-            // リスト初期化
-            NotesManager.NotesPositions.Add(new List<GameObject>()); //nex
-
-            for (var e = 0; e < 7; e++)
-            {
-                NotesManager.NotesPositions[i].Add(null);
-            }
-
             // ノーツデータを変数に代入
-            var laneNum = musicData.notes[i].block;
-            var notesNum = musicData.notes[i].num;
+            int laneNum = musicData.notes[i].block;
+            int notesNum = musicData.notes[i].num;
 
             //生成
-            var GenNotes = Instantiate(NotesPrefab, new Vector3(notesGen[laneNum].transform.position.x
-                                                              , notesGen[laneNum].transform.position.y
-                                                              , 0)
-                                       , Quaternion.identity);
+            GameObject GenNotes = Instantiate(NotesPrefab, new Vector3(notesGen[laneNum].transform.position.x
+                                                                       , notesGen[laneNum].transform.position.y
+                                                                       , 0)
+                                              , Quaternion.identity);
 
-            GenNotes.name = "notes_" + notesNum;
-            GenNotes.transform.parent = notesGen[laneNum].transform;
-            GenNotes.transform.localPosition = new Vector3(0, 0, 0);
-            GenNotes.transform.localScale = Vector3.zero;
-            NotesPositionAdd(GenNotes, laneNum, i);
+            GenNotes.name                    = $"notes_{notesNum}";
+            GenNotes.transform.parent        = notesGen[laneNum].transform;
+            GenNotes.transform.localPosition = Vector3.zero;
+            GenNotes.transform.localScale    = Vector3.zero;
+            NotesPositionAdd(GenNotes, laneNum);
             if (i == musicData.notes.Length - 1)
             {
                 LastNotes = GenNotes;
@@ -131,4 +122,3 @@ public class DrumNotesGenerator : NotesGeneratorBase
         }
     }
 }
-//

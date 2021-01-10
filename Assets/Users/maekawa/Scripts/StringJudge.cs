@@ -9,7 +9,8 @@ public class StringJudge : MonoBehaviour
     private bool[] lastTap = new bool[6];// 前フレームのタップ
     public static bool[] isHold = new bool[6];// ロングノーツ識別
     public static int[] stringNotesCount = new int[6];      // 二重鍵盤用ノーツカウント
-    public static List<List<GameObject>> GOListArray = new List<List<GameObject>>();// ノーツ座標格納用2次元配列
+    public static List<List<(GameObject gameObject, NotesSelector selector)>> GOListArray =
+        new List<List<(GameObject gameObject, NotesSelector selector)>>();// ノーツ座標格納用2次元配列
     //
     // 使い方  GOListArray   [_notesCount[laneNumber]]                   [laneNumber]
     //         GOListArray   [何個目のノーツなのか[何番目のレーンの]]    [何番目のレーンなのか]
@@ -95,7 +96,7 @@ public class StringJudge : MonoBehaviour
                 // ロングノーツホールド中、終点を通過した場合
                 if ((i >= 4) && (isHold[i] == true))
                 {
-                    if (verticalJudgeLine.transform.position.x + Judge.gradesCriterion[3] > GOListArray[stringNotesCount[i]][i].GetComponent<NotesSelector>().EndNotes.transform.position.y)
+                    if (verticalJudgeLine.transform.position.x + Judge.gradesCriterion[3] > GOListArray[stringNotesCount[i]][i].selector.EndNotes.transform.position.y)
                     {
                         Judge.NotesCountUp(i);
                         isHold[i] = false;
@@ -106,15 +107,15 @@ public class StringJudge : MonoBehaviour
             else if ((lastTap[i] == false) && (tapFlag[i] == true))
             {
                 // 横レーン
-                if ((GOListArray[stringNotesCount[i]][i] != null) && (i <= 3))
+                if ((GOListArray[stringNotesCount[i]][i].gameObject != null) && (i <= 3))
                 {
-                    absTiming = Judge.GetAbsTiming(GOListArray[stringNotesCount[i]][i].transform.position.y
+                    absTiming = Judge.GetAbsTiming(GOListArray[stringNotesCount[i]][i].gameObject.transform.position.y
                                 , horizonJudgeLine.transform.position.y);
                 }
                 // 縦レーン
-                else if ((GOListArray[stringNotesCount[i]][i] != null) && (i >= 4))
+                else if ((GOListArray[stringNotesCount[i]][i].gameObject != null) && (i >= 4))
                 {
-                    absTiming = Judge.GetAbsTiming(GOListArray[stringNotesCount[i]][i].transform.position.x
+                    absTiming = Judge.GetAbsTiming(GOListArray[stringNotesCount[i]][i].gameObject.transform.position.x
                                 , verticalJudgeLine.transform.position.x);
                 }
 
@@ -128,9 +129,9 @@ public class StringJudge : MonoBehaviour
             {
                 if (isHold[i])
                 {
-                    if (GOListArray[stringNotesCount[i]][i] != null)
+                    if (GOListArray[stringNotesCount[i]][i].gameObject != null)
                     {
-                        absTiming = Judge.GetAbsTiming(GOListArray[stringNotesCount[i]][i].GetComponent<NotesSelector>().EndNotes.transform.position.x
+                        absTiming = Judge.GetAbsTiming(GOListArray[stringNotesCount[i]][i].selector.EndNotes.transform.position.x
                                     , verticalJudgeLine.transform.position.x);
                     }
 

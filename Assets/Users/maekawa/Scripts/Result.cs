@@ -321,8 +321,8 @@ public class Result : MonoBehaviour
 
     private void SaveHighScores()
     {
-        int   bestCombo   = NotesJudgementBase.bestCombo;
-        int   totalScore  = NotesJudgementBase.totalScore;
+        int bestCombo  = NotesJudgementBase.bestCombo;
+        int totalScore = NotesJudgementBase.totalScore;
 
         //if (PlayerPrefsUtil<int>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
         //    MusicDatas.NotesDataName, (int) MusicDatas.gameType, MusicDatas.difficultNumber,ScoreClass.PlayerPrefsHighScore), 0) < totalScore)

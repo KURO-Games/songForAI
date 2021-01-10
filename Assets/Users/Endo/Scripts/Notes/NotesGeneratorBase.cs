@@ -98,6 +98,14 @@ public abstract class NotesGeneratorBase : MonoBehaviour
         musicData    = JsonUtility.FromJson<NotesJson.MusicData>(Musics_);
         SpeedMgr.BPM = musicData.BPM;
 
+        // ノーツ格納リスト初期化
+        NotesManager.NotesPositions.Clear();
+
+        for (int i = 0; i < musicData.maxBlock; i++)
+        {
+            NotesManager.NotesPositions.Add(new List<(GameObject gameObject, NotesSelector selector)>());
+        }
+
         // ノーツ情報の読み込み
         LoadNotes();
 
@@ -112,17 +120,9 @@ public abstract class NotesGeneratorBase : MonoBehaviour
     /// </summary>
     /// <param name="notes"></param>
     /// <param name="lane"></param>
-    /// <param name="num"></param>
-    protected static void NotesPositionAdd(GameObject notes, int lane, int num)
+    protected static void NotesPositionAdd(GameObject notes, int lane)
     {
-        // OPTIMIZE: 現状の処理だとNotesManager.NotesPositionsの二次元配列の構造が "[ノーツ][レーン]" となってしまい、
-        // また、都度先頭から空きを探しているので意図した正常な形式とならない様子（KeyJudgeでの読み取りおよび処理はなぜか動作）
-        // NotesManager.NotesPositions[num][lane] = notes とすればとりあえず正しくなる、その場合KeyJudge側の調整が必要
-        foreach (List<GameObject> t in NotesManager.NotesPositions.Where(t => t[lane] == null))
-        {
-            t[lane] = notes;
-
-            break;
-        }
+        NotesSelector selector = notes.GetComponent<NotesSelector>();
+        NotesManager.NotesPositions[lane].Add((notes, selector));
     }
 }

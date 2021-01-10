@@ -209,7 +209,7 @@ public class Judge : MonoBehaviour
 
                 case GameType.Piano:
                     // ロングノーツか判別
-                    if ((KeyJudge.GOListArray[KeyJudge.keyNotesCount[j]][j].GetComponent<NotesSelector>().NotesType == 2) && (KeyJudge.isHold[j] == false))
+                    if ((KeyJudge.GOListArray[KeyJudge.keyNotesCount[j]][j].selector.NotesType == 2) && (KeyJudge.isHold[j] == false))
                     {
                         KeyJudge.isHold[j] = true;// ホールド開始
                     }
@@ -218,7 +218,7 @@ public class Judge : MonoBehaviour
                     break;
 
                 case GameType.Violin:
-                    if ((StringJudge.GOListArray[StringJudge.stringNotesCount[j]][j].GetComponent<NotesSelector>().NotesType == 2) && (StringJudge.isHold[j] == false))
+                    if ((StringJudge.GOListArray[StringJudge.stringNotesCount[j]][j].selector.NotesType == 2) && (StringJudge.isHold[j] == false))
                     {
                         StringJudge.isHold[j] = true;// ホールド開始
                     }
@@ -247,14 +247,21 @@ public class Judge : MonoBehaviour
                 break;
 
             case GameType.Piano:
-                Destroy(KeyJudge.GOListArray[KeyJudge.keyNotesCount[i]][i]);   // 該当ノーツ破棄
-                KeyJudge.GOListArray[KeyJudge.keyNotesCount[i]][i] = null;     // 多重タップを防ぐ
-                KeyJudge.keyNotesCount[i]++;                                   // 該当レーンのノーツカウント++
+                (GameObject keyNotesObj, NotesSelector keyNotesSel) = KeyJudge.GOListArray[KeyJudge.keyNotesCount[i]][i];
+
+                Destroy(keyNotesObj); // 該当ノーツ破棄
+                keyNotesObj = null;   // 多重タップを防ぐ
+                keyNotesSel = null;
+                KeyJudge.keyNotesCount[i]++; // 該当レーンのノーツカウント++
                 break;
 
             case GameType.Violin:
-                Destroy(StringJudge.GOListArray[StringJudge.stringNotesCount[i]][i]);
-                StringJudge.GOListArray[StringJudge.stringNotesCount[i]][i] = null;
+                (GameObject stringNotesObj, NotesSelector stringNotesSel) =
+                    StringJudge.GOListArray[StringJudge.stringNotesCount[i]][i];
+
+                Destroy(stringNotesObj);
+                stringNotesObj = null;
+                stringNotesSel = null;
                 StringJudge.stringNotesCount[i]++;
                 break;
 

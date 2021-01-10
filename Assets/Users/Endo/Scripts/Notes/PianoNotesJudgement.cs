@@ -117,37 +117,46 @@ public class PianoNotesJudgement : NotesJudgementBase
 
     protected override void UpdateNotesDisplay(bool[] tappedLane, bool[] lastTappedLane)
     {
-        for (int i = 0; i < tappedLane.Length; i++)
+        for (int laneNum = 0; laneNum < tappedLane.Length; laneNum++)
         {
-            float absTiming = 9999; // 初期化（0ではだめなので）
+            float absTiming            = 9999; // 初期化（0ではだめなので）
+            bool  isTappedThisLane     = tappedLane[laneNum];
+            bool  isTappedLastThisLane = lastTappedLane[laneNum];
 
-            switch (lastTappedLane[i])
+            // タップを全く行っていなければ判定しない
+            if (!isTappedThisLane && !isTappedLastThisLane) continue;
+
+            // レーン内のノーツのインデックス
+            // FIXME: レーン内の最終ノーツの場合、そのままノーツカウントを渡すとインデックス範囲外になるため、暫定的に-1している
+            int laneNotesNum = (GOListArray[laneNum].Count == notesCount[laneNum])
+                                   ? notesCount[laneNum] - 1
+                                   : notesCount[laneNum];
+
+            (GameObject notesObj, NotesSelector notesSel) = GOListArray[laneNum][laneNotesNum];
+
+            switch (isTappedLastThisLane)
             {
                 // タップ継続
-                case true when tappedLane[i]:
+                case true when isTappedThisLane:
                 {
                     // ロングノーツホールド中、終点を通過した場合
-                    if (isHold[i])
+                    if (isHold[laneNum])
                     {
                         // 左レーン
-                        if (i <= 3 &&
+                        if (laneNum <= 3 &&
                             leftJudgeLine.transform.position.y - GradesCriterion[3] >
-                            GOListArray[notesCount[i]][i]
-                                .GetComponent<NotesSelector>()
-                                .EndNotes.transform.position.y)
+                            notesSel.EndNotes.transform.position.y)
                         {
-                            NotesCountUp(i);
-                            isHold[i] = false;
+                            NotesCountUp(laneNum);
+                            isHold[laneNum] = false;
                         }
                         // 右レーン
-                        else if (i >= 4 &&
+                        else if (laneNum >= 4 &&
                                  rightJudgeLine.transform.position.y - GradesCriterion[3] >
-                                 GOListArray[notesCount[i]][i]
-                                     .GetComponent<NotesSelector>()
-                                     .EndNotes.transform.position.y)
+                                 notesSel.EndNotes.transform.position.y)
                         {
-                            NotesCountUp(i);
-                            isHold[i] = false;
+                            NotesCountUp(laneNum);
+                            isHold[laneNum] = false;
                         }
                     }
 
@@ -155,59 +164,55 @@ public class PianoNotesJudgement : NotesJudgementBase
                 }
 
                 // タップ開始
-                case false when tappedLane[i]:
+                case false when isTappedThisLane:
                 {
-                    if ((GOListArray[notesCount[i]][i] != null) && (i <= 3))
+                    if ((notesObj != null) && (laneNum <= 3))
                     {
-                        absTiming = GetAbsTiming(GOListArray[notesCount[i]][i].transform.position.y
-                                                 , leftJudgeLine.transform.position.y);
+                        absTiming = GetAbsTiming(notesObj.transform.position.y,
+                                                 leftJudgeLine.transform.position.y);
                     }
-                    else if ((GOListArray[notesCount[i]][i] != null) && (i >= 4))
+                    else if ((notesObj != null) && (laneNum >= 4))
                     {
-                        absTiming = GetAbsTiming(GOListArray[notesCount[i]][i].transform.position.y
-                                                 , rightJudgeLine.transform.position.y);
+                        absTiming = GetAbsTiming(notesObj.transform.position.y,
+                                                 rightJudgeLine.transform.position.y);
                     }
 
                     // 距離に応じて判定処理
-                    JudgeGrade(absTiming, i);
+                    JudgeGrade(absTiming, laneNum);
 
-                    tapBG[i].SetActive(true);
+                    tapBG[laneNum].SetActive(true);
 
                     break;
                 }
 
                 // タップ終了
-                case true when !tappedLane[i]:
+                case true when !isTappedThisLane:
                 {
-                    if (isHold[i])
+                    if (isHold[laneNum])
                     {
-                        if ((GOListArray[notesCount[i]][i] != null) && (i <= 3))
+                        if ((notesObj != null) && (laneNum <= 3))
                         {
-                            absTiming = GetAbsTiming(GOListArray[notesCount[i]][i]
-                                                     .GetComponent<NotesSelector>()
-                                                     .EndNotes.transform.position.y
-                                                     , leftJudgeLine.transform.position.y);
+                            absTiming = GetAbsTiming(notesSel.EndNotes.transform.position.y,
+                                                     leftJudgeLine.transform.position.y);
                         }
-                        else if ((GOListArray[notesCount[i]][i] != null) && (i >= 4))
+                        else if ((notesObj != null) && (laneNum >= 4))
                         {
-                            absTiming = GetAbsTiming(GOListArray[notesCount[i]][i]
-                                                     .GetComponent<NotesSelector>()
-                                                     .EndNotes.transform.position.y
-                                                     , rightJudgeLine.transform.position.y);
+                            absTiming = GetAbsTiming(notesSel.EndNotes.transform.position.y,
+                                                     rightJudgeLine.transform.position.y);
                         }
 
-                        JudgeGrade(absTiming, i);
+                        JudgeGrade(absTiming, laneNum);
 
-                        isHold[i] = false;
+                        isHold[laneNum] = false;
                     }
 
-                    tapBG[i].SetActive(false);
+                    tapBG[laneNum].SetActive(false);
 
                     break;
                 }
             }
 
-            mask[i].SetActive(isHold[i]);
+            mask[laneNum].SetActive(isHold[laneNum]);
         }
     }
 }
