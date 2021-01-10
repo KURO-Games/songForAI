@@ -18,7 +18,6 @@ public class Judge : MonoBehaviour
 
 
     // 内部用
-    public static int gameType;   // key...0  string...1
     public static int point = 0;  // 判定に応じた得点
     static ScoreManager scoreMg;
     static ComboManager comboMg;

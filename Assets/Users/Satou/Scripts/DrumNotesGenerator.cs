@@ -110,13 +110,13 @@ public class DrumNotesGenerator : NotesGeneratorBase
             var notesNum = musicData.notes[i].num;
 
             //生成
-            var GenNotes = Instantiate(NotesPrefab, new Vector3(NotesGen[laneNum].transform.position.x
-                                                              , NotesGen[laneNum].transform.position.y
+            var GenNotes = Instantiate(NotesPrefab, new Vector3(notesGen[laneNum].transform.position.x
+                                                              , notesGen[laneNum].transform.position.y
                                                               , 0)
                                        , Quaternion.identity);
 
             GenNotes.name = "notes_" + notesNum;
-            GenNotes.transform.parent = NotesGen[laneNum].transform;
+            GenNotes.transform.parent = notesGen[laneNum].transform;
             GenNotes.transform.localPosition = new Vector3(0, 0, 0);
             GenNotes.transform.localScale = Vector3.zero;
             NotesPositionAdd(GenNotes, laneNum, i);

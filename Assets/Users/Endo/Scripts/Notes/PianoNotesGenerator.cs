@@ -46,7 +46,7 @@ public class PianoNotesGenerator : NotesGeneratorBase
             int notesType = thisNotes.type;
             int notesNum  = thisNotes.num;
             // 生成先のトランスフォーム
-            Transform notesGenPosTrf = NotesGen[laneNum].transform;
+            Transform notesGenPosTrf = notesGen[laneNum].transform;
             // bpm = musicData.BPM;
 
             // ノーツの種類判別
