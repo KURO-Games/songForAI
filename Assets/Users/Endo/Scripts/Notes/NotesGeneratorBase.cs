@@ -62,10 +62,11 @@ public abstract class NotesGeneratorBase : MonoBehaviour
     /// </summary>
     protected virtual void Start()
     {
-        NotesSpeed = highSpeeds[MusicDatas.MusicNumber];
-        speed      = Speeds[MusicDatas.MusicNumber];
-        offset     = offsets[MusicDatas.MusicNumber];
-        rootObj    = notesGen[0].transform.root.gameObject;
+        NotesSpeed    = highSpeeds[MusicDatas.MusicNumber];
+        speed         = Speeds[MusicDatas.MusicNumber];
+        offset        = offsets[MusicDatas.MusicNumber];
+        jacketIsFaded = false;
+        rootObj       = notesGen[0].transform.root.gameObject;
         //NotesSpeed = highSpeeds[1];
         //speed = Speeds[1];
         //offset = offsets[1];
