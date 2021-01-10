@@ -76,8 +76,9 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        scoreMgr = uiObj.GetComponent<ScoreManager>();
-        comboMgr = uiObj.GetComponent<ComboManager>();
+        maxLaneNum = NotesGeneratorBase.musicData.maxBlock;
+        scoreMgr   = uiObj.GetComponent<ScoreManager>();
+        comboMgr   = uiObj.GetComponent<ComboManager>();
 
         _drawGrades     = new DrawGrade[maxLaneNum];
         _drawGradeObjs  = new GameObject[maxLaneNum];
@@ -87,7 +88,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
         notesCount      = new int[maxLaneNum];
 
         // 評価UI表示用のスクリプト配列をセット
-        for (int i = 0; i < _drawGradeObjs.Length; i++)
+        for (int i = 0; i < maxLaneNum; i++)
         {
             string callObject = $"drawGrade{i}";
 
@@ -102,7 +103,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     private void Update()
     {
         // タップフラグリセット
-        for (int i = 0; i < _tappedLane.Length; i++)
+        for (int i = 0; i < maxLaneNum; i++)
         {
             _tappedLane[i] = false;
         }
@@ -146,7 +147,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
 
     private void LateUpdate()
     {
-        for (int i = 0; i < _lastTappedLane.Length; i++)
+        for (int i = 0; i < maxLaneNum; i++)
         {
             _lastTappedLane[i] = _tappedLane[i]; // 次フレームで比較するためタップ状況を保存
         }

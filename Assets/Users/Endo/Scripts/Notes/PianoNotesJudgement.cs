@@ -20,11 +20,9 @@ public class PianoNotesJudgement : NotesJudgementBase
 
     protected override void Start()
     {
-        maxLaneNum = 8;
-
         base.Start();
 
-        for (int i = 0; i < tapBG.Length; i++)
+        for (int i = 0; i < maxLaneNum; i++)
         {
             tapBG[i].SetActive(false);
             mask[i].SetActive(false);
@@ -117,7 +115,7 @@ public class PianoNotesJudgement : NotesJudgementBase
 
     protected override void UpdateNotesDisplay(bool[] tappedLane, bool[] lastTappedLane)
     {
-        for (int laneNum = 0; laneNum < tappedLane.Length; laneNum++)
+        for (int laneNum = 0; laneNum < maxLaneNum; laneNum++)
         {
             float absTiming            = 9999; // 初期化（0ではだめなので）
             bool  isTappedThisLane     = tappedLane[laneNum];

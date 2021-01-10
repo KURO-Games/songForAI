@@ -25,8 +25,8 @@ public abstract class NotesGeneratorBase : MonoBehaviour
 
     //string[] filePaths = System.IO.Directory.GetFiles(Application.streamingAssetsPath, "*.nts");
     //ノーツデータ
-    protected NotesJson.MusicData musicData;
-    protected bool                Generated;
+    public static NotesJson.MusicData musicData;
+    protected     bool                Generated;
 
     protected bool PlayedBGM;
     // protected KeyJudge _judge;
@@ -67,6 +67,7 @@ public abstract class NotesGeneratorBase : MonoBehaviour
         offset        = offsets[MusicDatas.MusicNumber];
         jacketIsFaded = false;
         rootObj       = notesGen[0].transform.root.gameObject;
+        musicData     = default;
         //NotesSpeed = highSpeeds[1];
         //speed = Speeds[1];
         //offset = offsets[1];
