@@ -9,7 +9,8 @@ public class KeyJudge : MonoBehaviour
     private bool[] lastTap = new bool[8];// 前フレームのタップ
     public static bool[] isHold = new bool[8];// 二重鍵盤用ロングノーツ識別
     public static int[] keyNotesCount = new int[8];      // 二重鍵盤用ノーツカウント
-    public static List<List<GameObject>> GOListArray = new List<List<GameObject>>();// ノーツ座標格納用2次元配列
+    public static List<List<(GameObject gameObject, NotesSelector selector)>> GOListArray =
+        new List<List<(GameObject gameObject, NotesSelector selector)>>();// ノーツ座標格納用2次元配列
     //
     // 使い方  GOListArray   [_notesCount[laneNumber]]                   [laneNumber]
     //         GOListArray   [何個目のノーツなのか[何番目のレーンの]]    [何番目のレーンなのか]
@@ -21,8 +22,6 @@ public class KeyJudge : MonoBehaviour
 
     private void Start()
     {
-        Judge.gameType = 0;// 二十鍵盤仕様
-
         // タップ判定用 flag初期化
         for (int i = 0; i < tapFlag.Length; i++)
         {
@@ -47,34 +46,34 @@ public class KeyJudge : MonoBehaviour
             tapFlag[i] = false;
         }
 
-        // デバッグ用コード
+#if UNITY_EDITOR
         //if (Input.GetMouseButton(0))
         //{
         //    SceneLoadManager.LoadScene("Result");
         //}
 
-        //if (Input.GetMouseButton(0))
-        //{
-        //    int laneNumber = -1;
-        //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //    RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 10f, 1);
+        if (Input.GetMouseButton(0))
+        {
+            int laneNumber = -1;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 10f, 1);
 
-        //    if (hit.collider)
-        //    {
-        //        GameObject clickObj = hit.transform.gameObject;
+            if (hit.collider)
+            {
+                GameObject clickObj = hit.transform.gameObject;
 
-        //        if ((clickObj != null) && (clickObj.tag == ("Lane")))// tagでレーンを識別
-        //        {
-        //            string s = clickObj.name;  // レーン番号を取得
-        //            laneNumber = int.Parse(s);    // 文字列を数字に変換
-        //        }
-        //    }
-        //    if (laneNumber >= 0)
-        //        tapFlag[laneNumber] = true;
-        //}
-        // End
+                if ((clickObj != null) && (clickObj.tag == ("Lane")))// tagでレーンを識別
+                {
+                    string s = clickObj.name;  // レーン番号を取得
+                    laneNumber = int.Parse(s);    // 文字列を数字に変換
+                }
+            }
+            if (laneNumber >= 0)
+                tapFlag[laneNumber] = true;
+        }
+#endif
 
-
+#if UNITY_IOS
         // tapFlagON/OFF処理（マルチタップ対応）
         if (0 < Input.touchCount)
         {
@@ -90,6 +89,7 @@ public class KeyJudge : MonoBehaviour
                 tapFlag[laneNumber] = true;
             }
         }
+#endif
 
         // 各レーンのタップ状況を前フレームと比較
         for(int i = 0; i < tapFlag.Length; i++)
@@ -103,14 +103,14 @@ public class KeyJudge : MonoBehaviour
                 if (isHold[i] == true)
                 {
                     // 左レーン
-                    if (i <= 3 && leftJudgeLine.transform.position.y - Judge.gradesCriterion[3] > GOListArray[keyNotesCount[i]][i].GetComponent<NotesSelector>().EndNotes.transform.position.y)
+                    if (i <= 3 && leftJudgeLine.transform.position.y - Judge.gradesCriterion[3] > GOListArray[keyNotesCount[i]][i].selector.EndNotes.transform.position.y)
                     {
                         Judge.NotesCountUp(i);
                         isHold[i] = false;
 
                     }
                     // 右レーン
-                    else if (i >= 4 && rightJudgeLine.transform.position.y - Judge.gradesCriterion[3] > GOListArray[keyNotesCount[i]][i].GetComponent<NotesSelector>().EndNotes.transform.position.y)
+                    else if (i >= 4 && rightJudgeLine.transform.position.y - Judge.gradesCriterion[3] > GOListArray[keyNotesCount[i]][i].selector.EndNotes.transform.position.y)
                     {
                         Judge.NotesCountUp(i);
                         isHold[i] = false;
@@ -120,14 +120,14 @@ public class KeyJudge : MonoBehaviour
             // タップ開始
             else if ((lastTap[i] == false) && (tapFlag[i] == true))
             {
-                if ((GOListArray[keyNotesCount[i]][i] != null) && (i <= 3))
+                if ((GOListArray[keyNotesCount[i]][i].gameObject != null) && (i <= 3))
                 {
-                    absTiming = Judge.GetAbsTiming(GOListArray[keyNotesCount[i]][i].transform.position.y
+                    absTiming = Judge.GetAbsTiming(GOListArray[keyNotesCount[i]][i].gameObject.transform.position.y
                                 , leftJudgeLine.transform.position.y);
                 }
-                else if ((GOListArray[keyNotesCount[i]][i] != null) && (i >= 4))
+                else if ((GOListArray[keyNotesCount[i]][i].gameObject != null) && (i >= 4))
                 {
-                    absTiming = Judge.GetAbsTiming(GOListArray[keyNotesCount[i]][i].transform.position.y
+                    absTiming = Judge.GetAbsTiming(GOListArray[keyNotesCount[i]][i].gameObject.transform.position.y
                                 , rightJudgeLine.transform.position.y);
                 }
 
@@ -141,14 +141,14 @@ public class KeyJudge : MonoBehaviour
             {
                 if (isHold[i])
                 {
-                    if ((GOListArray[keyNotesCount[i]][i] != null) && (i <= 3))
+                    if ((GOListArray[keyNotesCount[i]][i].gameObject != null) && (i <= 3))
                     {
-                        absTiming = Judge.GetAbsTiming(GOListArray[keyNotesCount[i]][i].GetComponent<NotesSelector>().EndNotes.transform.position.y
+                        absTiming = Judge.GetAbsTiming(GOListArray[keyNotesCount[i]][i].selector.EndNotes.transform.position.y
                                     , leftJudgeLine.transform.position.y);
                     }
-                    else if ((GOListArray[keyNotesCount[i]][i] != null) && (i >= 4))
+                    else if ((GOListArray[keyNotesCount[i]][i].gameObject != null) && (i >= 4))
                     {
-                        absTiming = Judge.GetAbsTiming(GOListArray[keyNotesCount[i]][i].GetComponent<NotesSelector>().EndNotes.transform.position.y
+                        absTiming = Judge.GetAbsTiming(GOListArray[keyNotesCount[i]][i].selector.EndNotes.transform.position.y
                                     , rightJudgeLine.transform.position.y);
                     }
 
@@ -160,7 +160,7 @@ public class KeyJudge : MonoBehaviour
                 tapBG[i].SetActive(false);
             }
 
-            
+
             if(isHold[i])
             {
                 mask[i].SetActive(true);

@@ -11,7 +11,7 @@ public class RetryButton : MonoBehaviour
             if (SelectMusicScene.life > 0)
             {
                 Result.isClick = false;
-                SceneLoadManager.LoadScene("Resize_RhythmGame2");
+                SceneLoadManager.LoadScene("Piano");
             }
         }
     }
