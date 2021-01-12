@@ -64,7 +64,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     /// </summary>
     /// <param name="notesType">ノーツの種類</param>
     /// <param name="laneNum">レーン番号</param>
-    protected abstract void JudgeNotesType(int notesType, int laneNum);
+    protected abstract void JudgeNotesType(NotesType notesType, int laneNum);
 
     /// <summary>
     /// 入力判定に基づいて各レーンのタップ状況を前フレームと比較し、ノーツを処理する
@@ -284,7 +284,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
 
         int thisNotesType = GOListArray[laneNum][notesCount[laneNum]].selector.NotesType;
 
-        Instance.JudgeNotesType(thisNotesType, laneNum);
+        Instance.JudgeNotesType((NotesType) thisNotesType, laneNum);
     }
 
     /// <summary>

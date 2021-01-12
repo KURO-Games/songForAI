@@ -13,7 +13,7 @@ public class PianoNotesJudgement : NotesJudgementBase
     private GameObject rightJudgeLine; // 右判定ライン
 
     [SerializeField]
-    private GameObject[] tapBG = new GameObject[8]; // レーンタップ時の背景
+    private GameObject[] laneBg = new GameObject[8]; // レーンタップ時の背景
 
     [SerializeField]
     private GameObject[] mask = new GameObject[8]; // ロングノーツ用マスク
@@ -24,7 +24,7 @@ public class PianoNotesJudgement : NotesJudgementBase
 
         for (int i = 0; i < maxLaneNum; i++)
         {
-            tapBG[i].SetActive(false);
+            laneBg[i].SetActive(false);
             mask[i].SetActive(false);
         }
     }
@@ -99,10 +99,10 @@ public class PianoNotesJudgement : NotesJudgementBase
         }
     }
 
-    protected override void JudgeNotesType(int notesType, int laneNum)
+    protected override void JudgeNotesType(NotesType notesType, int laneNum)
     {
         // ロングノーツか判別
-        if ((notesType       == 2) &&
+        if ((notesType       == NotesType.LongAndSlide) &&
             (isHold[laneNum] == false))
         {
             isHold[laneNum] = true; // ホールド開始
@@ -141,7 +141,7 @@ public class PianoNotesJudgement : NotesJudgementBase
                     if (isHold[laneNum])
                     {
                         // 左レーン
-                        if (laneNum <= 3 &&
+                        if (isLeftLane &&
                             leftJudgeLine.transform.position.y - GradesCriterion[3] >
                             notesSel.EndNotes.transform.position.y)
                         {
@@ -178,7 +178,7 @@ public class PianoNotesJudgement : NotesJudgementBase
                     // 距離に応じて判定処理
                     JudgeGrade(absTiming, laneNum);
 
-                    tapBG[laneNum].SetActive(true);
+                    laneBg[laneNum].SetActive(true);
 
                     break;
                 }
@@ -204,7 +204,7 @@ public class PianoNotesJudgement : NotesJudgementBase
                         isHold[laneNum] = false;
                     }
 
-                    tapBG[laneNum].SetActive(false);
+                    laneBg[laneNum].SetActive(false);
 
                     break;
                 }
