@@ -28,25 +28,14 @@ public class PianoNotesGenerator : NotesGeneratorBase
     protected override void LoadNotes()
     {
         // ノーツ生成
-        for (int i = 0; musicData.notes.Length > i; i++)
+        foreach (NotesJson.Notes thisNotes in musicData.notes)
         {
-            // このループでの単一ノーツ情報
-            NotesJson.Notes thisNotes = musicData.notes[i];
-
-            // リスト初期化
-            NotesManager.NotesPositions.Add(new List<GameObject>()); //nex
-
-            for (int e = 0; e < musicData.maxBlock; e++)
-            {
-                NotesManager.NotesPositions[i].Add(null);
-            }
-
             // ノーツデータを変数に代入
             int laneNum   = thisNotes.block;
             int notesType = thisNotes.type;
             int notesNum  = thisNotes.num;
             // 生成先のトランスフォーム
-            Transform notesGenPosTrf = NotesGen[laneNum].transform;
+            Transform notesGenPosTrf = notesGen[laneNum].transform;
             // bpm = musicData.BPM;
 
             // ノーツの種類判別
@@ -66,7 +55,7 @@ public class PianoNotesGenerator : NotesGeneratorBase
                     genNotes.transform.localPosition =  Vector3.zero;
                     genNotes.transform.localPosition += new Vector3(0, (notesNum + 1) * NotesSpeed);
 
-                    NotesPositionAdd(genNotes, laneNum, i);
+                    NotesPositionAdd(genNotes, laneNum);
 
                     break;
                 }
@@ -88,7 +77,7 @@ public class PianoNotesGenerator : NotesGeneratorBase
                     longNotesScale.y                       *= 0.03f * (16f / thisNotes.LPB);
                     longNotesGenNotes.transform.localScale =  longNotesScale;
 
-                    NotesPositionAdd(longNotesGenNotes, laneNum, i);
+                    NotesPositionAdd(longNotesGenNotes, laneNum);
 
                     /* ロングノーツ始点 */
 
