@@ -5574,7 +5574,7 @@ MonoBehaviour:
   uiObj: {fileID: 75384145}
   leftJudgeLine: {fileID: 1393062762393935883}
   rightJudgeLine: {fileID: 1393062762607218855}
-  tapBG:
+  laneBg:
   - {fileID: 2120699381}
   - {fileID: 2073227018}
   - {fileID: 1281751118}
