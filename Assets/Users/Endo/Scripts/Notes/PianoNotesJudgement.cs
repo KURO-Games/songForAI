@@ -140,13 +140,16 @@ public class PianoNotesJudgement : NotesJudgementBase
                     // ロングノーツホールド中、終点を通過した場合
                     if (isHold[laneNum])
                     {
-                        // 左レーン
-                        if (isLeftLane &&
+                            // 左レーン
+                            //if (isLeftLane &&
+                            //    leftJudgeLine.transform.position.y - GradesCriterion[3] >
+                            //    notesSel.EndNotes.transform.position.y)
+                        if (laneNum < 4 &&
                             leftJudgeLine.transform.position.y - GradesCriterion[3] >
                             notesSel.EndNotes.transform.position.y)
                         {
-                            NotesCountUp(laneNum);
-                            isHold[laneNum] = false;
+                        NotesCountUp(laneNum);
+                        isHold[laneNum] = false;
                         }
                         // 右レーン
                         else if (laneNum >= 4 &&

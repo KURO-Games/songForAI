@@ -15,6 +15,9 @@ public class Rhithm : MonoBehaviour
     [SerializeField]
     private GameObject judge;
 
+    [SerializeField]
+    private GameObject playEffect;
+
     private float _timeCount;
     private bool  _isCalled;
     private bool  _isTaped;
@@ -68,6 +71,7 @@ public class Rhithm : MonoBehaviour
                     NotesGeneratorBase.jacketIsFaded = true;
 
                     judge.SetActive(true);
+                    playEffect.SetActive(true);
                 }
             }
         }

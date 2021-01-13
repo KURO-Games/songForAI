@@ -44,6 +44,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     // タップ背景 ON/OFF 切り替え用
     private static   bool[] _tappedLane;     // 現在タップしているレーンの識別
     private static   bool[] _lastTappedLane; // 前フレームのタップ
+    public static    bool[] justTap;         // ノーツをタップし、コンボが繋がる場合true
     public static    bool[] isHold;          // ロングノーツ識別
     protected static int[]  notesCount;      // 各レーンのノーツカウント
 
@@ -84,6 +85,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
         _drawGradeObjs  = new GameObject[maxLaneNum];
         _tappedLane     = new bool[maxLaneNum];
         _lastTappedLane = new bool[maxLaneNum];
+        justTap         = new bool[maxLaneNum];
         isHold          = new bool[maxLaneNum];
         notesCount      = new int[maxLaneNum];
 
@@ -260,6 +262,12 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
         if (tapGrade != TimingGrade.Miss)
         {
             TotalGrades[(int) tapGrade]++;
+        }
+
+        // エフェクト用 great以上で該当レーンをtrue
+        if((int)tapGrade < 2)
+        {
+            justTap[laneNum] = true;
         }
 
         // 判定UI描画
