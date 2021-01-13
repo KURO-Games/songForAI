@@ -15,6 +15,9 @@ public class Rhithm : MonoBehaviour
     [SerializeField]
     private GameObject judge;
 
+    [SerializeField]
+    private GameObject playEffect;
+
     private float _timeCount;
     private bool  _isCalled;
     private bool  _isTaped;
@@ -24,7 +27,7 @@ public class Rhithm : MonoBehaviour
     private NotesGeneratorBase _notesGenerator;
     private CanvasGroup        _startImgCanvasGrp;
 
-    void Start()
+    private void Start()
     {
         _notesGenerator    = NotesGen.GetComponent<NotesGeneratorBase>();
         _startImgCanvasGrp = StartImage.GetComponent<CanvasGroup>();
@@ -48,7 +51,7 @@ public class Rhithm : MonoBehaviour
         if (!_notesGenerateStarted)
         {
             _notesGenerateStarted = true;
-            NotesGen.GetComponent<NotesGeneratorBase>().NotesGenerate();
+            _notesGenerator.NotesGenerate();
         }
 
         Times += Time.fixedDeltaTime;
@@ -64,10 +67,11 @@ public class Rhithm : MonoBehaviour
 
                 if(_timeCount > 2)
                 {
-                    _faded                        = true;
-                    _notesGenerator.jacketIsFaded = true;
+                    _faded                           = true;
+                    NotesGeneratorBase.jacketIsFaded = true;
 
                     judge.SetActive(true);
+                    playEffect.SetActive(true);
                 }
             }
         }

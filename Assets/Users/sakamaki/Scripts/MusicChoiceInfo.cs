@@ -140,6 +140,8 @@ public class MusicChoiceInfo : MonoBehaviour
             //MusicNameTitle[0].GetComponent<Text>().text = musicName[listCount];
             //MusicNameTitle[1].GetComponent<Text>().text = musicName[listCount + 1];
             //MusicNameTitle[2].GetComponent<Text>().text = musicName[listCount + 2];
+
+            // listCount変数を変動させることで曲変更できる
         }
     }
 

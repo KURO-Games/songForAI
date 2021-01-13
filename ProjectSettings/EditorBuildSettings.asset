@@ -56,4 +56,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Users/Endo/Scenes/ViolineDev.unity
     guid: dc20da4893427ee40bfced621b100282
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 60d638a690ce6cd459c03d04f4ec80fc,
+      type: 2}
