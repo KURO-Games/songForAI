@@ -23,7 +23,7 @@ public class StringNotesGenerater : MonoBehaviour
     NotesJson.MusicData musicData = new NotesJson.MusicData();
     bool Generated=false;
     bool PlayedBGM=false;
-    StringJudge _judge;
+    //StringJudge _judge;
     private void Update()
     {
         ButtonPush();
@@ -119,7 +119,7 @@ public class StringNotesGenerater : MonoBehaviour
             Generated = true;
 
         }
-        StringJudge.ListImport();
+        //StringJudge.ListImport();
 
     }
     /// <summary>

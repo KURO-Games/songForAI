@@ -25,7 +25,7 @@ public class NotesGenerater : MonoBehaviour
     NotesJson.MusicData musicData = new NotesJson.MusicData();
     bool Generated=false;
     bool PlayedBGM=false;
-    KeyJudge _judge;
+    //KeyJudge _judge;
     float fps;
 
     Vector3 move;
@@ -177,9 +177,9 @@ public class NotesGenerater : MonoBehaviour
             NotesManager.NextNotesLine.Add(LaneNum);
             Generated = true;
         }
-        ScoreManager.maxScore = Judge.gradesPoint[0] * musicData.notes.Length; // perfect時の得点 * 最大コンボ　で天井点を取得
+        //ScoreManager.maxScore = Judge.gradesPoint[0] * musicData.notes.Length; // perfect時の得点 * 最大コンボ　で天井点を取得
 
-        KeyJudge.ListImport();
+        //KeyJudge.ListImport();
 
     }
     /// <summary>

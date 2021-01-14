@@ -149,7 +149,6 @@ public class PianoNotesJudgement : NotesJudgementBase
                     // ロングノーツホールド中、終点を通過した場合
                     if (isHold[laneNum])
                     {
-<<<<<<< HEAD
                             // 左レーン
                             //if (isLeftLane &&
                             //    leftJudgeLine.transform.position.y - GradesCriterion[3] >
@@ -157,20 +156,19 @@ public class PianoNotesJudgement : NotesJudgementBase
                         if (laneNum < 4 &&
                             leftJudgeLine.transform.position.y - GradesCriterion[3] >
                             notesSel.EndNotes.transform.position.y)
-=======
-                        Vector3 endNotesPos = notesSel.EndNotes.transform.position;
+                        // 勝手にいじって申し訳ない...
+                        //Vector3 endNotesPos = notesSel.EndNotes.transform.position;
 
                         // 左レーン
                         if (isLeftLane &&
-                            _leftJudgeLinePos.y - GradesCriterion[3] > endNotesPos.y)
->>>>>>> origin/Endo
+                            _leftJudgeLinePos.y - GradesCriterion[3] > notesSel.EndNotes.transform.position.y)
                         {
                         NotesCountUp(laneNum);
                         isHold[laneNum] = false;
                         }
                         // 右レーン
                         else if (isRightLane &&
-                                 _rightJudgeLinePos.y - GradesCriterion[3] > endNotesPos.y)
+                                 _rightJudgeLinePos.y - GradesCriterion[3] > notesSel.EndNotes.transform.position.y)
                         {
                             NotesCountUp(laneNum);
                             isHold[laneNum] = false;

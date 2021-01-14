@@ -264,24 +264,19 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
             TotalGrades[(int) tapGrade]++;
         }
 
-<<<<<<< HEAD
         // エフェクト用 great以上で該当レーンをtrue
         if((int)tapGrade < 2)
         {
             justTap[laneNum] = true;
         }
 
-        // 判定UI描画
-        _drawGrades[laneNum].DrawGrades((int) tapGrade);
-=======
         // 空タップじゃなければ判定UI描画
         if (tapGrade != TimingGrade.Miss || isHold[laneNum])
         {
             _drawGrades[laneNum].DrawGrades((int) tapGrade);
         }
->>>>>>> origin/Endo
 
-        Instance.EvaluateGrades(laneNum, tapGrade);
+        Instance.EvaluateGrades(tapGrade, laneNum);
 
         // ミスでなければコンボおよびノーツ判定を処理
         if (tapGrade == TimingGrade.Miss) return;
