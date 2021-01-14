@@ -107,10 +107,9 @@ public class ViolinNotesJudgement : NotesJudgementBase
                                    : notesCount[laneNum];
 
             (GameObject notesObj, NotesSelector notesSel) = GOListArray[laneNum][laneNotesNum];
-            bool    isNotesObjNull = notesObj == null;
-            bool    isSingleNotes  = laneNum  <= 3;
-            bool    isSlideNotes   = laneNum  >= 4;
-            Vector3 notesPos       = notesObj.transform.position;
+            bool isNotesObjNull = notesObj == null;
+            bool isSingleNotes  = laneNum  <= 3;
+            bool isSlideNotes   = laneNum  >= 4;
 
             switch (isTappedLastThisLane)
             {
@@ -120,16 +119,22 @@ public class ViolinNotesJudgement : NotesJudgementBase
 
                 // タップ開始
                 case false when isTappedThisLane:
-                    /* タイミング判定 */
-                    // シングルノーツ
-                    if (!isNotesObjNull && isSingleNotes)
+                {
+                    if (!isNotesObjNull)
                     {
-                        absTiming = GetAbsTiming(notesPos.y, _singleJudgeLinePos.y);
-                    }
-                    // スライドノーツ
-                    else if (!isNotesObjNull && isSlideNotes)
-                    {
-                        absTiming = GetAbsTiming(notesPos.x, _slideJudgeLinePos.x);
+                        Vector3 notesPos = notesObj.transform.position;
+
+                        /* タイミング判定 */
+                        // シングルノーツ
+                        if (isSingleNotes)
+                        {
+                            absTiming = GetAbsTiming(notesPos.y, _singleJudgeLinePos.y);
+                        }
+                        // スライドノーツ
+                        else if (isSlideNotes)
+                        {
+                            absTiming = GetAbsTiming(notesPos.x, _slideJudgeLinePos.x);
+                        }
                     }
 
                     // 判定ラインからの距離に応じて判定
@@ -138,6 +143,7 @@ public class ViolinNotesJudgement : NotesJudgementBase
                     // レーンのタップエフェクトがあるなら表示処理をここへ
 
                     break;
+                }
 
                 // タップ終了
                 case true when !isTappedThisLane:
