@@ -42,7 +42,7 @@ public class NotesGenerater : MonoBehaviour
     {
         fps = 1 / Time.deltaTime;
         SoundManager.BgmTime(ref BgmTimes);
-       
+
         //Debug.Log(fps);
         if (Generated)
         {
@@ -62,7 +62,7 @@ public class NotesGenerater : MonoBehaviour
             //move = new Vector3(0, c * speed, 0);//FPS値でとっていた値
             //Debug.LogErrorFormat("c:{0} BGM {1}",c, NotesSpeeds);
             //Debug.Log(a+" "+b+" "+c);
-            
+
 
             if (!PlayedBGM)
             {
@@ -114,11 +114,7 @@ public class NotesGenerater : MonoBehaviour
         for (int i = 0; musicData.notes.Length > i; i++)
         {
             // リスト初期化
-            NotesManager.NotesPositions.Add(new List<GameObject>()); //nex
-            for (int e = 0; e < 8; e++)
-            {
-                NotesManager.NotesPositions[i].Add(null);
-            }
+            NotesManager.NotesPositions.Add(new List<(GameObject gameObject, NotesSelector selector)>()); //nex
 
             // ノーツデータを変数に代入
             int LaneNum = musicData.notes[i].block;
@@ -196,9 +192,10 @@ public class NotesGenerater : MonoBehaviour
     {
         for (int i = 0; i < NotesManager.NotesPositions.Count; i++)
         {
-            if (NotesManager.NotesPositions[i][Lane] == null)
+            if (NotesManager.NotesPositions[i][Lane].gameObject == null)
             {
-                NotesManager.NotesPositions[i][Lane] = notes;
+                (GameObject notesObj, NotesSelector _) = NotesManager.NotesPositions[i][Lane];
+                notesObj = notes;
                 break;
             }
         }

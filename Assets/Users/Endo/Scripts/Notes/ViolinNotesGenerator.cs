@@ -48,18 +48,9 @@ public class ViolinNotesGenerator : NotesGeneratorBase
     protected override void LoadNotes()
     {
         // ノーツ生成
-        for (int i = 0; musicData.notes.Length > i; i++)
+        foreach (NotesJson.Notes thisNotes in musicData.notes)
         {
-            // このループでの単一ノーツ情報
-            NotesJson.Notes thisNotes = musicData.notes[i];
-
-            // リスト初期化
-            NotesManager.NotesPositions.Add(new List<GameObject>()); //nex
-
-            for (int e = 0; e < 6; e++)
-            {
-                NotesManager.NotesPositions[i].Add(null);
-            }
+            NotesManager.NotesPositions.Add(new List<(GameObject gameObject, NotesSelector selector)>()); //nex
 
             // ノーツデータを変数に代入
             int laneNum   = thisNotes.block;
@@ -74,7 +65,7 @@ public class ViolinNotesGenerator : NotesGeneratorBase
                 case NotesType.Single:
                 {
                     // 生成位置のトランスフォーム
-                    Transform notesGenPosTrf = NotesGen[laneNum].transform;
+                    Transform notesGenPosTrf = notesGen[laneNum].transform;
 
                     // 生成位置
                     Vector3 notesGenPos = new Vector3(notesGenPosTrf.position.x, 0);
@@ -87,7 +78,7 @@ public class ViolinNotesGenerator : NotesGeneratorBase
                     genNotes.transform.localPosition =  Vector3.zero;
                     genNotes.transform.localPosition += new Vector3(0, (notesNum + 1) * NotesSpeed);
 
-                    NotesPositionAdd(genNotes, laneNum, i);
+                    NotesPositionAdd(genNotes, laneNum);
 
                     break;
                 }
@@ -98,7 +89,7 @@ public class ViolinNotesGenerator : NotesGeneratorBase
                     // TODO: NotesManager.NotesPositions[]へのノーツ情報追加
 
                     // 先頭ノーツ生成位置のトランスフォーム
-                    Transform headSlideNotesGenPosTrf = NotesGen[laneNum - 1].transform;
+                    Transform headSlideNotesGenPosTrf = notesGen[laneNum - 1].transform;
 
                     // 先頭ノーツの生成位置
                     Vector3 headSlideNotesGenPos = headSlideNotesGenPosTrf.position;
@@ -125,7 +116,7 @@ public class ViolinNotesGenerator : NotesGeneratorBase
                         int       j                  = Array.IndexOf(thisNotes.notes, nextSlideNotes);
                         int       nextSlideLaneNum   = nextSlideNotes.block;
                         int       nextSlideNotesNum  = nextSlideNotes.num;
-                        Transform nextSlideGenPosTrf = NotesGen[nextSlideLaneNum - 1].transform;
+                        Transform nextSlideGenPosTrf = notesGen[nextSlideLaneNum - 1].transform;
 
                         // 中間ノーツの生成位置
                         Vector3 nextSlideNotesGenPos = nextSlideGenPosTrf.position;
@@ -151,7 +142,6 @@ public class ViolinNotesGenerator : NotesGeneratorBase
                                                               nextSlideGenPosTrf.position.y);
 
                         // 帯生成
-                        // TODO: 現状、暫定的に個々に帯を生成しているが、通過判定用にメッシュで生成する必要があるかも
                         GameObject slideBody    = Instantiate(slideNotesBody, slideBodyGenPos, Quaternion.identity);
                         Transform  slideBodyTrf = slideBody.transform;
 
