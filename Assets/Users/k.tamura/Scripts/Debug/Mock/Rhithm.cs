@@ -78,7 +78,11 @@ public class Rhithm : MonoBehaviour
     }
     private void Update()
     {
+#if SFAI_SOUND
+        if (SoundManager.BGMStatus() == CriAtomExPlayer.Status.PlayEnd && !_isCalled)
+#else
         if (SoundManager.BGMStatus() == CriAtomSource.Status.PlayEnd && !_isCalled)
+#endif
         {
             _isCalled = true;
             SceneLoadManager.LoadScene("Result");

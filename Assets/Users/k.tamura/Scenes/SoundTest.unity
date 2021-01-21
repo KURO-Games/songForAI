@@ -187,6 +187,51 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2348672661439026744, guid: fa3f0323fbf054efb98ec183e7f0f796,
+        type: 3}
+      propertyPath: _cueName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2348672661439026744, guid: fa3f0323fbf054efb98ec183e7f0f796,
+        type: 3}
+      propertyPath: _cueSheet
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3913978613871875191, guid: fa3f0323fbf054efb98ec183e7f0f796,
+        type: 3}
+      propertyPath: acfFile
+      value: Sound/sfai.acf
+      objectReference: {fileID: 0}
+    - target: {fileID: 3913978613871875191, guid: fa3f0323fbf054efb98ec183e7f0f796,
+        type: 3}
+      propertyPath: cueSheets.Array.data[1].name
+      value: Sound/Se
+      objectReference: {fileID: 0}
+    - target: {fileID: 3913978613871875191, guid: fa3f0323fbf054efb98ec183e7f0f796,
+        type: 3}
+      propertyPath: cueSheets.Array.data[2].name
+      value: Sound/Demo
+      objectReference: {fileID: 0}
+    - target: {fileID: 6696783556989241293, guid: fa3f0323fbf054efb98ec183e7f0f796,
+        type: 3}
+      propertyPath: _cueName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6696783556989241293, guid: fa3f0323fbf054efb98ec183e7f0f796,
+        type: 3}
+      propertyPath: _cueSheet
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9026790058212390772, guid: fa3f0323fbf054efb98ec183e7f0f796,
+        type: 3}
+      propertyPath: _cueSheet
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9026790058212390772, guid: fa3f0323fbf054efb98ec183e7f0f796,
+        type: 3}
+      propertyPath: _cueName
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa3f0323fbf054efb98ec183e7f0f796, type: 3}
 --- !u!1 &1052761412
