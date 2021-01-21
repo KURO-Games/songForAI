@@ -41,15 +41,16 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     private static CriAtomExAcb DemoBGMCueueSheet = default(CriAtomExAcb);
     private static CriAtomExAcb ScenarioCueueSheet = default(CriAtomExAcb);
 
-    private static readonly string FilePath = Application.streamingAssetsPath + "/sound/{0}.acb";
+    private static readonly string FilePath = Application.streamingAssetsPath + "/Sound/{0}.acb";
     private static readonly string ResourceFilePath = "sound/{0}";
     /// <summary>
     /// 初期化
     /// </summary>
-    private void Awake()
+    /// 
+    private void OnEnable()
     {
-        DontDestroyOnLoad(this);
-        Initialize();
+        DontDestroyOnLoad(Instance);
+        Instance.Initialize();
     }
 
     private void Initialize()
@@ -58,6 +59,10 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         SEExPlayer = new CriAtomExPlayer();
         DemoBGMExPlayer = new CriAtomExPlayer();
         ScenarioExPlayer = new CriAtomExPlayer();
+        CriAtomEx.RegisterAcf(null, Application.streamingAssetsPath + "/Sound/sfai.acf");
+        LoadAsyncCueSheet("Se", SoundType.SE);
+        LoadAsyncCueSheet("Demo", SoundType.DemoBGM);
+
     }
 
     /// <summary>
@@ -66,6 +71,10 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// <param name="cueID">cueID</param>
 #if SFAI_SOUND
     public static void BGMSoundCue()
+    {
+        BGMExPlayer.Start();
+    }
+    public static void BGMSoundCue(int i)
     {
         BGMExPlayer.Start();
     }
@@ -82,7 +91,14 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 #if SFAI_SOUND
     public static void SESoundCue(string cueName)
     {
+        SEExPlayer.SetCue(SeCueueSheet, cueName);
+        SEExPlayer.Start();
 
+    }
+    public static void SESoundCue(int cueID)
+    {
+        SEExPlayer.SetCue(SeCueueSheet, cueID);
+        SEExPlayer.Start();
     }
 #else
     public static void SESoundCue(int cueID)
@@ -113,7 +129,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     {
         CriAtom.RemoveCueSheet(cueSheetName);
     }
-    public IEnumerator LoadCueSheetCoroutine(string cueSheetName, string path, SoundType soundType)
+    private IEnumerator LoadCueSheetCoroutine(string cueSheetName, string path, SoundType soundType)
     {
         CriAtom.AddCueSheetAsync(cueSheetName, path, "");
 
@@ -151,14 +167,28 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
 #endif
     #endregion
+
     /// <summary>
     /// demo用BGMを流すファイル
     /// </summary>
     /// <param name="cueID"></param>
+#if SFAI_SOUND
+    public static void DemoBGMSoundCue(string cueName)
+    {
+        DemoBGMExPlayer.SetCue(DemoBGMCueueSheet, cueName);
+        DemoBGMExPlayer.Start();
+    }
+    public static void DemoBGMSoundCue(int cueID)
+    {
+        DemoBGMExPlayer.SetCue(DemoBGMCueueSheet, cueID);
+        DemoBGMExPlayer.Start();
+    }
+#else
     public static void DemoBGMSoundCue(int cueID)
     {
         Instance.DemoBgmSource.Play(cueID);
     }
+#endif
     /// <summary>
     /// BGMを停止する関数 static化済
     /// </summary>
@@ -197,16 +227,30 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// BGMの現在のステータスを取得する関数 static化済
     /// </summary>
     /// <returns></returns>
+#if SFAI_SOUND
+    public static CriAtomExPlayer.Status BGMStatus()
+    {
+        return BGMExPlayer.GetStatus();
+    }
+#else
     public static CriAtomSource.Status BGMStatus()
     {
         return Instance.BGMSource.status;
     }
+#endif
     /// <summary>
     /// BGMの再生時間の取得[ms]
     /// </summary>
     /// <param name="times"></param>
+#if SFAI_SOUND
+    public static void BgmTime(ref long times)
+    {
+        times = BGMExPlayer.GetTime();
+    }
+#else
     public static void BgmTime(ref long times)
     {
         times = Instance.BGMSource.time;
     }
+#endif
 }

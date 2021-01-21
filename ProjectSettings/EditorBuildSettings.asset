@@ -50,7 +50,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Main/Scenario.unity
     guid: 3e35bca7f42a6a842986c0f4b026f8c7
-  - enabled: 1
+  - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
   - enabled: 1

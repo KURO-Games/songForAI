@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 509415783514019006}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 41007.21, y: 21121.04, z: -1110.3265}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8210164816449256303}
@@ -341,7 +341,7 @@ PrefabInstance:
     - target: {fileID: 8634526604039566845, guid: 92f0c6b4391e44e759a93c1d14b77a2c,
         type: 3}
       propertyPath: cueSheets.Array.size
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8634526604039566845, guid: 92f0c6b4391e44e759a93c1d14b77a2c,
         type: 3}

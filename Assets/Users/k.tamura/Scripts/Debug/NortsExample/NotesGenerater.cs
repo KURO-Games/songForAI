@@ -46,14 +46,6 @@ public class NotesGenerater : MonoBehaviour
         //Debug.Log(fps);
         if (Generated)
         {
-            if(SoundManager.BGMStatus() == CriAtomSource.Status.Stop)//曲が再生される前
-            {
-
-            }
-            else if(SoundManager.BGMStatus() == CriAtomSource.Status.Playing)//曲が再生されている時
-            {
-
-            }
             float a = 60 / bpm;
             float b = a * fps;
             float c = b / 8;
