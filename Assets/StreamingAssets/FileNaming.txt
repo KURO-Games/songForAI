@@ -1,0 +1,4 @@
+"songName_gameType_difficulty"
+
+gameType:piano=0,viollin=1,drum=2
+difficulty:easy=0,normal=1,hard=2,pro=3

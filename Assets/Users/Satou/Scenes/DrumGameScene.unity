@@ -4695,6 +4695,7 @@ MonoBehaviour:
   StartImage: {fileID: 1080602347}
   NotesGen: {fileID: 1695881998}
   judge: {fileID: 499054544}
+  playEffect: {fileID: 0}
 --- !u!4 &846400384
 Transform:
   m_ObjectHideFlags: 0
@@ -8399,7 +8400,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1402086313
 Transform:
   m_ObjectHideFlags: 0
@@ -10815,11 +10816,26 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -2.8
       objectReference: {fileID: 0}
+    - target: {fileID: 145486296660325899, guid: 09dee1e44f8dd5d40acabb35aea94186,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 145486297157027938, guid: 09dee1e44f8dd5d40acabb35aea94186,
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0.2475586
       objectReference: {fileID: 0}
+    - target: {fileID: 145486297380202191, guid: 09dee1e44f8dd5d40acabb35aea94186,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1440546428}
+    - target: {fileID: 145486297451122043, guid: 09dee1e44f8dd5d40acabb35aea94186,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1440546428}
     - target: {fileID: 145486297566049408, guid: 09dee1e44f8dd5d40acabb35aea94186,
         type: 3}
       propertyPath: m_LocalPosition.x

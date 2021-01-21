@@ -44,6 +44,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     // タップ背景 ON/OFF 切り替え用
     private static   bool[] _tappedLane;     // 現在タップしているレーンの識別
     private static   bool[] _lastTappedLane; // 前フレームのタップ
+    public static    bool[] justTap;         // ノーツをタップし、コンボが繋がる場合true
     public static    bool[] isHold;          // ロングノーツ識別
     protected static int[]  notesCount;      // 各レーンのノーツカウント
 
@@ -64,7 +65,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     /// </summary>
     /// <param name="notesType">ノーツの種類</param>
     /// <param name="laneNum">レーン番号</param>
-    protected abstract void JudgeNotesType(int notesType, int laneNum);
+    protected abstract void JudgeNotesType(NotesType notesType, int laneNum);
 
     /// <summary>
     /// 入力判定に基づいて各レーンのタップ状況を前フレームと比較し、ノーツを処理する
@@ -84,6 +85,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
         _drawGradeObjs  = new GameObject[maxLaneNum];
         _tappedLane     = new bool[maxLaneNum];
         _lastTappedLane = new bool[maxLaneNum];
+        justTap         = new bool[maxLaneNum];
         isHold          = new bool[maxLaneNum];
         notesCount      = new int[maxLaneNum];
 
@@ -262,8 +264,17 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
             TotalGrades[(int) tapGrade]++;
         }
 
-        // 判定UI描画
-        _drawGrades[laneNum].DrawGrades((int) tapGrade);
+        // エフェクト用 great以上で該当レーンをtrue
+        if((int)tapGrade < 2)
+        {
+            justTap[laneNum] = true;
+        }
+
+        // 空タップじゃなければ判定UI描画
+        if (tapGrade != TimingGrade.Miss || isHold[laneNum])
+        {
+            _drawGrades[laneNum].DrawGrades((int) tapGrade);
+        }
 
         Instance.EvaluateGrades(tapGrade, laneNum);
 
@@ -284,7 +295,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
 
         int thisNotesType = GOListArray[laneNum][notesCount[laneNum]].selector.NotesType;
 
-        Instance.JudgeNotesType(thisNotesType, laneNum);
+        Instance.JudgeNotesType((NotesType) thisNotesType, laneNum);
     }
 
     /// <summary>

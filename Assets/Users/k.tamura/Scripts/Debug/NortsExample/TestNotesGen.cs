@@ -24,7 +24,7 @@ public class TestNotesGen : MonoBehaviour
     NotesJson.MusicData musicData = new NotesJson.MusicData();
     bool Generated=false;
     bool PlayedBGM=false;
-    StringJudge _judge;
+    //StringJudge _judge;
     float fps;
 
     Vector3 move_y;
@@ -166,7 +166,7 @@ public class TestNotesGen : MonoBehaviour
             Generated = true;
 
         }
-        StringJudge.ListImport();
+        //StringJudge.ListImport();
 
     }
     /// <summary>
