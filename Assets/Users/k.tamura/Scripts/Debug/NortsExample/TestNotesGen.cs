@@ -24,7 +24,7 @@ public class TestNotesGen : MonoBehaviour
     NotesJson.MusicData musicData = new NotesJson.MusicData();
     bool Generated=false;
     bool PlayedBGM=false;
-    StringJudge _judge;
+    //StringJudge _judge;
     float fps;
 
     Vector3 move_y;
@@ -87,11 +87,7 @@ public class TestNotesGen : MonoBehaviour
         for (int i = 0; musicData.notes.Length > i; i++)
         {
             // リスト初期化
-            NotesManager.NotesPositions.Add(new List<GameObject>()); //nex
-            for (int e = 0; e < 8; e++)
-            {
-                NotesManager.NotesPositions[i].Add(null);
-            }
+            NotesManager.NotesPositions.Add(new List<(GameObject gameObject, NotesSelector selector)>()); //nex
 
             // ノーツデータを変数に代入
             int LaneNum = musicData.notes[i].block;
@@ -170,7 +166,7 @@ public class TestNotesGen : MonoBehaviour
             Generated = true;
 
         }
-        StringJudge.ListImport();
+        //StringJudge.ListImport();
 
     }
     /// <summary>
@@ -183,9 +179,10 @@ public class TestNotesGen : MonoBehaviour
     {
         for (int i = 0; i < NotesManager.NotesPositions.Count; i++)
         {
-            if (NotesManager.NotesPositions[i][Lane] == null)
+            if (NotesManager.NotesPositions[i][Lane].gameObject == null)
             {
-                NotesManager.NotesPositions[i][Lane] = notes;
+                (GameObject notesObj, NotesSelector _) = NotesManager.NotesPositions[i][Lane];
+                notesObj                               = notes;
                 break;
             }
         }

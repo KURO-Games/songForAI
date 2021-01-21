@@ -23,13 +23,13 @@ public class StringNotesGenerater : MonoBehaviour
     NotesJson.MusicData musicData = new NotesJson.MusicData();
     bool Generated=false;
     bool PlayedBGM=false;
-    StringJudge _judge;
+    //StringJudge _judge;
     private void Update()
     {
         ButtonPush();
 
         if (Generated)
-        { 
+        {
             NotesGen[0].transform.root.gameObject.transform.position -= new Vector3(0,1, 0)*Time.deltaTime*NotesSpeed*speed;
             if (NotesGen[0].transform.root.gameObject.transform.position.y <= bar.transform.position.y && !PlayedBGM)
             {
@@ -54,10 +54,10 @@ public class StringNotesGenerater : MonoBehaviour
         //                    filePath,
         //                    System.IO.FileMode.Create))
         //            {
-        //                
+        //
         //            }
         //        }
-        
+
 
         //FileInfo info = new FileInfo(Application.streamingAssetsPath + "/music"+MusicDatas.cueMusic+".nts");
         FileInfo info = new FileInfo(Application.streamingAssetsPath + "/longNotesTest");
@@ -71,11 +71,7 @@ public class StringNotesGenerater : MonoBehaviour
         Debug.Log(bpm);
         for (int i = 0; musicData.notes.Length > i; i++)
         {
-            NotesManager.NotesPositions.Add(new List<GameObject>()); //nex
-            for (int e = 0; e < 6; e++)
-            {
-                NotesManager.NotesPositions[i].Add(null);
-            }
+            NotesManager.NotesPositions.Add(new List<(GameObject gameObject, NotesSelector selector)>()); //nex
             int LaneNum = musicData.notes[i].block;
             int NotesType = musicData.notes[i].type;
             int NotesNum = musicData.notes[i].num;
@@ -117,17 +113,17 @@ public class StringNotesGenerater : MonoBehaviour
                 GenNotes.transform.localScale = longPos;
                 notesPositionAdd(GenNotes, LaneNum, i);
             }
-            
+
 
             NotesManager.NextNotesLine.Add(LaneNum);
             Generated = true;
 
         }
-        StringJudge.ListImport();
+        //StringJudge.ListImport();
 
     }
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="info">FilePath</param>
     public void GenerateNotes(FileInfo info)
@@ -140,9 +136,10 @@ public class StringNotesGenerater : MonoBehaviour
     {
         for (int i = 0; i < NotesManager.NotesPositions.Count; i++)
         {
-            if (NotesManager.NotesPositions[i][Lane] == null)
+            if (NotesManager.NotesPositions[i][Lane].gameObject == null)
             {
-                NotesManager.NotesPositions[i][Lane] = notes;
+                (GameObject notesObj, NotesSelector _) = NotesManager.NotesPositions[i][Lane];
+                notesObj                               = notes;
                 break;
             }
         }

@@ -9,6 +9,9 @@ TagManager:
   - ComboNum
   - ScoreNum
   - Right
+  - Left
+  - Violine
+  - Charactor
   layers:
   - Default
   - TransparentFX

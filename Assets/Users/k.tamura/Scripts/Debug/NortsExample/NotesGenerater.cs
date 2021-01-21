@@ -25,7 +25,7 @@ public class NotesGenerater : MonoBehaviour
     NotesJson.MusicData musicData = new NotesJson.MusicData();
     bool Generated=false;
     bool PlayedBGM=false;
-    KeyJudge _judge;
+    //KeyJudge _judge;
     float fps;
 
     Vector3 move;
@@ -42,18 +42,10 @@ public class NotesGenerater : MonoBehaviour
     {
         fps = 1 / Time.deltaTime;
         SoundManager.BgmTime(ref BgmTimes);
-       
+
         //Debug.Log(fps);
         if (Generated)
         {
-            if(SoundManager.BGMStatus() == CriAtomSource.Status.Stop)//曲が再生される前
-            {
-
-            }
-            else if(SoundManager.BGMStatus() == CriAtomSource.Status.Playing)//曲が再生されている時
-            {
-
-            }
             float a = 60 / bpm;
             float b = a * fps;
             float c = b / 8;
@@ -62,7 +54,7 @@ public class NotesGenerater : MonoBehaviour
             //move = new Vector3(0, c * speed, 0);//FPS値でとっていた値
             //Debug.LogErrorFormat("c:{0} BGM {1}",c, NotesSpeeds);
             //Debug.Log(a+" "+b+" "+c);
-            
+
 
             if (!PlayedBGM)
             {
@@ -114,11 +106,7 @@ public class NotesGenerater : MonoBehaviour
         for (int i = 0; musicData.notes.Length > i; i++)
         {
             // リスト初期化
-            NotesManager.NotesPositions.Add(new List<GameObject>()); //nex
-            for (int e = 0; e < 8; e++)
-            {
-                NotesManager.NotesPositions[i].Add(null);
-            }
+            NotesManager.NotesPositions.Add(new List<(GameObject gameObject, NotesSelector selector)>()); //nex
 
             // ノーツデータを変数に代入
             int LaneNum = musicData.notes[i].block;
@@ -143,13 +131,17 @@ public class NotesGenerater : MonoBehaviour
             }
             else if(NotesType == 2)
             {
+                // test
                 int notesNum2 = musicData.notes[i].notes[0].num;
                 GameObject GenNotes = Instantiate(longNotes, new Vector3(NotesGen[LaneNum].transform.position.x
-                    , notesNum2 * NotesSpeed// NotesNumからnotesNum2 ?
+                    , 0
                     , 0)
                     , Quaternion.identity) as GameObject;
-                GenNotes.name = "long" + NotesNum.ToString();
+                GenNotes.name = "longNotes_" + NotesNum.ToString();
                 GenNotes.transform.parent = NotesGen[LaneNum].transform;
+                Vector3 positions = new Vector3(0, (NotesNum) * NotesSpeed, 0);
+                GenNotes.transform.localPosition = new Vector3(0, 0, 0);
+                GenNotes.transform.localPosition += positions;
                 Vector2 longPos = new Vector2(0.19f,notesNum2-NotesNum);
                 longPos.y *= 0.03f*(16/musicData.notes[i].LPB);
                 //longPos.y *= 0.03f * (4 / musicData.notes[i].LPB);
@@ -158,7 +150,7 @@ public class NotesGenerater : MonoBehaviour
 
                 // ロングノーツ始点オブジェクト生成
                 GameObject startEdge = Instantiate(edgeStart, new Vector3(NotesGen[LaneNum].transform.position.x
-                    , notesNum2 * NotesSpeed
+                    , GenNotes.transform.position.y - 0.1f
                     , 0)
                     , Quaternion.identity) as GameObject;
                 startEdge.name = "startEdge_" + NotesNum.ToString();
@@ -166,7 +158,7 @@ public class NotesGenerater : MonoBehaviour
 
                 // ロングノーツ終点オブジェクト生成
                 GameObject endEdge = Instantiate(edgeEnd, new Vector3(NotesGen[LaneNum].transform.position.x
-                    , GenNotes.GetComponent<NotesSelector>().EndNotes.transform.position.y
+                    , GenNotes.GetComponent<NotesSelector>().EndNotes.transform.position.y + 0.1f
                     , 0)
                     , Quaternion.identity) as GameObject;
                 endEdge.name = "endEdge_" + NotesNum.ToString();
@@ -177,9 +169,9 @@ public class NotesGenerater : MonoBehaviour
             NotesManager.NextNotesLine.Add(LaneNum);
             Generated = true;
         }
-        ScoreManager.maxScore = Judge.gradesPoint[0] * musicData.notes.Length; // perfect時の得点 * 最大コンボ　で天井点を取得
+        //ScoreManager.maxScore = Judge.gradesPoint[0] * musicData.notes.Length; // perfect時の得点 * 最大コンボ　で天井点を取得
 
-        KeyJudge.ListImport();
+        //KeyJudge.ListImport();
 
     }
     /// <summary>
@@ -192,9 +184,10 @@ public class NotesGenerater : MonoBehaviour
     {
         for (int i = 0; i < NotesManager.NotesPositions.Count; i++)
         {
-            if (NotesManager.NotesPositions[i][Lane] == null)
+            if (NotesManager.NotesPositions[i][Lane].gameObject == null)
             {
-                NotesManager.NotesPositions[i][Lane] = notes;
+                (GameObject notesObj, NotesSelector _) = NotesManager.NotesPositions[i][Lane];
+                notesObj = notes;
                 break;
             }
         }

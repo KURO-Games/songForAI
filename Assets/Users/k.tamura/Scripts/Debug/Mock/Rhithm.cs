@@ -1,34 +1,42 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class Rhithm : MonoBehaviour
 {
-    bool _isTaped = false;
-    bool _faded = false;
     // Start is called before the first frame update
     [SerializeField]
-    float Times;
+    private float Times;
+
     [SerializeField]
-    GameObject StartImage;
+    private GameObject StartImage;
+
     [SerializeField]
-    GameObject NotesGen;
+    private GameObject NotesGen;
+
     [SerializeField]
-    GameObject judge;
-    float _StartImageColor;
-    private float timeCount;
-    private bool isCalled = false;
-    void Start()
+    private GameObject judge;
+
+    [SerializeField]
+    private GameObject playEffect;
+
+    private float _timeCount;
+    private bool  _isCalled;
+    private bool  _isTaped;
+    private bool  _faded;
+    private bool  _notesGenerateStarted;
+
+    private NotesGeneratorBase _notesGenerator;
+    private CanvasGroup        _startImgCanvasGrp;
+
+    private void Start()
     {
-        Times = 0;
-        timeCount = 0;
-        _isTaped = false;
-        _StartImageColor = StartImage.GetComponent<CanvasGroup>().alpha;
+        _notesGenerator    = NotesGen.GetComponent<NotesGeneratorBase>();
+        _startImgCanvasGrp = StartImage.GetComponent<CanvasGroup>();
+
         SoundManager.AllBGMSoundStop();
         //PlayerPrefs.SetInt("Life", PlayerPrefs.GetInt("Life") - 1);
         Application.targetFrameRate = 60;
     }
+
     public void ReturnHome()
     {
         if (!_isTaped)
@@ -37,34 +45,46 @@ public class Rhithm : MonoBehaviour
             SceneLoadManager.LoadScene("Home");
         }
     }
+
     private void FixedUpdate()
     {
-        Times += Time.deltaTime;
+        if (!_notesGenerateStarted)
+        {
+            _notesGenerateStarted = true;
+            _notesGenerator.NotesGenerate();
+        }
+
+        Times += Time.fixedDeltaTime;
+
         if (Times > 3 && !_faded)
         {
-            _StartImageColor -= 0.05f;
-            StartImage.GetComponent<CanvasGroup>().alpha = _StartImageColor;
-            if (StartImage.GetComponent<CanvasGroup>().alpha <= 0)
-            {
-                StartImage.GetComponent<CanvasGroup>().alpha = 0;
-                timeCount += Time.deltaTime;
-                if(timeCount > 2)
-                {
-                    _faded = true;
+            _startImgCanvasGrp.alpha -= .05f;
 
-                    // TODO: 後ほど取得コンポをNotesGeneratorBaseに変更
-                    NotesGen.GetComponent<NotesGenerater>().NotesGenerate();
+            if (_startImgCanvasGrp.alpha <= 0)
+            {
+                _startImgCanvasGrp.alpha =  0;
+                _timeCount                += Time.fixedDeltaTime;
+
+                if(_timeCount > 2)
+                {
+                    _faded                           = true;
+                    NotesGeneratorBase.jacketIsFaded = true;
 
                     judge.SetActive(true);
+                    playEffect.SetActive(true);
                 }
             }
         }
     }
     private void Update()
     {
-        if (SoundManager.BGMStatus() == CriAtomSource.Status.PlayEnd && !isCalled)
+#if SFAI_SOUND
+        if (SoundManager.BGMStatus() == CriAtomExPlayer.Status.PlayEnd && !_isCalled)
+#else
+        if (SoundManager.BGMStatus() == CriAtomSource.Status.PlayEnd && !_isCalled)
+#endif
         {
-            isCalled = true;
+            _isCalled = true;
             SceneLoadManager.LoadScene("Result");
         }
     }
