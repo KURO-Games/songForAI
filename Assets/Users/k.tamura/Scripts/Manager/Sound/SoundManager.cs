@@ -62,6 +62,8 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         CriAtomEx.RegisterAcf(null, Application.streamingAssetsPath + "/Sound/sfai.acf");
         LoadAsyncCueSheet("Se", SoundType.SE);
         LoadAsyncCueSheet("Demo", SoundType.DemoBGM);
+        DemoBGMExPlayer.AttachFader();
+        DemoBGMExPlayer.SetFadeOutTime(3000);
 
     }
 
@@ -121,16 +123,31 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         if (soundRoadType.Equals(SoundRoadType.StreamingAsssets))
         {
             path = string.Format(FilePath, cueSheetName);
-            Instance.StartCoroutine(Instance.LoadCueSheetCoroutine(cueSheetName,path,soundType));
+            Instance.StartCoroutine(Instance.LoadCueSheetCoroutine(cueSheetName, path, soundType));
         }
     }
 
-    public static void UnLoadCueSheet(string cueSheetName)
+    private static void UnLoadCueSheet(string cueSheetName)
     {
         CriAtom.RemoveCueSheet(cueSheetName);
     }
+    public static void UnLoadCueSheet(SoundType soundType)
+    {
+        switch (soundType)
+        {
+            case SoundType.BGM:
+                if (BGMCueueSheet != default(CriAtomExAcb))
+                    BGMCueueSheet.Dispose();
+                break;
+            case SoundType.Scenario:
+                if (ScenarioCueueSheet != default(CriAtomExAcb))
+                    ScenarioCueueSheet.Dispose();
+                break;
+        }
+    }
     private IEnumerator LoadCueSheetCoroutine(string cueSheetName, string path, SoundType soundType)
     {
+        UnLoadCueSheet(soundType);
         CriAtom.AddCueSheetAsync(cueSheetName, path, "");
 
         while (CriAtom.CueSheetsAreLoading == true)
@@ -163,7 +180,16 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     #endregion
     #region シナリオ
 #if SFAI_SOUND
-
+    public static void ScenarioSoundCue(string cueName)
+    {
+        SEExPlayer.SetCue(SeCueueSheet, cueName);
+        SEExPlayer.Start();
+    }
+    public static void ScenarioSoundCue(int cueID)
+    {
+        SEExPlayer.SetCue(SeCueueSheet, cueID);
+        SEExPlayer.Start();
+    }
 
 #endif
     #endregion
@@ -207,6 +233,11 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 #else
         Instance.BGMSource.Stop();
 #endif
+    }
+
+    public static void DemoStop()
+    {
+        DemoBGMExPlayer.Stop();
     }
     /// <summary>
     /// ポーズ設定

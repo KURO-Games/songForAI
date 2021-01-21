@@ -30,7 +30,6 @@ public class SelectMusicScene : MonoBehaviour
     private void Start()
     {
         SoundManager.BGMStop();
-        SoundManager.UnLoadCueSheet(SoundDefine.Home);
         LifeDraw();
         Highlight();
         DrawDifficulty(lastGameType, lastMusicNumber);
@@ -55,6 +54,9 @@ public class SelectMusicScene : MonoBehaviour
         // 演奏画面用データをセット
         MusicSelects.MusicSelector((MusicNames)lastMusicNumber);
         SoundManager.LoadAsyncCueSheet(SoundDefine.musics[lastMusicNumber],SoundType.BGM);
+#if SFAI_SOUND
+        SoundManager.DemoStop();
+#endif
         // 選択しているキャラに応じて遷移
         switch ((int)MusicDatas.gameType)
         {
