@@ -27,12 +27,16 @@ public class Rhithm : MonoBehaviour
     private NotesGeneratorBase _notesGenerator;
     private CanvasGroup        _startImgCanvasGrp;
 
+    private void OnEnable()
+    {
+        SoundManager.ScenarioSoundCue(0);
+    }
+
     private void Start()
     {
         _notesGenerator    = NotesGen.GetComponent<NotesGeneratorBase>();
         _startImgCanvasGrp = StartImage.GetComponent<CanvasGroup>();
 
-        SoundManager.AllBGMSoundStop();
         //PlayerPrefs.SetInt("Life", PlayerPrefs.GetInt("Life") - 1);
         Application.targetFrameRate = 60;
     }
