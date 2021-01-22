@@ -32,6 +32,7 @@ public class SelectMusicScene : MonoBehaviour
         SoundManager.BGMStop();
         LifeDraw();
         Highlight();
+        SoundManager.SetVolume(1, SoundType.DemoBGM);
         DrawDifficulty(lastGameType, lastMusicNumber);
     }
 
@@ -47,36 +48,45 @@ public class SelectMusicScene : MonoBehaviour
     }
     public void SelectMusic(Button _button)
     {
+        //決定時のSE再生
         SoundManager.SESoundCue(1);
+        SoundManager.SetVolume(0.0f, SoundType.DemoBGM);
 
+        SoundManager.DemoStop();
+        switch (MusicDatas.gameType)
+        {
+            case GameType.Piano:
+                SoundManager.LoadAsyncCueSheet(SoundDefine.flanz, SoundType.Scenario);
+                break;
+            case GameType.Violin:
+                SoundManager.LoadAsyncCueSheet(SoundDefine.pare, SoundType.Scenario);
+                break;
+            case GameType.Drum:
+                SoundManager.LoadAsyncCueSheet(SoundDefine.eric, SoundType.Scenario);
+                break;
+        }
         // リザルト用　難易度レベルを保持
         MusicDatas.difficultLevel = MusicSelects.musicDifficulty[(int)MusicDatas.gameType, MusicDatas.MusicNumber, MusicDatas.difficultNumber];
         // 演奏画面用データをセット
         MusicSelects.MusicSelector((MusicNames)lastMusicNumber);
         SoundManager.LoadAsyncCueSheet(SoundDefine.musics[lastMusicNumber],SoundType.BGM);
-#if SFAI_SOUND
-        SoundManager.DemoStop();
-#endif
         // 選択しているキャラに応じて遷移
-        switch ((int)MusicDatas.gameType)
+        switch (MusicDatas.gameType)
         {
-            case 0:
+            case GameType.Piano:
                 Panel.SetActive(true);// 遷移中の選択を無効
                 SceneLoadManager.LoadScene("Piano");
                 break;
-            case 1:
+            case GameType.Violin:
                 Panel.SetActive(true);
                 SceneLoadManager.LoadScene("ViolineDev");
-
                 // comゲームショウ用
                 //SelectMusicPanelController.popUpFlag = true;
                 break;
-            case 2:
+            case GameType.Drum:
                 Panel.SetActive(true);
                 SceneLoadManager.LoadScene("DrumGameScene");
                 //SelectMusicPanelController.popUpFlag = true;
-                break;
-            default:
                 break;
         }    
     }
