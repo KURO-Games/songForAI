@@ -15,6 +15,9 @@ public class Rhithm : MonoBehaviour
     [SerializeField]
     private GameObject judge;
 
+    [SerializeField]
+    private GameObject playEffect;
+
     private float _timeCount;
     private bool  _isCalled;
     private bool  _isTaped;
@@ -68,13 +71,18 @@ public class Rhithm : MonoBehaviour
                     NotesGeneratorBase.jacketIsFaded = true;
 
                     judge.SetActive(true);
+                    playEffect.SetActive(true);
                 }
             }
         }
     }
     private void Update()
     {
+#if SFAI_SOUND
+        if (SoundManager.BGMStatus() == CriAtomExPlayer.Status.PlayEnd && !_isCalled)
+#else
         if (SoundManager.BGMStatus() == CriAtomSource.Status.PlayEnd && !_isCalled)
+#endif
         {
             _isCalled = true;
             SceneLoadManager.LoadScene("Result");

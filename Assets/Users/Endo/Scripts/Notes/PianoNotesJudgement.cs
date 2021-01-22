@@ -13,18 +13,24 @@ public class PianoNotesJudgement : NotesJudgementBase
     private GameObject rightJudgeLine; // 右判定ライン
 
     [SerializeField]
-    private GameObject[] tapBG = new GameObject[8]; // レーンタップ時の背景
+    private GameObject[] laneBg = new GameObject[8]; // レーンタップ時の背景
 
     [SerializeField]
     private GameObject[] mask = new GameObject[8]; // ロングノーツ用マスク
+
+    private static Vector3 _leftJudgeLinePos;  // 左レーンの位置
+    private static Vector3 _rightJudgeLinePos; // 右レーンの位置
 
     protected override void Start()
     {
         base.Start();
 
+        _leftJudgeLinePos  = leftJudgeLine.transform.position;
+        _rightJudgeLinePos = rightJudgeLine.transform.position;
+
         for (int i = 0; i < maxLaneNum; i++)
         {
-            tapBG[i].SetActive(false);
+            laneBg[i].SetActive(false);
             mask[i].SetActive(false);
         }
     }
@@ -99,10 +105,10 @@ public class PianoNotesJudgement : NotesJudgementBase
         }
     }
 
-    protected override void JudgeNotesType(int notesType, int laneNum)
+    protected override void JudgeNotesType(NotesType notesType, int laneNum)
     {
         // ロングノーツか判別
-        if ((notesType       == 2) &&
+        if ((notesType       == NotesType.LongAndSlide) &&
             (isHold[laneNum] == false))
         {
             isHold[laneNum] = true; // ホールド開始
@@ -131,6 +137,9 @@ public class PianoNotesJudgement : NotesJudgementBase
                                    : notesCount[laneNum];
 
             (GameObject notesObj, NotesSelector notesSel) = GOListArray[laneNum][laneNotesNum];
+            bool isNotesObjNull = notesObj == null;
+            bool isLeftLane     = laneNum  <= 3;
+            bool isRightLane    = laneNum  >= 4;
 
             switch (isTappedLastThisLane)
             {
@@ -140,18 +149,26 @@ public class PianoNotesJudgement : NotesJudgementBase
                     // ロングノーツホールド中、終点を通過した場合
                     if (isHold[laneNum])
                     {
-                        // 左レーン
-                        if (laneNum <= 3 &&
+                            // 左レーン
+                            //if (isLeftLane &&
+                            //    leftJudgeLine.transform.position.y - GradesCriterion[3] >
+                            //    notesSel.EndNotes.transform.position.y)
+                        if (laneNum < 4 &&
                             leftJudgeLine.transform.position.y - GradesCriterion[3] >
                             notesSel.EndNotes.transform.position.y)
+                        // 勝手にいじって申し訳ない...
+                        //Vector3 endNotesPos = notesSel.EndNotes.transform.position;
+
+                        // 左レーン
+                        if (isLeftLane &&
+                            _leftJudgeLinePos.y - GradesCriterion[3] > notesSel.EndNotes.transform.position.y)
                         {
-                            NotesCountUp(laneNum);
-                            isHold[laneNum] = false;
+                        NotesCountUp(laneNum);
+                        isHold[laneNum] = false;
                         }
                         // 右レーン
-                        else if (laneNum >= 4 &&
-                                 rightJudgeLine.transform.position.y - GradesCriterion[3] >
-                                 notesSel.EndNotes.transform.position.y)
+                        else if (isRightLane &&
+                                 _rightJudgeLinePos.y - GradesCriterion[3] > notesSel.EndNotes.transform.position.y)
                         {
                             NotesCountUp(laneNum);
                             isHold[laneNum] = false;
@@ -164,21 +181,25 @@ public class PianoNotesJudgement : NotesJudgementBase
                 // タップ開始
                 case false when isTappedThisLane:
                 {
-                    if ((notesObj != null) && (laneNum <= 3))
+                    if (!isNotesObjNull)
                     {
-                        absTiming = GetAbsTiming(notesObj.transform.position.y,
-                                                 leftJudgeLine.transform.position.y);
+                        Vector3 notesPos = notesObj.transform.position;
+
+                        if (isLeftLane)
+                        {
+                            absTiming = GetAbsTiming(notesPos.y, _leftJudgeLinePos.y);
+                        }
+                        else if (isRightLane)
+                        {
+                            absTiming = GetAbsTiming(notesPos.y, _rightJudgeLinePos.y);
+                        }
                     }
-                    else if ((notesObj != null) && (laneNum >= 4))
-                    {
-                        absTiming = GetAbsTiming(notesObj.transform.position.y,
-                                                 rightJudgeLine.transform.position.y);
-                    }
+
 
                     // 距離に応じて判定処理
                     JudgeGrade(absTiming, laneNum);
 
-                    tapBG[laneNum].SetActive(true);
+                    laneBg[laneNum].SetActive(true);
 
                     break;
                 }
@@ -188,15 +209,15 @@ public class PianoNotesJudgement : NotesJudgementBase
                 {
                     if (isHold[laneNum])
                     {
-                        if ((notesObj != null) && (laneNum <= 3))
+                        Vector3 endNotesPos = notesSel.EndNotes.transform.position;
+
+                        if (!isNotesObjNull && isLeftLane)
                         {
-                            absTiming = GetAbsTiming(notesSel.EndNotes.transform.position.y,
-                                                     leftJudgeLine.transform.position.y);
+                            absTiming = GetAbsTiming(endNotesPos.y, _leftJudgeLinePos.y);
                         }
-                        else if ((notesObj != null) && (laneNum >= 4))
+                        else if (!isNotesObjNull && isRightLane)
                         {
-                            absTiming = GetAbsTiming(notesSel.EndNotes.transform.position.y,
-                                                     rightJudgeLine.transform.position.y);
+                            absTiming = GetAbsTiming(endNotesPos.y, _rightJudgeLinePos.y);
                         }
 
                         JudgeGrade(absTiming, laneNum);
@@ -204,7 +225,7 @@ public class PianoNotesJudgement : NotesJudgementBase
                         isHold[laneNum] = false;
                     }
 
-                    tapBG[laneNum].SetActive(false);
+                    laneBg[laneNum].SetActive(false);
 
                     break;
                 }

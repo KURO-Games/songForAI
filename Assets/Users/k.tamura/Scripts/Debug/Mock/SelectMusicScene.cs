@@ -30,7 +30,6 @@ public class SelectMusicScene : MonoBehaviour
     private void Start()
     {
         SoundManager.BGMStop();
-
         LifeDraw();
         Highlight();
         DrawDifficulty(lastGameType, lastMusicNumber);
@@ -54,7 +53,10 @@ public class SelectMusicScene : MonoBehaviour
         MusicDatas.difficultLevel = MusicSelects.musicDifficulty[(int)MusicDatas.gameType, MusicDatas.MusicNumber, MusicDatas.difficultNumber];
         // 演奏画面用データをセット
         MusicSelects.MusicSelector((MusicNames)lastMusicNumber);
-
+        SoundManager.LoadAsyncCueSheet(SoundDefine.musics[lastMusicNumber],SoundType.BGM);
+#if SFAI_SOUND
+        SoundManager.DemoStop();
+#endif
         // 選択しているキャラに応じて遷移
         switch ((int)MusicDatas.gameType)
         {
@@ -63,14 +65,16 @@ public class SelectMusicScene : MonoBehaviour
                 SceneLoadManager.LoadScene("Piano");
                 break;
             case 1:
-                //Panel.SetActive(true);// 遷移中の選択を無効
-                //SceneLoadManager.LoadScene("ViolineDev");
+                Panel.SetActive(true);
+                SceneLoadManager.LoadScene("ViolineDev");
 
-                // ゲームショウ用
-                SelectMusicPanelController.popUpFlag = true;
+                // comゲームショウ用
+                //SelectMusicPanelController.popUpFlag = true;
                 break;
             case 2:
-                SelectMusicPanelController.popUpFlag = true;
+                Panel.SetActive(true);
+                SceneLoadManager.LoadScene("DrumGameScene");
+                //SelectMusicPanelController.popUpFlag = true;
                 break;
             default:
                 break;

@@ -244,12 +244,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d13602a1753704744a6cb9e217e134a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NotesPrefab: {fileID: 804244363480784257, guid: 5dfab119c9e5c914b941389b41219ba3,
+  NotesPrefab: {fileID: 7793720353168229710, guid: fc50a70566ac1ae498f63d8a667e7d02,
     type: 3}
   longNotes: {fileID: 0}
   edgeStart: {fileID: 0}
   edgeEnd: {fileID: 0}
-  NotesGen:
+  notesGen:
   - {fileID: 2599984513673784861}
   - {fileID: 6434521969388720251}
   - {fileID: 8836417379805121795}

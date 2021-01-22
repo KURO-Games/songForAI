@@ -9,6 +9,14 @@ public class Initialize : MonoBehaviour
         //　フレームレート60FPSに固定
         Application.targetFrameRate = 60;
         PlayerPrefs.SetInt("Life", 3);
-        SceneLoadManager.LoadScene("Splash");   
+        SceneLoadManager.LoadScene("Splash");
+        SoundManager.LoadAsyncCueSheet(SoundDefine.Title, SoundType.BGM);
+    }
+    [RuntimeInitializeOnLoadMethod]
+    static void Init()
+    {
+        GameObject obj = (GameObject)Resources.Load("SoundManager");
+        GameObject instance = (GameObject)Instantiate(
+            obj, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
     }
 }
