@@ -56,7 +56,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         LoadAsyncCueSheet("Se", SoundType.SE);
         LoadAsyncCueSheet("Demo", SoundType.DemoBGM);
         DemoBGMExPlayer.AttachFader();
-        DemoBGMExPlayer.SetFadeOutTime(3000);
+        DemoBGMExPlayer.SetFadeOutTime(1000);
 
     }
 
@@ -127,6 +127,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     {
         UnLoadCueSheet(soundType);
         CriAtom.AddCueSheetAsync(cueSheetName, path, "");
+        SetVolume(1, soundType);
         switch (soundType)
         {
             case SoundType.BGM:
@@ -153,12 +154,12 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     #region シナリオ
     public static void ScenarioSoundCue(string cueName)
     {
-        SEExPlayer.SetCue(SeCueueSheet, cueName);
+        SEExPlayer.SetCue(ScenarioCueueSheet, cueName);
         SEExPlayer.Start();
     }
     public static void ScenarioSoundCue(int cueID)
     {
-        SEExPlayer.SetCue(SeCueueSheet, cueID);
+        SEExPlayer.SetCue(ScenarioCueueSheet, cueID);
         SEExPlayer.Start();
     }
 
@@ -227,5 +228,29 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     public static void BgmTime(ref long times)
     {
         times = BGMExPlayer.GetTime();
+    }
+
+    /// <summary>
+    /// ボリューム変更
+    /// </summary>
+    /// <param name="value">0~1</param>
+    /// <param name="soundType"></param>
+    public static void SetVolume(float value, SoundType soundType)
+    {
+        switch(soundType)
+        {
+            case SoundType.BGM:
+                BGMExPlayer.SetVolume(value);
+                break;
+            case SoundType.SE:
+                SEExPlayer.SetVolume(value);
+                break;
+            case SoundType.DemoBGM:
+                DemoBGMExPlayer.SetVolume(value);
+                break;
+            case SoundType.Scenario:
+                ScenarioExPlayer.SetVolume(value);
+                break;
+        }
     }
 }
