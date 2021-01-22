@@ -244,12 +244,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d13602a1753704744a6cb9e217e134a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NotesPrefab: {fileID: 7568444308224423399, guid: 20ef0ad38d292da4d9bbf6d0e472e511,
+  NotesPrefab: {fileID: 7793720353168229710, guid: fc50a70566ac1ae498f63d8a667e7d02,
     type: 3}
   longNotes: {fileID: 0}
   edgeStart: {fileID: 0}
   edgeEnd: {fileID: 0}
-  NotesGen:
+  notesGen:
   - {fileID: 2599984513673784861}
   - {fileID: 6434521969388720251}
   - {fileID: 8836417379805121795}
@@ -257,7 +257,6 @@ MonoBehaviour:
   - {fileID: 2766767538370521476}
   - {fileID: 7485702880748278277}
   - {fileID: 6422237375663973471}
-  jacketIsFaded: 0
 --- !u!1 &7485702880748278277
 GameObject:
   m_ObjectHideFlags: 0
