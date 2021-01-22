@@ -9,7 +9,6 @@ public class RhithmGameManager : MonoBehaviour
     void Start()
     {
         _isTaped = false;
-        SoundManager.AllBGMSoundStop();
     }
     public void ReturnHome()
     {
