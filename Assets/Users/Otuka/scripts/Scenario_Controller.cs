@@ -48,11 +48,11 @@ public class Scenario_Controller : MonoBehaviour
     public static bool isReaded;// シナリオを読んでいるか
     private void Awake()
     {
-        SceneLoadManager.SceneAdd("UserInputs");
+        //SceneLoadManager.SceneAdd("UserInputs");
     }
     private void Start()
     {
-        
+
         //会話の一行目を読ませるための初期化
         Display_Num = 3;
 
@@ -69,7 +69,7 @@ public class Scenario_Controller : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && Message_Complete == true&&isUserInputs==false)
+        if (Input.GetMouseButtonDown(0) && Message_Complete == true && isUserInputs == false)
         {
             StartCoroutine(Message_Display());
         }
@@ -91,22 +91,26 @@ public class Scenario_Controller : MonoBehaviour
         //                              ↓読み込むテキスト名  後にswitch分で進行度（？）ごとに読み込むシナリオを変えれるようにするかも？
         textAsset = Resources.Load("Text_Test3", typeof(TextAsset)) as TextAsset;
 
-        FileInfo info = new FileInfo(Application.streamingAssetsPath + "/Scenario/"+fileName+".csv");
+        FileInfo info = new FileInfo(Application.streamingAssetsPath + "/Scenario/" + fileName + ".csv");
         StreamReader reader = new StreamReader(info.OpenRead());
         string Text_Lines = reader.ReadToEnd();
 
         //行ごとに分割
         Text_Message = Text_Lines.Split('\n');
 
+        //
+        string[] scenarioSoundLine = Text_Message[0].Split(',');
+        string scenarioSoundName = scenarioSoundLine[1];
+        SoundManager.LoadAsyncCueSheet(scenarioSoundName, SoundType.Scenario);
         //横列認識
         Side_Num = Text_Message[2].Split(',').Length;
         //縦列認識
-        Vertical_Num = Text_Lines.Split('\n').Length-1;
+        Vertical_Num = Text_Lines.Split('\n').Length - 1;
 
         //配列要素数確定させる
         Text_Words = new string[Vertical_Num, Side_Num];
 
-        for(var i = 0; i < Vertical_Num; i++)
+        for (var i = 0; i < Vertical_Num; i++)
         {
             //保存する行を確定、保存
             string[] TempWords = Text_Message[i].Split(',');
@@ -133,15 +137,19 @@ public class Scenario_Controller : MonoBehaviour
             //キャラ表示
             Character.sprite = Character_Sprite[int.Parse(Text_Words[Display_Num, 2])];
             //名前表示
-            if(Text_Words[Display_Num, 3]=="null")
+            if (Text_Words[Display_Num, 3] == "null")
             {
                 Name.text = "";
-            }else if (Text_Words[Display_Num, 3] == "user")
+            }
+            else if (Text_Words[Display_Num, 3] == "user")
             {
                 Name.text = PlayerPrefs.GetString("PlayerName", "プレイヤー");
             }
             else
                 Name.text = Text_Words[Display_Num, 3];
+            //シナリオサウンド実行
+            if (Text_Words[Display_Num, 5]!="-1")
+                SoundManager.ScenarioSoundCue(int.Parse(Text_Words[Display_Num, 5]));
             //メッセージ表示
             //テキストリセット
             Message.text = "";
@@ -157,12 +165,12 @@ public class Scenario_Controller : MonoBehaviour
                         Message.text += "\n";
                         Message_Count += 1;
                     }
-                    else if(Text_Words[Display_Num, 4][Message_Count + 1] == '\"')
+                    else if (Text_Words[Display_Num, 4][Message_Count + 1] == '\"')
                     {
                         Message.text += "\"";
                         Message_Count += 1;
                     }
-                    else if(Text_Words[Display_Num, 4][Message_Count + 1] == 'u')
+                    else if (Text_Words[Display_Num, 4][Message_Count + 1] == 'u')
                     {
                         for (float i = 0; i <= 1; i += 0.01f)
                             _userNameInputs.alpha = i;
@@ -173,12 +181,12 @@ public class Scenario_Controller : MonoBehaviour
                 }
                 else if (Text_Words[Display_Num, 4][Message_Count] == '\"')
                 {
-                    
+
                     yield return new WaitForSeconds(Message_Speed);
                 }
                 else
                 {
-                    
+
                     Message.text += Text_Words[Display_Num, 4][Message_Count];
                 }
                 Message_Count++;
