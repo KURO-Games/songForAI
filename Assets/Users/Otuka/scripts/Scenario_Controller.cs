@@ -61,6 +61,11 @@ public class Scenario_Controller : MonoBehaviour
         Message_Display();
         _isEnded = false;
 
+        if(SoundManager.BGMStatus()!=CriAtomExPlayer.Status.Playing)
+        {
+            SoundManager.BGMSoundCue(0);
+        }
+
         if (scenarioNumber == 0)
             isReaded = true;// プロローグは読んでる扱い
         else
