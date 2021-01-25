@@ -29,7 +29,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     private static CriAtomExPlayer DemoBGMExPlayer = default(CriAtomExPlayer);
     private static CriAtomExPlayer ScenarioExPlayer = default(CriAtomExPlayer);
 
-    private static CriAtomExAcb BGMCueueSheet = default(CriAtomExAcb);
+    private static CriAtomExAcb BGMCueSheet = default(CriAtomExAcb);
     private static CriAtomExAcb SeCueueSheet = default(CriAtomExAcb);
     private static CriAtomExAcb DemoBGMCueueSheet = default(CriAtomExAcb);
     private static CriAtomExAcb ScenarioCueueSheet = default(CriAtomExAcb);
@@ -114,25 +114,41 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         switch (soundType)
         {
             case SoundType.BGM:
-                if (BGMCueueSheet != default(CriAtomExAcb))
-                    BGMCueueSheet.Dispose();
+                if (BGMCueSheet != default(CriAtomExAcb))
+                {
+                    CriAtomEx.CueInfo[] infos = BGMCueSheet.GetCueInfoList();
+                    foreach (CriAtomEx.CueInfo info in infos)
+                    {
+                        BGMExPlayer = new CriAtomExPlayer();
+                        CriAtom.RemoveCueSheet(info.name);
+                    }
+                    BGMCueSheet.Dispose();
+                }
                 break;
             case SoundType.Scenario:
                 if (ScenarioCueueSheet != default(CriAtomExAcb))
+                {
+                    CriAtomEx.CueInfo[] infos = ScenarioCueueSheet.GetCueInfoList();
+                    foreach (CriAtomEx.CueInfo info in infos)
+                    {
+                        ScenarioExPlayer = new CriAtomExPlayer();
+                        CriAtom.RemoveCueSheet(info.name);
+                    }
                     ScenarioCueueSheet.Dispose();
+                }
                 break;
         }
     }
     private static void LoadCueSheet(string cueSheetName, string path, SoundType soundType)
     {
         UnLoadCueSheet(soundType);
-        CriAtom.AddCueSheetAsync(cueSheetName, path, "");
+        //CriAtom.AddCueSheetAsync(cueSheetName, path, "");
         SetVolume(1, soundType);
         switch (soundType)
         {
             case SoundType.BGM:
-                BGMCueueSheet= CriAtomExAcb.LoadAcbFile(null,path,null);
-                BGMExPlayer.SetCue(BGMCueueSheet, cueSheetName);
+                BGMCueSheet = CriAtomExAcb.LoadAcbFile(null, path, null);
+                BGMExPlayer.SetCue(BGMCueSheet, cueSheetName);
                 BGMExPlayer.Prepare();
                 break;
             case SoundType.SE:
@@ -237,7 +253,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// <param name="soundType"></param>
     public static void SetVolume(float value, SoundType soundType)
     {
-        switch(soundType)
+        switch (soundType)
         {
             case SoundType.BGM:
                 BGMExPlayer.SetVolume(value);

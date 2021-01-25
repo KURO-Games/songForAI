@@ -55,11 +55,26 @@ PrefabInstance:
     - target: {fileID: 8566290222470067072, guid: cc342081b871841cf8c02692fbef9a14,
         type: 3}
       propertyPath: dontDestroyOnLoad
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8566290222470067072, guid: cc342081b871841cf8c02692fbef9a14,
         type: 3}
       propertyPath: atomConfig.usesInGamePreview
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8566290222470067072, guid: cc342081b871841cf8c02692fbef9a14,
+        type: 3}
+      propertyPath: dontInitializeOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8566290222470067072, guid: cc342081b871841cf8c02692fbef9a14,
+        type: 3}
+      propertyPath: atomConfig.acfFileName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8566290222470067072, guid: cc342081b871841cf8c02692fbef9a14,
+        type: 3}
+      propertyPath: initializesAtom
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8566290222470067073, guid: cc342081b871841cf8c02692fbef9a14,
@@ -197,25 +212,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8634526604039566845, guid: 92f0c6b4391e44e759a93c1d14b77a2c,
+    - target: {fileID: 7841032529145668756, guid: 92f0c6b4391e44e759a93c1d14b77a2c,
         type: 3}
-      propertyPath: cueSheets.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8634526604039566845, guid: 92f0c6b4391e44e759a93c1d14b77a2c,
-        type: 3}
-      propertyPath: dontRemoveExistsCueSheet
+      propertyPath: dontDestroyOnLoad
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8634526604039566845, guid: 92f0c6b4391e44e759a93c1d14b77a2c,
-        type: 3}
-      propertyPath: cueSheets.Array.data[2].name
-      value: Demo
-      objectReference: {fileID: 0}
-    - target: {fileID: 8634526604039566845, guid: 92f0c6b4391e44e759a93c1d14b77a2c,
-        type: 3}
-      propertyPath: cueSheets.Array.data[2].acbFile
-      value: Demo.acb
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92f0c6b4391e44e759a93c1d14b77a2c, type: 3}
