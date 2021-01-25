@@ -46,6 +46,16 @@ public class Scenario_Controller : MonoBehaviour
     public static bool isUserInputs = false;
     public static int scenarioNumber = 0;
     public static bool isReaded;// シナリオを読んでいるか
+
+    [SerializeField]
+    private GameObject franz;
+    [SerializeField]
+    private AnimationClip idle;
+    [SerializeField]
+    private AnimationClip surprise;
+    [SerializeField]
+    private AnimationClip doubt;
+
     private void Awake()
     {
         SceneLoadManager.SceneAdd("UserInputs");
