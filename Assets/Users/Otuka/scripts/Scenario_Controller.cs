@@ -47,6 +47,7 @@ public class Scenario_Controller : MonoBehaviour
     public static int scenarioNumber = 0;
     public static bool isReaded;// シナリオを読んでいるか
 
+    // Live2D関連
     [SerializeField]
     private GameObject franz;
     [SerializeField]
@@ -55,6 +56,9 @@ public class Scenario_Controller : MonoBehaviour
     private AnimationClip surprise;
     [SerializeField]
     private AnimationClip doubt;
+    private MotionPlayer motionPlayer;
+    private bool isFranz = false;
+    private bool isAnimPlayed = false;
 
     private void Awake()
     {
@@ -66,7 +70,8 @@ public class Scenario_Controller : MonoBehaviour
         //会話の一行目を読ませるための初期化
         Display_Num = 3;
 
-        Text_Load("sinario_" + scenarioNumber.ToString());
+        //Text_Load("sinario_" + scenarioNumber.ToString());
+        Text_Load("sinario_2");
         StartCoroutine(Message_Display());
         Message_Display();
         _isEnded = false;
@@ -81,12 +86,31 @@ public class Scenario_Controller : MonoBehaviour
         else
             isReaded = false;// それ以外はスキップせず読んだか確認する
 
+        motionPlayer = franz.GetComponent<MotionPlayer>();
     }
     private void Update()
     {
         if (Input.GetMouseButtonDown(0) && Message_Complete == true && isUserInputs == false)
         {
             StartCoroutine(Message_Display());
+        }
+    }
+    private void LateUpdate()
+    {
+        if(isFranz)
+        {
+            // フランツが表示された最初の1回のみ処理
+            if (!isAnimPlayed)
+            {
+                motionPlayer.PlayMotion(idle, true);
+                motionPlayer.SetOpacity(1);
+                isAnimPlayed = true;
+            }
+        }
+        else
+        {
+            motionPlayer.SetOpacity(0);
+            isAnimPlayed = false;
         }
     }
 
@@ -149,8 +173,22 @@ public class Scenario_Controller : MonoBehaviour
             Message_Complete = false;
             //背景表示
             BackGround.sprite = BackGround_Sprite[int.Parse(Text_Words[Display_Num, 1])];
-            //キャラ表示
-            Character.sprite = Character_Sprite[int.Parse(Text_Words[Display_Num, 2])];
+
+            // キャラ表示
+            int charaNum = int.Parse(Text_Words[Display_Num, 2]);
+            // フランツ
+            if (charaNum > 9)
+            {
+                isFranz = true;
+                Character.sprite = Character_Sprite[0];
+            }
+            // 2D
+            else
+            {
+                isFranz = false;
+                Character.sprite = Character_Sprite[charaNum];
+            }
+
             //名前表示
             if (Text_Words[Display_Num, 3] == "null")
             {
