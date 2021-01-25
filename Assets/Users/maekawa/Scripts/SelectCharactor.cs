@@ -24,6 +24,8 @@ public class SelectCharactor : MonoBehaviour
             defaultPosition[i] = charactor[i].transform.position;
             spriteRenderers[i] = charactor[i].GetComponent<SpriteRenderer>();
         }
+        MusicDatas.gameType = (GameType)centerNum;
+        CharacterChange();//初期化
     }
 
     private void Update()
@@ -61,26 +63,31 @@ public class SelectCharactor : MonoBehaviour
             // 選択しているキャラに応じてgameTypeを代入
             MusicDatas.gameType = (GameType)centerNum;
 
-            shiftNum = centerNum;
-            // センターから順にcharaUIに画像を代入
-            for (int i = 0; i < charactor.Length; i++)
-            {
-                if (shiftNum == charactor.Length)
-                    shiftNum = 0;
+            CharacterChange();
 
-                spriteRenderers[i].sprite = charaUI[shiftNum];
-                shiftNum++;
+            isSwiping = false;
+        }
+    }
 
-                // キャラ位置を元に戻す(UI自体は移動しない　spriteのみ変わる)
-                charactor[i].transform.position = defaultPosition[i];
-            }
+    private void CharacterChange()
+    {
+        shiftNum = centerNum;
+        // センターから順にcharaUIに画像を代入
+        for (int i = 0; i < charactor.Length; i++)
+        {
+            if (shiftNum == charactor.Length)
+                shiftNum = 0;
+
+            spriteRenderers[i].sprite = charaUI[shiftNum];
+            shiftNum++;
+
+            // キャラ位置を元に戻す(UI自体は移動しない　spriteのみ変わる)
+            charactor[i].transform.position = defaultPosition[i];
 
             // センター以外を透明化
             spriteRenderers[0].color = new Color(1, 1, 1, 1);
             spriteRenderers[1].color = new Color(1, 1, 1, 0);
             spriteRenderers[2].color = new Color(1, 1, 1, 0);
-
-            isSwiping = false;
         }
     }
 

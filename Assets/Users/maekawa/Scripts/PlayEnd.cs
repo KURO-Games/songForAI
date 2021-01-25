@@ -17,6 +17,8 @@ public class PlayEnd : MonoBehaviour
             isClick = false;
             Scenario_Controller.scenarioNumber = 0;
             SelectMusicScene.life = 2;
+            SoundManager.BGMStop();
+            SoundManager.LoadAsyncCueSheet(SoundDefine.Title,SoundType.BGM);
             SceneLoadManager.LoadScene("Title");
         }
     }

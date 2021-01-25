@@ -2793,8 +2793,8 @@ MonoBehaviour:
   - {fileID: 2069337405}
   - {fileID: 536290124}
   charaUI:
-  - {fileID: 21300000, guid: 2cfdcc20f26d6634ba6164b335d41dbb, type: 3}
   - {fileID: 21300000, guid: 96449ef349c50f740a72f3b105569ce1, type: 3}
+  - {fileID: 21300000, guid: 2cfdcc20f26d6634ba6164b335d41dbb, type: 3}
   - {fileID: 21300000, guid: c5fd8ae9b01150e44a7e19019fe5df69, type: 3}
 --- !u!4 &477100383
 Transform:
