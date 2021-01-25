@@ -134,7 +134,6 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
                         ScenarioExPlayer = new CriAtomExPlayer();
                         CriAtom.RemoveCueSheet(info.name);
                     }
-                    ScenarioCueueSheet.Dispose();
                 }
                 break;
         }
@@ -148,8 +147,9 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         {
             case SoundType.BGM:
                 BGMCueSheet = CriAtomExAcb.LoadAcbFile(null, path, null);
+                BGMExPlayer = new CriAtomExPlayer();
                 BGMExPlayer.SetCue(BGMCueSheet, cueSheetName);
-                BGMExPlayer.Prepare();
+                
                 break;
             case SoundType.SE:
                 SeCueueSheet = CriAtomExAcb.LoadAcbFile(null, path, null);
