@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5540245313029285264}
   - component: {fileID: 4023731434019831437}
-  - component: {fileID: 8634526604039566845}
+  - component: {fileID: 7841032529145668756}
   m_Layer: 0
   m_Name: CRIWARE
   m_TagString: Untagged
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ef410aed001b60468abcbb30b09687a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8634526604039566845
+--- !u!114 &7841032529145668756
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -56,16 +56,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91f529aa944b914449d62b8c40f188fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acfFile: sfai.acf
-  cueSheets:
-  - name: Bgm
-    acbFile: Bgm.acb
-    awbFile: 
-    loaderStatus: 0
-  - name: Se
-    acbFile: Se.acb
-    awbFile: 
-    loaderStatus: 0
+  acfFile: 
+  cueSheets: []
   dspBusSetting: 
   dontDestroyOnLoad: 0
   dontRemoveExistsCueSheet: 0

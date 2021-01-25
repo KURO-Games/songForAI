@@ -9,6 +9,7 @@ public class StoryButton : MonoBehaviour
         if (Result.isClick)
         {
             Result.isClick = false;
+            SoundManager.LoadAsyncCueSheet(SoundDefine.Home, SoundType.BGM);
             SceneLoadManager.LoadScene("Scenario");
         }
     }
