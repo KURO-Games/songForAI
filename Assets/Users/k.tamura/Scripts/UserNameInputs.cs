@@ -47,6 +47,7 @@ public class UserNameInputs : MonoBehaviour
                 Scenario_Controller.isUserInputs = false;
                 _ScenarioControler.StartCoroutineDisplay();
 
+                MotionPlayer.isNamed = true;
             }
         }
     }
