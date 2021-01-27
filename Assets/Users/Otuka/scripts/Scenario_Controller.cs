@@ -47,26 +47,12 @@ public class Scenario_Controller : MonoBehaviour
     public static int scenarioNumber = 0;
     public static bool isReaded;// シナリオを読んでいるか
 
-    // Live2D関連
-    [SerializeField]
-    private GameObject franz;
-    [SerializeField]
-    private AnimationClip idle;
-    [SerializeField]
-    private AnimationClip surprise;
-    [SerializeField]
-    private AnimationClip doubt;
-    private MotionPlayer motionPlayer;
-    private bool isFranz = false;
-    private bool isAnimPlayed = false;
-
     private void Awake()
     {
         //SceneLoadManager.SceneAdd("UserInputs");
     }
     private void Start()
     {
-
         //会話の一行目を読ませるための初期化
         Display_Num = 3;
 
@@ -85,32 +71,12 @@ public class Scenario_Controller : MonoBehaviour
             isReaded = true;// プロローグは読んでる扱い
         else
             isReaded = false;// それ以外はスキップせず読んだか確認する
-
-        motionPlayer = franz.GetComponent<MotionPlayer>();
     }
     private void Update()
     {
         if (Input.GetMouseButtonDown(0) && Message_Complete == true && isUserInputs == false)
         {
             StartCoroutine(Message_Display());
-        }
-    }
-    private void LateUpdate()
-    {
-        if(isFranz)
-        {
-            // フランツが表示された最初の1回のみ処理
-            if (!isAnimPlayed)
-            {
-                motionPlayer.PlayMotion(idle, true);
-                motionPlayer.SetOpacity(1);
-                isAnimPlayed = true;
-            }
-        }
-        else
-        {
-            motionPlayer.SetOpacity(0);
-            isAnimPlayed = false;
         }
     }
 
@@ -173,21 +139,10 @@ public class Scenario_Controller : MonoBehaviour
             Message_Complete = false;
             //背景表示
             BackGround.sprite = BackGround_Sprite[int.Parse(Text_Words[Display_Num, 1])];
-
             // キャラ表示
-            int charaNum = int.Parse(Text_Words[Display_Num, 2]);
-            // フランツ
-            if (charaNum > 9)
-            {
-                isFranz = true;
-                Character.sprite = Character_Sprite[0];
-            }
-            // 2D
-            else
-            {
-                isFranz = false;
-                Character.sprite = Character_Sprite[charaNum];
-            }
+            Character.sprite = Character_Sprite[int.Parse(Text_Words[Display_Num, 2])];
+            // Live2Dにモーション番号を伝える
+            MotionPlayer.motionNum = int.Parse(Text_Words[Display_Num, 6]);
 
             //名前表示
             if (Text_Words[Display_Num, 3] == "null")
