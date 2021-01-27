@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class PianoNotesGenerator : NotesGeneratorBase
 {
@@ -15,7 +16,6 @@ public class PianoNotesGenerator : NotesGeneratorBase
 
         if (PlayedBGM) return;
 
-        // ノーツを遅らせる
         SoundManager.BGMSoundCue(MusicDatas.cueMusic);
         PlayedBGM = true;
     }
