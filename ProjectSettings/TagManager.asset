@@ -12,6 +12,7 @@ TagManager:
   - Left
   - Violine
   - Charactor
+  - SlidableArea
   layers:
   - Default
   - TransparentFX
