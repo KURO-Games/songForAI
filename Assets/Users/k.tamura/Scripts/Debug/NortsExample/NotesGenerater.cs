@@ -166,7 +166,7 @@ public class NotesGenerater : MonoBehaviour
 
                 // ロングノーツ終点オブジェクト生成
                 GameObject endEdge = Instantiate(edgeEnd, new Vector3(NotesGen[LaneNum].transform.position.x
-                    , GenNotes.GetComponent<NotesSelector>().EndNotes.transform.position.y + 0.1f
+                    , GenNotes.GetComponent<NotesSelector>().endNotes.transform.position.y + 0.1f
                     , 0)
                     , Quaternion.identity) as GameObject;
                 endEdge.name = "endEdge_" + NotesNum.ToString();

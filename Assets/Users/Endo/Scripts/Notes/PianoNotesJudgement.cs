@@ -35,7 +35,7 @@ public class PianoNotesJudgement : NotesJudgementBase
         }
     }
 
-    protected override void EvaluateGrades(TimingGrade tapGrade, int laneNum)
+    protected override void EvaluateGrades(int laneNum, TimingGrade tapGrade)
     {
         switch (tapGrade)
         {
@@ -105,7 +105,7 @@ public class PianoNotesJudgement : NotesJudgementBase
         }
     }
 
-    protected override void JudgeNotesType(NotesType notesType, int laneNum)
+    protected override void JudgeNotesType(int laneNum, NotesType notesType, SlideNotesSection? slideSection)
     {
         // ロングノーツか判別
         if ((notesType       == NotesType.LongAndSlide) &&
@@ -123,52 +123,44 @@ public class PianoNotesJudgement : NotesJudgementBase
     {
         for (int laneNum = 0; laneNum < maxLaneNum; laneNum++)
         {
-            float absTiming            = 9999; // 初期化（0ではだめなので）
-            bool  isTappedThisLane     = tappedLane[laneNum];
-            bool  isTappedLastThisLane = lastTappedLane[laneNum];
+            float absTiming              = 9999; // 初期化（0ではだめなので）
+            bool  isThisLaneTapped       = tappedLane[laneNum];
+            bool  isThisLaneTappedInPrev = lastTappedLane[laneNum];
 
             // タップを全く行っていなければ判定しない
-            if (!isTappedThisLane && !isTappedLastThisLane) continue;
+            if (!isThisLaneTapped && !isThisLaneTappedInPrev) continue;
 
             // レーン内のノーツのインデックス
             // FIXME: レーン内の最終ノーツの場合、そのままノーツカウントを渡すとインデックス範囲外になるため、暫定的に-1している
-            int laneNotesNum = (GOListArray[laneNum].Count == notesCount[laneNum])
-                                   ? notesCount[laneNum] - 1
-                                   : notesCount[laneNum];
+            int laneNotesCount = (GOListArray[laneNum].Count == notesCount[laneNum])
+                                     ? notesCount[laneNum] - 1
+                                     : notesCount[laneNum];
 
-            (GameObject notesObj, NotesSelector notesSel) = GOListArray[laneNum][laneNotesNum];
+            (GameObject notesObj, NotesSelector notesSel) = GOListArray[laneNum][laneNotesCount];
             bool isNotesObjNull = notesObj == null;
             bool isLeftLane     = laneNum  <= 3;
             bool isRightLane    = laneNum  >= 4;
 
-            switch (isTappedLastThisLane)
+            switch (isThisLaneTappedInPrev)
             {
                 // タップ継続
-                case true when isTappedThisLane:
+                case true when isThisLaneTapped:
                 {
-                    // ロングノーツホールド中、終点を通過した場合
+                    // ロングノーツホールド中、終点が通過してたら破棄
                     if (isHold[laneNum])
                     {
-                            // 左レーン
-                            //if (isLeftLane &&
-                            //    leftJudgeLine.transform.position.y - GradesCriterion[3] >
-                            //    notesSel.EndNotes.transform.position.y)
-                        if (laneNum < 4 &&
-                            leftJudgeLine.transform.position.y - GradesCriterion[3] >
-                            notesSel.EndNotes.transform.position.y)
-                        // 勝手にいじって申し訳ない...
-                        //Vector3 endNotesPos = notesSel.EndNotes.transform.position;
+                        Vector3 endNotesPos = notesSel.endNotes.transform.position;
 
                         // 左レーン
                         if (isLeftLane &&
-                            _leftJudgeLinePos.y - GradesCriterion[3] > notesSel.EndNotes.transform.position.y)
+                            _leftJudgeLinePos.y - GradesCriterion[3] > endNotesPos.y)
                         {
-                        NotesCountUp(laneNum);
-                        isHold[laneNum] = false;
+                            NotesCountUp(laneNum);
+                            isHold[laneNum] = false;
                         }
                         // 右レーン
                         else if (isRightLane &&
-                                 _rightJudgeLinePos.y - GradesCriterion[3] > notesSel.EndNotes.transform.position.y)
+                                 _rightJudgeLinePos.y - GradesCriterion[3] > endNotesPos.y)
                         {
                             NotesCountUp(laneNum);
                             isHold[laneNum] = false;
@@ -179,7 +171,7 @@ public class PianoNotesJudgement : NotesJudgementBase
                 }
 
                 // タップ開始
-                case false when isTappedThisLane:
+                case false when isThisLaneTapped:
                 {
                     if (!isNotesObjNull)
                     {
@@ -195,9 +187,8 @@ public class PianoNotesJudgement : NotesJudgementBase
                         }
                     }
 
-
                     // 距離に応じて判定処理
-                    JudgeGrade(absTiming, laneNum);
+                    JudgeGrade(laneNum, absTiming);
 
                     laneBg[laneNum].SetActive(true);
 
@@ -205,11 +196,11 @@ public class PianoNotesJudgement : NotesJudgementBase
                 }
 
                 // タップ終了
-                case true when !isTappedThisLane:
+                case true when !isThisLaneTapped:
                 {
                     if (isHold[laneNum])
                     {
-                        Vector3 endNotesPos = notesSel.EndNotes.transform.position;
+                        Vector3 endNotesPos = notesSel.endNotes.transform.position;
 
                         if (!isNotesObjNull && isLeftLane)
                         {
@@ -220,7 +211,7 @@ public class PianoNotesJudgement : NotesJudgementBase
                             absTiming = GetAbsTiming(endNotesPos.y, _rightJudgeLinePos.y);
                         }
 
-                        JudgeGrade(absTiming, laneNum);
+                        JudgeGrade(laneNum, absTiming);
 
                         isHold[laneNum] = false;
                     }
