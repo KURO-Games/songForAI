@@ -50,8 +50,6 @@ public class ViolinNotesGenerator : NotesGeneratorBase
         // ノーツ生成
         foreach (NotesJson.Notes thisNotes in musicData.notes)
         {
-            NotesManager.NotesPositions.Add(new List<(GameObject gameObject, NotesSelector selector)>()); //nex
-
             // ノーツデータを変数に代入
             int laneNum   = thisNotes.block;
             int notesType = thisNotes.type;
@@ -86,28 +84,29 @@ public class ViolinNotesGenerator : NotesGeneratorBase
                 // スライドノーツ
                 case NotesType.LongAndSlide:
                 {
-                    // TODO: NotesManager.NotesPositions[]へのノーツ情報追加
-
                     // 先頭ノーツ生成位置のトランスフォーム
-                    Transform headSlideNotesGenPosTrf = notesGen[laneNum - 1].transform;
+                    Transform headSlideNotesGenPosTrf = notesGen[laneNum].transform;
 
                     // 先頭ノーツの生成位置
                     Vector3 headSlideNotesGenPos = headSlideNotesGenPosTrf.position;
 
                     // 先頭ノーツ生成
-                    GameObject headSlideNotes = Instantiate(slideNotes, headSlideNotesGenPos, Quaternion.identity);
+                    GameObject headSlideNotesObj = Instantiate(slideNotes, headSlideNotesGenPos, Quaternion.identity);
 
                     // 各種設定
-                    headSlideNotes.name                    =  $"slideStart_{notesNum}";
-                    headSlideNotes.transform.parent        =  headSlideNotesGenPosTrf;
-                    headSlideNotes.transform.localPosition =  Vector3.zero;
-                    headSlideNotes.transform.localPosition += new Vector3(-(notesNum + 1) * NotesSpeed, 0);
+                    headSlideNotesObj.name                    =  $"slideStart_{notesNum}";
+                    headSlideNotesObj.transform.parent        =  headSlideNotesGenPosTrf;
+                    headSlideNotesObj.transform.localPosition =  Vector3.zero;
+                    headSlideNotesObj.transform.localPosition += new Vector3(-(notesNum + 1) * NotesSpeed, 0);
 
-                    // 1つ前のスライドノーツトランスフォームとして設定
-                    Transform prevSlideNotesTrf = headSlideNotes.transform;
+                    // 1つ前のスライドノーツ情報記憶
+                    Transform     prevSlideNotesTrf = headSlideNotesObj.transform;
+                    NotesSelector prevSlideNotesSel = headSlideNotesObj.GetComponent<NotesSelector>();
 
-                    // 1つ前のスライドノーツ
-                    NotesJson.Notes prevSlideNotes = thisNotes;
+                    prevSlideNotesSel.laneNum      = laneNum;
+                    prevSlideNotesSel.slideSection = SlideNotesSection.Head;
+
+                    NotesPositionAdd(headSlideNotesObj, laneNum);
 
                     // 先頭以降のノーツ生成
                     foreach (NotesJson.Notes nextSlideNotes in thisNotes.notes)
@@ -116,7 +115,8 @@ public class ViolinNotesGenerator : NotesGeneratorBase
                         int       j                  = Array.IndexOf(thisNotes.notes, nextSlideNotes);
                         int       nextSlideLaneNum   = nextSlideNotes.block;
                         int       nextSlideNotesNum  = nextSlideNotes.num;
-                        Transform nextSlideGenPosTrf = notesGen[nextSlideLaneNum - 1].transform;
+                        bool      isEndNotes         = j == thisNotes.notes.Length - 1;
+                        Transform nextSlideGenPosTrf = notesGen[nextSlideLaneNum].transform;
 
                         // 中間ノーツの生成位置
                         Vector3 nextSlideNotesGenPos = nextSlideGenPosTrf.position;
@@ -125,12 +125,23 @@ public class ViolinNotesGenerator : NotesGeneratorBase
                         GameObject nextSlideNotesObj =
                             Instantiate(slideNotes, nextSlideNotesGenPos, Quaternion.identity);
 
-                        Transform nextNotesTrf = nextSlideNotesObj.transform;
+                        Transform     nextNotesTrf = nextSlideNotesObj.transform;
+                        NotesSelector nextNotesSel = nextSlideNotesObj.GetComponent<NotesSelector>();
 
-                        // インデックスによって名称変更
-                        nextSlideNotesObj.name = j == thisNotes.notes.Length - 1
-                                                     ? "slideEnd_"  // 末尾
-                                                     : "slideMid_"; // 中間
+                        nextNotesSel.laneNum          = nextSlideLaneNum;
+                        nextNotesSel.prevSlideNotes   = (prevSlideNotesTrf.gameObject, prevSlideNotesSel);
+
+                        // 末尾ノーツかどうかで情報変更
+                        if (isEndNotes)
+                        {
+                            nextSlideNotesObj.name    = "slideEnd_";
+                            nextNotesSel.slideSection = SlideNotesSection.Foot;
+                        }
+                        else
+                        {
+                            nextSlideNotesObj.name    = "slideMid_";
+                            nextNotesSel.slideSection = SlideNotesSection.Middle;
+                        }
 
                         nextSlideNotesObj.name     += nextSlideNotesNum;
                         nextNotesTrf.parent        =  nextSlideGenPosTrf;
@@ -142,11 +153,11 @@ public class ViolinNotesGenerator : NotesGeneratorBase
                                                               nextSlideGenPosTrf.position.y);
 
                         // 帯生成
-                        GameObject slideBody    = Instantiate(slideNotesBody, slideBodyGenPos, Quaternion.identity);
-                        Transform  slideBodyTrf = slideBody.transform;
+                        GameObject slideBodyObj = Instantiate(slideNotesBody, slideBodyGenPos, Quaternion.identity);
+                        Transform  slideBodyTrf = slideBodyObj.transform;
 
-                        slideBody.name      = $"slideNotes_{nextSlideNotesNum}";
-                        slideBodyTrf.parent = nextSlideGenPosTrf;
+                        slideBodyObj.name   = $"slideNotes_{nextSlideNotesNum}";
+                        slideBodyTrf.parent = prevSlideNotesTrf;
 
                         // 位置をスライドノーツの中間に設定
                         slideBodyTrf.position = Vector3.Lerp(nextNotesTrf.position,
@@ -161,14 +172,21 @@ public class ViolinNotesGenerator : NotesGeneratorBase
                         float prevAndNextNotesDist = Vector3.Distance(prevSlideNotesTrf.position,
                                                                       nextNotesTrf.position);
 
+                        // 帯のスケールの比率。帯と親のスケールが異なる場合への対応
+                        float slideBodyScaleRatio = slideBodyTrf.localScale.x / slideBodyTrf.parent.localScale.x;
+
                         // 帯のスケール。そのままだと向きが逆転するため符号反転
-                        Vector3 slideBodyScale = new Vector3(-prevAndNextNotesDist / 10,
+                        Vector3 slideBodyScale = new Vector3(-prevAndNextNotesDist / 10 * slideBodyScaleRatio,
                                                              -slideBodyTrf.localScale.y);
 
                         slideBodyTrf.localScale = slideBodyScale;
 
+                        prevSlideNotesSel.nextSlideNotes = (nextSlideNotesObj, nextNotesSel);
+
                         prevSlideNotesTrf = nextSlideNotesObj.transform;
-                        prevSlideNotes    = nextSlideNotes;
+                        prevSlideNotesSel = nextSlideNotesObj.GetComponent<NotesSelector>();
+
+                        NotesPositionAdd(nextSlideNotesObj, nextSlideLaneNum);
                     }
 
                     break;

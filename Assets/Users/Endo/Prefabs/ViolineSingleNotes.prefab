@@ -120,5 +120,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7f6990b9f23249ecb689f81cbcc8564, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NotesType: 1
-  EndNotes: {fileID: 0}
+  isSlideMiddle: 0
+  notesType: 1
+  endNotes: {fileID: 0}

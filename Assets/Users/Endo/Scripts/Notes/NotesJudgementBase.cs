@@ -10,8 +10,10 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     [SerializeField]
     protected GameObject uiObj;
 
-    // レーンの最大数。各継承先のStart()オーバーライドで設定してください
-    protected int maxLaneNum;
+    // レーンの最大数
+    protected static int            maxLaneNum;
+    protected static RaycastHit2D[] tapRayHits = new RaycastHit2D[0];
+    private static   Camera         _camera;
 
     // プランナーレベルデザイン用
     // perfect ～ badの順に入力
@@ -43,13 +45,15 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     private static DrawGrade[]  _drawGrades;
 
     // タップ背景 ON/OFF 切り替え用
-    private static   bool[] _tappedLane;     // 現在タップしているレーンの識別
-    private static   bool[] _lastTappedLane; // 前フレームのタップ
-    public static    bool[] justTap;         // ノーツをタップし、コンボが繋がる場合true
-    public static    bool[] isHold;          // ロングノーツ識別
-    protected static int[]  notesCount;      // 各レーンのノーツカウント
+    private static bool[] _tappedLane;     // 現在タップしているレーンの識別
+    private static bool[] _lastTappedLane; // 前フレームのタップ
+    public static  bool[] justTap;         // ノーツをタップし、コンボが繋がる場合true
+    public static  bool[] isHold;          // ロングノーツ識別
+    public static  int[]  notesCount;      // 各レーンのノーツカウント
+    public         bool[] isHoldView;
+    public         int[]  notesCountView;
 
-    protected static List<List<(GameObject gameObject, NotesSelector selector)>> GOListArray =
+    public static List<List<(GameObject gameObject, NotesSelector selector)>> GOListArray =
         new List<List<(GameObject gameObject, NotesSelector selector)>>(); // ノーツ座標格納用2次元配列
     // 使い方  GOListArray  [laneNumber]         [notesCount[laneNumber]]
     //        GOListArray  [何番目のレーンなのか] [何個目のノーツなのか[何番目のレーンなのか]]
@@ -57,16 +61,17 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     /// <summary>
     /// タップ判定時のタイミンググレードごとの処理を行う
     /// </summary>
-    /// <param name="tapGrade">タップタイミングのグレード</param>
     /// <param name="laneNum">レーン番号</param>
-    protected abstract void EvaluateGrades(TimingGrade tapGrade, int laneNum);
+    /// <param name="tapGrade">タップタイミングのグレード</param>
+    protected abstract void EvaluateGrades(int laneNum, TimingGrade tapGrade);
 
     /// <summary>
     /// タップ判定時のノーツの種類ごとの処理を行う
     /// </summary>
-    /// <param name="notesType">ノーツの種類</param>
     /// <param name="laneNum">レーン番号</param>
-    protected abstract void JudgeNotesType(NotesType notesType, int laneNum);
+    /// <param name="notesType">ノーツの種類</param>
+    /// <param name="slideSection">スライドの節の種類</param>
+    protected abstract void JudgeNotesType(int laneNum, NotesType notesType, SlideNotesSection? slideSection);
 
     /// <summary>
     /// 入力判定に基づいて各レーンのタップ状況を前フレームと比較し、ノーツを処理する
@@ -86,6 +91,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
         maxLaneNum = NotesGeneratorBase.musicData.maxBlock;
         scoreMgr   = uiObj.GetComponent<ScoreManager>();
         comboMgr   = uiObj.GetComponent<ComboManager>();
+        _camera    = Camera.main;
 
         _drawGrades     = new DrawGrade[maxLaneNum];
         _drawGradeObjs  = new GameObject[maxLaneNum];
@@ -151,6 +157,9 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
 
         // 各レーンのタップ状況を前フレームと比較
         UpdateNotesDisplay(_tappedLane, _lastTappedLane);
+
+        isHoldView     = isHold;
+        notesCountView = notesCount;
     }
 
     private void LateUpdate()
@@ -159,6 +168,8 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
         {
             _lastTappedLane[i] = _tappedLane[i]; // 次フレームで比較するためタップ状況を保存
         }
+
+        Array.Clear(tapRayHits, 0, tapRayHits.Length);
     }
 
     /// <summary>
@@ -168,28 +179,24 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     /// <returns>laneNumber</returns>
     private static int GetTappedLaneNumber(int touchIndex = -1)
     {
-        int          laneNum = -1; // 例外処理用
-        GameObject   clickedObj;   // 都度初期化
-        Ray          ray;
-        RaycastHit2D hit;
+        int        laneNum = -1; // 例外処理用
+        GameObject clickedObj;   // 都度初期化
+        Ray        ray;
 
 #if UNITY_EDITOR
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        hit = Physics2D.Raycast(ray.origin, ray.direction, 10, 1);
+        ray        = _camera.ScreenPointToRay(Input.mousePosition);
+        tapRayHits = Physics2D.RaycastAll(ray.origin, ray.direction, 10, 1);
 
-        if (hit.collider)
+        foreach (RaycastHit2D hit in tapRayHits)
         {
             clickedObj = hit.transform.gameObject;
 
-            if (clickedObj != null && clickedObj.CompareTag("Lane"))
-            {
-                laneNum = int.Parse(clickedObj.name);
-            }
+            // レーンを取得できていれば番号取得
+            if (clickedObj == null || !clickedObj.CompareTag("Lane")) continue;
 
-            if (laneNum >= 0)
-            {
-                _tappedLane[laneNum] = true;
-            }
+            laneNum = int.Parse(clickedObj.name);
+
+            break;
         }
 #endif
 
@@ -200,17 +207,29 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
             Touch t = Input.GetTouch(touchIndex);
 
             // タップ時処理
-            ray = Camera.main.ScreenPointToRay(t.position);
-            hit = Physics2D.Raycast(ray.origin, ray.direction, 10f, 1);
+            ray = _camera.ScreenPointToRay(t.position);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 10f, 1);
 
-            if (!hit) return laneNum;
+            if (hits.Length == 0) return laneNum;
 
-            clickedObj = hit.transform.gameObject;
-
-            if ((clickedObj != null) && (clickedObj.CompareTag("Lane"))) // tagでレーンを識別
+            foreach (RaycastHit2D hit in hits)
             {
-                string s = clickedObj.name; // レーン番号を取得
-                laneNum = int.Parse(s);     // 文字列を数字に変換
+                clickedObj = hit.transform.gameObject;
+
+                // バイオリンのスライドレーンをタップしてたら一時情報保持
+                if (clickedObj.CompareTag("SlidableArea"))
+                {
+                    tapRayHits = hits;
+
+                    continue;
+                }
+
+                // レーンを取得できていれば番号取得
+                if (clickedObj == null || !clickedObj.CompareTag("Lane")) continue;
+
+                laneNum = int.Parse(clickedObj.name); // 文字列を数字に変換
+
+                break;
             }
         }
 #endif
@@ -224,6 +243,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     /// <param name="laneNum">laneNumber</param>
     /// <param name="judgeLine">judgeLine</param>
     /// <returns>absTiming</returns>
+    // TODO: GetGradeFromAccuracy()と統合
     protected static float GetAbsTiming(float laneNum, float judgeLine) // 判定ライン　－　ノーツ
     {
         float tempTiming = laneNum - judgeLine;
@@ -236,7 +256,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     /// </summary>
     /// <param name="timingAcc">タップタイミングの精度</param>
     /// <returns>判定結果</returns>
-    private static TimingGrade GetGradeFromAccuracy(float timingAcc)
+    protected static TimingGrade GetGradeFromAccuracy(float timingAcc)
     {
         // タップグレード
         TimingGrade grade = TimingGrade.Miss;
@@ -259,19 +279,19 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     /// </summary>
     /// <param name="tapAcc">タップタイミングの精度</param>
     /// <param name="laneNum">レーン番号</param>
-    protected static void JudgeGrade(float tapAcc, int laneNum)
+    protected virtual void JudgeGrade(int laneNum, float tapAcc)
     {
         TimingGrade tapGrade    = GetGradeFromAccuracy(tapAcc); // タップ判定
         int         addingScore = GradesPoint[(int) tapGrade];  // 加算スコア
 
-        // 判定ごとのカウント加算（ミス時はからタップか要判定のため一時スキップ）
+        // 判定ごとのカウント加算（ミス時は空タップか要判定のため一時スキップ）
         if (tapGrade != TimingGrade.Miss)
         {
             TotalGrades[(int) tapGrade]++;
         }
 
         // エフェクト用 great以上で該当レーンをtrue
-        if((int)tapGrade < 2)
+        if ((int) tapGrade < 2)
         {
             justTap[laneNum] = true;
         }
@@ -282,7 +302,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
             _drawGrades[laneNum].DrawGrades((int) tapGrade);
         }
 
-        Instance.EvaluateGrades(tapGrade, laneNum);
+        Instance.EvaluateGrades(laneNum, tapGrade);
 
         // ミスでなければコンボおよびノーツ判定を処理
         if (tapGrade == TimingGrade.Miss) return;
@@ -299,21 +319,20 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
         scoreMgr.DrawScore(totalScore);
         comboMgr.DrawCombo(currentCombo);
 
-        int thisNotesType = GOListArray[laneNum][notesCount[laneNum]].selector.NotesType;
+        NotesSelector thisNotesSel = GOListArray[laneNum][notesCount[laneNum]].selector;
 
-        Instance.JudgeNotesType((NotesType) thisNotesType, laneNum);
+        Instance.JudgeNotesType(laneNum, thisNotesSel.notesType, thisNotesSel.slideSection);
     }
 
     /// <summary>
     /// ノーツ破棄、配列カウントアップ
     /// </summary>
     /// <param name="laneNum">laneNumber</param>
-    protected static void DestroyNotes(int laneNum)
+    protected virtual void DestroyNotes(int laneNum)
     {
-        (GameObject notesObj, NotesSelector notesSel) = GOListArray[laneNum][notesCount[laneNum]];
-        Destroy(notesObj); // 該当ノーツ破棄
-        notesObj = null;   // 多重タップを防ぐ
-        notesSel = null;
+        (GameObject notesObj, NotesSelector _) = GOListArray[laneNum][notesCount[laneNum]];
+
+        Destroy(notesObj);     // 該当ノーツ破棄
         notesCount[laneNum]++; // 該当レーンのノーツカウント++
     }
 
@@ -321,7 +340,8 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     /// ノーツがスルーされた時の処理です
     /// </summary>
     /// <param name="laneNum">laneNumber</param>
-    public static void NotesCountUp(int laneNum)
+    /// <param name="doDestroy">ノーツを破棄するかどうか</param>
+    public static void NotesCountUp(int laneNum, bool doDestroy = true)
     {
         if (currentCombo > bestCombo)
         {
@@ -335,7 +355,14 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
 
         _drawGrades[laneNum].DrawGrades(4);
 
-        DestroyNotes(laneNum);
+        if (doDestroy)
+        {
+            Instance.DestroyNotes(laneNum);
+        }
+        else
+        {
+            notesCount[laneNum]++;
+        }
     }
 
     public static void ListImport()

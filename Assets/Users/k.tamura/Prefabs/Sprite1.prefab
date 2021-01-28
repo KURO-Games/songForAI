@@ -121,8 +121,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7f6990b9f23249ecb689f81cbcc8564, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NotesType: 2
-  EndNotes: {fileID: 3501777786394013317}
+  isSlideMiddle: 0
+  notesType: 2
+  endNotes: {fileID: 3501777786394013317}
 --- !u!1 &3501777786394013317
 GameObject:
   m_ObjectHideFlags: 0
