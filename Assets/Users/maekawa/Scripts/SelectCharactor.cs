@@ -35,7 +35,7 @@ public class SelectCharactor : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, 10f, 1);
 
         // 画面右側をタップした場合処理
-        if ((Input.GetMouseButtonDown(0)) && (hit))
+        if ((Input.GetMouseButtonDown(0)) && (hit) && !SelectMusicPanelController.isPopUp)
         {
             isShifted = false;
             if ((hit.transform.gameObject != null) && (hit.transform.gameObject.tag == "Right"))
