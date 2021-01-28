@@ -23,11 +23,14 @@ public abstract class NotesGeneratorBase : MonoBehaviour
     protected long  BgmTimes;
     protected float NotesSpeeds;
 
+    //string[] filePaths = System.IO.Directory.GetFiles(Application.streamingAssetsPath, "*.nts");
     //ノーツデータ
     public static NotesJson.MusicData musicData;
     protected     bool                Generated;
 
     protected bool PlayedBGM;
+    // protected KeyJudge _judge;
+    // protected float    fps;
 
     protected Vector3 move;
 
@@ -35,15 +38,9 @@ public abstract class NotesGeneratorBase : MonoBehaviour
     protected GameObject rootObj;
 
     // とりあえずここで設定 musicselectsに移動するかも
-<<<<<<< HEAD
-    protected readonly float[] highSpeeds = {0.28f, 0.5f, 0.28f};
-    protected readonly float[] Speeds     = {0.258f, 0.139f, 0.295f};
-    protected readonly float[] offsets    = {35.4f, 20, 31};
-=======
     private readonly float[] _highSpeeds = {0.28f, 0.5f, 0.28f};
-    private readonly float[] _speeds     = {0.258f, 0.139f, 0.295f};
-    private readonly float[] _offsets    = {0, -9.4f, -9.2f};
->>>>>>> origin/Endo
+    private readonly float[] _Speeds     = {0.258f, 0.139f, 0.295f};
+    private readonly float[] _offsets    = {35.4f, 20, 31};
 
     /// <summary>
     /// ノーツの移動部分の計算
@@ -66,7 +63,7 @@ public abstract class NotesGeneratorBase : MonoBehaviour
     protected virtual void Start()
     {
         NotesSpeed    = _highSpeeds[MusicDatas.MusicNumber];
-        speed         = _speeds[MusicDatas.MusicNumber];
+        speed         = _Speeds[MusicDatas.MusicNumber];
         offset        = _offsets[MusicDatas.MusicNumber];
         jacketIsFaded = false;
         rootObj       = notesGen[0].transform.root.gameObject;
