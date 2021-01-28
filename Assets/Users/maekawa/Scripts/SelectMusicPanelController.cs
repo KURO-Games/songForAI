@@ -4,59 +4,54 @@ using UnityEngine;
 using UnityEngine.UI;
 public class SelectMusicPanelController : MonoBehaviour
 {
-    [SerializeField] GameObject panel;
-    [SerializeField] GameObject details;
-    [SerializeField] Text mainText;
-    private float panelWidth = 0;
-    private float panelHeight = 0.05f;
-    public static bool popUpFlag = false;
-    private int lastGameType;
-    public static string notPlayableType;
-    void Start()
+    [SerializeField] private GameObject panel;
+    [SerializeField] private GameObject details;
+    [SerializeField] private Text mainText;
+    [SerializeField] private Animator animator;
+    [SerializeField] private Image displayTips;
+    [SerializeField] private Sprite[] tips;
+    [SerializeField] private GameObject RightButton;
+    [SerializeField] private GameObject LeftButton;
+    private int displayNum = 0;
+    public static bool isPopUp;
+
+    private void Start()
     {
-        popUpFlag = false;
+        isPopUp = false;
     }
 
-    void Update()
+    private void Update()
     {
-        if (lastGameType != (int)MusicDatas.gameType)
-        {
-            switch ((int)MusicDatas.gameType)
-            {
-                case 1:
-                    notPlayableType = "バイオリン";
-                    break;
-                case 2:
-                    notPlayableType = "ドラム";
-                    break;
-                default:
-                    break;
-            }
-            mainText.text = notPlayableType + "モードは現在制作中です";
-            lastGameType = (int)MusicDatas.gameType;
-        }
 
-        // ポップアップアニメーション
-        if (popUpFlag)
-        {
-            panel.SetActive(true);
-            panel.transform.GetChild(0).localScale = new Vector3(panelWidth, panelHeight, 0);
+    }
 
-            if (panelWidth < 1)
-            {
-                panelWidth += 0.1f;
-            }
-            else if (panelHeight < 1)
-            {
-                panelHeight += 0.1f;
-            }
-            else
-            {
-                details.SetActive(true);
-                panelHeight = 0.05f;
-                panelWidth = 0;
-                popUpFlag = false;
-            }
-        }
+    public void PlayUIAnimation()
+    {
+        panel.SetActive(true);
+        isPopUp = true;
+    }
+
+    public void PushRight()
+    {
+        displayNum++;
+        if (displayNum > tips.Length - 1)
+            displayNum = 0;
+        displayTips.sprite = tips[displayNum];
+    }
+
+    public void PushLeft()
+    {
+        displayNum--;
+        if (displayNum < 0)
+            displayNum = tips.Length - 1;
+        displayTips.sprite = tips[displayNum];
+    }
+
+    public void Exit()
+    {
+        displayNum = 0;
+        displayTips.sprite = tips[0];
+        panel.SetActive(false);
+        isPopUp = false;
     }
 }
