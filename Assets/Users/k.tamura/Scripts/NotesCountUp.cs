@@ -1,25 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using UnityEngine;
-using UnityScript.Steps;
+﻿using UnityEngine;
 
 /// <summary>
 /// ノーツのカウントアップ処理
 /// </summary>
 public class NotesCountUp : MonoBehaviour
 {
+    private int _laneNum;
+
+    private void Start()
+    {
+        _laneNum = int.Parse(gameObject.name);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag("Notes"))
-        {
-            string i = gameObject.name;
-            int j = int.Parse(i);
+        // ノーツのみ処理
+        if (!collision.gameObject.CompareTag("Notes")) return;
 
-            if (NotesJudgementBase.isHold[j] != true)
-            {
-                NotesJudgementBase.NotesCountUp(j);
-            }
+        (GameObject _, NotesSelector notesSel) =
+            NotesJudgementBase.GOListArray[_laneNum][NotesJudgementBase.notesCount[_laneNum]];
+
+
+        // 未判定ノーツで非ホールド中またはスライドノーツなら
+        if ((NotesJudgementBase.isHold[_laneNum] != true ||
+             notesSel.slideSection               != null) &&
+            !notesSel.isJudged)
+        {
+            NotesJudgementBase.NotesCountUp(_laneNum);
         }
     }
 }

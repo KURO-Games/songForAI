@@ -98,7 +98,7 @@ public class PianoNotesGenerator : NotesGeneratorBase
 
                     // 終点位置
                     Vector3 endGenPos = new Vector3(notesGenPosTrf.position.x,
-                                                    longNotesSel.EndNotes.transform.position.y + .1f);
+                                                    longNotesSel.endNotes.transform.position.y + .1f);
 
                     // 終点オブジェクト生成
                     GameObject endEdge = Instantiate(edgeEnd, endGenPos, Quaternion.identity);
