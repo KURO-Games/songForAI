@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -77,6 +78,11 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     // Start is called before the first frame update
     protected virtual void Start()
     {
+        totalScore   = 0;
+        currentCombo = 0;
+        bestCombo    = 0;
+        Array.Clear(TotalGrades, 0, TotalGrades.Length);
+
         maxLaneNum = NotesGeneratorBase.musicData.maxBlock;
         scoreMgr   = uiObj.GetComponent<ScoreManager>();
         comboMgr   = uiObj.GetComponent<ComboManager>();
