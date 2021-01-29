@@ -1,35 +1,39 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
-public class ClearDisplay : MonoBehaviour
+public class ClearDisplay : SingletonMonoBehaviour<ClearDisplay>
 {
-    [SerializeField] Animator animator;
-    bool isDisplayed;
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private Animator animator;
+
+    private static          bool isDisplayed;
+    private static readonly int  FullCombo = Animator.StringToHash("FullCombo");
+    private static readonly int  Clear     = Animator.StringToHash("Clear");
+
+    private void Start()
     {
-        
+        isDisplayed = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// クリア・フルコンボアニメーションを表示する
+    /// </summary>
+    public static void Show()
     {
+        if (isDisplayed) return;
 
-        if(SoundManager.BGMStatus()==CriAtomExPlayer.Status.PlayEnd&&!isDisplayed)
+        isDisplayed = true;
+
+        //FullCombo表示
+        if (NotesJudgementBase.TotalGrades[2] == 0 &&
+            NotesJudgementBase.TotalGrades[3] == 0 &&
+            NotesJudgementBase.TotalGrades[4] == 0)
         {
-            isDisplayed = true;
-            //FullCombo表示
-            if (NotesJudgementBase.TotalGrades[2] == 0 && NotesJudgementBase.TotalGrades[3] == 0 && NotesJudgementBase.TotalGrades[4] == 0)
-            {
-                animator.SetTrigger("FullCombo");
-            }
-            //クリア表示
-            else if(NotesJudgementBase.bestCombo>0)
-            {
-                animator.SetTrigger("Clear");
-            }
+            Instance.animator.SetTrigger(FullCombo);
+        }
+        //クリア表示
+        else if (NotesJudgementBase.bestCombo > 0)
+        {
+            Instance.animator.SetTrigger(Clear);
         }
     }
 }
