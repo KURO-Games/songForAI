@@ -41,37 +41,25 @@ public class PianoNotesJudgement : NotesJudgementBase
         {
             case TimingGrade.Perfect:
                 currentCombo++;
-#if SFAI_SOUND
-#else
                 SoundManager.SESoundCue(2);
-#endif
 
                 break;
 
             case TimingGrade.Great:
                 currentCombo++;
-#if SFAI_SOUND
-#else
                 SoundManager.SESoundCue(2);
-#endif
 
                 break;
 
             case TimingGrade.Good:
                 currentCombo = 0;
-#if SFAI_SOUND
-#else
                 SoundManager.SESoundCue(3);
-#endif
 
                 break;
 
             case TimingGrade.Bad:
                 currentCombo = 0;
-#if SFAI_SOUND
-#else
                 SoundManager.SESoundCue(4);
-#endif
 
                 break;
 
@@ -92,10 +80,7 @@ public class PianoNotesJudgement : NotesJudgementBase
                 // 空タップ
                 else
                 {
-#if SFAI_SOUND
-#else
                     SoundManager.SESoundCue(5);
-#endif
                 }
 
                 break;
