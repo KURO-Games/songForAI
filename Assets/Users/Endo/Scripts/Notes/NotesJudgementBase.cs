@@ -14,6 +14,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     protected static int            maxLaneNum;
     protected static RaycastHit2D[] tapRayHits = new RaycastHit2D[0];
     private static   Camera         _camera;
+    private          int            _totalNotesCount;
 
     // プランナーレベルデザイン用
     // perfect ～ badの順に入力
@@ -157,6 +158,19 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
 
         // 各レーンのタップ状況を前フレームと比較
         UpdateNotesDisplay(_tappedLane, _lastTappedLane);
+
+        // 全ノーツが通過したらクリア表示を行う
+        _totalNotesCount = 0;
+
+        foreach (int count in notesCount)
+        {
+            _totalNotesCount += count;
+        }
+
+        if (_totalNotesCount == NotesGeneratorBase.musicData.notes.Length)
+        {
+            ClearDisplay.Show();
+        }
 
         isHoldView     = isHold;
         notesCountView = notesCount;
