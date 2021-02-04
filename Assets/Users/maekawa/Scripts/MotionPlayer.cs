@@ -4,17 +4,17 @@ using UnityEngine;
 using Live2D.Cubism.Framework.Motion;
 using Live2D.Cubism.Rendering;
 
-public class MotionPlayer : MonoBehaviour
+public class MotionPlayer : SingletonMonoBehaviour<MotionPlayer>
 {
     [SerializeField]
     private AnimationClip[] _motions = new AnimationClip[3];
     private CubismMotionController _motionController;
     private CubismRenderController _renderController;
     private int _lastMotionNum = -1;
-    public static int motionNum = -1;
-    public static bool isNamed = false;
+    public int motionNum = -1;
+    public bool isNamed { get; set; } = false;
 
-    private void Start()
+    protected override void Awake()
     {
         motionNum = -1;
         isNamed = false;
@@ -25,7 +25,10 @@ public class MotionPlayer : MonoBehaviour
     {
         // フランツdisActive
         if (motionNum == -1)
+        {
             SetOpacity(0);
+            return;
+        }
         // モーション再生
         else if (_lastMotionNum != motionNum)
         {
@@ -38,7 +41,7 @@ public class MotionPlayer : MonoBehaviour
         }
 
         // user名決定時にモーションが止まるので
-        if(isNamed)
+        if (isNamed)
         {
             PlayMotion(_motions[0], true);
             isNamed = false;
