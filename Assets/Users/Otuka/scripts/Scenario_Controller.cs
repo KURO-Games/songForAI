@@ -142,8 +142,8 @@ public class Scenario_Controller : MonoBehaviour
             // キャラ表示
             Character.sprite = Character_Sprite[int.Parse(Text_Words[Display_Num, 2])];
             // Live2Dにモーション番号を伝える
-            MotionPlayer.motionNum = int.Parse(Text_Words[Display_Num, 6]);
-
+            MotionPlayer.Instance.motionNum = int.Parse(Text_Words[Display_Num, 6]);
+            
             //名前表示
             if (Text_Words[Display_Num, 3] == "null")
             {
