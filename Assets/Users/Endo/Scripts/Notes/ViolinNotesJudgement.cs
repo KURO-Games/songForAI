@@ -128,6 +128,8 @@ public class ViolinNotesJudgement : NotesJudgementBase
 
     protected override void UpdateNotesDisplay(bool[] tappedLane, bool[] lastTappedLane)
     {
+        // FIXME: スライドノーツの通過判定中にミスするとノーツカウントが狂い、またタップを受け付けなくなることがある
+
         (bool isNowSliding, bool isTouchedNotesWhileSlide) = CheckRaycast();
         _isNowSliding                                      = isNowSliding;
 
@@ -224,12 +226,10 @@ public class ViolinNotesJudgement : NotesJudgementBase
                 // スライドレーンホールド（並行スライドノーツ。レーン進入時は含まない）
                 case true when isThisLaneTappedInPrev || _isTouchedNotesWhileSlideInPrev:
                 {
-                    // FIXME: 水平スライドノーツの判定がバグってる
-
                     (GameObject prevNotesObj, NotesSelector prevNotesSel) = notesSel.prevSlideNotes;
 
                     // 1つ前に未処理ノーツが残っていなければ処理
-                    if (prevNotesObj != null || (prevNotesSel != null && !prevNotesSel.isJudged)) break;
+                    if (prevNotesObj == null || (prevNotesSel != null && !prevNotesSel.isJudged)) break;
 
                     SlideNotesSection? notesSlideSection = notesSel.slideSection;
 
