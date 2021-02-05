@@ -142,7 +142,7 @@ public class ViolinNotesJudgement : NotesJudgementBase
 
     protected override void UpdateNotesDisplay(bool[] tappedLane, bool[] lastTappedLane)
     {
-        // FIXME: スライドノーツの通過判定中にミスするとノーツカウントが狂い、またタップを受け付けなくなることがある
+        // FIXME: スライドノーツの通過判定中にミスすると、一部破棄されないノーツがあり、またいくつか先のノーツが破棄されることがある
 
         (bool isNowSliding, bool isTouchedNotesWhileSlide) = CheckRaycast();
         _isNowSliding                                      = isNowSliding;
@@ -216,7 +216,6 @@ public class ViolinNotesJudgement : NotesJudgementBase
                                     JudgeGrade(nextLaneNum, absTiming);
                                 }
 
-                                SetSlideLaneHoldState(false);
                                 AddCachedNotesCount();
                                 DestroyCachedNotes();
                             }
@@ -231,7 +230,7 @@ public class ViolinNotesJudgement : NotesJudgementBase
                     // 判定ラインからの距離に応じて判定
                     JudgeGrade(laneNum, absTiming);
 
-                    // ノーツが破棄されててもJudgeNotesTypeでホールド状態が戻ることがあるので、もう一度falseに
+                    // ↑のノーツ破棄時にホールド状態を切り替えてもJudgeGrade→JudgeNotesTypeでホールド状態が戻るので、ここでfalseに
                     if (isDestroyed) SetSlideLaneHoldState(false);
 
                     // レーンのタップエフェクトがあるなら表示処理をここへ
@@ -299,8 +298,32 @@ public class ViolinNotesJudgement : NotesJudgementBase
                 case false when _isNowSliding:
                     break;
 
-                // タップ領域からスライドレーンにスライドしたとき
+                // タップ領域から領域外にスライドしたとき
                 case false when isThisLaneTappedInPrev:
+                {
+                    // 主にミス判定
+                    (GameObject nextNotesObj, NotesSelector nextNotesSel) = notesSel.nextSlideNotes;
+
+                    // 末尾ノーツの直前でミスした場合、末尾を破棄予定に
+                    if (isHold[laneNum] && nextNotesSel != null && nextNotesSel.slideSection == SlideNotesSection.Foot)
+                    {
+                        CacheNotesCount(nextNotesSel.laneNum, nextNotesObj);
+                    }
+
+                    // 破棄予定ノーツがあれば破棄
+                    if (_isCached)
+                    {
+                        AddCachedNotesCount();
+                        DestroyCachedNotes();
+                        SetSlideLaneHoldState(false);
+                    }
+
+                    break;
+                }
+
+                case false when !_isNowSliding && _isSlidingInPrev:
+                    Debug.Log("test");
+
                     break;
 
                 // タップ終了
