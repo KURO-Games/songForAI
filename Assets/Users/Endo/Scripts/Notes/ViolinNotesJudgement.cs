@@ -19,18 +19,21 @@ public class ViolinNotesJudgement : NotesJudgementBase
     [SerializeField, Header("スライドノーツホールド時用のマスク")]
     private GameObject slideNotesMask;
 
-    private static bool             _isHoldSlideLane;                // スライドレーン全体をホールドしているか
-    private static Vector3          _singleJudgeLinePos;             // シングルレーンの位置
-    private static Vector3          _slideJudgeLinePos;              // スライドレーンの位置
-    private static bool             _isNowSliding;                   // スライドレーンをスライドしているか
-    private static bool             _isSlidingInPrev;                // 前フレーム、スライドレーンをスライドしていたか
-    private static bool             _isTouchedNotesWhileSlideInPrev; // 前フレーム、スライド判定領域でスライドノーツに触れていたか
-    private static List<GameObject> _cachedSlidingNotes;             // 判定ライン通過後のスライドノーツ格納用
+    [SerializeField]
+    private ParticleSystem slideParticle;
+
+    private static bool    _isHoldSlideLane;                // スライドレーン全体をホールドしているか
+    private static Vector3 _singleJudgeLinePos;             // シングルレーンの位置
+    private static Vector3 _slideJudgeLinePos;              // スライドレーンの位置
+    private static bool    _isNowSliding;                   // スライドレーンをスライドしているか
+    private static bool    _isSlidingInPrev;                // 前フレーム、スライドレーンをスライドしていたか
+    private static bool    _isTouchedNotesWhileSlideInPrev; // 前フレーム、スライド判定領域でスライドノーツに触れていたか
 
     // 判定ラインを通過したノーツ数格納用
     // スライドのnotesCountをリアルタイムに反映するとバグるので、一旦記録してから一斉反映している
-    private static int[] _cachedSlidingNotesCount;
-    private static bool  _isCached;
+    private static int[]            _cachedSlidingNotesCount;
+    private static bool             _isCached;
+    private static List<GameObject> _cachedSlidingNotes; // 判定ライン通過後のスライドノーツ格納用
 
     protected override void Start()
     {
@@ -346,6 +349,12 @@ public class ViolinNotesJudgement : NotesJudgementBase
             }
         }
 
+        // スライド中はエフェクトの位置を指に追従させる
+        if (slideParticle.isPlaying)
+        {
+            slideParticle.transform.position = tappedSlideLanePos;
+        }
+
         _isSlidingInPrev                = _isNowSliding;
         _isTouchedNotesWhileSlideInPrev = isTouchedNotesWhileSlide;
     }
@@ -379,6 +388,15 @@ public class ViolinNotesJudgement : NotesJudgementBase
     /// <param name="flag"></param>
     private void SetSlideLaneHoldState(bool flag)
     {
+        if (flag)
+        {
+            slideParticle.Play();
+        }
+        else
+        {
+            slideParticle.Stop();
+        }
+
         slideNotesMask.SetActive(flag);
         isHold[4] = flag;
         isHold[5] = flag;

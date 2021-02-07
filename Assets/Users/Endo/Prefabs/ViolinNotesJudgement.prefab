@@ -44,7 +44,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiObj: {fileID: 0}
+  isHoldView: 
+  notesCountView: 
   singleJudgeLine: {fileID: 0}
   slideJudgeLine: {fileID: 0}
   slidableArea: {fileID: 0}
   slideNotesMask: {fileID: 0}
+  slideParticle: {fileID: 2048869892398163906, guid: 84c83aa00e8e9274398d09395e15c7e9,
+    type: 3}

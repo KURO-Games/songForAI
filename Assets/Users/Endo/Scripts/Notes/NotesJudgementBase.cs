@@ -13,6 +13,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     // レーンの最大数
     protected static int            maxLaneNum;
     protected static RaycastHit2D[] tapRayHits = new RaycastHit2D[0];
+    protected static Vector3        tappedSlideLanePos; // スライドレーンをタップしている位置
     private static   Camera         _camera;
     private          int            _totalNotesCount;
 
@@ -198,55 +199,67 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
         Ray        ray;
 
 #if UNITY_EDITOR
-        ray        = _camera.ScreenPointToRay(Input.mousePosition);
-        tapRayHits = Physics2D.RaycastAll(ray.origin, ray.direction, 10, 1);
-
-        foreach (RaycastHit2D hit in tapRayHits)
         {
-            clickedObj = hit.transform.gameObject;
+            ray        = _camera.ScreenPointToRay(Input.mousePosition);
+            tapRayHits = Physics2D.RaycastAll(ray.origin, ray.direction, 10, 1);
 
-            // レーンを取得できていれば番号取得
-            if (clickedObj == null || !clickedObj.CompareTag("Lane")) continue;
-
-            laneNum = int.Parse(clickedObj.name);
-
-            break;
-        }
-#endif
-
-#if UNITY_IOS
-        if (Input.touchCount > 0 && touchIndex >= 0)
-        {
-            // タッチ情報を取得
-            Touch t = Input.GetTouch(touchIndex);
-
-            // タップ時処理
-            ray = _camera.ScreenPointToRay(t.position);
-            RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 10f, 1);
-
-            if (hits.Length == 0) return laneNum;
-
-            foreach (RaycastHit2D hit in hits)
+            foreach (RaycastHit2D hit in tapRayHits)
             {
                 clickedObj = hit.transform.gameObject;
 
-                // バイオリンのスライドレーンをタップしてたら一時情報保持
                 if (clickedObj.CompareTag("SlidableArea"))
                 {
-                    tapRayHits = hits;
-
-                    continue;
+                    tappedSlideLanePos = _camera.ScreenToWorldPoint(Input.mousePosition);
                 }
 
                 // レーンを取得できていれば番号取得
                 if (clickedObj == null || !clickedObj.CompareTag("Lane")) continue;
 
-                laneNum = int.Parse(clickedObj.name); // 文字列を数字に変換
+                laneNum = int.Parse(clickedObj.name);
 
                 break;
             }
         }
 #endif
+
+#if UNITY_IOS
+        {
+            if (Input.touchCount > 0 && touchIndex >= 0)
+            {
+                // タッチ情報を取得
+                Touch t = Input.GetTouch(touchIndex);
+
+                // タップ時処理
+                ray = _camera.ScreenPointToRay(t.position);
+                RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 10f, 1);
+
+                if (hits.Length == 0) return laneNum;
+
+                foreach (RaycastHit2D hit in hits)
+                {
+                    clickedObj = hit.transform.gameObject;
+
+                    // バイオリンのスライドレーンをタップしてたら一時情報保持
+                    if (clickedObj.CompareTag("SlidableArea"))
+                    {
+                        tapRayHits         = hits;
+                        tappedSlideLanePos = _camera.ScreenToWorldPoint(t.position);
+
+                        continue;
+                    }
+
+                    // レーンを取得できていれば番号取得
+                    if (clickedObj == null || !clickedObj.CompareTag("Lane")) continue;
+
+                    laneNum = int.Parse(clickedObj.name); // 文字列を数字に変換
+
+                    break;
+                }
+            }
+        }
+#endif
+
+        tappedSlideLanePos = new Vector3(tappedSlideLanePos.x, tappedSlideLanePos.y, 0);
 
         return laneNum;
     }
