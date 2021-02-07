@@ -366,6 +366,7 @@ public class ViolinNotesJudgement : NotesJudgementBase
 
         Destroy(notesObj);
         notesCount[laneNum]++;
+        TotalJudgedNotesCount++;
 
         // スライドノーツならホールド判定解除
         if (notesSel.slideSection != null)
@@ -379,6 +380,7 @@ public class ViolinNotesJudgement : NotesJudgementBase
         {
             Destroy(nextNotesObj);
             notesCount[nextNotesSel.laneNum]++;
+            TotalJudgedNotesCount++;
         }
     }
 
@@ -419,9 +421,10 @@ public class ViolinNotesJudgement : NotesJudgementBase
     /// </summary>
     private static void AddCachedNotesCount()
     {
-        notesCount[4] += _cachedSlidingNotesCount[4];
-        notesCount[5] += _cachedSlidingNotesCount[5];
-        _isCached     =  false;
+        notesCount[4]         += _cachedSlidingNotesCount[4];
+        notesCount[5]         += _cachedSlidingNotesCount[5];
+        TotalJudgedNotesCount += _cachedSlidingNotesCount[4] + _cachedSlidingNotesCount[5];
+        _isCached             =  false;
 
         Array.Clear(_cachedSlidingNotesCount, 0, _cachedSlidingNotesCount.Length);
     }
