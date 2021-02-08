@@ -64,7 +64,8 @@ public class Result : MonoBehaviour
         comboAnimeFlag = false;
         gradesAnimeFlag = false;
         isEnded = false;
-
+        SoundManager.LoadAsyncCueSheet("Result", SoundType.BGM);
+        SoundManager.BGMSoundCue();
         // 曲名表示
         songName.GetComponent<Text>().text = MusicDatas.MusicName;// 曲名表示;
 
