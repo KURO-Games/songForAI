@@ -19,24 +19,35 @@ public class ViolinNotesJudgement : NotesJudgementBase
     [SerializeField, Header("スライドノーツホールド時用のマスク")]
     private GameObject slideNotesMask;
 
-    private static bool             _isHoldSlideLane;                // スライドレーン全体をホールドしているか
-    private static Vector3          _singleJudgeLinePos;             // シングルレーンの位置
-    private static Vector3          _slideJudgeLinePos;              // スライドレーンの位置
-    private static bool             _isNowSliding;                   // スライドレーンをスライドしているか
-    private static bool             _isTouchedNotesWhileSlideInPrev; // 前フレーム、スライド判定領域でスライドノーツに触れていたか
-    private static List<GameObject> _cachedSlidingNotes;             // 判定ライン通過後のスライドノーツ格納用
+    [SerializeField]
+    private ParticleSystem slideParticle;
 
-    private static int[] _cachedSlidingNotesCount; // 判定ラインを通過したノーツ数格納用
+    private static bool    _isHoldSlideLane;                // スライドレーン全体をホールドしているか
+    private static Vector3 _singleJudgeLinePos;             // シングルレーンの位置
+    private static Vector3 _slideJudgeLinePos;              // スライドレーンの位置
+    private static bool    _isNowSliding;                   // スライドレーンをスライドしているか
+    private static bool    _isSlidingInPrev;                // 前フレーム、スライドレーンをスライドしていたか
+    private static bool    _isTouchedNotesWhileSlideInPrev; // 前フレーム、スライド判定領域でスライドノーツに触れていたか
+
+    // 判定ラインを通過したノーツ数格納用
     // スライドのnotesCountをリアルタイムに反映するとバグるので、一旦記録してから一斉反映している
+    private static int[]            _cachedSlidingNotesCount;
+    private static bool             _isCached;
+    private static List<GameObject> _cachedSlidingNotes; // 判定ライン通過後のスライドノーツ格納用
 
     protected override void Start()
     {
         base.Start();
 
-        _singleJudgeLinePos      = singleJudgeLine.transform.position;
-        _slideJudgeLinePos       = slideJudgeLine.transform.position;
-        _cachedSlidingNotes      = new List<GameObject>();
-        _cachedSlidingNotesCount = new int[maxLaneNum];
+        _isHoldSlideLane                = false;
+        _singleJudgeLinePos             = singleJudgeLine.transform.position;
+        _slideJudgeLinePos              = slideJudgeLine.transform.position;
+        _isNowSliding                   = false;
+        _isSlidingInPrev                = false;
+        _isTouchedNotesWhileSlideInPrev = false;
+        _cachedSlidingNotes             = new List<GameObject>();
+        _cachedSlidingNotesCount        = new int[maxLaneNum];
+        _isCached                       = false;
         slideNotesMask.SetActive(false);
     }
 
@@ -46,63 +57,56 @@ public class ViolinNotesJudgement : NotesJudgementBase
         {
             case TimingGrade.Perfect:
                 currentCombo++;
-#if SFAI_SOUND
-#else
                 SoundManager.SESoundCue(2);
-#endif
+
                 break;
 
             case TimingGrade.Great:
                 currentCombo++;
-#if SFAI_SOUND
-#else
                 SoundManager.SESoundCue(2);
-#endif
+
                 break;
 
             case TimingGrade.Good:
                 currentCombo = 0;
-#if SFAI_SOUND
-#else
                 SoundManager.SESoundCue(3);
-#endif
+
                 break;
 
             case TimingGrade.Bad:
                 currentCombo = 0;
-#if SFAI_SOUND
-#else
                 SoundManager.SESoundCue(4);
-#endif
+
                 break;
 
             case TimingGrade.Miss:
                 // スライドノーツ
                 if (laneNum >= 4 && isHold[laneNum])
                 {
+                    // ベストコンボ数更新
                     if (currentCombo > bestCombo)
                     {
                         bestCombo = currentCombo;
                     }
 
-                    NotesSelector notesSel     = GOListArray[laneNum][notesCount[laneNum]].selector;
+                    (GameObject notesObj, NotesSelector notesSel) = GOListArray[laneNum][notesCount[laneNum]];
                     NotesSelector nextNotesSel = notesSel.nextSlideNotes.selector;
 
-                    // 次のスライドノーツが末尾ならそちらも同時に破棄
+                    // 次のスライドノーツが末尾ならそちらも破棄対象に
                     if (nextNotesSel != null && nextNotesSel.slideSection == SlideNotesSection.Foot)
                     {
-                        TotalGrades[4]++;
-                        SetSlideLaneHoldState(false);
-                        DestroyNotes(nextNotesSel.laneNum);
+                        CacheNotesCount(laneNum, notesObj);
+                        JudgeGrade(laneNum, 99);
                     }
+
+                    SetSlideLaneHoldState(false);
+                    AddCachedNotesCount();
+                    DestroyCachedNotes();
                 }
                 // 空タップ
                 else
                 {
-#if SFAI_SOUND
-#else
                     SoundManager.SESoundCue(5);
-#endif
                 }
 
                 break;
@@ -123,7 +127,9 @@ public class ViolinNotesJudgement : NotesJudgementBase
 
             case NotesType.LongAndSlide:
                 // スライドノーツのホールド開始なら全スライドレーンをホールド中に
-                if (!isHold[laneNum] && slideSection != SlideNotesSection.Foot && slideSection != null)
+                if (!isHold[laneNum]                       && // スライドレーン未ホールド
+                    slideSection != SlideNotesSection.Foot && // 末尾ではない
+                    !slideNotesMask.activeSelf)               // マスクが有効ではない
                 {
                     SetSlideLaneHoldState(true);
                 }
@@ -139,6 +145,8 @@ public class ViolinNotesJudgement : NotesJudgementBase
 
     protected override void UpdateNotesDisplay(bool[] tappedLane, bool[] lastTappedLane)
     {
+        // FIXME: スライドノーツの通過判定中にミスすると、一部破棄されないノーツがあり、またいくつか先のノーツが破棄されることがある
+
         (bool isNowSliding, bool isTouchedNotesWhileSlide) = CheckRaycast();
         _isNowSliding                                      = isNowSliding;
 
@@ -175,6 +183,7 @@ public class ViolinNotesJudgement : NotesJudgementBase
                     // TODO: レーンホールドでも先頭ノーツが判定されてしまうので、フラグで管理する
 
                     (GameObject prevNotesObj, NotesSelector prevNotesSel) = notesSel.prevSlideNotes;
+                    bool isDestroyed = false;
 
                     // 判定処理
                     if (notesObj != null &&                                                      // 対象が存在
@@ -192,29 +201,26 @@ public class ViolinNotesJudgement : NotesJudgementBase
                             absTiming = GetAbsTiming(notesPos.x, _slideJudgeLinePos.x);
                             TimingGrade grade = GetGradeFromAccuracy(absTiming);
 
-                            _cachedSlidingNotes.Add(notesObj);
-                            _cachedSlidingNotesCount[laneNum]++;
+                            CacheNotesCount(laneNum, notesObj);
 
                             // 末尾ノーツかミスならそれまでの一連を削除
                             if (isHold[laneNum] &&
                                 (notesSel.slideSection == SlideNotesSection.Foot || grade == TimingGrade.Miss))
                             {
                                 (GameObject nextNotesObj, NotesSelector nextNotesSel) = notesSel.nextSlideNotes;
+                                isDestroyed                                           = true;
 
                                 // 次のノーツが末尾ならそちらも破棄対象に（ミス時）
                                 if (nextNotesSel != null && nextNotesSel.slideSection == SlideNotesSection.Foot)
                                 {
                                     int nextLaneNum = nextNotesSel.laneNum;
 
-                                    _cachedSlidingNotes.Add(nextNotesObj);
-                                    _cachedSlidingNotesCount[nextLaneNum]++;
-
+                                    CacheNotesCount(nextLaneNum, nextNotesObj);
                                     JudgeGrade(nextLaneNum, absTiming);
                                 }
 
-                                SetSlideLaneHoldState(false);
-                                DestroyCachedNotes();
                                 AddCachedNotesCount();
+                                DestroyCachedNotes();
                             }
                             // ミスじゃなければ判定済みとする
                             else
@@ -227,6 +233,9 @@ public class ViolinNotesJudgement : NotesJudgementBase
                     // 判定ラインからの距離に応じて判定
                     JudgeGrade(laneNum, absTiming);
 
+                    // ↑のノーツ破棄時にホールド状態を切り替えてもJudgeGrade→JudgeNotesTypeでホールド状態が戻るので、ここでfalseに
+                    if (isDestroyed) SetSlideLaneHoldState(false);
+
                     // レーンのタップエフェクトがあるなら表示処理をここへ
 
                     break;
@@ -235,12 +244,10 @@ public class ViolinNotesJudgement : NotesJudgementBase
                 // スライドレーンホールド（並行スライドノーツ。レーン進入時は含まない）
                 case true when isThisLaneTappedInPrev || _isTouchedNotesWhileSlideInPrev:
                 {
-                    // FIXME: 水平スライドノーツの判定がバグってる
-
                     (GameObject prevNotesObj, NotesSelector prevNotesSel) = notesSel.prevSlideNotes;
 
                     // 1つ前に未処理ノーツが残っていなければ処理
-                    if (prevNotesObj != null || (prevNotesSel != null && !prevNotesSel.isJudged)) break;
+                    if (prevNotesObj == null || (prevNotesSel != null && !prevNotesSel.isJudged)) break;
 
                     SlideNotesSection? notesSlideSection = notesSel.slideSection;
 
@@ -250,14 +257,11 @@ public class ViolinNotesJudgement : NotesJudgementBase
                     // 判定ラインを超えているときのみ処理
                     if (!(_slideJudgeLinePos.x < notesObj.transform.position.x)) break;
 
-                    _cachedSlidingNotes.Add(notesObj);
-                    _cachedSlidingNotesCount[laneNum]++;
+                    CacheNotesCount(laneNum, notesObj);
 
                     // 判定領域をスワイプしており、未判定ノーツなら
                     if ((isTouchedNotesWhileSlide || _isTouchedNotesWhileSlideInPrev) && !notesSel.isJudged)
                     {
-                        // ノーツカウント
-                        // NotesCountUp(laneNum, false);
                         JudgeGrade(laneNum, GradesCriterion[0]);
                         notesSel.isJudged = true;
 
@@ -265,8 +269,8 @@ public class ViolinNotesJudgement : NotesJudgementBase
                         if (notesSlideSection == SlideNotesSection.Foot)
                         {
                             SetSlideLaneHoldState(false);
-                            DestroyCachedNotes();
                             AddCachedNotesCount();
+                            DestroyCachedNotes();
                         }
                     }
                     // 判定領域外ならミス
@@ -279,12 +283,11 @@ public class ViolinNotesJudgement : NotesJudgementBase
                         {
                             int nextLaneNum = nextNotesSel.laneNum;
 
-                            _cachedSlidingNotes.Add(nextNotesObj);
-                            _cachedSlidingNotesCount[nextLaneNum]++;
+                            CacheNotesCount(nextLaneNum, nextNotesObj);
 
                             JudgeGrade(nextLaneNum, 99);
-                            DestroyCachedNotes();
                             AddCachedNotesCount();
+                            DestroyCachedNotes();
                         }
 
                         JudgeGrade(laneNum, 99);
@@ -298,12 +301,37 @@ public class ViolinNotesJudgement : NotesJudgementBase
                 case false when _isNowSliding:
                     break;
 
-                // タップ領域からスライドレーンにスライドしたとき
+                // タップ領域から領域外にスライドしたとき
                 case false when isThisLaneTappedInPrev:
+                {
+                    // 主にミス判定
+                    (GameObject nextNotesObj, NotesSelector nextNotesSel) = notesSel.nextSlideNotes;
+
+                    // 末尾ノーツの直前でミスした場合、末尾を破棄予定に
+                    if (isHold[laneNum] && nextNotesSel != null && nextNotesSel.slideSection == SlideNotesSection.Foot)
+                    {
+                        CacheNotesCount(nextNotesSel.laneNum, nextNotesObj);
+                    }
+
+                    // 破棄予定ノーツがあれば破棄
+                    if (_isCached)
+                    {
+                        AddCachedNotesCount();
+                        DestroyCachedNotes();
+                        SetSlideLaneHoldState(false);
+                    }
+
+                    break;
+                }
+
+                case false when !_isNowSliding && _isSlidingInPrev:
+                    Debug.Log("test");
+
                     break;
 
                 // タップ終了
                 case false when isThisLaneTappedInPrev && !_isNowSliding:
+                    // 現状、通過ノーツに触れたらとなっているため機能してない
                     if (isHold[laneNum])
                     {
                         if (notesObj != null)
@@ -321,16 +349,50 @@ public class ViolinNotesJudgement : NotesJudgementBase
             }
         }
 
+        // スライド中はエフェクトの位置を指に追従させる
+        if (slideParticle.isPlaying)
+        {
+            slideParticle.transform.position = tappedSlideLanePos;
+        }
+
+        _isSlidingInPrev                = _isNowSliding;
         _isTouchedNotesWhileSlideInPrev = isTouchedNotesWhileSlide;
     }
 
-    protected override void DestroyNotes(int laneNum)
+    public override void NotesCountUp(int laneNum, bool doDestroy = true, bool isLongStart = false)
+    {
+        if (currentCombo > bestCombo)
+        {
+            bestCombo = currentCombo; // 最大コンボ記憶
+        }
+
+        currentCombo = 0;
+        TotalGrades[4]++;
+
+        comboMgr.DrawCombo(currentCombo);
+
+        DrawGrades[laneNum].DrawGrades(4);
+
+        if (doDestroy)
+        {
+            DestroyNotes(laneNum);
+        }
+        // 破棄フラグがなければスライドノーツだとみなし、破棄をせずカウントのみ行う
+        else
+        {
+            notesCount[laneNum]++;
+            TotalJudgedNotesCount++;
+        }
+    }
+
+    protected override void DestroyNotes(int laneNum, bool isLongStart = false)
     {
         (GameObject notesObj, NotesSelector notesSel)         = GOListArray[laneNum][notesCount[laneNum]];
         (GameObject nextNotesObj, NotesSelector nextNotesSel) = notesSel.nextSlideNotes;
 
         Destroy(notesObj);
         notesCount[laneNum]++;
+        TotalJudgedNotesCount++;
 
         // スライドノーツならホールド判定解除
         if (notesSel.slideSection != null)
@@ -344,6 +406,7 @@ public class ViolinNotesJudgement : NotesJudgementBase
         {
             Destroy(nextNotesObj);
             notesCount[nextNotesSel.laneNum]++;
+            TotalJudgedNotesCount++;
         }
     }
 
@@ -353,9 +416,43 @@ public class ViolinNotesJudgement : NotesJudgementBase
     /// <param name="flag"></param>
     private void SetSlideLaneHoldState(bool flag)
     {
+        if (flag)
+        {
+            slideParticle.Play();
+        }
+        else
+        {
+            slideParticle.Stop();
+        }
+
         slideNotesMask.SetActive(flag);
         isHold[4] = flag;
         isHold[5] = flag;
+    }
+
+    /// <summary>
+    /// スライド中に通過したノーツおよびそのレーンのカウントを一時キャッシュする
+    /// </summary>
+    /// <param name="laneNum">レーン番号</param>
+    /// <param name="notesObj">対象ノーツ</param>
+    private static void CacheNotesCount(int laneNum, GameObject notesObj)
+    {
+        _cachedSlidingNotes.Add(notesObj);
+        _cachedSlidingNotesCount[laneNum]++;
+        _isCached = true;
+    }
+
+    /// <summary>
+    /// スライド中に通過したノーツのカウントを一斉アップする
+    /// </summary>
+    private static void AddCachedNotesCount()
+    {
+        notesCount[4]         += _cachedSlidingNotesCount[4];
+        notesCount[5]         += _cachedSlidingNotesCount[5];
+        TotalJudgedNotesCount += _cachedSlidingNotesCount[4] + _cachedSlidingNotesCount[5];
+        _isCached             =  false;
+
+        Array.Clear(_cachedSlidingNotesCount, 0, _cachedSlidingNotesCount.Length);
     }
 
     /// <summary>
@@ -369,17 +466,6 @@ public class ViolinNotesJudgement : NotesJudgementBase
         }
 
         _cachedSlidingNotes.Clear();
-    }
-
-    /// <summary>
-    /// スライド中に通過したノーツのカウントを一斉アップする
-    /// </summary>
-    private static void AddCachedNotesCount()
-    {
-        notesCount[4] += _cachedSlidingNotesCount[4];
-        notesCount[5] += _cachedSlidingNotesCount[5];
-
-        Array.Clear(_cachedSlidingNotesCount, 0, _cachedSlidingNotesCount.Length);
     }
 
     /// <summary>

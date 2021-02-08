@@ -13,7 +13,10 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     // レーンの最大数
     protected static int            maxLaneNum;
     protected static RaycastHit2D[] tapRayHits = new RaycastHit2D[0];
+    protected static Vector3        tappedSlideLanePos; // スライドレーンをタップしている位置
     private static   Camera         _camera;
+    private          int            _totalNotesCount;      // 曲の総ノーツ数
+    protected static int            TotalJudgedNotesCount; // 判定したノーツ数
 
     // プランナーレベルデザイン用
     // perfect ～ badの順に入力
@@ -41,8 +44,8 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     protected static ComboManager comboMgr;
 
     // OPTIMIZE: 現状一時変数として使われるので、今後必要なければ無駄な参照保持を減らすため解消する
-    private static GameObject[] _drawGradeObjs;
-    private static DrawGrade[]  _drawGrades;
+    private static   GameObject[] _drawGradeObjs;
+    protected static DrawGrade[]  DrawGrades;
 
     // タップ背景 ON/OFF 切り替え用
     private static bool[] _tappedLane;     // 現在タップしているレーンの識別
@@ -88,12 +91,13 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
         bestCombo    = 0;
         Array.Clear(TotalGrades, 0, TotalGrades.Length);
 
-        maxLaneNum = NotesGeneratorBase.musicData.maxBlock;
-        scoreMgr   = uiObj.GetComponent<ScoreManager>();
-        comboMgr   = uiObj.GetComponent<ComboManager>();
-        _camera    = Camera.main;
+        maxLaneNum            = NotesGeneratorBase.musicData.maxBlock;
+        scoreMgr              = uiObj.GetComponent<ScoreManager>();
+        comboMgr              = uiObj.GetComponent<ComboManager>();
+        _camera               = Camera.main;
+        TotalJudgedNotesCount = 0;
 
-        _drawGrades     = new DrawGrade[maxLaneNum];
+        DrawGrades     = new DrawGrade[maxLaneNum];
         _drawGradeObjs  = new GameObject[maxLaneNum];
         _tappedLane     = new bool[maxLaneNum];
         _lastTappedLane = new bool[maxLaneNum];
@@ -108,9 +112,23 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
 
             _drawGradeObjs[i] = GameObject.Find(callObject);
 
-            _drawGrades[i] = _drawGradeObjs[i].GetComponent<DrawGrade>();
+            DrawGrades[i] = _drawGradeObjs[i].GetComponent<DrawGrade>();
             // 使い方
             // drawGrades[laneNumber].DrawGrades(grade(0～5));
+        }
+
+        // 曲の総ノーツ数を記憶
+        foreach (NotesJson.Notes notes in NotesGeneratorBase.musicData.notes)
+        {
+            _totalNotesCount++;
+
+            // ロングまたはスライドノーツがあればそれもカウント
+            if (notes.notes.Length == 0) continue;
+
+            for (int i = 0; i < notes.notes.Length; i++)
+            {
+                _totalNotesCount++;
+            }
         }
     }
 
@@ -158,6 +176,12 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
         // 各レーンのタップ状況を前フレームと比較
         UpdateNotesDisplay(_tappedLane, _lastTappedLane);
 
+        // 全ノーツが通過したらクリア表示を行う
+        if (TotalJudgedNotesCount == _totalNotesCount)
+        {
+            ClearDisplay.Show();
+        }
+
         isHoldView     = isHold;
         notesCountView = notesCount;
     }
@@ -184,55 +208,67 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
         Ray        ray;
 
 #if UNITY_EDITOR
-        ray        = _camera.ScreenPointToRay(Input.mousePosition);
-        tapRayHits = Physics2D.RaycastAll(ray.origin, ray.direction, 10, 1);
-
-        foreach (RaycastHit2D hit in tapRayHits)
         {
-            clickedObj = hit.transform.gameObject;
+            ray        = _camera.ScreenPointToRay(Input.mousePosition);
+            tapRayHits = Physics2D.RaycastAll(ray.origin, ray.direction, 10, 1);
 
-            // レーンを取得できていれば番号取得
-            if (clickedObj == null || !clickedObj.CompareTag("Lane")) continue;
-
-            laneNum = int.Parse(clickedObj.name);
-
-            break;
-        }
-#endif
-
-#if UNITY_IOS
-        if (Input.touchCount > 0 && touchIndex >= 0)
-        {
-            // タッチ情報を取得
-            Touch t = Input.GetTouch(touchIndex);
-
-            // タップ時処理
-            ray = _camera.ScreenPointToRay(t.position);
-            RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 10f, 1);
-
-            if (hits.Length == 0) return laneNum;
-
-            foreach (RaycastHit2D hit in hits)
+            foreach (RaycastHit2D hit in tapRayHits)
             {
                 clickedObj = hit.transform.gameObject;
 
-                // バイオリンのスライドレーンをタップしてたら一時情報保持
                 if (clickedObj.CompareTag("SlidableArea"))
                 {
-                    tapRayHits = hits;
-
-                    continue;
+                    tappedSlideLanePos = _camera.ScreenToWorldPoint(Input.mousePosition);
                 }
 
                 // レーンを取得できていれば番号取得
                 if (clickedObj == null || !clickedObj.CompareTag("Lane")) continue;
 
-                laneNum = int.Parse(clickedObj.name); // 文字列を数字に変換
+                laneNum = int.Parse(clickedObj.name);
 
                 break;
             }
         }
 #endif
+
+#if UNITY_IOS
+        {
+            if (Input.touchCount > 0 && touchIndex >= 0)
+            {
+                // タッチ情報を取得
+                Touch t = Input.GetTouch(touchIndex);
+
+                // タップ時処理
+                ray = _camera.ScreenPointToRay(t.position);
+                RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 10f, 1);
+
+                if (hits.Length == 0) return laneNum;
+
+                foreach (RaycastHit2D hit in hits)
+                {
+                    clickedObj = hit.transform.gameObject;
+
+                    // バイオリンのスライドレーンをタップしてたら一時情報保持
+                    if (clickedObj.CompareTag("SlidableArea"))
+                    {
+                        tapRayHits         = hits;
+                        tappedSlideLanePos = _camera.ScreenToWorldPoint(t.position);
+
+                        continue;
+                    }
+
+                    // レーンを取得できていれば番号取得
+                    if (clickedObj == null || !clickedObj.CompareTag("Lane")) continue;
+
+                    laneNum = int.Parse(clickedObj.name); // 文字列を数字に変換
+
+                    break;
+                }
+            }
+        }
+#endif
+
+        tappedSlideLanePos = new Vector3(tappedSlideLanePos.x, tappedSlideLanePos.y, 0);
 
         return laneNum;
     }
@@ -299,7 +335,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
         // 空タップじゃなければ判定UI描画
         if (tapGrade != TimingGrade.Miss || isHold[laneNum])
         {
-            _drawGrades[laneNum].DrawGrades((int) tapGrade);
+            DrawGrades[laneNum].DrawGrades((int) tapGrade);
         }
 
         Instance.EvaluateGrades(laneNum, tapGrade);
@@ -328,12 +364,14 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     /// ノーツ破棄、配列カウントアップ
     /// </summary>
     /// <param name="laneNum">laneNumber</param>
-    protected virtual void DestroyNotes(int laneNum)
+    /// <param name="isLongStart"></param>
+    protected virtual void DestroyNotes(int laneNum, bool isLongStart = false)
     {
         (GameObject notesObj, NotesSelector _) = GOListArray[laneNum][notesCount[laneNum]];
 
         Destroy(notesObj);     // 該当ノーツ破棄
         notesCount[laneNum]++; // 該当レーンのノーツカウント++
+        TotalJudgedNotesCount++;
     }
 
     /// <summary>
@@ -341,7 +379,8 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     /// </summary>
     /// <param name="laneNum">laneNumber</param>
     /// <param name="doDestroy">ノーツを破棄するかどうか</param>
-    public static void NotesCountUp(int laneNum, bool doDestroy = true)
+    /// <param name="isLongStart">ロングノーツの始点の判定かどうか</param>
+    public virtual void NotesCountUp(int laneNum, bool doDestroy = true, bool isLongStart = false)
     {
         if (currentCombo > bestCombo)
         {
@@ -353,16 +392,9 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
 
         comboMgr.DrawCombo(currentCombo);
 
-        _drawGrades[laneNum].DrawGrades(4);
+        DrawGrades[laneNum].DrawGrades(4);
 
-        if (doDestroy)
-        {
-            Instance.DestroyNotes(laneNum);
-        }
-        else
-        {
-            notesCount[laneNum]++;
-        }
+        Instance.DestroyNotes(laneNum);
     }
 
     public static void ListImport()

@@ -21,7 +21,6 @@ public class Rhithm : MonoBehaviour
     private float _timeCount;
     private bool  _isCalled;
     private bool  _isTaped;
-    private bool  _faded;
     private bool  _notesGenerateStarted;
 
     private NotesGeneratorBase _notesGenerator;
@@ -60,26 +59,27 @@ public class Rhithm : MonoBehaviour
 
         Times += Time.fixedDeltaTime;
 
-        if (Times > 3 && !_faded)
+        if (Times > 3 && !NotesGeneratorBase.jacketIsFaded)
         {
             _startImgCanvasGrp.alpha -= .05f;
 
             if (_startImgCanvasGrp.alpha <= 0)
             {
                 _startImgCanvasGrp.alpha =  0;
-                _timeCount                += Time.fixedDeltaTime;
+                _timeCount               += Time.fixedDeltaTime;
 
-                if(_timeCount > 2)
+                if (_timeCount > 2)
                 {
-                    _faded                           = true;
                     NotesGeneratorBase.jacketIsFaded = true;
 
                     judge.SetActive(true);
-                    playEffect.SetActive(true);
+
+                    if (playEffect != null) playEffect.SetActive(true);
                 }
             }
         }
     }
+
     private void Update()
     {
 #if SFAI_SOUND

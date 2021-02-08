@@ -26,7 +26,7 @@ public class NotesCountUp : MonoBehaviour
              notesSel.slideSection               != null) &&
             !notesSel.isJudged)
         {
-            NotesJudgementBase.NotesCountUp(_laneNum);
+            NotesJudgementBase.Instance.NotesCountUp(_laneNum, isLongStart: notesSel.endNotes != null);
         }
     }
 }
