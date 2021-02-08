@@ -44,8 +44,8 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     protected static ComboManager comboMgr;
 
     // OPTIMIZE: 現状一時変数として使われるので、今後必要なければ無駄な参照保持を減らすため解消する
-    private static GameObject[] _drawGradeObjs;
-    private static DrawGrade[]  _drawGrades;
+    private static   GameObject[] _drawGradeObjs;
+    protected static DrawGrade[]  DrawGrades;
 
     // タップ背景 ON/OFF 切り替え用
     private static bool[] _tappedLane;     // 現在タップしているレーンの識別
@@ -97,7 +97,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
         _camera               = Camera.main;
         TotalJudgedNotesCount = 0;
 
-        _drawGrades     = new DrawGrade[maxLaneNum];
+        DrawGrades     = new DrawGrade[maxLaneNum];
         _drawGradeObjs  = new GameObject[maxLaneNum];
         _tappedLane     = new bool[maxLaneNum];
         _lastTappedLane = new bool[maxLaneNum];
@@ -112,7 +112,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
 
             _drawGradeObjs[i] = GameObject.Find(callObject);
 
-            _drawGrades[i] = _drawGradeObjs[i].GetComponent<DrawGrade>();
+            DrawGrades[i] = _drawGradeObjs[i].GetComponent<DrawGrade>();
             // 使い方
             // drawGrades[laneNumber].DrawGrades(grade(0～5));
         }
@@ -335,7 +335,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
         // 空タップじゃなければ判定UI描画
         if (tapGrade != TimingGrade.Miss || isHold[laneNum])
         {
-            _drawGrades[laneNum].DrawGrades((int) tapGrade);
+            DrawGrades[laneNum].DrawGrades((int) tapGrade);
         }
 
         Instance.EvaluateGrades(laneNum, tapGrade);
@@ -364,12 +364,14 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     /// ノーツ破棄、配列カウントアップ
     /// </summary>
     /// <param name="laneNum">laneNumber</param>
-    protected virtual void DestroyNotes(int laneNum)
+    /// <param name="isLongStart"></param>
+    protected virtual void DestroyNotes(int laneNum, bool isLongStart = false)
     {
         (GameObject notesObj, NotesSelector _) = GOListArray[laneNum][notesCount[laneNum]];
 
         Destroy(notesObj);     // 該当ノーツ破棄
         notesCount[laneNum]++; // 該当レーンのノーツカウント++
+        TotalJudgedNotesCount++;
     }
 
     /// <summary>
@@ -377,7 +379,8 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     /// </summary>
     /// <param name="laneNum">laneNumber</param>
     /// <param name="doDestroy">ノーツを破棄するかどうか</param>
-    public static void NotesCountUp(int laneNum, bool doDestroy = true)
+    /// <param name="isLongStart">ロングノーツの始点の判定かどうか</param>
+    public virtual void NotesCountUp(int laneNum, bool doDestroy = true, bool isLongStart = false)
     {
         if (currentCombo > bestCombo)
         {
@@ -389,16 +392,9 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
 
         comboMgr.DrawCombo(currentCombo);
 
-        _drawGrades[laneNum].DrawGrades(4);
+        DrawGrades[laneNum].DrawGrades(4);
 
-        if (doDestroy)
-        {
-            Instance.DestroyNotes(laneNum);
-        }
-        else
-        {
-            notesCount[laneNum]++;
-        }
+        Instance.DestroyNotes(laneNum);
     }
 
     public static void ListImport()

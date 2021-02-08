@@ -73,9 +73,8 @@ public class PianoNotesJudgement : NotesJudgementBase
                     }
 
                     currentCombo = 0;
-                    TotalGrades[4]++;
                     comboMgr.DrawCombo(currentCombo);
-                    DestroyNotes(laneNum);
+                    DestroyNotes(laneNum, true);
                 }
                 // 空タップ
                 else
@@ -136,18 +135,18 @@ public class PianoNotesJudgement : NotesJudgementBase
                     {
                         Vector3 endNotesPos = notesSel.endNotes.transform.position;
 
-                        // 左レーン
-                        if (isLeftLane &&
-                            _leftJudgeLinePos.y - GradesCriterion[3] > endNotesPos.y)
+                        // 左レーンで通過したか
+                        bool isPassedLeftLane =
+                            isLeftLane && _leftJudgeLinePos.y - GradesCriterion[3] > endNotesPos.y;
+
+                        // 右レーンで通過したか
+                        bool isPassedRightLane =
+                            isRightLane && _rightJudgeLinePos.y - GradesCriterion[3] > endNotesPos.y;
+
+                        if (isPassedLeftLane || isPassedRightLane)
                         {
                             NotesCountUp(laneNum);
-                            isHold[laneNum] = false;
-                        }
-                        // 右レーン
-                        else if (isRightLane &&
-                                 _rightJudgeLinePos.y - GradesCriterion[3] > endNotesPos.y)
-                        {
-                            NotesCountUp(laneNum);
+                            TotalJudgedNotesCount++;
                             isHold[laneNum] = false;
                         }
                     }
@@ -208,6 +207,39 @@ public class PianoNotesJudgement : NotesJudgementBase
             }
 
             mask[laneNum].SetActive(isHold[laneNum]);
+        }
+    }
+
+    public override void NotesCountUp(int laneNum, bool doDestroy = true, bool isLongStart = false)
+    {
+        if (currentCombo > bestCombo)
+        {
+            bestCombo = currentCombo; // 最大コンボ記憶
+        }
+
+        currentCombo = 0;
+        TotalGrades[4]++;
+
+        comboMgr.DrawCombo(currentCombo);
+
+        DrawGrades[laneNum].DrawGrades(4);
+
+        DestroyNotes(laneNum, isLongStart);
+    }
+
+    protected override void DestroyNotes(int laneNum, bool isLongStart = false)
+    {
+        (GameObject notesObj, NotesSelector _) = GOListArray[laneNum][notesCount[laneNum]];
+
+        Destroy(notesObj);     // 該当ノーツ破棄
+        notesCount[laneNum]++; // 該当レーンのノーツカウント++
+        TotalJudgedNotesCount++;
+
+        // ロングノーツの始点でミスした際に終点のミスもカウント
+        if (isLongStart)
+        {
+            TotalGrades[4]++;
+            TotalJudgedNotesCount++;
         }
     }
 }

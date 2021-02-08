@@ -359,7 +359,33 @@ public class ViolinNotesJudgement : NotesJudgementBase
         _isTouchedNotesWhileSlideInPrev = isTouchedNotesWhileSlide;
     }
 
-    protected override void DestroyNotes(int laneNum)
+    public override void NotesCountUp(int laneNum, bool doDestroy = true, bool isLongStart = false)
+    {
+        if (currentCombo > bestCombo)
+        {
+            bestCombo = currentCombo; // 最大コンボ記憶
+        }
+
+        currentCombo = 0;
+        TotalGrades[4]++;
+
+        comboMgr.DrawCombo(currentCombo);
+
+        DrawGrades[laneNum].DrawGrades(4);
+
+        if (doDestroy)
+        {
+            DestroyNotes(laneNum);
+        }
+        // 破棄フラグがなければスライドノーツだとみなし、破棄をせずカウントのみ行う
+        else
+        {
+            notesCount[laneNum]++;
+            TotalJudgedNotesCount++;
+        }
+    }
+
+    protected override void DestroyNotes(int laneNum, bool isLongStart = false)
     {
         (GameObject notesObj, NotesSelector notesSel)         = GOListArray[laneNum][notesCount[laneNum]];
         (GameObject nextNotesObj, NotesSelector nextNotesSel) = notesSel.nextSlideNotes;
