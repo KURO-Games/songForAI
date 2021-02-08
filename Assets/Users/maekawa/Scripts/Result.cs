@@ -39,15 +39,15 @@ public class Result : MonoBehaviour
 
     //
     GameObject scoreGauge;
-    Image rankImage;
-    RectTransform rankRect;
-    float x = 1500;
-    float y = 1500;
-    float alpha = 0.3f;
+    //Image rankImage;
+    //RectTransform rankRect;
+    //float x = 1500;
+    //float y = 1500;
+    //float alpha = 0.3f;
     float resultIncrease = 0;
-    float timeCount;
-    bool hoge = false;
-    bool foo = false;
+    //float timeCount;
+    //bool hoge = false;
+    //bool foo = false;
 
     public static bool isClick;// ボタン用
     void Start()
@@ -130,8 +130,8 @@ public class Result : MonoBehaviour
             rankNum = 1;
         }
 
-        rankImage = GameObject.Find(callObj).GetComponent<Image>();
-        rankRect = GameObject.Find(callObj).GetComponent<RectTransform>();
+        //rankImage = GameObject.Find(callObj).GetComponent<Image>();
+        //rankRect = GameObject.Find(callObj).GetComponent<RectTransform>();
 
         scoreGauge = GameObject.Find("scoreGauge");
         scoreGauge.GetComponent<Image>().fillAmount = 0;

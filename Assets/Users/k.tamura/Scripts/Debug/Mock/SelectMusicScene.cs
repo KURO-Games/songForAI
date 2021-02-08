@@ -81,13 +81,10 @@ public class SelectMusicScene : MonoBehaviour
             case GameType.Violin:
                 Panel.SetActive(true);
                 SceneLoadManager.LoadScene("ViolineDev");
-                // comゲームショウ用
-                //SelectMusicPanelController.popUpFlag = true;
                 break;
             case GameType.Drum:
-                Panel.SetActive(true);
-                SceneLoadManager.LoadScene("DrumGameScene");
-                //SelectMusicPanelController.popUpFlag = true;
+                break;
+            default:
                 break;
         }    
     }

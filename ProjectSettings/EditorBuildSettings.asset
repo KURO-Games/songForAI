@@ -8,6 +8,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Users/k.tamura/Init/Init.unity
     guid: f04f27c7c573547308fd70432fead764
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Users/k.tamura/Init/Loading.unity
     guid: 4f685c9ff23b845698f5d2bee5ac85fa
@@ -47,9 +50,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Main/Scenario.unity
     guid: 3e35bca7f42a6a842986c0f4b026f8c7
-  - enabled: 1
-    path: Assets/Users/maekawa/Scripts/test/Live2DDev.unity
-    guid: d66a9028bf35d78429af5f62f1514775
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
