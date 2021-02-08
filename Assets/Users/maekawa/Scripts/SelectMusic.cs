@@ -24,6 +24,7 @@ public class SelectMusic : MonoBehaviour
     private bool isSwiping = false;
     private int selectNumber = 0;
     private DrawStatus[] drawStatus;
+    private bool[] tempDrawStatus;
     private MusicNumber[] musicNumber;
     private CanvasGroup[] canvasGroups;
     private float fadeAreaDistanceAtTop;
@@ -37,6 +38,7 @@ public class SelectMusic : MonoBehaviour
         musicPlates = new GameObject[plateSize];// 要素数分確保
         defaultPositions = new Vector3[plateSize];
         drawStatus = new DrawStatus[plateSize];
+        tempDrawStatus = new bool[plateSize];
         musicNumber = new MusicNumber[plateSize];
         canvasGroups = new CanvasGroup[plateSize];
 
@@ -130,6 +132,11 @@ public class SelectMusic : MonoBehaviour
                 if (lineUp == 0)
                     drawStatus[i].isSelected = true;
 
+                if(drawStatus[i].isSelected!=tempDrawStatus[i])
+                {
+                    SoundManager.SESoundCue(6);
+                }
+
                 musicPlateTrf.position -= movePos;
             }
         }
@@ -189,6 +196,10 @@ public class SelectMusic : MonoBehaviour
             SetPlate(i);
 
         FadeMusicPlates();
+        for (int i = 0;i<drawStatus.Length;i++)
+        {
+            tempDrawStatus[i] = drawStatus[i].isSelected;
+        }
     }
 
     /// <summary>
