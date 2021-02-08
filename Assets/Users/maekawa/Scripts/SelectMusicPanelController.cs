@@ -29,6 +29,7 @@ public class SelectMusicPanelController : MonoBehaviour
     {
         panel.SetActive(true);
         isPopUp = true;
+        SoundManager.SESoundCue(8);
     }
 
     public void PushRight()

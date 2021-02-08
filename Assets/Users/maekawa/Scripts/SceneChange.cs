@@ -29,6 +29,7 @@ public class SceneChange : MonoBehaviour
         {
             PushButton = true;
             SceneLoadManager.LoadScene(SceneName);
+            SoundManager.SESoundCue(7);
         } 
         if(Times >= PvSceneTime && !PushButton)
         {
