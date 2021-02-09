@@ -198,29 +198,23 @@ public class ViolinNotesJudgement : NotesJudgementBase
                         }
                         else if (isSlideNotes)
                         {
-                            absTiming = GetAbsTiming(notesPos.x, _slideJudgeLinePos.x);
-                            TimingGrade grade = GetGradeFromAccuracy(absTiming);
+                            // レーンとノーツに触れているときのみ判定
+                            if (!isTouchedNotesWhileSlide) break;
+
+                            absTiming = 0;
 
                             CacheNotesCount(laneNum, notesObj);
 
-                            // 末尾ノーツかミスならそれまでの一連を削除
-                            if (isHold[laneNum] &&
-                                (notesSel.slideSection == SlideNotesSection.Foot || grade == TimingGrade.Miss))
+                            // 末尾ノーツならそれまでの一連を削除
+                            if (isHold[laneNum] && notesSel.slideSection == SlideNotesSection.Foot)
                             {
-                                (GameObject nextNotesObj, NotesSelector nextNotesSel) = notesSel.nextSlideNotes;
-                                isDestroyed                                           = true;
-
-                                // 次のノーツが末尾ならそちらも破棄対象に（ミス時）
-                                if (nextNotesSel != null && nextNotesSel.slideSection == SlideNotesSection.Foot)
+                                if (_isCached)
                                 {
-                                    int nextLaneNum = nextNotesSel.laneNum;
+                                    isDestroyed = true;
 
-                                    CacheNotesCount(nextLaneNum, nextNotesObj);
-                                    JudgeGrade(nextLaneNum, absTiming);
+                                    AddCachedNotesCount();
+                                    DestroyCachedNotes();
                                 }
-
-                                AddCachedNotesCount();
-                                DestroyCachedNotes();
                             }
                             // ミスじゃなければ判定済みとする
                             else
@@ -228,13 +222,13 @@ public class ViolinNotesJudgement : NotesJudgementBase
                                 notesSel.isJudged = true;
                             }
                         }
+
+                        // 判定ラインからの距離に応じて判定
+                        JudgeGrade(laneNum, absTiming);
+
+                        // ↑のノーツ破棄時にホールド状態を切り替えてもJudgeGrade→JudgeNotesTypeでホールド状態が戻るので、ここでfalseに
+                        if (isDestroyed) SetSlideLaneHoldState(false);
                     }
-
-                    // 判定ラインからの距離に応じて判定
-                    JudgeGrade(laneNum, absTiming);
-
-                    // ↑のノーツ破棄時にホールド状態を切り替えてもJudgeGrade→JudgeNotesTypeでホールド状態が戻るので、ここでfalseに
-                    if (isDestroyed) SetSlideLaneHoldState(false);
 
                     // レーンのタップエフェクトがあるなら表示処理をここへ
 
