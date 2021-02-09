@@ -38,7 +38,6 @@ public class DrawStatus : MonoBehaviour
         //    DrawMusicNameJacket(lastMusicNum);
         //}
 
-
         if (lastGameType != (int)MusicDatas.gameType | lastDifficultNumber != MusicDatas.difficultNumber)
         {
             DrawHighScore(lastMusicNum, (int)MusicDatas.gameType, MusicDatas.difficultNumber);
@@ -46,7 +45,6 @@ public class DrawStatus : MonoBehaviour
             lastGameType = (int)MusicDatas.gameType;
             lastDifficultNumber = MusicDatas.difficultNumber;
         }
-
 
         if (lastSelected != isSelected)
         {
