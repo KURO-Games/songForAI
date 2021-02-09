@@ -184,6 +184,10 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
 
         isHoldView     = isHold;
         notesCountView = notesCount;
+
+        // debug
+        if (totalScore >= 1500)
+            SceneLoadManager.LoadScene("Result");
     }
 
     private void LateUpdate()
