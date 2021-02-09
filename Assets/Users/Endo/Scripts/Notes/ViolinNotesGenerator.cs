@@ -42,13 +42,13 @@ public class ViolinNotesGenerator : NotesGeneratorBase
     protected override void MoveNotes()
     {
         vLaneTrf.position = move   * (-1 * NotesSpeed) + new Vector3(0, offset);
-        hLaneTrf.position = _hMove * NotesSpeed        + new Vector3(offset, 0);
+        hLaneTrf.position = _hMove * NotesSpeed        - new Vector3(offset, 0);
     }
 
     protected override void LoadNotes()
     {
         // ノーツ生成
-        foreach (NotesJson.Notes thisNotes in musicData.notes)
+        foreach (NotesJson.Notes thisNotes in MusicData.notes)
         {
             // ノーツデータを変数に代入
             int laneNum   = thisNotes.block;
@@ -128,8 +128,8 @@ public class ViolinNotesGenerator : NotesGeneratorBase
                         Transform     nextNotesTrf = nextSlideNotesObj.transform;
                         NotesSelector nextNotesSel = nextSlideNotesObj.GetComponent<NotesSelector>();
 
-                        nextNotesSel.laneNum          = nextSlideLaneNum;
-                        nextNotesSel.prevSlideNotes   = (prevSlideNotesTrf.gameObject, prevSlideNotesSel);
+                        nextNotesSel.laneNum        = nextSlideLaneNum;
+                        nextNotesSel.prevSlideNotes = (prevSlideNotesTrf.gameObject, prevSlideNotesSel);
 
                         // 末尾ノーツかどうかで情報変更
                         if (isEndNotes)

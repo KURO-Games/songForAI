@@ -37,11 +37,11 @@ public class DrumNotesGenerator : NotesGeneratorBase
         float displayPosition = NotesSpeeds * speed;      //ドラムの表示位置
 
         //ノーツの拡大表示処理
-        if(drumNotesCount < musicData.notes.Length && LastNotes != null)
+        if(drumNotesCount < MusicData.notes.Length && LastNotes != null)
         {
             //ノーツデータを変数に代入
-            int notesNum = musicData.notes[drumNotesCount].num;
-            int laneNum = musicData.notes[drumNotesCount].block;
+            int notesNum = MusicData.notes[drumNotesCount].num;
+            int laneNum = MusicData.notes[drumNotesCount].block;
 
             //ノーツの表示位置なったら対象のノーツ処理対象に追加する
             if (notesNum <= displayPosition)
@@ -94,11 +94,11 @@ public class DrumNotesGenerator : NotesGeneratorBase
     protected override void LoadNotes()
     {
         // ノーツ生成
-        for (int i = 0; musicData.notes.Length > i; i++)
+        for (int i = 0; MusicData.notes.Length > i; i++)
         {
             // ノーツデータを変数に代入
-            int laneNum = musicData.notes[i].block;
-            int notesNum = musicData.notes[i].num;
+            int laneNum = MusicData.notes[i].block;
+            int notesNum = MusicData.notes[i].num;
 
             //生成
             GameObject GenNotes = Instantiate(NotesPrefab, new Vector3(notesGen[laneNum].transform.position.x
@@ -111,7 +111,7 @@ public class DrumNotesGenerator : NotesGeneratorBase
             GenNotes.transform.localPosition = Vector3.zero;
             GenNotes.transform.localScale    = Vector3.zero;
             NotesPositionAdd(GenNotes, laneNum);
-            if (i == musicData.notes.Length - 1)
+            if (i == MusicData.notes.Length - 1)
             {
                 LastNotes = GenNotes;
             }
