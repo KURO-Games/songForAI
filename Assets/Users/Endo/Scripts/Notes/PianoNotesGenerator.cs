@@ -28,7 +28,7 @@ public class PianoNotesGenerator : NotesGeneratorBase
     protected override void LoadNotes()
     {
         // ノーツ生成
-        foreach (NotesJson.Notes thisNotes in musicData.notes)
+        foreach (NotesJson.Notes thisNotes in MusicData.notes)
         {
             // ノーツデータを変数に代入
             int laneNum   = thisNotes.block;

@@ -91,7 +91,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
         bestCombo    = 0;
         Array.Clear(TotalGrades, 0, TotalGrades.Length);
 
-        maxLaneNum            = NotesGeneratorBase.musicData.maxBlock;
+        maxLaneNum            = NotesGeneratorBase.MusicData.maxBlock;
         scoreMgr              = uiObj.GetComponent<ScoreManager>();
         comboMgr              = uiObj.GetComponent<ComboManager>();
         _camera               = Camera.main;
@@ -118,7 +118,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
         }
 
         // 曲の総ノーツ数を記憶
-        foreach (NotesJson.Notes notes in NotesGeneratorBase.musicData.notes)
+        foreach (NotesJson.Notes notes in NotesGeneratorBase.MusicData.notes)
         {
             _totalNotesCount++;
 
@@ -130,6 +130,8 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
                 _totalNotesCount++;
             }
         }
+
+        Debug.Log(_totalNotesCount);
     }
 
     private void Update()
