@@ -15,8 +15,10 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     protected static RaycastHit2D[] tapRayHits = new RaycastHit2D[0];
     protected static Vector3        tappedSlideLanePos; // スライドレーンをタップしている位置
     private static   Camera         _camera;
-    private          int            _totalNotesCount;      // 曲の総ノーツ数
-    protected static int            TotalJudgedNotesCount; // 判定したノーツ数
+
+    // クリア・フルコンボ表示用
+    private          int _totalNotesCount;      // 曲の総ノーツ数
+    protected static int TotalJudgedNotesCount; // 判定したノーツ数
 
     // プランナーレベルデザイン用
     // perfect ～ badの順に入力
@@ -97,7 +99,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
         _camera               = Camera.main;
         TotalJudgedNotesCount = 0;
 
-        DrawGrades     = new DrawGrade[maxLaneNum];
+        DrawGrades      = new DrawGrade[maxLaneNum];
         _drawGradeObjs  = new GameObject[maxLaneNum];
         _tappedLane     = new bool[maxLaneNum];
         _lastTappedLane = new bool[maxLaneNum];
@@ -118,20 +120,18 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
         }
 
         // 曲の総ノーツ数を記憶
-        foreach (NotesJson.Notes notes in NotesGeneratorBase.MusicData.notes)
-        {
-            _totalNotesCount++;
-
-            // ロングまたはスライドノーツがあればそれもカウント
-            if (notes.notes.Length == 0) continue;
-
-            for (int i = 0; i < notes.notes.Length; i++)
-            {
-                _totalNotesCount++;
-            }
-        }
-
-        Debug.Log(_totalNotesCount);
+        // foreach (NotesJson.Notes notes in NotesGeneratorBase.MusicData.notes)
+        // {
+        //     _totalNotesCount++;
+        //
+        //     // ロングまたはスライドノーツがあればそれもカウント
+        //     if (notes.notes.Length == 0) continue;
+        //
+        //     for (int i = 0; i < notes.notes.Length; i++)
+        //     {
+        //         _totalNotesCount++;
+        //     }
+        // }
     }
 
     private void Update()
@@ -179,10 +179,10 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
         UpdateNotesDisplay(_tappedLane, _lastTappedLane);
 
         // 全ノーツが通過したらクリア表示を行う
-        if (TotalJudgedNotesCount == _totalNotesCount)
-        {
-            ClearDisplay.Show();
-        }
+        // if (TotalJudgedNotesCount == _totalNotesCount)
+        // {
+        //     ClearDisplay.Show();
+        // }
 
         isHoldView     = isHold;
         notesCountView = notesCount;
