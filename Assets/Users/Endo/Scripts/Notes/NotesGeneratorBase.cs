@@ -36,7 +36,7 @@ public abstract class NotesGeneratorBase : MonoBehaviour
     // とりあえずここで設定 musicselectsに移動するかも
     private readonly float[]   _highSpeeds = {0.28f, 0.5f, 0.28f};
     private readonly float[]   _Speeds     = {0.258f, 0.139f, 0.295f};
-    private readonly float[][] _offsets    = {new[] {35.4f, 20, 31}, new[] {-6.65f, -7, -6.8f}, new[] {35.4f, 20, 31}};
+    private readonly float[][] _offsets    = {new[] {35.4f, 24, 31}, new[] {35.4f, 27, 33}, new[] {35.4f, 20, 31}};
 
     /// <summary>
     /// ノーツの移動部分の計算

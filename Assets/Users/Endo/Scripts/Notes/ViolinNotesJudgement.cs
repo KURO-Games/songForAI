@@ -89,14 +89,14 @@ public class ViolinNotesJudgement : NotesJudgementBase
                         bestCombo = currentCombo;
                     }
 
-                    (GameObject notesObj, NotesSelector notesSel) = GOListArray[laneNum][notesCount[laneNum]];
-                    NotesSelector nextNotesSel = notesSel.nextSlideNotes.selector;
+                    (GameObject _, NotesSelector notesSel)                = GOListArray[laneNum][notesCount[laneNum]];
+                    (GameObject nextNotesObj, NotesSelector nextNotesSel) = notesSel.nextSlideNotes;
 
                     // 次のスライドノーツが末尾ならそちらも破棄対象に
                     if (nextNotesSel != null && nextNotesSel.slideSection == SlideNotesSection.Foot)
                     {
-                        CacheNotesCount(laneNum, notesObj);
-                        JudgeGrade(laneNum, 99);
+                        CacheNotesCount(nextNotesSel.laneNum, nextNotesObj);
+                        JudgeGrade(nextNotesSel.laneNum, 99);
                     }
 
                     SetSlideLaneHoldState(false);
@@ -198,28 +198,54 @@ public class ViolinNotesJudgement : NotesJudgementBase
                         }
                         else if (isSlideNotes)
                         {
-                            // レーンとノーツに触れているときのみ判定
-                            if (!isTouchedNotesWhileSlide) break;
-
-                            absTiming = 0;
-
-                            CacheNotesCount(laneNum, notesObj);
-
-                            // 末尾ノーツならそれまでの一連を削除
-                            if (isHold[laneNum] && notesSel.slideSection == SlideNotesSection.Foot)
+                            // スライドによるレーンへの進入だったら
+                            if (_isSlidingInPrev)
                             {
-                                if (_isCached)
+                                // レーンとノーツに触れているときのみ判定
+                                if (!isTouchedNotesWhileSlide) break;
+
+                                absTiming = GradesCriterion[0];
+
+                                CacheNotesCount(laneNum, notesObj);
+
+                                // 末尾ノーツならそれまでの一連を削除
+                                if (isHold[laneNum] && notesSel.slideSection == SlideNotesSection.Foot)
+                                {
+                                    if (_isCached)
+                                    {
+                                        isDestroyed = true;
+
+                                        AddCachedNotesCount();
+                                        DestroyCachedNotes();
+                                    }
+                                }
+                                // ミスじゃなければ判定済みとする
+                                else
+                                {
+                                    notesSel.isJudged = true;
+                                }
+                            }
+                            // タップ開始だったら距離による判定を行う
+                            else
+                            {
+                                absTiming = GetAbsTiming(notesPos.x, _slideJudgeLinePos.x);
+
+                                // 判定領域外でも判定されてしまうので、その場合は無視
+                                if (absTiming > GradesCriterion[4]) break;
+
+                                CacheNotesCount(laneNum, notesObj);
+
+                                if (notesSel.slideSection == SlideNotesSection.Foot)
                                 {
                                     isDestroyed = true;
 
                                     AddCachedNotesCount();
                                     DestroyCachedNotes();
                                 }
-                            }
-                            // ミスじゃなければ判定済みとする
-                            else
-                            {
-                                notesSel.isJudged = true;
+                                else
+                                {
+                                    notesSel.isJudged = true;
+                                }
                             }
                         }
 
@@ -229,8 +255,6 @@ public class ViolinNotesJudgement : NotesJudgementBase
                         // ↑のノーツ破棄時にホールド状態を切り替えてもJudgeGrade→JudgeNotesTypeでホールド状態が戻るので、ここでfalseに
                         if (isDestroyed) SetSlideLaneHoldState(false);
                     }
-
-                    // レーンのタップエフェクトがあるなら表示処理をここへ
 
                     break;
                 }
@@ -273,7 +297,7 @@ public class ViolinNotesJudgement : NotesJudgementBase
                         (GameObject nextNotesObj, NotesSelector nextNotesSel) = notesSel.nextSlideNotes;
 
                         // 次のノーツが末尾ならそちらも破棄対象に
-                        if (nextNotesSel.slideSection == SlideNotesSection.Foot)
+                        if (nextNotesSel != null && nextNotesSel.slideSection == SlideNotesSection.Foot)
                         {
                             int nextLaneNum = nextNotesSel.laneNum;
 
@@ -293,6 +317,7 @@ public class ViolinNotesJudgement : NotesJudgementBase
 
                 // タップ領域を除く、スライド領域ホールド
                 case false when _isNowSliding:
+                    // スライドノーツホールド判定継続用（ここは消さないこと）
                     break;
 
                 // タップ領域から領域外にスライドしたとき
@@ -318,11 +343,6 @@ public class ViolinNotesJudgement : NotesJudgementBase
                     break;
                 }
 
-                case false when !_isNowSliding && _isSlidingInPrev:
-                    Debug.Log("test");
-
-                    break;
-
                 // タップ終了
                 case false when isThisLaneTappedInPrev && !_isNowSliding:
                     // 現状、通過ノーツに触れたらとなっているため機能してない
@@ -336,8 +356,6 @@ public class ViolinNotesJudgement : NotesJudgementBase
                         JudgeGrade(laneNum, absTiming);
                         SetSlideLaneHoldState(false);
                     }
-
-                    // レーンのタップエフェクトがあるなら非表示処理をここへ
 
                     break;
             }
@@ -456,6 +474,8 @@ public class ViolinNotesJudgement : NotesJudgementBase
     {
         foreach (GameObject notes in _cachedSlidingNotes)
         {
+            if (notes == null) continue;
+
             Destroy(notes);
         }
 
