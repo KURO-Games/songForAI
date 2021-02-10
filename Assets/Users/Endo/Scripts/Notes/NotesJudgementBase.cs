@@ -22,7 +22,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
 
     // プランナーレベルデザイン用
     // perfect ～ badの順に入力
-    protected static readonly float[] GradesCriterion = {1.0f, 1.5f, 2, 3};     // 判定許容値
+    protected static readonly float[] GradesCriterion = {1.0f, 1.5f, 2, 3, 4};  // 判定許容値
     public static readonly    int[]   GradesPoint     = {300, 200, 100, 10, 0}; // 各判定に応じたスコア
 
     // タップタイミングのグレード

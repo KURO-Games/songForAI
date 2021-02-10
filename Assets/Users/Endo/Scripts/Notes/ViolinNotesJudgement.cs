@@ -230,6 +230,9 @@ public class ViolinNotesJudgement : NotesJudgementBase
                             {
                                 absTiming = GetAbsTiming(notesPos.x, _slideJudgeLinePos.x);
 
+                                // 判定領域外でも判定されてしまうので、その場合は無視
+                                if (absTiming > GradesCriterion[4]) break;
+
                                 CacheNotesCount(laneNum, notesObj);
 
                                 if (notesSel.slideSection == SlideNotesSection.Foot)
@@ -311,6 +314,11 @@ public class ViolinNotesJudgement : NotesJudgementBase
 
                     break;
                 }
+
+                // タップ領域を除く、スライド領域ホールド
+                case false when _isNowSliding:
+                    // スライドノーツホールド判定継続用（ここは消さないこと）
+                    break;
 
                 // タップ領域から領域外にスライドしたとき
                 case false when isThisLaneTappedInPrev:
