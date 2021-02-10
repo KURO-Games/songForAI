@@ -7,6 +7,8 @@ public class PianoPlayEffect : PlayEffectBase
 
     private bool[] _isHolding;
 
+    private static readonly int IsEnded = Animator.StringToHash("isEnded");
+
     protected override void Start()
     {
         base.Start();
@@ -39,10 +41,7 @@ public class PianoPlayEffect : PlayEffectBase
                 _isHolding[i] = false;
                 holdEffect[i].SetBool(IsEnded, true);
             }
-        }
 
-        for (int i = 0; i < MaxLaneNum; i++)
-        {
             NotesJudgementBase.justTap[i] = false;
             tapEffect[i].SetBool(IsTapped, false);
             holdEffect[i].SetBool(IsTapped, false);

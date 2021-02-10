@@ -8,7 +8,6 @@ public abstract class PlayEffectBase : MonoBehaviour
     protected int MaxLaneNum;
 
     protected static readonly int IsTapped = Animator.StringToHash("isTapped");
-    protected static readonly int IsEnded  = Animator.StringToHash("isEnded");
 
     /// <summary>
     /// エフェクトの再生処理
