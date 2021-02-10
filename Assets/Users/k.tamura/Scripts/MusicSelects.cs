@@ -59,7 +59,6 @@ public static class MusicSelects
         5,
         6,
         7
-
     };
     /// <summary>
     /// 曲名を参照してenumを返す変数

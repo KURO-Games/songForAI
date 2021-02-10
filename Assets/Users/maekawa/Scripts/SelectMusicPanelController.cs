@@ -9,8 +9,6 @@ public class SelectMusicPanelController : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Image displayImage;
     [SerializeField] private Sprite[] helps;
-    [SerializeField] private GameObject RightButton;
-    [SerializeField] private GameObject LeftButton;
     private int displayNum = 0;
     public static bool isPopUp;
 
@@ -32,6 +30,7 @@ public class SelectMusicPanelController : MonoBehaviour
         if (displayNum > helps.Length - 1)
             displayNum = 0;
         displayImage.sprite = helps[displayNum];
+        SoundManager.SESoundCue(8);
     }
 
     public void PushLeft()
@@ -40,6 +39,7 @@ public class SelectMusicPanelController : MonoBehaviour
         if (displayNum < 0)
             displayNum = helps.Length - 1;
         displayImage.sprite = helps[displayNum];
+        SoundManager.SESoundCue(8);
     }
 
     public void Exit()
