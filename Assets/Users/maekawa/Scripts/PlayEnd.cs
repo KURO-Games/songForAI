@@ -13,7 +13,6 @@ public class PlayEnd : MonoBehaviour
     {
         if(Input.GetMouseButton(0) && isClick)
         {
-            PlayerPrefs.DeleteAll();
             isClick = false;
             Scenario_Controller.scenarioNumber = 0;
             SelectMusicScene.life = 2;

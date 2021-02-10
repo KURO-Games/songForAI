@@ -20,6 +20,7 @@ public class PanelController : MonoBehaviour
             Scenario_Controller.scenarioNumber++;
             subText.text = "シナリオ" + Scenario_Controller.scenarioNumber + "話が解放されました";
             popUpFlag = true;
+            SoundManager.SESoundCue(8);
         }
     }
 

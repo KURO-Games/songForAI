@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 403ae2dd693bb1d4b924f6b8d206b053, type: 3}
+  m_Name: LV2D.fadeMotionList
+  m_EditorClassIdentifier: 
+  MotionInstanceIds: 6c57ffff6057ffff5857ffff184fffff
+  CubismFadeMotionObjects:
+  - {fileID: 11400000, guid: e82e5fce4ae4e2248ac04bac42a7aa03, type: 2}
+  - {fileID: 11400000, guid: 3eaffc4d537ce994e867b5b58f664820, type: 2}
+  - {fileID: 11400000, guid: 6940662c34af8624aac63dede847c86c, type: 2}
+  - {fileID: 11400000, guid: e4bb674f34be40a429a58aadf579124f, type: 2}

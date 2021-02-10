@@ -23,29 +23,6 @@ public class DrawStatus : MonoBehaviour
 
     private void Start()
     {
-        // α用テスト
-        //for (int musicNumbers = 0; musicNumbers < 3; musicNumbers++)
-        //{
-        //    for (int gameTypes = 0; gameTypes < 3; gameTypes++)
-        //    {
-        //        for (int diffcultNumbers = 0; diffcultNumbers < 4; diffcultNumbers++)
-        //        {
-        //            int a = Random.Range(0, 50001);
-        //            string b = a.ToString();
-        //            PlayerPrefs.SetString(string.Format(ScoreClass.PlayerPrefsFormat,
-        //                MusicSelects.musicNotesNames[musicNumbers], gameTypes, diffcultNumbers, ScoreClass.PlayerPrefsHighScore), b);
-        //            int c = Random.Range(30, 201);
-        //            string d = c.ToString();
-        //            PlayerPrefs.SetString(string.Format(ScoreClass.PlayerPrefsFormat,
-        //                MusicSelects.musicNotesNames[musicNumbers], gameTypes, diffcultNumbers, ScoreClass.PlayerPrefsMaxCombo), d);
-        //            int x = Random.Range(0, 4);
-        //            PlayerPrefs.SetInt(string.Format(ScoreClass.PlayerPrefsFormat,
-        //                 MusicSelects.musicNotesNames[musicNumbers], gameTypes, diffcultNumbers, ScoreClass.PlayerPrefsHighRank), x);
-        //        }
-        //    }
-        //}
-        //
-
         lastMusicNum = gameObject.GetComponent<MusicNumber>().musicNumber;
         DrawMusicNameJacket(lastMusicNum);
         DrawHighScore(lastMusicNum, (int)MusicDatas.gameType, MusicDatas.difficultNumber);
@@ -61,7 +38,6 @@ public class DrawStatus : MonoBehaviour
         //    DrawMusicNameJacket(lastMusicNum);
         //}
 
-
         if (lastGameType != (int)MusicDatas.gameType | lastDifficultNumber != MusicDatas.difficultNumber)
         {
             DrawHighScore(lastMusicNum, (int)MusicDatas.gameType, MusicDatas.difficultNumber);
@@ -69,7 +45,6 @@ public class DrawStatus : MonoBehaviour
             lastGameType = (int)MusicDatas.gameType;
             lastDifficultNumber = MusicDatas.difficultNumber;
         }
-
 
         if (lastSelected != isSelected)
         {
@@ -132,10 +107,15 @@ public class DrawStatus : MonoBehaviour
         // MusicSelects.musicNotesNames[i], j, k, ScoreClass.PlayerPrefsHighScore), "0");
         //maxCombo.text = PlayerPrefsUtil<string>.Load(string.Format(ScoreClass.PlayerPrefsFormat,
         // MusicSelects.musicNotesNames[i], j, k, ScoreClass.PlayerPrefsMaxCombo), "0");
-        highScore.text = PlayerPrefs.GetString(string.Format(ScoreClass.PlayerPrefsFormat,
-         MusicSelects.musicNotesNames[i], j, k, ScoreClass.PlayerPrefsHighScore), "0");
-        maxCombo.text = PlayerPrefs.GetString(string.Format(ScoreClass.PlayerPrefsFormat,
-         MusicSelects.musicNotesNames[i], j, k, ScoreClass.PlayerPrefsMaxCombo), "0");
+
+        // ベストスコア表示
+        int tempScore = PlayerPrefs.GetInt(string.Format(ScoreClass.PlayerPrefsFormat,
+         MusicSelects.musicNotesNames[i], j, k, ScoreClass.PlayerPrefsHighScore), 0);
+        highScore.text = tempScore.ToString();
+        // ベストコンボ表示
+        int tempCombo = PlayerPrefs.GetInt(string.Format(ScoreClass.PlayerPrefsFormat,
+         MusicSelects.musicNotesNames[i], j, k, ScoreClass.PlayerPrefsMaxCombo), 0);
+        maxCombo.text = tempCombo.ToString();
 
 
         bestRankEmpty.GetComponent<Image>().color = new Color(1, 1, 1, 1);
