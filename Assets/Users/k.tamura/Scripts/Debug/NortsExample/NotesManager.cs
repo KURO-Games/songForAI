@@ -7,10 +7,8 @@ using UnityEngine;
 /// </summary>
 public class NotesManager : MonoBehaviour
 {
-    public static List<List<(GameObject gameObject, NotesSelector selector)>> NotesPositions =
-        new List<List<(GameObject gameObject, NotesSelector selector)>>();
-
-    public static List<int> NextNotesLine = new List<int>();
+    public static List<List<NotesInfo>> NotesPositions = new List<List<NotesInfo>>();
+    public static List<int>             NextNotesLine  = new List<int>();
 
     private void Update()
     {

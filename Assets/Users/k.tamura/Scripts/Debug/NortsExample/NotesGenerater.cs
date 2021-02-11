@@ -106,7 +106,7 @@ public class NotesGenerater : MonoBehaviour
         for (int i = 0; musicData.notes.Length > i; i++)
         {
             // リスト初期化
-            NotesManager.NotesPositions.Add(new List<(GameObject gameObject, NotesSelector selector)>()); //nex
+            NotesManager.NotesPositions.Add(new List<NotesInfo>()); //nex
 
             // ノーツデータを変数に代入
             int LaneNum = musicData.notes[i].block;
@@ -184,10 +184,10 @@ public class NotesGenerater : MonoBehaviour
     {
         for (int i = 0; i < NotesManager.NotesPositions.Count; i++)
         {
-            if (NotesManager.NotesPositions[i][Lane].gameObject == null)
+            if (NotesManager.NotesPositions[i][Lane].GameObject == null)
             {
-                (GameObject notesObj, NotesSelector _) = NotesManager.NotesPositions[i][Lane];
-                notesObj = notes;
+                NotesInfo notesInfo = NotesManager.NotesPositions[i][Lane];
+                notesInfo.GameObject = notes;
                 break;
             }
         }

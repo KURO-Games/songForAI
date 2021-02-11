@@ -17,9 +17,8 @@ public class NotesCountUp : MonoBehaviour
         // ノーツのみ処理
         if (!collision.gameObject.CompareTag("Notes")) return;
 
-        (GameObject _, NotesSelector notesSel) =
-            NotesJudgementBase.GOListArray[_laneNum][NotesJudgementBase.notesCount[_laneNum]];
-
+        NotesInfo     notesInfo = NotesJudgementBase.GOListArray[_laneNum][NotesJudgementBase.notesCount[_laneNum]];
+        NotesSelector notesSel  = notesInfo.Selector;
 
         // 未判定ノーツで非ホールド中またはスライドノーツなら
         if ((NotesJudgementBase.isHold[_laneNum] != true ||

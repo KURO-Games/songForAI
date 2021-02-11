@@ -58,8 +58,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     public         bool[] isHoldView;
     public         int[]  notesCountView;
 
-    public static List<List<(GameObject gameObject, NotesSelector selector)>> GOListArray =
-        new List<List<(GameObject gameObject, NotesSelector selector)>>(); // ノーツ座標格納用2次元配列
+    public static List<List<NotesInfo>> GOListArray = new List<List<NotesInfo>>(); // ノーツ座標格納用2次元配列
     // 使い方  GOListArray  [laneNumber]         [notesCount[laneNumber]]
     //        GOListArray  [何番目のレーンなのか] [何個目のノーツなのか[何番目のレーンなのか]]
 
@@ -357,7 +356,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
         scoreMgr.DrawScore(totalScore);
         comboMgr.DrawCombo(currentCombo);
 
-        NotesSelector thisNotesSel = GOListArray[laneNum][notesCount[laneNum]].selector;
+        NotesSelector thisNotesSel = GOListArray[laneNum][notesCount[laneNum]].Selector;
 
         Instance.JudgeNotesType(laneNum, thisNotesSel.notesType, thisNotesSel.slideSection);
     }
@@ -369,10 +368,10 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     /// <param name="isLongStart"></param>
     protected virtual void DestroyNotes(int laneNum, bool isLongStart = false)
     {
-        (GameObject notesObj, NotesSelector _) = GOListArray[laneNum][notesCount[laneNum]];
+        NotesInfo notesInfo = GOListArray[laneNum][notesCount[laneNum]];
 
-        Destroy(notesObj);     // 該当ノーツ破棄
-        notesCount[laneNum]++; // 該当レーンのノーツカウント++
+        Destroy(notesInfo.GameObject); // 該当ノーツ破棄
+        notesCount[laneNum]++;         // 該当レーンのノーツカウント++
         TotalJudgedNotesCount++;
     }
 
