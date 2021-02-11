@@ -289,12 +289,6 @@ public class ViolinNotesJudgement : NotesJudgementBase
                 // スライドレーンホールド（並行スライドノーツ。レーン進入時は含まない）
                 case true when isThisLaneTappedInPrev || _isTouchedNotesWhileSlideInPrev:
                 {
-                    GameObject    prevNotesObj = notesSel.prevSlideNotes?.GameObject;
-                    NotesSelector prevNotesSel = notesSel.prevSlideNotes?.Selector;
-
-                    // 1つ前に未処理ノーツが残っていなければ処理
-                    if (prevNotesObj == null || prevNotesSel != null && !prevNotesSel.isJudged) break;
-
                     SlideNotesSection? notesSlideSection = notesSel.slideSection;
 
                     // 中間・末尾スライドノーツをホールドしているときのみ処理
