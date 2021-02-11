@@ -254,7 +254,12 @@ public class ViolinNotesJudgement : NotesJudgementBase
                                 absTiming = GetAbsTiming(notesPos.x, _slideJudgeLinePos.x);
 
                                 // 判定領域外でも判定されてしまうので、その場合は無視
-                                if (absTiming > GradesCriterion[4]) break;
+                                if (absTiming > GradesCriterion[4])
+                                {
+                                    SoundManager.SESoundCue(5);
+
+                                    break;
+                                }
 
                                 CacheNotesCount(laneNum, notesObj);
 
@@ -281,6 +286,11 @@ public class ViolinNotesJudgement : NotesJudgementBase
 
                         // ↑のノーツ破棄時にホールド状態を切り替えてもJudgeGrade→JudgeNotesTypeでホールド状態が戻るので、ここでfalseに
                         if (isDestroyed) SetSlideLaneHoldState(false);
+                    }
+                    // 空タップ（次ノーツ側ではないレーン）
+                    else
+                    {
+                        SoundManager.SESoundCue(5);
                     }
 
                     break;
