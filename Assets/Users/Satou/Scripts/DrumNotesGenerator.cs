@@ -49,10 +49,12 @@ public class DrumNotesGenerator : NotesGeneratorBase
                 //処理させたいノーツを検索させる
                 List<GameObject> wantToBeProgress = new List<GameObject>();
 
-                foreach(List<(GameObject gameObject, NotesSelector selector)> lane in NotesManager.NotesPositions)
+                foreach(List<NotesInfo> lane in NotesManager.NotesPositions)
                 {
-                    foreach((GameObject notesObj, NotesSelector _) in lane)
+                    foreach(NotesInfo notesInfo in lane)
                     {
+                        GameObject notesObj = notesInfo.GameObject;
+
                         if (notesObj != null && notesObj.name == $"notes_{notesNum}")
                         {
                             wantToBeProgress.Add(notesObj);

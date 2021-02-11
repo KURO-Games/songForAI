@@ -120,10 +120,12 @@ public class PianoNotesJudgement : NotesJudgementBase
                                      ? notesCount[laneNum] - 1
                                      : notesCount[laneNum];
 
-            (GameObject notesObj, NotesSelector notesSel) = GOListArray[laneNum][laneNotesCount];
-            bool isNotesObjNull = notesObj == null;
-            bool isLeftLane     = laneNum  <= 3;
-            bool isRightLane    = laneNum  >= 4;
+            NotesInfo     notesInfo      = GOListArray[laneNum][laneNotesCount];
+            GameObject    notesObj       = notesInfo.GameObject;
+            NotesSelector notesSel       = notesInfo.Selector;
+            bool          isNotesObjNull = notesObj == null;
+            bool          isLeftLane     = laneNum  <= 3;
+            bool          isRightLane    = laneNum  >= 4;
 
             switch (isThisLaneTappedInPrev)
             {
@@ -229,9 +231,9 @@ public class PianoNotesJudgement : NotesJudgementBase
 
     protected override void DestroyNotes(int laneNum, bool isLongStart = false)
     {
-        (GameObject notesObj, NotesSelector _) = GOListArray[laneNum][notesCount[laneNum]];
+        NotesInfo notesInfo = GOListArray[laneNum][notesCount[laneNum]];
 
-        Destroy(notesObj);     // 該当ノーツ破棄
+        Destroy(notesInfo.GameObject);     // 該当ノーツ破棄
         notesCount[laneNum]++; // 該当レーンのノーツカウント++
         TotalJudgedNotesCount++;
 

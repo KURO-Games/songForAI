@@ -71,7 +71,7 @@ public class StringNotesGenerater : MonoBehaviour
         Debug.Log(bpm);
         for (int i = 0; musicData.notes.Length > i; i++)
         {
-            NotesManager.NotesPositions.Add(new List<(GameObject gameObject, NotesSelector selector)>()); //nex
+            NotesManager.NotesPositions.Add(new List<NotesInfo>()); //nex
             int LaneNum = musicData.notes[i].block;
             int NotesType = musicData.notes[i].type;
             int NotesNum = musicData.notes[i].num;
@@ -136,10 +136,10 @@ public class StringNotesGenerater : MonoBehaviour
     {
         for (int i = 0; i < NotesManager.NotesPositions.Count; i++)
         {
-            if (NotesManager.NotesPositions[i][Lane].gameObject == null)
+            if (NotesManager.NotesPositions[i][Lane].GameObject == null)
             {
-                (GameObject notesObj, NotesSelector _) = NotesManager.NotesPositions[i][Lane];
-                notesObj                               = notes;
+                NotesInfo notesInfo = NotesManager.NotesPositions[i][Lane];
+                notesInfo.GameObject = notes;
                 break;
             }
         }

@@ -15,6 +15,7 @@ public class SelectMusicScene : MonoBehaviour
     [SerializeField] private Text[] selectedDifLevel = new Text[4];
     // OKボタンで起動
     [SerializeField] GameObject Panel;
+    [SerializeField] GameObject PopUpPanel;
 
     private int lastMusicNumber = 0;
     private int lastDifficultNumber = 0;
@@ -83,6 +84,9 @@ public class SelectMusicScene : MonoBehaviour
                 SceneLoadManager.LoadScene("ViolineDev");
                 break;
             case GameType.Drum:
+                // 未実装表示処理
+                PopUpPanel.SetActive(true);
+                SelectMusicPanelController.isPopUp = true;
                 break;
             default:
                 break;

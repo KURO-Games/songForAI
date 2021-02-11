@@ -22,7 +22,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
 
     // プランナーレベルデザイン用
     // perfect ～ badの順に入力
-    protected static readonly float[] GradesCriterion = {1.0f, 1.5f, 2, 3};     // 判定許容値
+    protected static readonly float[] GradesCriterion = {1.0f, 1.5f, 2, 3, 4};  // 判定許容値
     public static readonly    int[]   GradesPoint     = {300, 200, 100, 10, 0}; // 各判定に応じたスコア
 
     // タップタイミングのグレード
@@ -58,8 +58,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     public         bool[] isHoldView;
     public         int[]  notesCountView;
 
-    public static List<List<(GameObject gameObject, NotesSelector selector)>> GOListArray =
-        new List<List<(GameObject gameObject, NotesSelector selector)>>(); // ノーツ座標格納用2次元配列
+    public static List<List<NotesInfo>> GOListArray = new List<List<NotesInfo>>(); // ノーツ座標格納用2次元配列
     // 使い方  GOListArray  [laneNumber]         [notesCount[laneNumber]]
     //        GOListArray  [何番目のレーンなのか] [何個目のノーツなのか[何番目のレーンなのか]]
 
@@ -357,7 +356,7 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
         scoreMgr.DrawScore(totalScore);
         comboMgr.DrawCombo(currentCombo);
 
-        NotesSelector thisNotesSel = GOListArray[laneNum][notesCount[laneNum]].selector;
+        NotesSelector thisNotesSel = GOListArray[laneNum][notesCount[laneNum]].Selector;
 
         Instance.JudgeNotesType(laneNum, thisNotesSel.notesType, thisNotesSel.slideSection);
     }
@@ -369,10 +368,10 @@ public abstract class NotesJudgementBase : SingletonMonoBehaviour<NotesJudgement
     /// <param name="isLongStart"></param>
     protected virtual void DestroyNotes(int laneNum, bool isLongStart = false)
     {
-        (GameObject notesObj, NotesSelector _) = GOListArray[laneNum][notesCount[laneNum]];
+        NotesInfo notesInfo = GOListArray[laneNum][notesCount[laneNum]];
 
-        Destroy(notesObj);     // 該当ノーツ破棄
-        notesCount[laneNum]++; // 該当レーンのノーツカウント++
+        Destroy(notesInfo.GameObject); // 該当ノーツ破棄
+        notesCount[laneNum]++;         // 該当レーンのノーツカウント++
         TotalJudgedNotesCount++;
     }
 

@@ -6,13 +6,22 @@ public class RetryButton : MonoBehaviour
 {
     public void Onclick()
     {
-        if (Result.isClick)
+        if (Result.isClick && SelectMusicScene.life > 0)
         {
-            if (SelectMusicScene.life > 0)
+            switch (MusicDatas.gameType)
             {
-                Result.isClick = false;
-                SceneLoadManager.LoadScene("Piano");
+                case GameType.Piano:
+                    Result.isClick = false;
+                    SceneLoadManager.LoadScene("Piano");
+                    break;
+                case GameType.Violin:
+                    Result.isClick = false;
+                    SceneLoadManager.LoadScene("ViolineDev");
+                    break;
+                default:
+                    break;
             }
+
         }
     }
 }
