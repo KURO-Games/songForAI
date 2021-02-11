@@ -380,6 +380,8 @@ public class ViolinNotesJudgement : NotesJudgementBase
                     if (nextNotesInfo?.Selector.slideSection == SlideNotesSection.Foot)
                     {
                         CacheNotesCount(nextNotesInfo.Selector.laneNum, nextNotesInfo.GameObject);
+                        JudgeGrade(nextNotesInfo.Selector.laneNum, 99);
+                        SoundManager.SESoundCue(4); // この場合、なぜか↓で鳴らない
                     }
 
                     // 破棄予定ノーツがあれば破棄
@@ -388,6 +390,7 @@ public class ViolinNotesJudgement : NotesJudgementBase
                         AddCachedNotesCount();
                         DestroyCachedNotes();
                         SetSlideLaneHoldState(false);
+                        SoundManager.SESoundCue(4);
                     }
 
                     break;
@@ -432,8 +435,10 @@ public class ViolinNotesJudgement : NotesJudgementBase
         TotalGrades[4]++;
 
         comboMgr.DrawCombo(currentCombo);
-
         DrawGrades[laneNum].DrawGrades(4);
+
+        // ホールド中ならスライドノーツのミスとなるためSE再生
+        if (isHold[laneNum]) SoundManager.SESoundCue(4);
 
         if (doDestroy)
         {
