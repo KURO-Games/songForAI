@@ -179,13 +179,13 @@ public class ViolinNotesJudgement : NotesJudgementBase
                 (!_isNowSliding || !isSlideLane)) continue;
 
             // レーン内のノーツのインデックス
-            // OPTIMIZE: レーン内の最終ノーツの場合、そのままノーツカウントを渡すとインデックス範囲外になるため、暫定的に-1している
-            int laneNotesCount = (GOListArray[laneNum].Count == notesCount[laneNum])
-                                     ? notesCount[laneNum] - 1
-                                     : notesCount[laneNum];
+            int laneNotesCount = notesCount[laneNum];
 
             // スライドノーツカウントの記録分を反映
             laneNotesCount += _cachedSlidingNotesCount[laneNum];
+
+            // このレーンの残ノーツがなければ処理しない
+            if (laneNotesCount >= GOListArray[laneNum].Count) continue;
 
             NotesInfo     notesInfo     = GOListArray[laneNum][laneNotesCount];
             GameObject    notesObj      = notesInfo.GameObject;

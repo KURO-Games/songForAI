@@ -9,8 +9,4 @@ public class NotesManager : MonoBehaviour
 {
     public static List<List<NotesInfo>> NotesPositions = new List<List<NotesInfo>>();
     public static List<int>             NextNotesLine  = new List<int>();
-
-    private void Update()
-    {
-    }
 }
