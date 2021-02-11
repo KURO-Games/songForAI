@@ -13,15 +13,20 @@ public class RetryButton : MonoBehaviour
                 case GameType.Piano:
                     Result.isClick = false;
                     SceneLoadManager.LoadScene("Piano");
+
                     break;
+
                 case GameType.Violin:
                     Result.isClick = false;
                     SceneLoadManager.LoadScene("ViolineDev");
+
                     break;
+
                 default:
                     break;
             }
 
+            SoundManager.LoadAsyncCueSheet(SoundDefine.musics[MusicDatas.MusicNumber], SoundType.BGM);
         }
     }
 }
