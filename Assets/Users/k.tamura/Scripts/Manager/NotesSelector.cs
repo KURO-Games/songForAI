@@ -18,10 +18,22 @@ public class NotesSelector : MonoBehaviour
     public bool isJudged;
 
     // スライドノーツの前後の一連オブジェクト
-    public (GameObject gameObject, NotesSelector selector) prevSlideNotes;
-    public (GameObject gameObject, NotesSelector selector) nextSlideNotes;
+    public NotesInfo prevSlideNotes;
+    public NotesInfo nextSlideNotes;
 
     public SlideNotesSection? slideSection = null; // スライドノーツの種別
     public NotesType          notesType;
     public GameObject         endNotes;
+}
+
+public class NotesInfo
+{
+    public GameObject    GameObject;
+    public NotesSelector Selector;
+
+    public NotesInfo(GameObject obj, NotesSelector selector)
+    {
+        GameObject = obj;
+        Selector = selector;
+    }
 }

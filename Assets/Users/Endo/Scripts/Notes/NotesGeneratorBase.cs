@@ -96,7 +96,7 @@ public abstract class NotesGeneratorBase : MonoBehaviour
 
         for (int i = 0; i < MusicData.maxBlock; i++)
         {
-            NotesManager.NotesPositions.Add(new List<(GameObject gameObject, NotesSelector selector)>());
+            NotesManager.NotesPositions.Add(new List<NotesInfo>());
         }
 
         // ノーツ情報の読み込み
@@ -116,6 +116,6 @@ public abstract class NotesGeneratorBase : MonoBehaviour
     protected static void NotesPositionAdd(GameObject notes, int lane)
     {
         NotesSelector selector = notes.GetComponent<NotesSelector>();
-        NotesManager.NotesPositions[lane].Add((notes, selector));
+        NotesManager.NotesPositions[lane].Add(new NotesInfo(notes, selector));
     }
 }

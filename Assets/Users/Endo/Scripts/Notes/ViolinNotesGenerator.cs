@@ -129,7 +129,7 @@ public class ViolinNotesGenerator : NotesGeneratorBase
                         NotesSelector nextNotesSel = nextSlideNotesObj.GetComponent<NotesSelector>();
 
                         nextNotesSel.laneNum        = nextSlideLaneNum;
-                        nextNotesSel.prevSlideNotes = (prevSlideNotesTrf.gameObject, prevSlideNotesSel);
+                        nextNotesSel.prevSlideNotes = new NotesInfo(prevSlideNotesTrf.gameObject, prevSlideNotesSel);
 
                         // 末尾ノーツかどうかで情報変更
                         if (isEndNotes)
@@ -181,7 +181,7 @@ public class ViolinNotesGenerator : NotesGeneratorBase
 
                         slideBodyTrf.localScale = slideBodyScale;
 
-                        prevSlideNotesSel.nextSlideNotes = (nextSlideNotesObj, nextNotesSel);
+                        prevSlideNotesSel.nextSlideNotes = new NotesInfo(nextSlideNotesObj, nextNotesSel);
 
                         prevSlideNotesTrf = nextSlideNotesObj.transform;
                         prevSlideNotesSel = nextSlideNotesObj.GetComponent<NotesSelector>();
