@@ -417,7 +417,7 @@ public class ViolinNotesJudgement : NotesJudgementBase
         _isTouchedNotesWhileSlideInPrev = isTouchedNotesWhileSlide;
     }
 
-    public override void NotesCountUp(int laneNum, bool doDestroy = true, bool isLongStart = false)
+    public override void NotesCountUp(int laneNum, bool doDestroy = true, bool _ = false)
     {
         if (currentCombo > bestCombo)
         {
@@ -443,7 +443,7 @@ public class ViolinNotesJudgement : NotesJudgementBase
         }
     }
 
-    protected override void DestroyNotes(int laneNum, bool isLongStart = false)
+    protected override void DestroyNotes(int laneNum, bool _ = false)
     {
         NotesInfo     notesInfo     = GOListArray[laneNum][notesCount[laneNum]];
         NotesInfo     nextNotesInfo = notesInfo.Selector.nextSlideNotes;
@@ -454,16 +454,16 @@ public class ViolinNotesJudgement : NotesJudgementBase
         TotalJudgedNotesCount++;
 
         // スライドノーツならホールド判定解除
-        if (notesInfo?.Selector.slideSection != null)
+        if (notesInfo.Selector.slideSection != null)
         {
             SetSlideLaneHoldState(false);
         }
 
         // 次のスライドノーツが末尾ならそちらも同時に破棄
-        if (notesInfo.Selector.slideSection == SlideNotesSection.Foot)
+        if (nextNotesSel != null && nextNotesSel.slideSection == SlideNotesSection.Foot)
         {
-            Destroy(nextNotesInfo?.GameObject);
-            if (nextNotesSel != null) notesCount[nextNotesSel.laneNum]++;
+            Destroy(nextNotesInfo.GameObject);
+            notesCount[nextNotesSel.laneNum]++;
             TotalJudgedNotesCount++;
         }
     }
