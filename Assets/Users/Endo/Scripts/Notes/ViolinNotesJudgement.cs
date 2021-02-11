@@ -101,12 +101,23 @@ public class ViolinNotesJudgement : NotesJudgementBase
                     if (nextNotesInfo?.Selector.slideSection == SlideNotesSection.Foot)
                     {
                         CacheNotesCount(nextNotesInfo.Selector.laneNum, nextNotesInfo.GameObject);
-                        JudgeGrade(nextNotesInfo.Selector.laneNum, 99);
+
+                        // ミス表示（JudgeGrade呼ぶとループするため自前で）
+                        TotalGrades[4]++;
+
+                        // 同一レーンじゃなければミス表示（重複回避）
+                        if (laneNum != nextNotesInfo.Selector.laneNum)
+                        {
+                            DrawGrades[nextNotesInfo.Selector.laneNum].DrawGrades(4);
+                        }
                     }
 
-                    SetSlideLaneHoldState(false);
-                    AddCachedNotesCount();
-                    DestroyCachedNotes();
+                    if (_isCached)
+                    {
+                        SetSlideLaneHoldState(false);
+                        AddCachedNotesCount();
+                        DestroyCachedNotes();
+                    }
                 }
                 // 空タップ
                 else
