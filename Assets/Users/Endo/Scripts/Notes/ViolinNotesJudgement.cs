@@ -451,6 +451,12 @@ public class ViolinNotesJudgement : NotesJudgementBase
         if (notesInfo.Selector.slideSection != null)
         {
             SetSlideLaneHoldState(false);
+
+            if (_isCached)
+            {
+                AddCachedNotesCount();
+                DestroyCachedNotes();
+            }
         }
 
         // 次のスライドノーツが末尾ならそちらも同時に破棄
