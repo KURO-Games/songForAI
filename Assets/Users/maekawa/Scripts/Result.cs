@@ -29,13 +29,13 @@ public class Result : MonoBehaviour
     //public static int gameType;
     //public static int charaNum = 0;// キャラ表示用
     //
-    private int count;
-    private int arrayCount;
-    private int rankNum;
-    private bool scoreAnimeFlag;
-    private bool comboAnimeFlag;
-    private bool gradesAnimeFlag;
-    public static bool isEnded;// リザルトアニメーション全体の終了
+    private       int  count;
+    private       int  arrayCount;
+    private       bool scoreAnimeFlag;
+    private       bool comboAnimeFlag;
+    private       bool gradesAnimeFlag;
+    public static int  rankNum;
+    public static bool isEnded; // リザルトアニメーション全体の終了
 
     //
     GameObject scoreGauge;
