@@ -30,6 +30,7 @@ public class SelectCharactor : MonoBehaviour
 
     private void Update()
     {
+        if (SceneLoadManager.Loading) return;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, 10f, 1);
