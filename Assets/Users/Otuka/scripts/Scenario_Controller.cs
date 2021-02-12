@@ -74,6 +74,8 @@ public class Scenario_Controller : MonoBehaviour
     }
     private void Update()
     {
+        if (SceneLoadManager.Loading) return;
+
         if (Input.GetMouseButtonDown(0) && Message_Complete == true && isUserInputs == false)
         {
             StartCoroutine(Message_Display());
@@ -86,7 +88,7 @@ public class Scenario_Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     #region テキストロード
     private void Text_Load(string fileName)
@@ -143,7 +145,7 @@ public class Scenario_Controller : MonoBehaviour
             Character.sprite = Character_Sprite[int.Parse(Text_Words[Display_Num, 2])];
             // Live2Dにモーション番号を伝える
             MotionPlayer.Instance.motionNum = int.Parse(Text_Words[Display_Num, 6]);
-            
+
             //名前表示
             if (Text_Words[Display_Num, 3] == "null")
             {
