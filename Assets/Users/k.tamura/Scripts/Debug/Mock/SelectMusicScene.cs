@@ -57,10 +57,10 @@ public class SelectMusicScene : MonoBehaviour
         switch (MusicDatas.gameType)
         {
             case GameType.Piano:
-                SoundManager.LoadAsyncCueSheet(SoundDefine.pare, SoundType.Scenario);
+                SoundManager.LoadAsyncCueSheet(SoundDefine.flanz, SoundType.Scenario);
                 break;
             case GameType.Violin:
-                SoundManager.LoadAsyncCueSheet(SoundDefine.flanz, SoundType.Scenario);
+                SoundManager.LoadAsyncCueSheet(SoundDefine.pare, SoundType.Scenario);
                 break;
             case GameType.Drum:
                 SoundManager.LoadAsyncCueSheet(SoundDefine.eric, SoundType.Scenario);
