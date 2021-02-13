@@ -22,7 +22,7 @@ public class SelectMusic : MonoBehaviour
     private Vector3[] defaultPositions;// 各プレートの初期位置
     private float lastMousePosY = 0;
     private bool isSwiping = false;
-    private int selectNumber = 0;
+    public static int selectNumber = 0;
     private DrawStatus[] drawStatus;
     private bool[] tempDrawStatus;
     private MusicNumber[] musicNumber;

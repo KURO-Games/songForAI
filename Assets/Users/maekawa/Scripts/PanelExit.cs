@@ -8,6 +8,8 @@ public class PanelExit : MonoBehaviour
 
     public void PushButton()
     {
+        SoundManager.SetVolume(1.0f, SoundType.DemoBGM);
+        SoundManager.DemoBGMSoundCue(SelectMusic.selectNumber);
         Panel.SetActive(false);
         SelectMusicPanelController.isPopUp = false;
     }
